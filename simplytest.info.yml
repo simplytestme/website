@@ -1,0 +1,26 @@
+name: Simplytest
+type: profile
+description: Installation profile for simplytest.me.
+core: 8.x
+
+distribution:
+  name: Simplytest
+
+dependencies:
+  - block
+  - breakpoint
+  - config
+  - dblog
+  - field_ui
+  - link
+  - menu_ui
+  - options
+  - path
+  - toolbar
+  - views
+  - views_ui
+  #- simplytest_submission
+
+themes:
+  - bartik
+  - seven

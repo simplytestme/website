@@ -1,0 +1,25 @@
+{
+  "name": "drupal/simplytest",
+  "description": "Launch and management of simplytest.me service.",
+  "type": "drupal-module",
+  "license": "GPL-2.0+",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packages.drupal.org/8"
+    }
+  ],
+  "require": {
+    "drupal/field_collection": "~1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Drupal\\simplytest\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Drupal\\Tests\\simplytest\\": "tests/src"
+    }
+  }
+}
