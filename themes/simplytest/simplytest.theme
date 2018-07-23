@@ -1,0 +1,46 @@
+<?php
+
+use Drupal\Component\Utility\Html;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\system\Form\ThemeSettingsForm;
+use Drupal\file\Entity\File;
+use Drupal\Core\Url;
+
+function simplytest_form_system_theme_settings_alter(&$form, FormStateInterface $form_state) {
+  $form['simplytest_info'] = array(
+    '#markup' => '<h2><br/>Advanced Theme Settings</h2></div>',
+    '#weight' => -11
+  );
+
+  $form['simplytest_info']['header_bg_file'] = array(
+    '#type' => 'file',
+    '#title' => t('Upload header background image'),
+    '#size' => 40,
+    '#attributes' => array('enctype' => 'multipart/form-data'),
+    '#description' => t('If you don\'t have direct access to the server, use this field to upload your header background image. Uploads limited to .png .gif .jpg .jpeg .apng .svg extensions'),
+    '#element_validate' => array('simplytest_header_bg_validate'),
+  );
+}
+
+/**
+ * Check and save the uploaded header background image
+ */
+function simplytest_header_bg_validate($element, FormStateInterface $form_state) {
+  global $base_url;
+
+  $validators = array('file_validate_extensions' => array('png gif jpg jpeg apng svg'));
+  $file = file_save_upload('header_bg', $validators, "public://", NULL, FILE_EXISTS_REPLACE);
+
+  if (!empty($file)) {
+    // change file's status from temporary to permanent and update file database
+    if ((is_object($file[0]) == 1)) {
+      $file[0]->status = FILE_STATUS_PERMANENT;
+      $file[0]->save();
+      $uri = $file[0]->getFileUri();
+      $file_url = file_create_url($uri);
+      $file_url = str_ireplace($base_url, '', $file_url);
+      $form_state->setValue('header_bg_file', $file_url);
+    }
+  }
+}
+

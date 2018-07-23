@@ -1,0 +1,21 @@
+
+
+//-- FLEXBOX
+//---------------------------------------------
+@mixin flex-container(
+  $justify-content: flex-start,
+  $align-content: space-between,
+  $flex-wrap: nowrap) {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: $flex-wrap;
+  justify-content: $justify-content;
+  align-content: $align-content;
+}
+
+//  Flex item
+@mixin flex-item($flex: 0 1 auto) {
+  // Define this value by default to avoid IE10 bug
+  flex: $flex;
+  align-self: auto;
+}
