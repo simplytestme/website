@@ -1,0 +1,157 @@
+//sass-lint:disable force-attribute-nesting, force-pseudo-nesting, no-mergeable-selectors
+
+// Form
+// ––––––––––––––––––––––––––––––––––––––––––––––––––
+
+input[type='email'],
+input[type='number'],
+input[type='password'],
+input[type='search'],
+input[type='tel'],
+input[type='text'],
+input[type='url'],
+textarea,
+select {
+  appearance: none; // Removes awkward default styles on some inputs for iOS
+  background-color: $white;
+  border: 1px solid $off-white;
+  border-radius: 0;
+  box-shadow: none;
+  box-sizing: inherit; // Forced to replace inherit values of the normalize.css
+  padding: rem(5px);
+  width: 100%;
+  font-family: $font-family;
+  font-size: $base-font-size;
+  margin-bottom: $input-margin;
+
+  &:focus {
+    outline: 1px solid $color--primary;
+  }
+}
+
+select {
+  padding: 10px 40px 10px 15px;
+
+  &:focus {
+    outline: 1px solid $light-gray;
+  }
+}
+
+textarea {
+  min-height: 3.5rem;
+}
+
+label,
+legend {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: .5rem;
+}
+
+fieldset {
+  border-width: 0;
+  padding: 0;
+}
+
+input {
+  &[type='checkbox'],
+  &[type='radio'] {
+    display: inline;
+  }
+
+  &[type='submit'] {
+    font-weight: bold;
+    border: 0;
+    padding: rem(10px) rem(20px);
+    background: $color--highlight;
+    border-radius: 3px;
+    font-size: $base-font-size;
+
+    &:hover {
+      background: $dark-sky-blue;
+      color: $off-white;
+    }
+  }
+}
+
+input {
+  &[type='checkbox'] {
+    position: absolute; // take it out of document flow
+    top: 10%;
+    opacity: 0; // hide it
+
+    & + label {
+      position: relative;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    // Box.
+    & + label::before {
+      content: '';
+      margin-right: 10px;
+      display: inline-block;
+      vertical-align: baseline;
+      width: 20px;
+      height: 20px;
+      background: $white;
+      border: 1px solid $medium-gray;
+    }
+
+    // Box hover
+    &:hover + label::before {
+      background: lighten($light-gray, 5%);
+    }
+
+    // Box focus
+    $translucent: rgba(0, 0, 0, .12);
+
+    &:focus + label::before {
+      box-shadow: 0 0 0 3px $translucent;
+      border: 1px solid $color--highlight;
+    }
+
+    // Box checked
+    &:checked + label::before {
+      background: $color--primary;
+    }
+
+    // Disabled state label.
+    &:disabled + label {
+      color: $medium-gray;
+      cursor: auto;
+    }
+
+    // Disabled box.
+    &:disabled + label::before {
+      box-shadow: none;
+      background: $light-gray;
+    }
+
+    // Checkmark. Could be replaced with an image
+    &:checked + label::after {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 13px;
+      background: $white;
+      width: 2px;
+      height: 2px;
+      box-shadow:
+              2px 0 0 $white,
+              4px 0 0 $white,
+              4px -2px 0 $white,
+              4px -4px 0 $white,
+              4px -6px 0 $white,
+              4px -8px 0 $white;
+      transform: rotate(45deg);
+    }
+  }
+}
+
+.label-inline {
+  display: inline-block;
+  font-weight: normal;
+  margin-left: .5rem;
+}

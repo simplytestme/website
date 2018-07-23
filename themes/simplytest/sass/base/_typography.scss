@@ -1,0 +1,37 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+
+body {
+  font-family: $font-family;
+  font-size: 100%;
+}
+
+.layout-container {
+  font-size: $base-font-size;
+  line-height: $base-font-size * 1.5;
+  color: $greyish-brown;
+}
+
+// ----- Links
+a {
+  color: $color--primary;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:visited {
+    text-decoration: none;
+  }
+}

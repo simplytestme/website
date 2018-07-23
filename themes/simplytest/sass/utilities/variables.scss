@@ -1,0 +1,50 @@
+// Typography
+// --------------------------------------
+// Function to convert pixels to rem
+
+$browser-context: 16;
+
+@function rem($pixels, $context: $browser-context) {
+  @if (unitless($pixels)) {
+    $pixels: $pixels * 1px;
+  }
+
+  @if (unitless($context)) {
+    $context: $context * 1px;
+  }
+
+  @return $pixels / $context * 1rem;
+}
+
+
+
+//------- Colors -------
+$yellow-tan: #ffde65;
+$sky-blue: #5ccdff;
+$dark-sky-blue: #2da8df;
+$flat-blue: #3877af;
+
+// Monochrome
+$greyish-brown: #4a4a4a;
+$medium-gray: #9b9b9b;
+$light-gray: #d4d4d4;
+$off-white: #f2f2f2;
+$white: white;
+
+
+$color--primary: $sky-blue;
+$color--highlight: $yellow-tan;
+
+
+//------- Typography -------
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,700');
+
+$font-family: 'Nunito Sans', Arial, 'Helvetica Neue', Helvetica, sans-serif;
+$base-font-size: rem(16px);
+
+
+//--------- Layout -------
+
+//Forms
+$input-margin: 10px;
+
