@@ -5,6 +5,7 @@ namespace Drupal\simplytest_projects\Entity;
 use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\simplytest_projects\DrupalUrls;
 
 /**
  * Defines the Simplytest Project entity.
@@ -63,7 +64,7 @@ class SimplytestProject extends ContentEntityBase implements SimplytestProjectIn
   /**
    * @return boolean
    */
-  public function getSandbox() {
+  public function isSandbox() {
     return (bool) $this->get('sandbox')->value;
   }
 
@@ -72,6 +73,13 @@ class SimplytestProject extends ContentEntityBase implements SimplytestProjectIn
    */
   public function getCreator() {
     return $this->get('creator')->value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCreatorEscaped() {
+    return preg_replace('/[^a-zA-Z0-9-_\.+!*\(\)\']/s', '', $this->getCreator());
   }
 
   /**
@@ -85,16 +93,63 @@ class SimplytestProject extends ContentEntityBase implements SimplytestProjectIn
    * @return array
    */
   public function getVersions() {
-    return $this->get('');
+    $versions = $this->get('versions')->getValue();
+    return !empty($versions[0]) ? $versions[0] : [];
   }
 
   /**
-   * @return int
+   * {@inheritdoc}
+   */
+  public function setVersions($tags, $heads) {
+    $this->set('versions', [
+      'tags' => array_combine($tags, $tags),
+      'heads' => array_combine($heads, $heads),
+    ]);
+
+  }
+
+  /**
+   * {@inheritdoc}
    */
   public function getTimestamp() {
     return $this->get('timestamp')->value;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getGitUrl() {
+    if ($this->isSandbox()) {
+      return DrupalUrls::GIT_WEB . 'sandbox-' . $this->getCreatorEscaped() . '-' . $this->getShortname();
+    }
+    else {
+      return DrupalUrls::GIT_WEB . $this->getShortname();
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getGitWebUrl() {
+    if ($this->isSandbox()) {
+      return DrupalUrls::GIT_SANDBOX . $this->getCreatorEscaped() . '/' . $this->getShortname() . '.git';
+    }
+    else {
+      return DrupalUrls::GIT_PROJECT . $this->getShortname() . '.git';
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getProjectUrl() {
+    if ($this->isSandbox()) {
+      return DrupalUrls::ORG . 'sandbox/' . $this->getCreatorEscaped() . '/' . $this->getShortname();
+    }
+    else {
+      return DrupalUrls::ORG . 'project/' . $this->getShortname();
+    }
+  }
 
   /**
    * {@inheritdoc}
