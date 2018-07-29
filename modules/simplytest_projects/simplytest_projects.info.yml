@@ -1,0 +1,4 @@
+name: SimplyTest Projects
+core: 8.x
+type: module
+package: Simplytest

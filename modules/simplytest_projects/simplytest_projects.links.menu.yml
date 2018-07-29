@@ -1,0 +1,16 @@
+simplytest_projects_collection_menu:
+  title: 'Simplytest Projects'
+  route_name: entity.simplytest_project.collection
+  description: 'List of Project entities'
+  parent: system.admin_content
+
+simplytest_projects_add_project:
+  title: 'Add Project'
+  route_name: entity.simplytest_project.add_form
+  description: 'Add a new Simplytest project'
+  parent: simplytest_projects_collection_menu
+
+simplytest_projects_settings_form:
+  title: 'Settings'
+  parent: simplytest_projects_collection_menu
+  route_name: simplytest_projects.settings

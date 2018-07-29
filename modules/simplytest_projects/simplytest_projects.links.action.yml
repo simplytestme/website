@@ -1,0 +1,5 @@
+simplytest_projects_action_add:
+  route_name: entity.simplytest_project.add_form
+  title: 'Add Project'
+  appears_on:
+    - entity.simplytest_project.collection
