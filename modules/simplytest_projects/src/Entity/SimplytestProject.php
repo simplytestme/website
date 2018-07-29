@@ -48,28 +48,28 @@ use Drupal\simplytest_projects\DrupalUrls;
 class SimplytestProject extends ContentEntityBase implements SimplytestProjectInterface {
 
   /**
-   * @return string
+   * {@inheritdoc}
    */
   public function label() {
     return $this->get('title')->value;
   }
 
   /**
-   * @return string
+   * {@inheritdoc}
    */
   public function getShortname() {
     return $this->get('shortname')->value;
   }
 
   /**
-   * @return boolean
+   * {@inheritdoc}
    */
   public function isSandbox() {
     return (bool) $this->get('sandbox')->value;
   }
 
   /**
-   * @return string
+   * {@inheritdoc}
    */
   public function getCreator() {
     return $this->get('creator')->value;
@@ -83,14 +83,14 @@ class SimplytestProject extends ContentEntityBase implements SimplytestProjectIn
   }
 
   /**
-   * @return string
+   * {@inheritdoc}
    */
   public function getType() {
     return $this->get('type')->value;
   }
 
   /**
-   * @return array
+   * {@inheritdoc}
    */
   public function getVersions() {
     $versions = $this->get('versions')->getValue();
@@ -105,7 +105,6 @@ class SimplytestProject extends ContentEntityBase implements SimplytestProjectIn
       'tags' => array_combine($tags, $tags),
       'heads' => array_combine($heads, $heads),
     ]);
-
   }
 
   /**
