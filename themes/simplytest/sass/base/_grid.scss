@@ -1,0 +1,8 @@
+.layout-content {
+  @include full-width;
+}
+
+p {
+  max-width: $content-width;
+}
+

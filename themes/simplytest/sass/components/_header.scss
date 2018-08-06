@@ -1,0 +1,30 @@
+.header {
+  // sass-lint:disable no-color-literals
+  @include full-width;
+  padding-bottom: $section-margin;
+
+  &__wrapper {
+    min-height: 100px;
+    background: no-repeat top center;
+    background-size: cover;
+  }
+
+  &__overlay {
+    background: linear-gradient(145deg, rgba(2, 0, 36, 1) 0%, rgba(9, 70, 121, .7) 32%, rgba(4, 182, 246, .3) 96%);
+  }
+
+  button,
+  .button {
+    @include button(
+      $font-color: $greyish-brown,
+      $bg: $color--highlight,
+      $hover-color: $off-white,
+      $hover-bg: $dark-sky-blue
+    )
+  }
+}
+
+.region__banner {
+  max-width: $content-width;
+  margin: 0 auto;
+}

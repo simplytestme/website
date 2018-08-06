@@ -1,4 +1,4 @@
-//sass-lint:disable force-attribute-nesting, force-pseudo-nesting, no-mergeable-selectors
+//sass-lint:disable force-attribute-nesting, force-pseudo-nesting, no-mergeable-selectors, indentation
 
 // Form
 // ––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -61,18 +61,13 @@ input {
   }
 
   &[type='submit'] {
-    font-weight: bold;
-    border: 0;
-    padding: rem(10px) rem(20px);
-    background: $color--highlight;
-    border-radius: 3px;
-    font-size: $base-font-size;
-
-    &:hover {
-      background: $dark-sky-blue;
-      color: $off-white;
-    }
+    @include button;
   }
+}
+
+button,
+.button {
+  @include button;
 }
 
 input {
