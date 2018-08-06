@@ -1,3 +1,4 @@
+// sass-lint:disable no-url-domains, no-url-protocols
 // Typography
 // --------------------------------------
 // Function to convert pixels to rem
@@ -29,7 +30,7 @@ $greyish-brown: #4a4a4a;
 $medium-gray: #9b9b9b;
 $light-gray: #d4d4d4;
 $off-white: #f2f2f2;
-$white: white;
+$white: #fff;
 
 
 $color--primary: $sky-blue;
@@ -42,8 +43,26 @@ $color--highlight: $yellow-tan;
 $font-family: 'Nunito Sans', Arial, 'Helvetica Neue', Helvetica, sans-serif;
 $base-font-size: rem(16px);
 
+$h1: rem(48px);
+$h2: rem(30px);
+$h3: rem(20px);
+$h4: $base-font-size;
+$h5: rem(14px);
+$h6: rem(12px);
+
 
 //--------- Layout -------
+$sm: 480px;
+$md: 640px;
+$lg: 760px;
+$xl: 980px;
+
+
+$body-container-width: $xl;
+$content-width: $lg;
+$gutter: rem(20px);
+$section-margin: rem(30px);
+
 
 //Forms
 $input-margin: 10px;

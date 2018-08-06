@@ -45,44 +45,45 @@
 #}
 <div class="layout-container">
 
-  <header role="banner">
-    <h1>{{ front_page_background_image }}</h1>
-    {{ page.header }}
+  <header role="banner" class = "header__wrapper" style = "background-image: url({{ header_bg_file }})">
+    <div class = "header__overlay ">
+      <div class = "header">{{ page.banner }}</div>
+    </div>
   </header>
 
-  {{ page.primary_menu }}
-  {{ page.secondary_menu }}
 
-  {{ page.breadcrumb }}
-
-  {{ page.highlighted }}
-
-  {{ page.help }}
 
   <main role="main">
+    {# page.primary_menu #}
+    {# page.secondary_menu #}
+
+    {# page.breadcrumb #}
+
+    {{  page.highlighted }}
+
+    {{ page.help }}
     <a id="main-content" tabindex="-1"></a>{# link is in html.html.twig #}
 
     <div class="layout-content">
       {{ page.content }}
     </div>{# /.layout-content #}
 
-    {% if page.sidebar_first %}
-      <aside class="layout-sidebar-first" role="complementary">
-        {{ page.sidebar_first }}
-      </aside>
-    {% endif %}
+    {% if page.triptych_first or page.triptych_second or page.triptych_third %}
+      <section class = "triptych">
+        {% if page.triptych_first  %}<div class = "triptych__first col">{{ page.triptych_first }}</div>{% endif %}
+        {% if page.triptych_second %}<div class = "triptych__second col">{{ page.triptych_second }}</div>{% endif %}
+        {% if page.triptych_third  %}<div class = "triptych__third col">{{ page.triptych_third }}</div>{% endif %}
+      </section>
 
-    {% if page.sidebar_second %}
-      <aside class="layout-sidebar-second" role="complementary">
-        {{ page.sidebar_second }}
-      </aside>
     {% endif %}
 
   </main>
 
   {% if page.footer %}
-    <footer role="contentinfo">
-      {{ page.footer }}
+    <footer role="contentinfo" class = "footer__wrapper">
+      <div class = "footer">
+        {{ page.footer }}
+      </div>
     </footer>
   {% endif %}
 

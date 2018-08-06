@@ -1,1 +1,5 @@
 <?php
+
+function simplytest_preprocess_page(&$variables) {
+  $variables['header_bg_file'] = theme_get_setting('header_bg_file');
+}
