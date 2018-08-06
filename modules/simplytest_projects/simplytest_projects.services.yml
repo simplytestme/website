@@ -1,0 +1,4 @@
+services:
+  simplytest_projects.fetcher:
+    class: \Drupal\simplytest_projects\SimplytestProjectFetcher
+    arguments: ['@http_client','@logger.factory','@config.factory','@entity_type.manager']

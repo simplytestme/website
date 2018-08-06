@@ -1,0 +1,3 @@
+administer simplytest projects:
+  title: 'Administer SimplyTest Projects'
+  restrict access: true

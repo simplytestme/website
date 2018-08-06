@@ -1,0 +1,7 @@
+simplytest_projects.settings:
+  path: 'admin/content/simplytest_projects/settings'
+  defaults:
+    _form: '\Drupal\simplytest_projects\Form\Settings'
+    _title: 'Simplytest Project Settings'
+  requirements:
+    _permission: 'administer simplytest projects'

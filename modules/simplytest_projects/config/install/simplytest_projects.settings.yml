@@ -1,0 +1,3 @@
+version_timeout: '-1 hour'
+blacklisted_projects: []
+blacklisted_versions: []
