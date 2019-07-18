@@ -1,0 +1,8 @@
+name: SimplyTest Launch
+description: Basic submission form of simplytest.me.
+core: 8.x
+type: module
+package: Simplytest
+
+dependencies:
+  - simplytest_projects

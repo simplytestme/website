@@ -1,0 +1,16 @@
+name: SimpyTest
+type: theme
+description: 'SimplyTest Custom Theme'
+core: 8.x
+base theme: stable
+
+regions:
+  banner: Banner
+  content: Main Content
+  triptych_first: First Triptych column
+  triptych_second: Second Triptych column
+  triptych_third: Third Triptych column
+  footer: Footer
+
+libraries:
+  - simplytest/global

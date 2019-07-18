@@ -1,0 +1,11 @@
+global:
+  css:
+    theme:
+      css/styles.css: {}
+
+react:
+  js:
+    react/build/main.js: {}
+  css:
+    theme:
+      react/build/main.css: {}
