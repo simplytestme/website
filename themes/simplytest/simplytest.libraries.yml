@@ -1,5 +1,0 @@
-global:
-  version: VERSION
-  css:
-    base:
-      /themes/simplytest/css/styles.css: {}

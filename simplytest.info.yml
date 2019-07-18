@@ -6,6 +6,10 @@ core: 8.x
 distribution:
   name: Simplytest
 
+install:
+  - simplytest_projects
+  - simplytest_launch
+
 dependencies:
   - block
   - breakpoint
@@ -19,8 +23,8 @@ dependencies:
   - toolbar
   - views
   - views_ui
-  #- simplytest_submission
 
 themes:
   - bartik
   - seven
+  - simplytest_theme
