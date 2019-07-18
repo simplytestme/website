@@ -5,3 +5,15 @@ simplytest_projects.settings:
     _title: 'Simplytest Project Settings'
   requirements:
     _permission: 'administer simplytest projects'
+simplytest_projects.projects:
+  path: 'simplytest/projects/autocomplete'
+  defaults:
+    _controller: '\Drupal\simplytest_projects\Controller\SimplyTestProjects::autocompleteProjects'
+  requirements:
+    _permission: 'submit simplytest requests'
+simplytest_projects.versions:
+  path: 'simplytest/project/{project}/versions'
+  defaults:
+    _controller: '\Drupal\simplytest_projects\Controller\SimplyTestProjects::projectVersions'
+  requirements:
+    _permission: 'submit simplytest requests'

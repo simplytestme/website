@@ -3,12 +3,12 @@
 namespace Drupal\simplytest_projects;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\Database\Connection;
+use Drupal\Core\Database\Query\Condition;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactory;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
 use GuzzleHttp\Client;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Component\Serialization\Json;
 
 /**
@@ -16,7 +16,7 @@ use Drupal\Component\Serialization\Json;
  *
  * @package Drupal\simplytest_projects
  */
-class SimplytestProjectFetcher implements ContainerInjectionInterface {
+class SimplytestProjectFetcher {
 
   /**
    * @var \Psr\Log\LoggerInterface
@@ -39,35 +39,33 @@ class SimplytestProjectFetcher implements ContainerInjectionInterface {
   public $entityTypeManager;
 
   /**
+   * The database connection.
+   *
+   * @var \Drupal\Core\Database\Connection
+   */
+  public $connection;
+
+  /**
    * SimplytestProjectFetcher constructor.
    *
    * @param \GuzzleHttp\Client $http_client
    * @param \Drupal\Core\Logger\LoggerChannelFactory $logger_factory
    * @param \Drupal\Core\Config\ConfigFactoryInterface
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface
+   * @param \Drupal\Core\Database\Connection $connection
    */
   public function __construct(
     Client $http_client,
     LoggerChannelFactory $logger_factory,
     ConfigFactoryInterface $config_factory,
-    EntityTypeManagerInterface $entity_type_manager)
+    EntityTypeManagerInterface $entity_type_manager,
+    Connection $connection)
   {
     $this->httpClient = $http_client;
     $this->log = $logger_factory->get('simplytest_projects');
     $this->config = $config_factory->get('simplytest_projects.settings');
     $this->entityTypeManager = $entity_type_manager;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('http_client'),
-      $container->get('logger.factory'),
-      $container->get('config.factory'),
-      $container->get('entity_type.manager')
-    );
+    $this->connection = $connection;
   }
 
   /**
@@ -187,6 +185,8 @@ class SimplytestProjectFetcher implements ContainerInjectionInterface {
     $project = SimplytestProject::create($data);
     $project->save();
 
+    $this->fetchVersions($shortname, TRUE);
+
     return $data;
   }
 
@@ -201,7 +201,7 @@ class SimplytestProjectFetcher implements ContainerInjectionInterface {
    *   - tags: Existing tags of the project.
    *   - heads: Existing heads of the project.
    */
-  public function fetchVersions($shortname) {
+  public function fetchVersions($shortname, $force = FALSE) {
     // Check whether project is known in database.
     $project_ids = $this->entityTypeManager
       ->getStorage('simplytest_project')
@@ -211,57 +211,71 @@ class SimplytestProjectFetcher implements ContainerInjectionInterface {
 
     $project = SimplytestProject::load(reset($project_ids));
 
-    // Fetch tags by request.
-    $result = $this->httpClient->get($project->getGitUrl() . '/refs/tags');
-    if ($result->getStatusCode() != 200 || empty($result->getBody())) {
-      $this->log->warning('Failed to fetch version data for %project (Requested tags).', [
-        '%project' => $shortname,
-      ]);
+    if (!$project) {
       return FALSE;
     }
-    // Try to match out a list of tags of the raw HTML.
-    preg_match_all('!<tr><td><a href=\'/.*/tag/[^\']*\'>([^<]*)</a></td>!', $result->getBody(), $tags);
-    if(!isset($tags[1])) {
+
+    if (!$force && $project->getTimestamp() > strtotime('-4 hour')) {
+      return $project->getVersions();
+    }
+
+    $result = shell_exec('git ls-remote --tags ' . escapeshellarg($project->getGitWebUrl()));
+
+    if (!empty($result) and strpos($result, 'refs/tags') === FALSE) {
       $this->log->warning('Failed to fetch version data for %project (Fetched tags).', [
         '%project' => $shortname,
       ]);
       return FALSE;
     }
 
-    // Fetch branches by request.
-    $result = $this->httpClient->get($project->getGitUrl() . '/refs/heads');
-    if ($result->getStatusCode() != 200 || empty($result->getBody())) {
+    // Try to match out a list of tags of the raw HTML.
+    $lines = explode("\n", $result);
+    $tags = [];
+
+    foreach ($lines as $line) {
+      $tag_line = explode('refs/tags/', $line);
+      if (!empty($tag_line[1])) {
+        $tags[] = $tag_line[1];
+      }
+    }
+
+    $result = shell_exec('git ls-remote --heads ' . escapeshellarg($project->getGitWebUrl()));
+
+    // Try to match out a list of heads of the raw HTML.
+    if (!empty($result) and strpos($result, 'refs/heads') === FALSE) {
       $this->log->warning('Failed to fetch version data for %project (Requested heads).', [
         '%project' => $shortname,
       ]);
       return FALSE;
     }
-    // Try to match out a list of tags of the raw HTML.
-    preg_match_all('!<tr><td><a href=\'/.*/log/[^\']*\'>([^<]*)</a></td>!', $result->getBody(), $heads);
-    if(!isset($heads[1])) {
-      $this->log->warning('Failed to fetch version data for %project (Fetch heads).', [
-        '%project' => $shortname,
-      ]);
-      return FALSE;
+
+    $lines = explode("\n", $result);
+    $heads = array();
+    foreach ($lines as $line) {
+      $head_line = explode('refs/heads/', $line);
+      if (!empty($head_line[1])) {
+        $heads[] = $head_line[1];
+      }
     }
 
     // Blacklist filters.
     $blacklisted_versions = $this->config->get('blacklisted_versions');
     foreach ($blacklisted_versions as $blacklisted) {
-      foreach ($tags[1] as $key => $tag) {
+      foreach ($tags as $key => $tag) {
         if (preg_match('!' . $blacklisted . '!', $tag)) {
-          unset($tags[1][$key]);
+          unset($tags[$key]);
         }
       }
-      foreach ($heads[1] as $key => $head) {
+      foreach ($heads as $key => $head) {
         if (preg_match('!' . $blacklisted . '!', $head)) {
-          unset($heads[1][$key]);
+          unset($heads[$key]);
         }
       }
     }
 
     // Now save the information about this project to database.
-    $project->setVersions($tags[1], $heads[1]);
+    $project->setVersions($tags, $heads);
+    $project->set('timestamp', REQUEST_TIME);
     $project->save();
 
     $this->log->notice('Fetched version data for %project.', [
@@ -269,6 +283,90 @@ class SimplytestProjectFetcher implements ContainerInjectionInterface {
     ]);
 
     return $project->getVersions();
+  }
+
+  /**
+   * Searches from the list of existing projects.
+   *
+   * @param $string
+   *  The prefix string to search projects for.
+   * @param int $range
+   *  Maximum number of results to return.
+   * @param array $types
+   *  An array of project types to filter for.
+   *
+   * @return array
+   *  An array of standard objects containing:
+   *   - title: The human readable project title.
+   *   - type: The projects type.
+   *   - shortname: The project machine/shortname.
+   *   - sandbox: Whether it's a sandbox.
+   */
+  public function searchFromProjects($string, $range = 100, $types = NULL) {
+    $query = $this->connection->select('simplytest_project', 'p')
+      ->fields('p', [
+        'title',
+        'shortname',
+        'type',
+        'sandbox',
+      ])
+      ->orderBy('sandbox', 'ASC')
+      ->range(0, $range);
+
+    $title_or_shortname = new Condition('OR');
+    $title_or_shortname->condition('title', $this->connection->escapeLike($string) . '%', 'LIKE');
+    $title_or_shortname->condition('shortname', $this->connection->escapeLike($string) . '%', 'LIKE');
+    $query->condition($title_or_shortname);
+
+    if ($types) {
+      $types_or = new Condition('OR');
+      foreach ($types as $type) {
+        $types_or->condition('type', $type);
+      }
+      $query->condition($types_or);
+    }
+
+    $results = $query->execute()->fetchAll();
+
+    $projects = [];
+    foreach ($results as $result) {
+      $projects[] = (array) $result;
+    }
+
+    return $projects;
+  }
+
+  /**
+   * Fetch all the versions of a project.
+   *
+   * @param $project
+   * @return array
+   */
+  public function fetchProjectVersions($project) {
+    $versions = [];
+    if ($versions_data = $this->fetchVersions($project)) {
+      if ($versions_data !== FALSE) {
+        usort($versions_data['tags'], 'version_compare');
+        $versions_data['tags'] = array_reverse($versions_data['tags']);
+        foreach ($versions_data['tags'] as $tag) {
+          // Find out major / api version for structure.
+          if (is_numeric($tag[0])) {
+            $api_version = 'Drupal ' . $tag[0];
+          }
+          else {
+            // Prefixed with space to get it sorted to the bottom.
+            $api_version = 'Other';
+          }
+          $versions[$api_version][$tag] = $tag;
+        }
+        foreach ($versions_data['heads'] as $version) {
+          $versions['Branches'][$version] = $version;
+        }
+      }
+      // Sort it in reverse: Drupal 7, Drupal 6, Branches, Other.
+      krsort($versions);
+    }
+    return $versions;
   }
 
 }

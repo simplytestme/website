@@ -35,7 +35,6 @@ class Settings extends ConfigFormBase {
     $form = parent::buildForm($form, $form_state);
 
     $config = $this->config('simplytest_projects.settings');
-
     $form['settings_version'] = array(
       '#type' => 'fieldset',
       '#title' => $this->t('Project versioning settings'),
