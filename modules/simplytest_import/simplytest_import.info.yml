@@ -1,0 +1,7 @@
+name: 'Smplytest Import'
+description: 'Fetching data from drupal.org and importing the project automatically.'
+type: module
+package: Simplytest
+core: '8.x'
+dependencies:
+  - simplytest_projects

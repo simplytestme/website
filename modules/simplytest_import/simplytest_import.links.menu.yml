@@ -1,0 +1,10 @@
+simplytest_import.config:
+  title: 'Simplytest'
+  description: 'Administer simplytest site settings.'
+  parent: system.admin_config
+  route_name: simplytest_import.config
+simplytest_import.import:
+  title: 'Projects import'
+  description: 'Import drupal.org project data.'
+  parent: simplytest_import.config
+  route_name: 'simplytest_import.form'

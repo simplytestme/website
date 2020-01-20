@@ -1,0 +1,4 @@
+services:
+  simplytest_import.service:
+    class: Drupal\simplytest_import\SimplytestImportService
+    arguments: ['@http_client', '@simplytest_projects.fetcher']

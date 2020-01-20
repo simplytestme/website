@@ -1,0 +1,15 @@
+simplytest_import.form:
+  path: '/admin/config/simplytest/import'
+  defaults:
+    _form: '\Drupal\simplytest_import\Form\ImportForm'
+    _title: 'Import Form'
+  requirements:
+    _access: 'TRUE'
+
+simplytest_import.config:
+  path: '/admin/config/services'
+  defaults:
+    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
+    _title: 'Simplytest'
+  requirements:
+    _permission: 'access administration pages'
