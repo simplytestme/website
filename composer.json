@@ -1,25 +1,47 @@
 {
-  "name": "drupal/simplytest",
-  "description": "Launch and management of simplytest.me service.",
-  "type": "drupal-module",
-  "license": "GPL-2.0+",
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://packages.drupal.org/8"
+    "name": "drupal/simplytest",
+    "description": "Launch and management of simplytest.me service.",
+    "keywords": ["Drupal"],
+    "type": "drupal-profile",
+    "license": "GPL-2.0+",
+    "homepage": "https://www.drupal.org/project/simplytest",
+    "authors": [
+        {
+            "name": "Adam Bergstein (nerdstein)",
+            "email": "nerdstein@gmail.com",
+            "homepage": "https://www.drupal.org/u/nerdstein",
+            "role": "Maintainer"
+        },
+        {
+            "name": "Contributors",
+            "homepage": "https://www.drupal.org/node/1786208/committers",
+            "role": "Contributors"
+        }
+    ],
+    "support": {
+        "issues": "https://www.drupal.org/project/issues/simplytest",
+        "source": "https://git.drupalcode.org/project/simplytest"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        }
+    ],
+    "require": {
+        "drupal/field_collection": "~1.0",
+        "drupal/tugboat": "^1.0@dev",
+        "knplabs/github-api": "^2.11",
+        "php-http/guzzle6-adapter": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Drupal\\simplytest\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Drupal\\Tests\\simplytest\\": "tests/src"
+        }
     }
-  ],
-  "require": {
-    "drupal/field_collection": "~1.0"
-  },
-  "autoload": {
-    "psr-4": {
-      "Drupal\\simplytest\\": "src"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Drupal\\Tests\\simplytest\\": "tests/src"
-    }
-  }
 }
