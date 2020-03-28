@@ -1,0 +1,10 @@
+access instanceurl overview:
+  title: 'Access instanceurl overview page'
+delete instanceurl:
+  title: Delete instanceurl
+create instanceurl:
+  title: Create instanceurl
+view instanceurl:
+  title: View instanceurl
+edit instanceurl:
+  title: Edit instanceurl

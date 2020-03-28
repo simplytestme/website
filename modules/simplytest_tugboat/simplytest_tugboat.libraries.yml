@@ -1,0 +1,9 @@
+simplytest_tugboat_status:
+  js:
+    js/simplytest_tugboat_status.js: {}
+  css:
+    theme:
+      css/simplytest_tugboat_status.css: {}
+  dependencies:
+    - core/drupalSettings
+    - core/jquery

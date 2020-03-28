@@ -1,0 +1,5 @@
+stm_tugboat_instanceurl.add_form:
+  route_name: entity.stm_tugboat_instanceurl.add_form
+  title: 'Add instanceurl'
+  appears_on:
+    - entity.stm_tugboat_instanceurl.collection

@@ -1,0 +1,18 @@
+services:
+  logger.channel.simplytest_tugboat:
+    parent: logger.channel_base
+    arguments: ['simplytest_tugboat']
+  simplytest_tugboat.instance_manager:
+    class: Drupal\simplytest_tugboat\InstanceManager
+    arguments:
+      - '@config.factory'
+      - '@database'
+      - '@datetime.time'
+      - '@entity.query'
+      - '@entity_type.manager'
+      - '@logger.channel.simplytest_tugboat'
+      - '@messenger'
+      - '@module_handler'
+      - '@renderer'
+      - '@string_translation'
+      - '@simplytest_projects.fetcher'

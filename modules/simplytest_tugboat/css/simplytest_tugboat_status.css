@@ -1,0 +1,9 @@
+/* progress indicator */
+.simplytest-progress-bar .progress .bar {
+  background: #EEE url(bg.png);
+  border: #A3A3A3 1px dotted;
+}
+
+.simplytest-progress-bar .progress .filled {
+  background: #363636 url(progress.gif);
+}

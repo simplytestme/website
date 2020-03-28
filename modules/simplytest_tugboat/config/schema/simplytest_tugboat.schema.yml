@@ -1,0 +1,7 @@
+field.formatter.settings.simplytest_tugboat_instance_status:
+  type: mapping
+  label: Instance status formatter settings
+  mapping:
+    display_format:
+      type: string
+      label: Display format

@@ -1,0 +1,47 @@
+simplytest_tugboat.settings_form:
+  path: '/admin/config/system/simplytest-tugboat'
+  defaults:
+    _title: 'Simplytest tugboat settings'
+    _form: 'Drupal\simplytest_tugboat\Form\SettingsForm'
+  requirements:
+    _permission: 'administer simplytest_tugboat configuration'
+
+simplytest_tugboat.provision:
+  path: '/tugboat/provision/{instance_id}'
+  defaults:
+    _title: 'Start and run the tugboat execution'
+    _controller: '\Drupal\simplytest_tugboat\Controller\SimplytestTugboatController::provision'
+  requirements:
+    _permission: 'submit simplytest requests'
+
+simplytest_tugboat.progress:
+  path: '/tugboat/progress/{instance_id}'
+  defaults:
+    _title: 'Progress indicator page for a specific submission'
+    _controller: '\Drupal\simplytest_tugboat\Controller\SimplytestTugboatController::progress'
+  requirements:
+    _permission: 'submit simplytest requests'
+
+simplytest_tugboat.goto:
+  path: '/tugboat/goto/{instance_id}'
+  defaults:
+    _title: 'Redirection page to final sandbox environment url'
+    _controller: '\Drupal\simplytest_tugboat\Controller\SimplytestTugboatController::goto'
+  requirements:
+    _permission: 'submit simplytest requests'
+
+simplytest_tugboat.status:
+  path: '/tugboat/status/{instance_id}/{status_code}'
+  defaults:
+    _title: 'Callback for remote services to update the status of an instance'
+    _controller: '\Drupal\simplytest_tugboat\Controller\SimplytestTugboatController::status'
+  requirements:
+    _permission: 'submit simplytest requests'
+
+simplytest_tugboat.state:
+  path: '/tugboat/status/{instance_id}/state'
+  defaults:
+    _title: 'New JSON output callback for current instance status'
+    _controller: '\Drupal\simplytest_tugboat\Controller\SimplytestTugboatController::instanceState'
+  requirements:
+    _permission: 'submit simplytest requests'
