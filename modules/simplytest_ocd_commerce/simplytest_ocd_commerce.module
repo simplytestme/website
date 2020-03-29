@@ -1,0 +1,10 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function simplytest_ocd_commerce_theme($existing, $type, $theme, $path) {
+  return [
+    'simplytest_tugboat_config_commerce_yml' => [],
+  ];
+}

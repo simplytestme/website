@@ -1,0 +1,7 @@
+name: 'Simplytest OCD'
+description: 'One click demos.'
+type: module
+package: Simplytest
+core: '8.x'
+dependencies:
+  - simplytest_tugboat

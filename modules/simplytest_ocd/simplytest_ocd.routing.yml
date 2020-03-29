@@ -1,0 +1,6 @@
+simplytest_ocd.ocd:
+  path: 'simplytest/ocd'
+  defaults:
+    _controller: '\Drupal\simplytest_ocd\Controller\SimplyTestOCD::ocdInfo'
+  requirements:
+    _permission: 'submit simplytest requests'

@@ -1,0 +1,10 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function simplytest_ocd_umami_theme($existing, $type, $theme, $path) {
+  return [
+    'simplytest_tugboat_config_umami_yml' => [],
+  ];
+}

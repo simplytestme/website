@@ -1,0 +1,7 @@
+name: 'Simplytest OCD Commerce'
+description: 'Commerce one click demo.'
+type: module
+package: Simplytest
+core: '8.x'
+dependencies:
+  - simplytest_ocd
