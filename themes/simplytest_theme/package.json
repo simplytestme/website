@@ -1,7 +1,7 @@
 {
-  "name": "msf",
+  "name": "simplytest-theme",
   "version": "1.0.0",
-  "description": "A drupal 8 theme for MSF-USA",
+  "description": "A drupal 8 theme for Simplytest",
   "main": "js/scripts.js",
   "license": "MIT",
   "dependencies": {
