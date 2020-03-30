@@ -23,7 +23,7 @@ class DrupalProjectSelector extends React.Component {
     .then(response => response.text())
     .then((response) => {
       if (response !== 'false') {
-        let list = JSON.parse(response).map((module) => { return {label: module.title + " (" + module.shortname + ") " + " - " + module.type, name: module.shortname}});
+        let list = JSON.parse(response).map((module) => { return {label: module.title + " (" + module.shortname + ") - " + module.type, name: module.shortname}});
         this.setState({modules: list});
       }
       else {
@@ -53,17 +53,23 @@ class DrupalProjectSelector extends React.Component {
               style={{ backgroundColor: highlighted ? '#eee' : 'transparent'}}>
               {item.label}
             </div>
-        }
+          }
           value={this.state.projectName}
           onChange={e => {
+            this.props.updateState({ [this.props.name]: null, [this.props.versionName]: null })
             this.getDrupalModules(e.target.value)
             this.setState({projectSelected: false})
           }}
-          onSelect={value => this.setState({ projectName: value, projectMachineName: this.getProjectName(value), projectSelected: true })}
+          onSelect={value => {
+            this.props.updateState({ [this.props.name]: this.getProjectName(value) })
+            this.setState({ projectName: value, projectMachineName: this.getProjectName(value), projectSelected: true })
+          }}
           />
           <DrupalVersionSelector
-          enabled={this.state.projectSelected}
-          projectMachineName={this.state.projectMachineName}
+            enabled={this.state.projectSelected}
+            projectMachineName={this.state.projectMachineName}
+            updateState={this.props.updateState}
+            name={this.props.versionName}
           />
         </div>
    );

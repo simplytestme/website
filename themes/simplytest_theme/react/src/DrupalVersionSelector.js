@@ -7,11 +7,14 @@ class DrupalVersionSelector extends React.Component {
     super(props);
     this.state = {
       versions: {},
+      value: '',
     };
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.enabled && prevProps.enabled !== this.props.enabled) {
+      // Reset value if project is updated.
+      this.props.updateState({ [this.props.name]: null });
       this.getDrupalVersions(this.props.projectMachineName);
     }
   }
@@ -23,10 +26,16 @@ class DrupalVersionSelector extends React.Component {
     })
       .then(response => response.text())
       .then((response) => {
-        this.setState({versions: JSON.parse(response)});
+        this.setState({ versions: JSON.parse(response) });
       }).catch((err) => {
       console.log('fetch', err)
     });
+  }
+
+  updateValue = (event) => {
+    var value = (event.target.value !== '_none') ? event.target.value : null;
+    this.setState({ value: value });
+    this.props.updateState({ [this.props.name]: value });
   }
 
   render() {
@@ -39,7 +48,8 @@ class DrupalVersionSelector extends React.Component {
       return drupal_version + module_versions.join('');
     });
     return (
-      <select className={!this.props.enabled ? 'hidden' : 'visible'}>
+      <select className={!this.props.enabled ? 'hidden' : 'visible'} onChange={this.updateValue} value={this.state.value}>
+        <option value="_none">Select a Version</option>
         {Parser(version_list.join(''))}
       </select>
     );

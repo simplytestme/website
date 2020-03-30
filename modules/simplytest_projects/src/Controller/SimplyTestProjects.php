@@ -70,9 +70,10 @@ class SimplyTestProjects extends ControllerBase implements ContainerInjectionInt
     $matches = [];
     if ($string = $this->requestStack->getCurrentRequest()->query->get('string')) {
       if (!$matches = $this->simplytestProjectFetcher->searchFromProjects($string)) {
-        $project = $this->simplytestProjectFetcher->fetchProject($string);
-        unset($project['creator']);
-        $matches = [$project];
+        if ($project = $this->simplytestProjectFetcher->fetchProject($string)) {
+          unset($project['creator']);
+          $matches = [$project];
+        }
       }
     }
     return new JsonResponse($matches);
