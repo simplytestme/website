@@ -2,12 +2,10 @@
 /* -------------------------------
  Available Tasks
  ------------------------------- */
-// gulp                     -- Lints js & sass, watches sass, starts up and watches the PL server.
-// gulp build               -- Task for frontend:build. Lints JS & Sass, compiles sass & generates patternlab.
+// gulp                     -- Lints js & sass, and watches sass for changes.
+// gulp build               -- Lints JS & Sass, compiles sass and JS.
 // gulp sass                -- Compiles Sass Files.
 // gulp sass-lint           -- Lints Sass Files.
-// gulp patternlab:watch    -- Starts the PatternLab servers and watches tasks.
-// gulp patternlab:generate -- Generates PatternLab.
 // gulp watch               -- Lints & Watches sass changes .
 
 var gulp    = require('gulp');
