@@ -2,6 +2,7 @@ import React from 'react';
 import DrupalProjectSelector from './DrupalProjectSelector';
 import DrupalCoreSelector from './DrupalCoreSelector';
 import DrupalPatchUrl from './DrupalPatchUrl';
+import DrupalOneClickDemo from './DrupalOneClickDemo';
 
 class DrupalSelection extends React.Component {
   constructor(props) {
@@ -86,6 +87,10 @@ class DrupalSelection extends React.Component {
               <div className="extra-projects"><label>Add Projects: </label> { projects } <button name="add-another-projects" onClick={ this.addProject }>Add Another</button></div>
               <div className="patches"><label>Add Patches: </label>{ patches } <button name="add-another-patcjes" onClick={ this.addPatches }>Add Another</button></div>
             </fieldset>
+          <fieldset className="one-click-demo collapsible">
+            <legend>One Click Demo:</legend>
+            <DrupalOneClickDemo submitProject={this.submitProject} />
+          </fieldset>
         </div>
     );
   }

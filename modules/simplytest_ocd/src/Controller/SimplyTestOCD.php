@@ -46,7 +46,7 @@ class SimplyTestOCD extends ControllerBase implements ContainerInjectionInterfac
     $ocds = [];
 
     foreach ($this->simplytestOCDManager->getDefinitions() as $id => $definition) {
-      $ocds[$id] = [
+      $ocds[] = [
         'title' => $definition['title'],
         'ocd_id' => $definition['ocd_id'],
         'theme_key' => $definition['theme_key'],
