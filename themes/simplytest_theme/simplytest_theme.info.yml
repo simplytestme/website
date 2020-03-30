@@ -13,4 +13,4 @@ regions:
   footer: Footer
 
 libraries:
-  - simplytest/global
+  - simplytest_theme/global
