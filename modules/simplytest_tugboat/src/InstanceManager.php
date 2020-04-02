@@ -17,6 +17,7 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\Core\Url;
 use Drupal\simplytest_projects\SimplytestProjectFetcher;
+use Drupal\tugboat\TugboatExecute;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
 /**
@@ -110,6 +111,13 @@ class InstanceManager implements InstanceManagerInterface {
   protected $projectFetcher;
 
   /**
+   * The Tugboat Execute service.
+   *
+   * @var \Drupal\tugboat\TugboatExecute
+   */
+  protected $tugboatExecute;
+
+  /**
    * Constructs an InstanceManager object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -133,9 +141,11 @@ class InstanceManager implements InstanceManagerInterface {
    * @param \Drupal\Component\Datetime\Time $time
    *   The time service.
    * @param \Drupal\simplytest_projects\SimplytestProjectFetcher $project_fetcher
-   *   `The project service.
+   *   The project service.
+   * @param \Drupal\tugboat\TugboatExecute $tugboat_execute
+   *   The Tugboat Execute service.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, Connection $connection, Time $time, ContainerAwareInterface $entity_query, EntityTypeManager $entity_type_manager, LoggerChannelInterface $logger, MessengerInterface $messenger, ModuleHandlerInterface $module_handler, RendererInterface $renderer, TranslationInterface $string_translation, SimplytestProjectFetcher $project_fetcher) {
+  public function __construct(ConfigFactoryInterface $config_factory, Connection $connection, Time $time, ContainerAwareInterface $entity_query, EntityTypeManager $entity_type_manager, LoggerChannelInterface $logger, MessengerInterface $messenger, ModuleHandlerInterface $module_handler, RendererInterface $renderer, TranslationInterface $string_translation, SimplytestProjectFetcher $project_fetcher, TugboatExecute $tugboat_execute) {
     $this->settings = $config_factory->get('simplytest_tugboat.settings');
     $this->tugboatSettings = $config_factory->get('tugboat.settings');
     $this->connection = $connection;
@@ -148,6 +158,7 @@ class InstanceManager implements InstanceManagerInterface {
     $this->stringTranslation = $string_translation;
     $this->time = $time;
     $this->projectFetcher = $project_fetcher;
+    $instance->tugboatExecute = $tugboat_execute;
   }
 
   /**
@@ -166,8 +177,7 @@ class InstanceManager implements InstanceManagerInterface {
 
     // Run the tugboat command.
     $command = "log $preview_id";
-    // @todo The _tugboat_execute() command is not yet defined.
-    $return_status = _tugboat_execute($command, $return_data, $error_string);
+    $return_status = $this->tugboatExecute->execute($command, $return_data, $error_string);
     $log = [];
     foreach ($return_data as $log_entry) {
       switch ($log_entry['level']) {
@@ -195,11 +205,10 @@ class InstanceManager implements InstanceManagerInterface {
    */
   public function loadPreviewId($context, $base = TRUE) {
     $branch_name = $base ? "base-$context" : $context;
-    $this->logger->notice('Loading preview ID for ' . $branch_name); 
+    $this->logger->notice('Loading preview ID for ' . $branch_name);
     $previews = [];
     $error_string = '';
-    // @todo The _tugboat_execute() command is not yet defined.
-    $return_status = _tugboat_execute("ls previews", $previews, $error_string);
+    $return_status = $this->tugboatExecute->execute("ls previews", $previews, $error_string);
 
     //$this->logger->notice('OUTPUT: ' . var_export($previews, TRUE));
 

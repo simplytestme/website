@@ -52,6 +52,13 @@ class SimplytestTugboatController extends ControllerBase {
   protected $messenger;
 
   /**
+   * The Tugboat Execute service.
+   *
+   * @var \Drupal\tugboat\TugboatExecute
+   */
+  protected $tugboatExecute;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
@@ -61,6 +68,7 @@ class SimplytestTugboatController extends ControllerBase {
     $instance->fileSystem = $container->get('file_system');
     $instance->logger = $this->getLogger('simplytest_tugboat');
     $instance->messenger = $container->get('messenger');
+    $instance->tugboatExecute = $container->get('tugboat.execute');
     return $instance;
   }
 
@@ -104,8 +112,7 @@ class SimplytestTugboatController extends ControllerBase {
     // Run the tugboat command.
     $command = "create preview $instance_id repo=$tugboat_repo preview=$instance_id base=$base_preview_id";
     $this->logger->notice($command);
-    // @todo The _tugboat_execute() command is not yet defined.
-    $return_status = _tugboat_execute($command, $return_data, $error_string, NULL, $result_path, $output_path, $error_path);
+    $return_status = $this->tugboatExecute->execute($command, $return_data, $error_string, NULL, $result_path, $output_path, $error_path);
 
     $this->logger->notice('Error: ' . $error_string);
     $this->logger->notice('Return data: ' . var_export($return_data, TRUE));

@@ -16,3 +16,4 @@ services:
       - '@renderer'
       - '@string_translation'
       - '@simplytest_projects.fetcher'
+      - '@tugboat.execute'

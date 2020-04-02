@@ -66,7 +66,7 @@ class DrupalCoreSelector extends React.Component {
               return (
                 <option value={release.tag} key={release.tag}>
                   {release.name}
-                </option> 
+                </option>
               )
             })}
           </select>
