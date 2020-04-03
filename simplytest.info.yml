@@ -9,6 +9,7 @@ distribution:
 install:
   - simplytest_projects
   - simplytest_launch
+  - simplytest_import
 
 dependencies:
   - block

@@ -29,8 +29,7 @@
         }
     ],
     "require": {
-        "drupal/field_collection": "~1.0",
-        "drupal/tugboat": "^1.0@dev",
+        "drupal/tugboat": "1.x@dev",
         "knplabs/github-api": "^2.11",
         "php-http/guzzle6-adapter": "^1.1"
     },

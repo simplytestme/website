@@ -6,7 +6,7 @@ use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Class PracticalEntityForm
+ * Class PracticalEntityForm.
  */
 class SimplytestProjectEntityForm extends ContentEntityForm {
 
@@ -24,11 +24,11 @@ class SimplytestProjectEntityForm extends ContentEntityForm {
 
     switch ($status) {
       case SAVED_NEW:
-        drupal_set_message($this->t('Created %content_entity_label entity:  %entity_label.', $message_params ));
+        $this->messenger()->addMessage($this->t('Created %content_entity_label entity:  %entity_label.', $message_params));
         break;
 
       default:
-        drupal_set_message($this->t('Saved %content_entity_label entity:  %entity_label.', $message_params));
+        $this->messenger()->addMessage($this->t('Saved %content_entity_label entity:  %entity_label.', $message_params));
     }
 
     $content_entity_id = $entity->getEntityType()->id();

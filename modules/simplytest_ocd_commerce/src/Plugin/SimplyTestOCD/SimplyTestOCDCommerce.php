@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\simplytest_ocd_umami\Plugin\SimplyTestOCD;
+namespace Drupal\simplytest_ocd_commerce\Plugin\SimplyTestOCD;
 
 use Drupal\simplytest_ocd\SimplyTestOCDInterface;
 

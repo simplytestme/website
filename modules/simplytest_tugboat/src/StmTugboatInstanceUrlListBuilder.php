@@ -88,7 +88,7 @@ class StmTugboatInstanceUrlListBuilder extends EntityListBuilder {
    */
   public function buildRow(EntityInterface $entity) {
     /* @var $entity \Drupal\simplytest_tugboat\StmTugboatInstanceUrlInterface */
-    $row['id'] = $entity->link();
+    $row['id'] = $entity->toLink()->toString();
     $row['created'] = $this->dateFormatter->format($entity->getCreatedTime());
     return $row + parent::buildRow($entity);
   }
