@@ -3,3 +3,5 @@
 export const PROJECTS_ENDPOINT = '/simplytest/projects/autocomplete';
 
 export const VERSIONS_ENDPOINT = '/simplytest/project/{project}/versions';
+
+export const SIMPYTEST_LAUNCHER = '/launch-project';

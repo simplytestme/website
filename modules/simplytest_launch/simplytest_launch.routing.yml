@@ -4,3 +4,10 @@ simplytest_launch.project_selector:
     _controller: '\Drupal\simplytest_launch\Controller\SimplyTestLaunch::projectSelector'
   requirements:
     _permission: 'submit simplytest requests'
+
+simplytest_launch.project_launcher:
+  path: 'launch-project'
+  defaults:
+    _controller: '\Drupal\simplytest_launch\Controller\SimplyTestLaunch::launchProject'
+  requirements:
+    _permission: 'submit simplytest requests'

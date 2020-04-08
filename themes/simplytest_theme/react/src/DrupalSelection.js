@@ -3,6 +3,7 @@ import DrupalProjectSelector from './DrupalProjectSelector';
 import DrupalCoreSelector from './DrupalCoreSelector';
 import DrupalPatchUrl from './DrupalPatchUrl';
 import DrupalOneClickDemo from './DrupalOneClickDemo';
+import {SIMPYTEST_LAUNCHER} from './config/const';
 
 class DrupalSelection extends React.Component {
   constructor(props) {
@@ -39,22 +40,25 @@ class DrupalSelection extends React.Component {
     return (this.state.projectVersion) ? this.state.projectVersion.charAt(0) : null;
   }
 
-  submitProject = () => {
+  submitProject = (ocd_id) => {
     var project_details = {
-      'name': this.getState('projectMachineName'),
+      'project': this.getState('projectMachineName'),
       'version': this.getState('projectVersion'),
-      'extra_projects': [],
+      'additionals': [],
       'patches': [],
     };
     if (this.getState('drupalVersion')) {
       project_details.drupal_version = this.getState('drupalVersion');
     }
     if (this.getState('manualInstall')) {
-      project_details.manual_install = this.getState('manualInstall');
+      project_details.bypass_install = this.getState('manualInstall');
+    }
+    if (ocd_id) {
+      project_details.ocd_id = ocd_id;
     }
     for (let i = 0; i < this.getState('extraProjects').length; i++) {
       if (this.getState('extraProjects_' + i)) {
-        project_details.extra_projects.push({ name: this.getState('extraProjects_' + i), version: this.getState('extraProjectVersion_' + i)});
+        project_details.additionals.push({ name: this.getState('extraProjects_' + i), version: this.getState('extraProjectVersion_' + i)});
       }
     }
     for (let i = 0; i < this.getState('extraPatches').length; i++) {
@@ -64,6 +68,13 @@ class DrupalSelection extends React.Component {
     }
     // To Do: Send these details to Drupal.
     console.log(project_details);
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(project_details)
+    };
+    fetch(SIMPYTEST_LAUNCHER, requestOptions)
+      .then(response => response.json());
   }
 
   render() {
@@ -79,7 +90,7 @@ class DrupalSelection extends React.Component {
     return (
         <div className="drupal-selection">
             <div className="drupal-project-selection">
-            <DrupalProjectSelector name="projectMachineName" versionName="projectVersion" updateState={this.updateState} /> <button name="launch" {...extraProps} onClick={this.submitProject}>Launch Sandbox</button>
+            <DrupalProjectSelector name="projectMachineName" versionName="projectVersion" updateState={this.updateState} /> <button name="launch" {...extraProps} onClick={() => {this.submitProject(null);}}>Launch Sandbox</button>
             </div>
             <fieldset className="advance-options-selection collapsible">
               <legend>Advanced Options:</legend>
@@ -89,7 +100,7 @@ class DrupalSelection extends React.Component {
             </fieldset>
           <fieldset className="one-click-demo collapsible">
             <legend>One Click Demo:</legend>
-            <DrupalOneClickDemo submitProject={this.submitProject} />
+            <DrupalOneClickDemo submitProject={this.submitProject} updateState={this.updateState} />
           </fieldset>
         </div>
     );

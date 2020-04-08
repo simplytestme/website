@@ -17,7 +17,7 @@ class DrupalOneClickDemo extends React.Component {
 
   render() {
     let ocds = this.state.ocds.map((ocd, key) =>
-      <button name={ocd.ocd_id} onClick={this.props.submitProject}>{ocd.title}</button>
+      <button name={ocd.ocd_id} onClick={() => {this.props.submitProject(ocd.ocd_id);}}>{ocd.title}</button>
     );
     return (
       <div className="simplytest-submission">
