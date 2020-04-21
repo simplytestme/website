@@ -2,6 +2,7 @@ name: SimpyTest
 type: theme
 description: 'SimplyTest Custom Theme'
 core: 8.x
+core_version_requirement: ^8 || ^9
 base theme: stable
 
 regions:
