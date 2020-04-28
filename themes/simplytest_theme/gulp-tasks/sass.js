@@ -3,13 +3,13 @@
  * Task: Compile: Sass.
  */
 
-module.exports = function(gulp, options, plugins) {
+module.exports = function (gulp, options, plugins) {
   'use strict';
 
-  gulp.task('sass', function() {
+  gulp.task('sass', function () {
     return gulp.src([
-        options.sass.sassFiles
-      ])
+      options.sass.sassFiles
+    ])
 
       .pipe(plugins.sourcemaps.init()) //Sourcemaps can turned off for prod. Comment this line and the sourcemaps line below if needed.
       .pipe(plugins.sassglob())
@@ -19,14 +19,14 @@ module.exports = function(gulp, options, plugins) {
           'node_modules/breakpoint-sass/stylesheets',
           'node_modules/bourbon-neat/core'
         ]
-      }).on('error', plugins.sass.logError))
+      }).on('error', function (error) {
+        var message = error.messageFormatted;
+        // Throw error instead of logging it if module is set to fail on error
+        throw message;
+      }))
       .pipe(plugins.prefix({
-        browsers: ['last 2 versions'],
         cascade: false
       }))
-      .pipe(plugins.postcss([
-        plugins.mqpacker({ sort: true})
-      ]))
       .pipe(plugins.concat('styles.css'))
       .pipe(plugins.sourcemaps.write()) //Comment this too to remove sourcemaps
       .pipe(gulp.dest(options.css.cssFiles));

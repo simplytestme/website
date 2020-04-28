@@ -5,23 +5,31 @@
   "main": "js/scripts.js",
   "license": "MIT",
   "dependencies": {
-    "bourbon-neat": "^2.1.0",
-    "breakpoint-sass": "^2.7.1",
-    "css-mqpacker": "^6.0.2",
-    "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^4.1.0",
+    "node-sass": "^4.12.0"
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.0",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^6.0.0",
     "gulp-concat": "^2.6.1",
-    "gulp-cssnano": "^2.1.2",
-    "gulp-eslint": "^4.0.2",
-    "gulp-exec": "^3.0.1",
-    "gulp-load-plugins": "^1.5.0",
-    "gulp-postcss": "^7.0.1",
-    "gulp-sass": "^3.1.0",
-    "gulp-sass-glob": "^1.0.8",
-    "gulp-sass-lint": "^1.3.4",
+    "gulp-eslint": "^6.0.0",
+    "gulp-group-css-media-queries": "^1.2.2",
+    "gulp-load-plugins": "^2.0.0",
+    "gulp-postcss": "^8.0.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-sass-glob": "^1.1.0",
+    "gulp-sass-lint": "^1.4.0",
     "gulp-sourcemaps": "^2.6.4",
-    "merge-stream": "^1.0.1",
-    "natives": "^1.1.6",
-    "path": "^0.12.7"
-  }
+    "gulp-uglify": "^3.0.2",
+    "postcss-clean": "^1.1.0",
+    "prettier": "1.15.3"
+  },
+  "browserslist": [
+    "> 2%",
+    "last 2 versions",
+    "IE 11"
+  ]
 }

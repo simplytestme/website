@@ -4,7 +4,7 @@
  * Usage: gulp watch
  */
 
-module.exports = function(gulp, options, plugins) {
+module.exports = function (gulp, options, plugins) {
   'use strict';
 
   function lintFile(file) {
@@ -14,18 +14,18 @@ module.exports = function(gulp, options, plugins) {
   }
 
   // Keep an eye on Sass files for changes and only lint changed files
-  gulp.task('watch', function() {
+  gulp.task('watch', function () {
     gulp.watch([
       options.sass.sassFiles
-    ], function(ev) {
+    ], function (ev) {
       if (ev.type === 'added' || ev.type === 'changed') {
         lintFile(ev.path);
       }
     });
     // Compile sass changes
     gulp.watch([
-        options.sass.sassFiles
+      options.sass.sassFiles
     ],
-      ['sass']);
+      gulp.series('sass'));
   });
 };

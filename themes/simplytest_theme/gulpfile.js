@@ -8,21 +8,25 @@
 // gulp sass-lint           -- Lints Sass Files.
 // gulp watch               -- Lints & Watches sass changes .
 
-var gulp    = require('gulp');
+var gulp = require('gulp');
 
 var plugins = require('gulp-load-plugins')({
   pattern: ['*', 'gulp-*', '@*/gulp{-,.}*'],
   rename: {
     'gulp-autoprefixer': 'prefix',
-    'css-mqpacker'     : 'mqpacker',
-    'gulp-sass-glob'   : 'sassglob'
+    'gulp-group-css-media-queries': 'gcmq',
+    'gulp-sass-glob': 'sassglob',
+    'gulp-eslint': 'eslint',
+    'postcss-clean': 'clean',
+    'gulp-sourcemaps': 'sourcemaps'
   }
 });
 
 // Directories
-var sassFiles       = 'sass/**/*.scss';
-var cssDir          = 'css';
-var jsDir           = 'js/*.js';
+var sassFiles = 'sass/**/*.scss';
+var cssDir = 'css';
+var jsDir = 'js/src/*.js';
+var optimizedJSDir = 'js/*.js'
 
 'use strict';
 var options = {
@@ -39,15 +43,16 @@ var options = {
 
   //--------- JS ---------------
   js: {
-    jsFiles: jsDir
+    jsFiles: jsDir,
+    optimizedDir: optimizedJSDir,
   }
 };
 
 
 // Tasks
-require('./gulp-tasks/default')(gulp, options, plugins);
 require('./gulp-tasks/sass')(gulp, options, plugins);
 require('./gulp-tasks/sass-lint')(gulp, options, plugins);
 require('./gulp-tasks/js-lint')(gulp, options, plugins);
 require('./gulp-tasks/watch')(gulp, options, plugins);
 require('./gulp-tasks/build')(gulp, options, plugins);
+require('./gulp-tasks/default')(gulp, options, plugins);
