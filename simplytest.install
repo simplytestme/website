@@ -5,20 +5,27 @@
  * Install, update and uninstall functions for the standard installation profile.
  */
 
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\user\Entity\User;
 use Drupal\shortcut\Entity\Shortcut;
 
 /**
- * Implements hook_install().
- *
- * Perform actions to set up the site for this profile.
- *
- * @see system_install()
+ * Implements hook_install_tasks().
  */
-function simplytest_install() {
+function simplytest_install_tasks(&$install_state) {
+  return [
+    'simplytest_install_setup' => [
+      'display_name' => new TranslatableMarkup('Install setup'),
+    ],
+  ];
+}
+
+/**
+ * Perform actions to set up the site for this profile.
+ */
+function simplytest_install_setup() {
   // Assign user 1 the "administrator" role.
   $user = User::load(1);
   $user->roles[] = 'administrator';
   $user->save();
-
 }
