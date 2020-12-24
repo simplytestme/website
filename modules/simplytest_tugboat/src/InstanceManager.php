@@ -6,7 +6,6 @@ use Drupal\Component\Datetime\Time;
 use Drupal\Component\Utility\Crypt;
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Extension\ModuleHandlerInterface;
@@ -46,13 +45,6 @@ class InstanceManager implements InstanceManagerInterface {
    * @var \Drupal\Core\Database\Connection
    */
   protected $connection;
-
-  /**
-   * The entity.query service.
-   *
-   * @var \Symfony\Component\DependencyInjection\ContainerAwareInterface
-   */
-  protected $entityQuery;
 
   /**
    * The entity type manager.
@@ -145,11 +137,10 @@ class InstanceManager implements InstanceManagerInterface {
    * @param \Drupal\tugboat\TugboatExecute $tugboat_execute
    *   The Tugboat Execute service.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, Connection $connection, Time $time, ContainerAwareInterface $entity_query, EntityTypeManager $entity_type_manager, LoggerChannelInterface $logger, MessengerInterface $messenger, ModuleHandlerInterface $module_handler, RendererInterface $renderer, TranslationInterface $string_translation, SimplytestProjectFetcher $project_fetcher, TugboatExecute $tugboat_execute) {
+  public function __construct(ConfigFactoryInterface $config_factory, Connection $connection, Time $time, EntityTypeManager $entity_type_manager, LoggerChannelInterface $logger, MessengerInterface $messenger, ModuleHandlerInterface $module_handler, RendererInterface $renderer, TranslationInterface $string_translation, SimplytestProjectFetcher $project_fetcher, TugboatExecute $tugboat_execute) {
     $this->settings = $config_factory->get('simplytest_tugboat.settings');
     $this->tugboatSettings = $config_factory->get('tugboat.settings');
     $this->connection = $connection;
-    $this->entityQuery = $entity_query;
     $this->entityTypeManager = $entity_type_manager;
     $this->logger = $logger;
     $this->messenger = $messenger;
@@ -158,7 +149,7 @@ class InstanceManager implements InstanceManagerInterface {
     $this->stringTranslation = $string_translation;
     $this->time = $time;
     $this->projectFetcher = $project_fetcher;
-    $instance->tugboatExecute = $tugboat_execute;
+    $this->tugboatExecute = $tugboat_execute;
   }
 
   /**
@@ -416,7 +407,8 @@ class InstanceManager implements InstanceManagerInterface {
    *   An array of Status entities for the given instance.
    */
   protected function getInstanceStatuses($instance_id) {
-    $entity_ids = $this->entityQuery->get('stm_tugboat_instance_status')
+    $entity_ids = $this->entityTypeManager->getStorage('stm_tugboat_instance_status')
+      ->getQuery()
       ->condition('instance_id', $instance_id)
       ->sort('created')
       ->execute();
@@ -429,7 +421,8 @@ class InstanceManager implements InstanceManagerInterface {
    * {@inheritdoc}
    */
   public function loadUrl($instance_id) {
-    $entity_ids = $this->entityQuery->get('stm_tugboat_instanceurl')
+    $entity_ids = $this->entityTypeManager->getStorage('stm_tugboat_instanceurl')
+      ->getQuery()
       ->condition('instance_id', $instance_id)
       ->range(0,1)
       ->execute();
@@ -454,7 +447,8 @@ class InstanceManager implements InstanceManagerInterface {
     }
 
     // Check to make sure URL not already set.
-    $entity_ids = $this->entityQuery->get('stm_tugboat_instanceurl')
+    $entity_ids = $this->entityTypeManager->getStorage('stm_tugboat_instanceurl')
+      ->getQuery()
       ->condition('instance_id', $instance_id)
       ->exists('tugboat_url')
       ->execute();
@@ -463,7 +457,8 @@ class InstanceManager implements InstanceManagerInterface {
     }
 
     // @todo Be more DRY.
-    $entity_ids = $this->entityQuery->get('stm_tugboat_instanceurl')
+    $entity_ids = $this->entityTypeManager->getStorage('stm_tugboat_instanceurl')
+      ->getQuery()
       ->condition('instance_id', $instance_id)
       ->execute();
     if (empty($entity_ids)) {
@@ -485,7 +480,8 @@ class InstanceManager implements InstanceManagerInterface {
    * {@inheritdoc}
    */
   public function loadContext($instance_id) {
-    $entity_ids = $this->entityQuery->get('stm_tugboat_instanceurl')
+    $entity_ids = $this->entityTypeManager->getStorage('stm_tugboat_instanceurl')
+      ->getQuery()
       ->condition('instance_id', $instance_id)
       ->range(0,1)
       ->execute();
@@ -504,7 +500,8 @@ class InstanceManager implements InstanceManagerInterface {
    */
   public function createWithContext($instance_id, $context){
     // Check to make sure URL not already set.
-    $entity_ids = $this->entityQuery->get('stm_tugboat_instanceurl')
+    $entity_ids = $this->entityTypeManager->getStorage('stm_tugboat_instanceurl')
+      ->getQuery()
       ->condition('instance_id', $instance_id)
       ->execute();
     if ($entity_ids) {
@@ -535,7 +532,8 @@ class InstanceManager implements InstanceManagerInterface {
       return;
     }
 
-    $entity_ids = $this->entityQuery->get('stm_tugboat_instance_status')
+    $entity_ids = $this->entityTypeManager->getStorage('stm_tugboat_instance_status')
+      ->getQuery()
       ->condition('instance_id', $instance_id)
       ->condition('instance_status', $status)
       ->execute();
@@ -548,7 +546,8 @@ class InstanceManager implements InstanceManagerInterface {
     try {
       $this->entityTypeManager->getStorage('stm_tugboat_instance_status')
         ->create([
-          'created' => getRequestTime(),
+          // @todo inject time.
+          'created' => \Drupal::time()->getRequestTime(),
           'instance_id' => $instance_id,
           // 'tugboat_url' => 'FIXME',
           'instance_status' => $status,
@@ -578,7 +577,7 @@ class InstanceManager implements InstanceManagerInterface {
 
       if ($status) {
         $result['code'] = $status['code'];
-        $result['percent'] = runningPercentage($status['code']);
+        $result['percent'] = $this->runningPercentage($status['code']);
         $result['message'] = $status['message'];
         $result['log'] = _simplytest_tugboat_get_log($instance_id);
       }

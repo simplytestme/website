@@ -8,7 +8,6 @@ services:
       - '@config.factory'
       - '@database'
       - '@datetime.time'
-      - '@entity.query'
       - '@entity_type.manager'
       - '@logger.channel.simplytest_tugboat'
       - '@messenger'
