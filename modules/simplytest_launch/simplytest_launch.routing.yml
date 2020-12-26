@@ -1,3 +1,9 @@
+simplytest_launch.configure:
+  path: '/configure'
+  defaults:
+    _controller: 'Drupal\simplytest_launch\Controller\SimplyTestLaunch::configure'
+  requirements:
+    _permission: 'submit simplytest requests'
 simplytest_launch.project_selector:
   path: 'project'
   defaults:

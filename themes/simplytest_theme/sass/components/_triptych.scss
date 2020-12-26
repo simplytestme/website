@@ -1,5 +1,6 @@
 .triptych {
-  @include full-width;
+  //@include full-width;
+  margin-top: 2em;
   @media all and (min-width: $lg) {
     @include flex-container($justify-content: space-between);
 
