@@ -5,4 +5,5 @@ type: module
 package: Simplytest
 core_version_requirement: ^8 || ^9
 dependencies:
-  - simplytest_projects
+  - simplytest:simplytest_projects
+  - simplytest:simplytest_tugboat

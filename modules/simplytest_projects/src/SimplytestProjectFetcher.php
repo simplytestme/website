@@ -96,9 +96,6 @@ class SimplytestProjectFetcher {
 
     // Did we find the project we searched for?
     if (count($data['list']) === 0 || !isset($data['list'][0])) {
-      $this->log->warning('Failed to get initial data for %project (empty search result).', [
-        '%project' => $shortname,
-      ]);
       return FALSE;
     }
     $project_data = $data['list'][0];
@@ -229,7 +226,7 @@ class SimplytestProjectFetcher {
     }
 
     // Try to match out a list of tags of the raw HTML.
-    $lines = explode("\n", $result);
+    $lines = explode(PHP_EOL, $result);
     $tags = [];
 
     foreach ($lines as $line) {
@@ -275,7 +272,7 @@ class SimplytestProjectFetcher {
 
     // Now save the information about this project to database.
     $project->setVersions($tags, $heads);
-    $project->set('timestamp', REQUEST_TIME);
+    $project->set('timestamp', \Drupal::time()->getRequestTime());
     $project->save();
 
     $this->log->notice('Fetched version data for %project.', [
@@ -343,28 +340,62 @@ class SimplytestProjectFetcher {
    * @return array
    */
   public function fetchProjectVersions($project) {
-    $versions = [];
+    $versions = [
+      'branches' => [],
+      'tags' => [],
+    ];
     if ($versions_data = $this->fetchVersions($project)) {
       if ($versions_data !== FALSE) {
-        usort($versions_data['tags'], 'version_compare');
-        $versions_data['tags'] = array_reverse($versions_data['tags']);
-        foreach ($versions_data['tags'] as $tag) {
-          // Find out major / api version for structure.
-          if (is_numeric($tag[0])) {
-            $api_version = 'Drupal ' . $tag[0];
+        if (isset($versions_data['tags'])) {
+          $version_groups = [];
+          usort($versions_data['tags'], 'version_compare');
+          foreach ($versions_data['tags'] as $tag) {
+            // Support for legacy versioning and semantic versioning.
+            if (strpos($tag, '.x-') === 1) {
+              $api_version = 'Drupal ' . $tag[0];
+            }
+            // Find out major / api version for structure.
+            elseif (is_numeric($tag[0])) {
+              $api_version = $tag[0] . '.x';
+            }
+            else {
+              // Prefixed with space to get it sorted to the bottom.
+              $api_version = 'Other';
+            }
+            $version_groups[$api_version][] = $tag;
           }
-          else {
-            // Prefixed with space to get it sorted to the bottom.
-            $api_version = 'Other';
+          foreach ($version_groups as $api_version => $tags) {
+            // This is kind of messy and duplicative, but it works for now.
+            $drupal_major_version = '';
+            $first_tag = $tags[0];
+            if (strpos($first_tag, '.x-') === 1) {
+              $drupal_major_version = $first_tag[0];
+            } else {
+              // Assume all semver is D9.
+              $drupal_major_version = '9';
+            }
+            $versions['tags'][] = [
+              'grouping' => $api_version,
+              'major' => $drupal_major_version,
+              'tags' => array_reverse($tags)
+            ];
           }
-          $versions[$api_version][$tag] = $tag;
         }
-        foreach ($versions_data['heads'] as $version) {
-          $versions['Branches'][$version] = $version;
+        if (isset($versions_data['heads'])) {
+          foreach ($versions_data['heads'] as $version) {
+            if (strpos($version, '.x-') === 1) {
+              $drupal_major_version = $version[0];
+            } else {
+              // Assume all semver is D9.
+              $drupal_major_version = '9';
+            }
+            $versions['branches'][] = [
+              'major' => $drupal_major_version,
+              'branch' => $version,
+            ];
+          }
         }
       }
-      // Sort it in reverse: Drupal 7, Drupal 6, Branches, Other.
-      krsort($versions);
     }
     return $versions;
   }

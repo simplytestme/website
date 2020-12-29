@@ -2,6 +2,11 @@ global:
   css:
     theme:
       css/styles.css: {}
+      dist/tailwind.css: { minified: true }
+
+launcher:
+  js:
+    dist/app.js: { minified: true }
 
 react:
   js:

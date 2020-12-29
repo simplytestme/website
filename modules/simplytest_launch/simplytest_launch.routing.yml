@@ -12,8 +12,10 @@ simplytest_launch.project_selector:
     _permission: 'submit simplytest requests'
 
 simplytest_launch.project_launcher:
-  path: 'launch-project'
+  path: '/launch-project'
   defaults:
     _controller: '\Drupal\simplytest_launch\Controller\SimplyTestLaunch::launchProject'
+  methods: [POST]
   requirements:
     _permission: 'submit simplytest requests'
+    _format: 'json'

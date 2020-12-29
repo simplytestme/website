@@ -1,6 +1,14 @@
----
-title: Working with the Simplytest Theme
----
+# Working with the Simplytest Theme
+
+## Updated install using Laravel Mix
+
+Laravel Mix is used to wrap around Webpack and support browser sync whenever files are modified.
+
+```
+npm install
+npm run watch
+```
+
 
 ## Installing the Theme Dependencies
 - `cd` to `/themes/simplytest_theme/`

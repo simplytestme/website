@@ -6,11 +6,17 @@ use Drupal\Component\Serialization\Json;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\Core\Url;
+use Drupal\simplytest_launch\TypedData\InstanceLaunchDefinition;
 use Drupal\simplytest_projects\SimplytestProjectFetcher;
 use Drupal\simplytest_tugboat\InstanceManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
+use Symfony\Component\Validator\ConstraintViolationInterface;
 
 /**
  * Returns responses for config module routes.
@@ -88,10 +94,10 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
     ];
     $build = [
       'mount' => [
-        '#markup' => Markup::create('<div class="simplytest-react-component" id="root"></div>'),
+        '#markup' => Markup::create('<div class="simplytest-react-component" id="launcher_mount"></div>'),
         '#attached' => [
           'library' => [
-            'simplytest_theme/react',
+            'simplytest_theme/launcher',
           ],
           'drupalSettings' => [
             // Pass custom launcher values to drupalSettings.
@@ -102,17 +108,17 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
       'triptych' => [
         '#type' => 'container',
         '#attributes' => [
-          'class' => 'triptych',
+          'class' => 'grid grid-cols-1 md:grid-cols-3 gap-4 max-w-screen-lg container mx-auto pt-8',
         ],
       ]
     ];
     foreach ($text as $key => $content) {
       $build['triptych'][$key] = [
         '#type' => 'inline_template',
-        '#template' => '<div class="col block">
-    <h2 class="block__title">{{title}}</h2>
-        <div><p>{{text}}</p></div>
-        <div><a href="/">Report a problem</a></div>
+        '#template' => '<div class="">
+    <h2 class="block__title text-xl font-bold mb-2">{{title}}</h2>
+    <p class="mb-2">{{text}}</p>
+        <div><a class="text-blue-400" href="/">Report a problem</a></div>
 </div>',
         '#context' => $content,
       ];
@@ -131,74 +137,91 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
    * Project launcher service for react.
    */
   public function launchProject(Request $request) {
-    $submission = Json::decode($request->getContent());
+    $content = $request->getContent();
+    $submission = Json::decode($content);
+    $this->validateSubmission($submission);
 
-    // @todo add more validation when ocd button is clicked.
-    if ($error = $this->validateSubmission($submission)) {
-      return new JsonResponse(['error' => $error]);
+    try {
+      // \Drupal\simplytest_tugboat\InstanceManager::launchInstance is broken.
+      // $this->instanceManager->launchInstance($submission);
+    } catch (\Throwable $e) {
+      throw new ServiceUnavailableHttpException(null, $e->getMessage(), $e);
     }
 
-    // @todo launch submission for react.
-    // $this->instanceManager->launchInstance($submission);
-
-    return new JsonResponse($submission);
+    return new JsonResponse(
+      // @todo return data about the instance.
+      [
+        'status' => 'OK',
+        'progress' => Url::fromRoute('simplytest_tugboat.progress', [
+          // @todo replace with created instance ID.
+          'instance_id' => 'fooBarDoesNotExist',
+        ])->setAbsolute()->toString()
+      ],
+    );
   }
 
   /**
    * Helper method to validate the submitted data.
+   *
+   * @todo \Drupal\Core\EventSubscriber\ExceptionJsonSubscriber double encodes
+   *    the errors thrown here. just return the constraints and manually return
+   *    a JSON response of 422.
    */
   private function validateSubmission($data) {
-    $project = $data['project'];
-    $project = strtolower(trim($project));
+    // @todo Flood protection preflight check (IP based, possibly a problem.)
+    try {
+      $typed_data_manager = \Drupal::getContainer()->get('typed_data_manager');
+      $definition = $typed_data_manager->create(InstanceLaunchDefinition::create(), $data);
+    }
+    catch (\Throwable $e) {
+      throw new ServiceUnavailableHttpException(null, $e->getMessage());
+    }
+    $constraints = $definition->validate();
+    if ($constraints->count() > 0) {
+      $messages = array_map(static function (ConstraintViolationInterface $violation) {
+        return sprintf("%s: %s", $violation->getPropertyPath(), $violation->getMessage());
+      }, \iterator_to_array($constraints));
+      throw new UnprocessableEntityHttpException(Json::encode([
+        'errors' => $messages,
+      ]));
+    }
+
+    // @todo convert these following checks into constraints.
+    $project = $data['project']['shortname'];
     $version = $data['version'];
-    $ocd_id = (isset($data['ocd_id'])) ? $data['ocd_id'] : NULL;
-
-    // @todo Flood protection check.
-
-    // @todo add more validation for ocd_id.
-    if ($ocd_id) {
-      return NULL;
-    }
-
-    // Check whether a project shortname was submitted.
-    if (empty($project)) {
-      return 'Please enter a project shortname to launch a sandbox for.';
-    }
-
-    // Before we try to fetch anything, check whether this shortname is valid.
-    if (preg_match('/[^a-z_\-0-9]/i', $project)) {
-      return 'Please enter a valid shortname of a module, theme or distribution.';
-    }
 
     // Get available project versions.
     $versions = $this->simplytestProjectFetcher->fetchVersions($project);
 
     // Check whether the submitted project exists.
     if ($versions === FALSE) {
-      return t('The selected project shortname %project could not be found.',
-        ['%project' => $project]
-      );
+      throw new UnprocessableEntityHttpException(Json::encode([
+        'errors' => [new TranslatableMarkup(
+          'The selected project shortname %project could not be found.',
+          ['%project' => $project]
+        )]
+      ]));
     }
 
     // Check whether the selected has any available releases.
-    elseif (empty($versions['heads']) && empty($versions['tags'])) {
-      return t('The selected project %project has no available releases. (Release cache is cleared once an hour)',
-        array('%project' => $project)
-      );
-    }
-    // Check if there was even a version selected for the project.
-    elseif (empty($version)) {
-      return t('No version was selected for the requested project.',
-        array('%project' => $project)
-      );
+    if (empty($versions['heads']) && empty($versions['tags'])) {
+      throw new UnprocessableEntityHttpException(Json::encode([
+        'errors' => [new TranslatableMarkup(
+          'The selected project %project has no available releases. (Release cache is cleared once an hour)',
+          ['%project' => $project]
+        )]
+      ]));
     }
     // Check whether the selected version is a known tag or branch.
-    elseif (!in_array($version, $versions['tags']) && !in_array($version, $versions['heads'])) {
+    if (!in_array($version, $versions['tags']) && !in_array($version, $versions['heads'])) {
       // Even if the selected version is no known tag or branch it's still
       // possible that it's not a version but a specific commit.
-      return t('There is no release available with the selected version %version.',
-        array('%version' => $version)
-      );
+      throw new UnprocessableEntityHttpException(Json::encode([
+        'errors' => [new TranslatableMarkup(
+          'There is no release available with the selected version %version.',
+          ['%version' => $version]
+        )]
+      ]));
     }
   }
 

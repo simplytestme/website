@@ -43,7 +43,7 @@
  * @see html.html.twig
  */
 #}
-<div class="layout-container">
+<div class="layout-container font-sans">
 
   <header role="banner" class = "header__wrapper" style = "background-image: url({{ header_bg_file }})">
     <div class = "header__overlay ">
@@ -69,10 +69,10 @@
     </div>{# /.layout-content #}
 
     {% if page.triptych_first or page.triptych_second or page.triptych_third %}
-      <section class = "triptych">
-        {% if page.triptych_first  %}<div class = "triptych__first col">{{ page.triptych_first }}</div>{% endif %}
-        {% if page.triptych_second %}<div class = "triptych__second col">{{ page.triptych_second }}</div>{% endif %}
-        {% if page.triptych_third  %}<div class = "triptych__third col">{{ page.triptych_third }}</div>{% endif %}
+      <section class = "grid grid-cols-1 md:grid-cols-3 gap-4">
+        {% if page.triptych_first  %}<div class = "triptych__first">{{ page.triptych_first }}</div>{% endif %}
+        {% if page.triptych_second %}<div class = "triptych__second">{{ page.triptych_second }}</div>{% endif %}
+        {% if page.triptych_third  %}<div class = "triptych__third">{{ page.triptych_third }}</div>{% endif %}
       </section>
 
     {% endif %}
