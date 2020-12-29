@@ -7,3 +7,4 @@ simplytest_tugboat_status:
   dependencies:
     - core/drupalSettings
     - core/jquery
+    - core/drupal
