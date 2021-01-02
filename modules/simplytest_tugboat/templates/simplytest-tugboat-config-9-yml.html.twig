@@ -19,7 +19,6 @@
  *   status back to the simplytest server.
  */
 #}
-{% set interface = 'Drupal\\simplytest_tugboat\\InstanceManagerInterface' %}
 # Drupal 9
 services:
   # What to call the service hosting the site.
@@ -62,13 +61,12 @@ services:
         - ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"
 
         # Start the downloads
-        - wget -O/dev/null {{ status_endpoint }}/{{ constant(interface~'::DOWNLOAD') }}
-
+        - echo "SIMPLYEST_STAGE_DOWNLOAD"
 {% if project_type == 'Module' or project_type == 'Theme' %}
         - cd stm && composer require drupal/{{ project }}:{{ project_version }} --no-update
 {% endif %}
 
-        - wget -O/dev/null {{ status_endpoint }}/{{ constant(interface~'::PATCHING') }}
+        - echo "SIMPLYEST_STAGE_PATCHING"
 
 {% if patches is not empty %}
         # Apply patches.
@@ -86,7 +84,7 @@ services:
 
         - cd stm && composer update --no-ansi
         - cd "${DOCROOT}" && chmod -R 777 sites/default
-        - wget -O/dev/null {{ status_endpoint }}/{{ constant(interface~'::INSTALLING') }}
+        - echo "SIMPLYEST_STAGE_INSTALLING"
 
 {% if perform_install %}
         # Install drupal.
@@ -99,7 +97,7 @@ services:
         - cd "${DOCROOT}" && ../vendor/bin/drush en {{ additional }} -y
 {% endfor %}
 {% endif %}
-        - wget -O/dev/null {{ status_endpoint }}/{{ constant(interface~'::FINALIZE') }}
+        - echo "SIMPLYEST_STAGE_FINALIZE"
 
   # What to call the service hosting MySQL. This name also acts as the
   # hostname to access the service by from the php service.

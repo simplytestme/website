@@ -142,21 +142,19 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
     $this->validateSubmission($submission);
 
     try {
-      // \Drupal\simplytest_tugboat\InstanceManager::launchInstance is broken.
-      // $this->instanceManager->launchInstance($submission);
+       $instance = $this->instanceManager->launchInstance($submission);
     } catch (\Throwable $e) {
       throw new ServiceUnavailableHttpException(null, $e->getMessage(), $e);
     }
-
     return new JsonResponse(
       // @todo return data about the instance.
       [
         'status' => 'OK',
         'progress' => Url::fromRoute('simplytest_tugboat.progress', [
-          // @todo replace with created instance ID.
-          'instance_id' => 'fooBarDoesNotExist',
+          'instance_id' => $instance['tugboat']['preview_id'],
+          'job_id' => $instance['tugboat']['job_id'],
         ])->setAbsolute()->toString()
-      ],
+      ] + $instance,
     );
   }
 

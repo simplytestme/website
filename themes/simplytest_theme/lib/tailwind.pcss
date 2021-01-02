@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+progress::-webkit-progress-bar {
+  @apply rounded-md
+}
+progress::-webkit-progress-value {
+  @apply rounded-md bg-gradient-to-r from-flat-blue to-sky-blue
+}
+progress::-moz-progress-bar {
+  @apply rounded-md bg-gradient-to-r from-flat-blue to-sky-blue
+}

@@ -20,7 +20,6 @@
  *   status back to the simplytest server.
  */
 #}
-{% set interface = 'Drupal\\simplytest_tugboat\\InstanceManagerInterface' %}
 # Drupal 7
 services:
   # What to call the service hosting the site.
@@ -50,7 +49,7 @@ services:
         - cd "${DOCROOT}" && git reset --hard {{ used_version }}
 {% endif %}
         # Start the downloads
-        - wget -O/dev/null {{ status_endpoint }}/{{ constant(interface~'::DOWNLOAD') }}
+        - echo "SIMPLYEST_STAGE_DOWNLOAD"
         # Load drupal code base.
 {% if project_type == 'Module' or project_type == 'Theme' %}
         - drush -r "${DOCROOT}" dl {{ project }}-{{ project_version }} -y
@@ -58,8 +57,7 @@ services:
 {% for additional in additionals %}
         - drush -r "${DOCROOT}" dl {{ additional }} -y
 {% endfor %}
-        - wget -O/dev/null {{ status_endpoint }}/{{ constant(interface~'::PATCHING') }}
-
+        - echo "SIMPLYEST_STAGE_PATCHING"
 {% if patches is not empty %}
         # Apply patches.
 {% for patch in patches %}
@@ -76,7 +74,7 @@ services:
 {% endfor %}
 {% endif %}
         - cd "${DOCROOT}" && chmod -R 777 sites/default
-        - wget -O/dev/null {{ status_endpoint }}/{{ constant(interface~'::INSTALLING') }}
+        - echo "SIMPLYEST_STAGE_INSTALLING"
 
 {% if perform_install %}
         # Install drupal.
@@ -89,7 +87,7 @@ services:
         - drush -r "${DOCROOT}" en {{ additional }} -y
 {% endfor %}
 {% endif %}
-        - wget -O/dev/null {{ status_endpoint }}/{{ constant(interface~'::FINALIZE') }}
+        - echo "SIMPLYEST_STAGE_FINALIZE"
 
   # What to call the service hosting MySQL. This name also acts as the
   # hostname to access the service by from the php service.

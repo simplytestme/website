@@ -19,7 +19,6 @@
  *   status back to the simplytest server.
  */
 #}
-{% set interface = 'Drupal\\simplytest_tugboat\\InstanceManagerInterface' %}
 # Drupal 8
 services:
   # What to call the service hosting the site.
@@ -51,7 +50,7 @@ services:
         - cd "${DOCROOT}" && git reset --hard {{ used_version }}
 {% endif %}
         # Start the downloads
-        - wget -O/dev/null {{ status_endpoint }}/{{ constant(interface~'::DOWNLOAD') }}
+        - echo "SIMPLYEST_STAGE_DOWNLOAD"
         # Load drupal code base.
         - composer global require szeidler/composer-patches-cli:~1.0
         - cd "${DOCROOT}" && composer require cweagans/composer-patches:~1.0 --no-update
@@ -62,8 +61,7 @@ services:
         - cd "${DOCROOT}" && composer require drupal/{{ project }}:{{ project_version }} --no-update
 {% endif %}
 
-        - wget -O/dev/null {{ status_endpoint }}/{{ constant(interface~'::PATCHING') }}
-
+        - echo "SIMPLYEST_STAGE_PATCHING"
 {% if patches is not empty %}
         # Apply patches.
         - cd "${DOCROOT}" && composer patch-enable --file='patches.json'
@@ -81,7 +79,7 @@ services:
 
         - cd "${DOCROOT}" && composer update --no-ansi --no-dev
         - cd "${DOCROOT}" && chmod -R 777 sites/default
-        - wget -O/dev/null {{ status_endpoint }}/{{ constant(interface~'::INSTALLING') }}
+        - echo "SIMPLYEST_STAGE_INSTALLING"
 
 {% if perform_install %}
         # Install drupal.
@@ -94,7 +92,7 @@ services:
         - drush -r "${DOCROOT}" en {{ additional }} -y
 {% endfor %}
 {% endif %}
-        - wget -O/dev/null {{ status_endpoint }}/{{ constant(interface~'::FINALIZE') }}
+        - echo "SIMPLYEST_STAGE_FINALIZE"
 
   # What to call the service hosting MySQL. This name also acts as the
   # hostname to access the service by from the php service.

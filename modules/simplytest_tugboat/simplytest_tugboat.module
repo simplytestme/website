@@ -6,13 +6,6 @@
  */
 
 /**
- * Implements hook_page_attachments().
- */
-function simplytest_tugboat_page_attachments(array &$page) {
-  $page['#attached']['library'][] = 'simplytest_tugboat/simplytest_tugboat_status';
-}
-
-/**
  * Implements hook_theme().
  */
 function simplytest_tugboat_theme() {
@@ -115,81 +108,4 @@ function template_preprocess_simplytest_tugboat_config_8_yml(&$variables) {
  */
 function template_preprocess_simplytest_tugboat_config_9_yml(&$variables) {
   $variables += $variables['parameters'];
-}
-
-/**
- * Get instance log.
- *
- * @param string $instance_id
- *   The primary identifier for the instance.
- */
-function _simplytest_tugboat_get_log($instance_id) {
-  return \Drupal::service('simplytest_tugboat.instance_manager')
-    ->getLog($instance_id);
-}
-
-/**
- * Loads the preview ID from a base preview branch.
- *
- * @param $context
- *
- * @return string
- */
-function simplytest_tugboat_load_preview_id($context, $base = TRUE) {
-  return \Drupal::service('simplytest_tugboat.instance_manager')
-    ->loadPreviewId($instance_id);
-}
-
-/**
- * Loads the URL for an instance.
- *
- * @param $instance_id
- *   The primary identifier for the instance.
- *
- * @return string
- *   The Tugboat URL.
- */
-function simplytest_tugboat_url_load($instance_id) {
-  return \Drupal::service('simplytest_tugboat.instance_manager')
-    ->loadUrl($instance_id);
-}
-
-/**
- * Updates the URL for an instance.
- *
- * @param $instance_id
- *   The primary identifier for the instance.
- * @param $tugboat_url
- *   The Tugboat URL.
- */
-function simplytest_tugboat_url_update($instance_id, $tugboat_url) {
-  \Drupal::service('simplytest_tugboat.instance_manager')
-    ->updateUrl($instance_id, $tugboat_url);
-}
-
-/**
- * Loads the context for an instance.
- *
- * @param $instance_id
- *   The primary identifier for the instance.
- *
- * @return string
- *   The context string.
- */
-function simplytest_tugboat_context_load($instance_id) {
-  return \Drupal::service('simplytest_tugboat.instance_manager')
-    ->loadContext($instance_id);
-}
-
-/**
- * Creates an entity for the given instance, setting the context.
- *
- * @param $instance_id
- *   The primary identifier for the instance.
- * @param $context
- *   The context.
- */
-function simplytest_tugboat_context_update($instance_id, $context) {
-  \Drupal::service('simplytest_tugboat.instance_manager')
-    ->createWithContext($instance_id, $tugboat_url);
 }

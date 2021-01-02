@@ -4,9 +4,12 @@ global:
       css/styles.css: {}
       dist/tailwind.css: { minified: true }
 
+# @todo rename to just app.
 launcher:
   js:
     dist/app.js: { minified: true }
+  dependencies:
+    - core/drupalSettings
 
 react:
   js:
