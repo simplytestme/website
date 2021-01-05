@@ -55,7 +55,7 @@ services:
         - drush -r "${DOCROOT}" dl {{ project }}-{{ project_version }} -y
 {% endif %}
 {% for additional in additionals %}
-        - drush -r "${DOCROOT}" dl {{ additional }} -y
+        - drush -r "${DOCROOT}" dl {{ additional.shortname }}-{{ additional.version}} -y
 {% endfor %}
         - echo "SIMPLYEST_STAGE_PATCHING"
 {% if patches is not empty %}
@@ -84,7 +84,7 @@ services:
         - drush -r "${DOCROOT}" en {{ project }} -y
 {% endif %}
 {% for additional in additionals %}
-        - drush -r "${DOCROOT}" en {{ additional }} -y
+        - drush -r "${DOCROOT}" en {{ additional.shortname }} -y
 {% endfor %}
 {% endif %}
         - echo "SIMPLYEST_STAGE_FINALIZE"

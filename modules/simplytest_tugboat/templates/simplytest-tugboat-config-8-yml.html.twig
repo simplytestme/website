@@ -74,7 +74,7 @@ services:
 
 {% for additional in additionals %}
         # Additional.
-        - cd "${DOCROOT}" && composer require drupal/{{ additional }} --no-update
+        - cd "${DOCROOT}" && composer require drupal/{{ additional.shortname }}:{{ additional.version}} --no-update
 {% endfor %}
 
         - cd "${DOCROOT}" && composer update --no-ansi --no-dev
@@ -89,7 +89,7 @@ services:
         - drush -r "${DOCROOT}" en {{ project }} -y
 {% endif %}
 {% for additional in additionals %}
-        - drush -r "${DOCROOT}" en {{ additional }} -y
+        - drush -r "${DOCROOT}" en {{ additional.shortname }} -y
 {% endfor %}
 {% endif %}
         - echo "SIMPLYEST_STAGE_FINALIZE"

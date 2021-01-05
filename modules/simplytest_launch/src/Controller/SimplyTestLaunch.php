@@ -186,7 +186,7 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
 
     // @todo convert these following checks into constraints.
     $project = $data['project']['shortname'];
-    $version = $data['version'];
+    $version = $data['project']['version'];
 
     // Get available project versions.
     $versions = $this->simplytestProjectFetcher->fetchVersions($project);

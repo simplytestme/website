@@ -40,8 +40,8 @@ final class InstanceLaunchDefinitionTest extends KernelTestBase {
       [
         'project' => [
           'shortname' => '',
+          'version' => '',
         ],
-        'version' => '',
         'drupalVersion' => '',
         'installProfile' => '',
         'manualInstall' => '0',
@@ -50,10 +50,9 @@ final class InstanceLaunchDefinitionTest extends KernelTestBase {
         0 => 'project.shortname: This value should not be blank.',
         1 => 'project.type: This value should not be blank.',
         2 => 'project.type: This value should not be null.',
-        3 => 'project.sandbox: This value should not be null.',
-        4 => 'version: This value should not be blank.',
-        5 => 'drupalVersion: This value should not be blank.',
-        6 => 'installProfile: This value should not be blank.',
+        3 => 'project.version: This value should not be blank.',
+        4 => 'drupalVersion: This value should not be blank.',
+        5 => 'installProfile: This value should not be blank.',
       ]
     ];
     yield [
@@ -62,8 +61,8 @@ final class InstanceLaunchDefinitionTest extends KernelTestBase {
           'shortname' => 'token',
           'type' => 'module',
           'sandbox' => false,
+          'version' => '8.x-1.9',
         ],
-        'version' => '8.x-1.9',
         'drupalVersion' => '9.1.0',
         'installProfile' => 'umami',
         'manualInstall' => '0',
@@ -76,8 +75,8 @@ final class InstanceLaunchDefinitionTest extends KernelTestBase {
           'shortname' => 't0k?en',
           'type' => 'module',
           'sandbox' => false,
+          'version' => '8.x-1.9',
         ],
-        'version' => '8.x-1.9',
         'drupalVersion' => '9.1.0',
         'installProfile' => 'umami',
         'manualInstall' => '0',
@@ -85,6 +84,27 @@ final class InstanceLaunchDefinitionTest extends KernelTestBase {
       [
         0 => 'project.shortname: This value is not valid.',
       ]
+    ];
+    yield [
+      [
+        'project' => [
+          'shortname' => 'token',
+          'type' => 'module',
+          'sandbox' => false,
+          'version' => '8.x-1.9',
+        ],
+        'drupalVersion' => '9.1.0',
+        'installProfile' => 'umami',
+        'manualInstall' => '0',
+        'additionalProjects' => [
+          [
+            'shortname' => 'pathauto',
+            'type' => 'module',
+            'version' => '8.x-1.8'
+          ]
+        ],
+      ],
+      []
     ];
   }
 

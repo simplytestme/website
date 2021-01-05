@@ -5,7 +5,7 @@ namespace Drupal\simplytest_launch\TypedData;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\TypedData\ComplexDataDefinitionBase;
 use Drupal\Core\TypedData\DataDefinition;
-use Drupal\Core\TypedData\MapDataDefinition;
+use Drupal\Core\TypedData\ListDataDefinition;
 
 final class InstanceLaunchDefinition extends ComplexDataDefinitionBase {
 
@@ -17,17 +17,11 @@ final class InstanceLaunchDefinition extends ComplexDataDefinitionBase {
     return new self($definition);
   }
 
-
   public function getPropertyDefinitions() {
     $properties = [];
     $properties['project'] = ProjectInfoDefinition::create()
       ->setLabel(new TranslatableMarkup('Project details'))
       ->addConstraint('ComplexData')
-      ->setRequired(TRUE);
-    $properties['version'] = DataDefinition::create('string')
-      ->setLabel(new TranslatableMarkup('Version'))
-      ->addConstraint('NotBlank')
-      ->addConstraint('PrimitiveType')
       ->setRequired(TRUE);
     $properties['drupalVersion'] = DataDefinition::create('string')
       // @todo add a custom constraint validating a legit version.
@@ -44,7 +38,8 @@ final class InstanceLaunchDefinition extends ComplexDataDefinitionBase {
       ->setLabel(new TranslatableMarkup('Manual installation'))
       ->addConstraint('PrimitiveType')
       ->setRequired(TRUE);
-    $properties['additionalProjects'] = MapDataDefinition::create();
+    $properties['additionalProjects'] = ListDataDefinition::create('project_info')
+      ->setLabel(new TranslatableMarkup('Additional projects'));
     return $properties;
   }
 

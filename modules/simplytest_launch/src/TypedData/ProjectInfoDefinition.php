@@ -41,6 +41,11 @@ final class ProjectInfoDefinition extends ComplexDataDefinitionBase {
       // This considers `false` to be invalid.
       // ->setRequired(TRUE)
       ->setLabel(new TranslatableMarkup('Sandbox'));
+    $properties['version'] = DataDefinition::create('string')
+      ->setLabel(new TranslatableMarkup('Version'))
+      ->addConstraint('NotBlank')
+      ->addConstraint('PrimitiveType')
+      ->setRequired(TRUE);
     return $properties;
   }
 

@@ -82,13 +82,11 @@ function DrupalCoreVersionSelector() {
 function AdditionalProjects() {
   const { additionalProjects, setAdditionalProjects } = useLauncher();
 
-  function additionalProjectChange(project, version) {
-    console.log(arguments);
-  }
   function addAdditionalProject(event) {
     setAdditionalProjects([...additionalProjects, {
       title: '',
       shortname: '',
+      version: '',
     }]);
   }
 
@@ -103,7 +101,14 @@ function AdditionalProjects() {
       {additionalProjects.map((project, k) => (
         <div className="grid grid-cols-3">
           <div className="col-span-2">
-            <ProjectSelection onChange={additionalProjectChange} />
+            <ProjectSelection onChange={(project, version) => {
+              const newProjects = [...additionalProjects];
+              additionalProjects[k] = {
+                version,
+                ...project
+              }
+              setAdditionalProjects(additionalProjects);
+            }} />
           </div>
           <button type="button" onClick={() => removeExtraProject(k)}>Remove</button>
         </div>
@@ -124,12 +129,9 @@ function AdvancedOptions() {
       <summary className="font-medium text-sm">Advanced options</summary>
       <Fieldset summary="Build options">
         <DrupalCoreVersionSelector />
-        <div className="grid grid-cols-6">
-          <div className="font-bold">Extra projects</div>
-          <div className="col-span-4">
-            <AdditionalProjects />
-          </div>
-        </div>
+      </Fieldset>
+      <Fieldset summary={"Extra projects"}>
+        <AdditionalProjects />
       </Fieldset>
       <Fieldset summary="Installation options">
         <InstallationOptions />
@@ -139,7 +141,7 @@ function AdvancedOptions() {
 }
 
 function Launcher() {
-  const { canLaunch, getLaunchPayload, setSelectedProject, setSelectedVersion } = useLauncher();
+  const { canLaunch, getLaunchPayload, setMainProject } = useLauncher();
   function onSubmit(e) {
     e.preventDefault();
     const payload = JSON.stringify(getLaunchPayload());
@@ -152,22 +154,28 @@ function Launcher() {
         'Accept': 'application/json'
       },
     })
-      .then(res => res.json())
-      .then(json => {
-        window.location.href = json.progress
+      .then(res => {
+        res
+          .json()
+          .then(json => {
+            if (res.ok) {
+              window.location.href = json.progress
+            }
+            console.log(json);
+            alert('There was an error, check the console.')
+          })
       })
-  }
-
-  function onProjectSelection(project, version) {
-    setSelectedProject(project)
-    setSelectedVersion(version)
+      .catch(error => {
+        console.log(err)
+        alert('There was an error, check the console.')
+      })
   }
 
   return (
     <div className="bg-gradient-to-r from-flat-blue to-sky-blue py-5">
       <form className="flex flex-col mb-10 max-w-screen-lg container mx-auto" onSubmit={onSubmit}>
         <div className="flex flex-row flex-grow items-center">
-          <ProjectSelection onChange={onProjectSelection} />
+          <ProjectSelection onChange={setMainProject} />
           <button
             className="px-4 py-1 text-xl border rounded-md shadow bg-white hover:bg-gray-50 cursor-pointer disabled:cursor-not-allowed"
             disabled={!canLaunch}>

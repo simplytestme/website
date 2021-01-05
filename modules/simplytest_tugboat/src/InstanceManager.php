@@ -128,27 +128,29 @@ class InstanceManager implements InstanceManagerInterface {
 
     // Set a default project and version, if none exist.
     if (empty($submission['project'])) {
-      $submission['project'] = 'drupal';
-      $submission['version'] = end($core_versions['tags']);
+      $submission['project'] = [
+        'shortname' => 'drupal',
+        'version' => end($core_versions['tags'])
+      ];
     }
 
     // Let's generate contents of the .tugboat/config.yml file.
     // @todo needs to handle semver.
-    if (strpos($submission['version'], '.x-') === 1) {
-      $major_version = $submission['version'][0];
+    if (strpos($submission['project']['version'], '.x-') === 1) {
+      $major_version = $submission['project']['version'][0];
     }
     // Default to D9 for semantic versions.
-    elseif (is_numeric($submission['version'])) {
+    elseif (is_numeric($submission['project']['version'])) {
       $major_version = '9';
     }
     // Who knows how we got here, default to 9.
     else {
       $major_version = '9';
     }
-    $project_version = $submission['version'];
+    $project_version = $submission['project']['version'];
 
     // Check for dev release for 8 only (composer).
-    if ($submission['project'] !== 'drupal' && substr($project_version, -1) == 'x' && $major_version >= '7') {
+    if ($submission['project']['shortname'] !== 'drupal' && substr($project_version, -1) == 'x' && $major_version >= '7') {
       $project_version .= '-dev';
     }
 
@@ -167,13 +169,15 @@ class InstanceManager implements InstanceManagerInterface {
     // Send parameters.
     $parameters  = [
       'perform_install' => !$submission['manualInstall'],
+      // @todo why aren't we using $submission['drupalVersion']? security?
       'drupal_core_version' => $core_release,
       // @todo we have $submission['project']['type] but it is human-readable not machine name.
       'project_type' => $this->projectFetcher->fetchProject($submission['project']['shortname'])['type'],
       'project_version' => $project_version,
       'project' => $submission['project']['shortname'],
       'patches' => $submission['patches'] ?? [],
-      'additionals' => $submission['additionals'] ?? [],
+      // @todo do we need to map the versions at all?
+      'additionals' => $submission['additionalProjects'] ?? [],
       'instance_id' => Crypt::randomBytesBase64(),
       'hash' => Crypt::randomBytesBase64(),
       'major_version' => $major_version,

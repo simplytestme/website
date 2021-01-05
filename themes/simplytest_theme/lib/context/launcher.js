@@ -24,10 +24,17 @@ export function LauncherProvider({ children }) {
       setCanLaunch(selectedProject && selectedVersion)
   }, [selectedVersion, selectedProject, setCanLaunch])
 
+  function setMainProject(project, version) {
+    setSelectedProject(project)
+    setSelectedVersion(version)
+  }
+
   function getLaunchPayload() {
     return {
-      project: selectedProject,
-      version: selectedVersion,
+      project: {
+        version: selectedVersion,
+        ...selectedProject
+      },
       drupalVersion,
       installProfile,
       manualInstall,
@@ -39,9 +46,8 @@ export function LauncherProvider({ children }) {
     <launcherContext.Provider
       value={{
         selectedProject,
-        setSelectedProject,
         selectedVersion,
-        setSelectedVersion,
+        setMainProject,
         installProfile,
         setInstallProfile,
         drupalVersion,
