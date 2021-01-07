@@ -6,6 +6,7 @@ use Drupal\Component\Serialization\Json;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\Core\TypedData\TypedDataManagerInterface;
 use Drupal\Core\Url;
 use Drupal\simplytest_launch\TypedData\InstanceLaunchDefinition;
 use Drupal\simplytest_projects\SimplytestProjectFetcher;
@@ -13,7 +14,6 @@ use Drupal\simplytest_tugboat\InstanceManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Validator\ConstraintViolationInterface;
@@ -38,18 +38,26 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
   protected $instanceManager;
 
   /**
+   * The typed data manager.
+   *
+   * @var \Drupal\Core\TypedData\TypedDataManagerInterface
+   */
+  protected $typeDataManager;
+
+  /**
    * Constructs a new ViewEditForm object.
    *
-   * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
-   *   The request stack object.
    * @param \Drupal\simplytest_projects\SimplytestProjectFetcher
    *   The simplytest fetcher service.
    * @param \Drupal\simplytest_tugboat\InstanceManagerInterface
    *   The simplytest tugboat instance manager service.
+   * @param \Drupal\Core\TypedData\TypedDataManagerInterface $typed_data_manager
+   *   The typed data manager.
    */
-  public function __construct(SimplytestProjectFetcher $simplytest_project_fetcher, InstanceManagerInterface $instance_manager) {
+  public function __construct(SimplytestProjectFetcher $simplytest_project_fetcher, InstanceManagerInterface $instance_manager, TypedDataManagerInterface $typed_data_manager) {
     $this->simplytestProjectFetcher = $simplytest_project_fetcher;
     $this->instanceManager = $instance_manager;
+    $this->typeDataManager = $typed_data_manager;
   }
 
   /**
@@ -58,7 +66,8 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('simplytest_projects.fetcher'),
-      $container->get('simplytest_tugboat.instance_manager')
+      $container->get('simplytest_tugboat.instance_manager'),
+      $container->get('typed_data_manager')
     );
   }
 
@@ -168,8 +177,7 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
   private function validateSubmission($data) {
     // @todo Flood protection preflight check (IP based, possibly a problem.)
     try {
-      $typed_data_manager = \Drupal::getContainer()->get('typed_data_manager');
-      $definition = $typed_data_manager->create(InstanceLaunchDefinition::create(), $data);
+      $definition = $this->typeDataManager->create(InstanceLaunchDefinition::create(), $data);
     }
     catch (\Throwable $e) {
       throw new ServiceUnavailableHttpException(null, $e->getMessage());

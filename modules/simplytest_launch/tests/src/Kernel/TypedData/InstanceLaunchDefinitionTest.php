@@ -106,6 +106,64 @@ final class InstanceLaunchDefinitionTest extends KernelTestBase {
       ],
       []
     ];
+    yield [
+      [
+        'project' => [
+          'shortname' => 'token',
+          'type' => 'module',
+          'sandbox' => false,
+          'version' => '8.x-1.9',
+          'patches' => [
+            '/foo/bar/baz.patch',
+          ],
+        ],
+        'drupalVersion' => '9.1.0',
+        'installProfile' => 'umami',
+        'manualInstall' => '0',
+      ],
+      [
+        'project.patches.0: This value is not a valid URL.'
+      ]
+    ];
+    yield [
+      [
+        'project' => [
+          'shortname' => 'token',
+          'type' => 'module',
+          'sandbox' => false,
+          'version' => '8.x-1.9',
+          'patches' => [
+            'http://example.com/foo/bar.patch',
+            'ftp://example.com/foo/bar.patch',
+          ],
+        ],
+        'drupalVersion' => '9.1.0',
+        'installProfile' => 'umami',
+        'manualInstall' => '0',
+      ],
+      [
+        'project.patches.0: This value is not a valid URL.',
+        'project.patches.1: This value is not a valid URL.'
+      ]
+    ];
+    yield [
+      [
+        'project' => [
+          'shortname' => 'token',
+          'type' => 'module',
+          'sandbox' => false,
+          'version' => '8.x-1.9',
+          'patches' => [
+            'https://example.com/foo/bar.patch',
+            'https://example.com/baz/dazzle.patch',
+          ],
+        ],
+        'drupalVersion' => '9.1.0',
+        'installProfile' => 'umami',
+        'manualInstall' => '0',
+      ],
+      []
+    ];
   }
 
 }

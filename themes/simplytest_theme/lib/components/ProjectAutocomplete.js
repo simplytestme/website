@@ -44,7 +44,7 @@ function ProjectAutocomplete({ setSelectedItem }) {
           {...getInputProps()}
           tabIndex="-1"
           autoFocus={true}
-          className="text-xl font-sans border rounded-md shadow px-4 py-1 w-full"
+          className="text-lg font-sans border rounded-md shadow px-4 py-1 w-full"
         />
       </div>
       <ul

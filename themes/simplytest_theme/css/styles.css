@@ -144,32 +144,6 @@ h6 {
   padding: 0 1.25rem;
 }
 
-input[type='email'],
-input[type='number'],
-input[type='password'],
-input[type='search'],
-input[type='tel'],
-input[type='text'],
-input[type='url'],
-textarea,
-select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #fff;
-  border: 1px solid #f2f2f2;
-  border-radius: 0;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  -webkit-box-sizing: inherit;
-  box-sizing: inherit;
-  padding: 0.3125rem;
-  width: 100%;
-  font-family: "Nunito Sans", Arial, "Helvetica Neue", Helvetica, sans-serif;
-  font-size: 1rem;
-  margin-bottom: 10px;
-}
-
 input[type='email']:focus,
 input[type='number']:focus,
 input[type='password']:focus,

@@ -5,6 +5,7 @@ namespace Drupal\simplytest_launch\TypedData;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\TypedData\ComplexDataDefinitionBase;
 use Drupal\Core\TypedData\DataDefinition;
+use Drupal\Core\TypedData\ListDataDefinition;
 
 final class ProjectInfoDefinition extends ComplexDataDefinitionBase {
 
@@ -46,6 +47,12 @@ final class ProjectInfoDefinition extends ComplexDataDefinitionBase {
       ->addConstraint('NotBlank')
       ->addConstraint('PrimitiveType')
       ->setRequired(TRUE);
+    // Use `string` over `uri` for better validation control.
+    // The `uri` data type just returns "invalid primitive type".
+    $properties['patches'] = ListDataDefinition::create('string')
+      ->setLabel(new TranslatableMarkup('Patches to apply'));
+    $properties['patches']->getItemDefinition()
+      ->addConstraint('PatchesUrl');
     return $properties;
   }
 

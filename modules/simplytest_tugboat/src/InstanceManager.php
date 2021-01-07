@@ -133,11 +133,12 @@ class InstanceManager implements InstanceManagerInterface {
         'version' => end($core_versions['tags'])
       ];
     }
-
+    $project_version = $submission['project']['version'];
     // Let's generate contents of the .tugboat/config.yml file.
     // @todo needs to handle semver.
     if (strpos($submission['project']['version'], '.x-') === 1) {
       $major_version = $submission['project']['version'][0];
+      [, $project_version] = explode('-', $submission['project']['version'], 2);
     }
     // Default to D9 for semantic versions.
     elseif (is_numeric($submission['project']['version'])) {
@@ -147,7 +148,6 @@ class InstanceManager implements InstanceManagerInterface {
     else {
       $major_version = '9';
     }
-    $project_version = $submission['project']['version'];
 
     // Check for dev release for 8 only (composer).
     if ($submission['project']['shortname'] !== 'drupal' && substr($project_version, -1) == 'x' && $major_version >= '7') {
@@ -175,7 +175,7 @@ class InstanceManager implements InstanceManagerInterface {
       'project_type' => $this->projectFetcher->fetchProject($submission['project']['shortname'])['type'],
       'project_version' => $project_version,
       'project' => $submission['project']['shortname'],
-      'patches' => $submission['patches'] ?? [],
+      'patches' => $submission['project']['patches'] ?? [],
       // @todo do we need to map the versions at all?
       'additionals' => $submission['additionalProjects'] ?? [],
       'instance_id' => Crypt::randomBytesBase64(),

@@ -113,7 +113,35 @@ function AdditionalProjects() {
           <button type="button" onClick={() => removeExtraProject(k)}>Remove</button>
         </div>
       ))}
-      <button type="button" className="text-sm p-2 rounded-md shadow-sm border border-gray-300" onClick={addAdditionalProject}>Add additional project</button>
+      <button type="button" className="text-base p-2 rounded-md shadow-sm border border-gray-300" onClick={addAdditionalProject}>Add additional project</button>
+    </div>
+  )
+}
+
+function Patches() {
+  const { patches, setPatches } = useLauncher();
+
+  if (patches.length === 0) {
+    patches.push("")
+  }
+
+  function addPatch() {
+    setPatches([...patches, []]);
+  }
+
+  return (
+    <div>
+      <h3 className="font-bold mb-2">Patches</h3>
+      {patches.map((patch, k) => (
+        <div className="mb-2 flex flex-row">
+          <input type="text" value={patch} onChange={event => {
+            const newPatches = [...patches];
+            newPatches[k] = event.target.value;
+            setPatches(newPatches);
+          }} className="text-lg font-sans border rounded-md shadow px-4 py-1 flex-grow w-full" placeholder="https://www.drupal.org/files/..."/>
+        </div>
+      ))}
+      <button type="button" className="text-base p-2 rounded-md shadow-sm border border-gray-300" onClick={addPatch}>Add patch</button>
     </div>
   )
 }
@@ -129,6 +157,7 @@ function AdvancedOptions() {
       <summary className="font-medium text-sm">Advanced options</summary>
       <Fieldset summary="Build options">
         <DrupalCoreVersionSelector />
+        <Patches />
       </Fieldset>
       <Fieldset summary={"Extra projects"}>
         <AdditionalProjects />
@@ -160,8 +189,13 @@ function Launcher() {
           .then(json => {
             if (res.ok) {
               window.location.href = json.progress
+            } else {
+              console.log(json);
+              alert('There was an error, check the console.')
             }
-            console.log(json);
+          })
+          .catch(error => {
+            console.log(err)
             alert('There was an error, check the console.')
           })
       })

@@ -68,7 +68,7 @@ services:
 {% elseif project_type == 'Distribution' %}
         - cd "${DOCROOT}/profiles/contrib/{{ project }}" && patch -p1 < "/tmp/patch.{{ instance_id }}"
 {% else %}
-        - cd "${DOCROOT}/{{ project_type | lower }}s/contrib/{{ project }}" && patch -p1 < "/tmp/patch.{{ instance_id }}"
+        - cd "${DOCROOT}/sites/all/{{ project_type | lower }}s/{{ project }}" && patch -p1 < "/tmp/patch.{{ instance_id }}"
 {% endif %}
         - rm "/tmp/patch.{{ instance_id }}"
 {% endfor %}

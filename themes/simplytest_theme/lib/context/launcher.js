@@ -9,6 +9,7 @@ export function useLauncher() {
 export function LauncherProvider({ children }) {
   const [selectedProject, setSelectedProject] = useState(null);
   const [selectedVersion, setSelectedVersion] = useState('');
+  const [patches, setPatches] = useState([]);
   const [installProfile, setInstallProfile] = useState('standard');
   const [drupalVersion, setDrupalVersion] = useState('');
   const [manualInstall, setManualInstall] = useState(false);
@@ -33,6 +34,7 @@ export function LauncherProvider({ children }) {
     return {
       project: {
         version: selectedVersion,
+        patches,
         ...selectedProject
       },
       drupalVersion,
@@ -47,6 +49,8 @@ export function LauncherProvider({ children }) {
       value={{
         selectedProject,
         selectedVersion,
+        patches,
+        setPatches,
         setMainProject,
         installProfile,
         setInstallProfile,
