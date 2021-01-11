@@ -7,8 +7,6 @@ use Drupal\Component\Utility\Crypt;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Logger\LoggerChannelInterface;
-use Drupal\Core\Render\RendererInterface;
-use Drupal\Core\Serialization\Yaml;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\simplytest_projects\SimplytestProjectFetcher;
@@ -42,13 +40,6 @@ class InstanceManager implements InstanceManagerInterface {
   protected $moduleHandler;
 
   /**
-   * The render service.
-   *
-   * @var \Drupal\Core\Render\RendererInterface
-   */
-  protected $renderer;
-
-  /**
    * The project service.
    *
    * @var \Drupal\simplytest_projects\SimplytestProjectFetcher
@@ -62,6 +53,13 @@ class InstanceManager implements InstanceManagerInterface {
   protected $tugboatClient;
 
   /**
+   * The preview config generator.
+   *
+   * @var \Drupal\simplytest_tugboat\PreviewConfigGenerator
+   */
+  protected $previewConfigGenerator;
+
+  /**
    * Constructs an InstanceManager object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -70,8 +68,6 @@ class InstanceManager implements InstanceManagerInterface {
    *   The logger channel for this module.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler service.
-   * @param \Drupal\Core\Render\RendererInterface $renderer
-   *   The render service.
    * @param \Drupal\Core\StringTranslation\TranslationInterface $string_translation
    *   The string translation service.
    * @param \Drupal\simplytest_projects\SimplytestProjectFetcher $project_fetcher
@@ -79,14 +75,14 @@ class InstanceManager implements InstanceManagerInterface {
    * @param \Drupal\tugboat\TugboatClient $tugboat_client
    *   The Tugboat client.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, LoggerChannelInterface $logger, ModuleHandlerInterface $module_handler, RendererInterface $renderer, TranslationInterface $string_translation, SimplytestProjectFetcher $project_fetcher, TugboatClient $tugboat_client) {
+  public function __construct(ConfigFactoryInterface $config_factory, LoggerChannelInterface $logger, ModuleHandlerInterface $module_handler, TranslationInterface $string_translation, SimplytestProjectFetcher $project_fetcher, TugboatClient $tugboat_client, PreviewConfigGenerator $preview_config_generator) {
     $this->tugboatSettings = $config_factory->get('tugboat.settings');
     $this->logger = $logger;
     $this->moduleHandler = $module_handler;
-    $this->renderer = $renderer;
     $this->stringTranslation = $string_translation;
     $this->projectFetcher = $project_fetcher;
     $this->tugboatClient = $tugboat_client;
+    $this->previewConfigGenerator = $preview_config_generator;
   }
 
   /**
@@ -120,6 +116,9 @@ class InstanceManager implements InstanceManagerInterface {
 
   /**
    * {@inheritdoc}
+   *
+   * @todo accept \Drupal\simplytest_launch\Plugin\DataType\InstanceLaunch
+   * @todo decide if data types should be refactored into here.
    */
   public function launchInstance($submission) {
     // Get relevant Drupal core version.
@@ -175,7 +174,7 @@ class InstanceManager implements InstanceManagerInterface {
       'project_type' => $this->projectFetcher->fetchProject($submission['project']['shortname'])['type'],
       'project_version' => $project_version,
       'project' => $submission['project']['shortname'],
-      'patches' => $submission['project']['patches'] ?? [],
+      'patches' => array_filter($submission['project']['patches'] ?? []),
       // @todo do we need to map the versions at all?
       'additionals' => $submission['additionalProjects'] ?? [],
       'instance_id' => Crypt::randomBytesBase64(),
@@ -208,28 +207,16 @@ class InstanceManager implements InstanceManagerInterface {
         foreach ($ocds as $ocd) {
           $button_id = $ocd['ocd_id'];
           if ($submission['stm_one_click_demo']['#name'] == $button_id) {
-            $theme_key = $ocd['theme_key'];
-            $elements = [
-              '#theme' => 'simplytest_tugboat_config_' . $theme_key . '_yml',
-              '#parameters' => $parameters,
-            ];
-            $config_yml_contents = (string) $this->renderer->renderPlain($elements);
             $context = $button_id;
+            $config = $this->previewConfigGenerator->oneClickDemo($ocd['theme_key'], $parameters);
           }
         }
       }
       // Standard form submit.
     }
     else {
-      $elements = [
-        '#theme' => 'simplytest_tugboat_config_' . $major_version . '_yml',
-        '#parameters' => $parameters,
-      ];
-      $config_yml_contents = (string) $this->renderer->renderPlain($elements);
+      $config = $this->previewConfigGenerator->generate($parameters);
     }
-
-    // @todo stop making it YAML, we just need a PHP array.
-    $config = Yaml::decode($config_yml_contents);
 
     $base_preview_id = $this->loadPreviewId($context, TRUE);
     $tugboat_request = $this->tugboatClient->requestWithApiKey('POST', 'previews', [

@@ -240,7 +240,7 @@ function BuildErrorMessage({ logs }) {
   return (
     <div className="bg-red-600 text-red-100 p-4 overflow-scroll">
       <p className="font-bold mb-4">This may be the error:</p>
-      <pre className="text-sm">{lastLogs.map(log => <code>{log.message}</code>)}</pre>
+      <pre className="text-sm">{lastLogs.map(log => <code className="block">{log.message}</code>)}</pre>
     </div>
   )
 }

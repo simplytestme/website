@@ -8,7 +8,10 @@ services:
       - '@config.factory'
       - '@logger.channel.simplytest_tugboat'
       - '@module_handler'
-      - '@renderer'
       - '@string_translation'
       - '@simplytest_projects.fetcher'
       - '@tugboat.client'
+      - '@simplytest_tugboat.preview_config_generator'
+  simplytest_tugboat.preview_config_generator:
+    class: Drupal\simplytest_tugboat\PreviewConfigGenerator
+    arguments: ['@renderer']
