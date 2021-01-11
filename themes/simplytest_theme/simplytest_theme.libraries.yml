@@ -10,10 +10,3 @@ launcher:
     dist/app.js: { minified: true }
   dependencies:
     - core/drupalSettings
-
-react:
-  js:
-    react/build/main.js: {}
-  css:
-    theme:
-      react/build/main.css: {}
