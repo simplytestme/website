@@ -133,6 +133,9 @@ final class PreviewConfigGenerator {
         return $commands;
       }
       $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-update', $parameters['project'], $parameters['project_version']);
+      foreach ($parameters['additionals'] as $additional) {
+        $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-update', $additional['shortname'], $additional['version']);
+      }
     }
     else if ($parameters['major_version'] === '8') {
       $commands[] = 'composer global require szeidler/composer-patches-cli:~1.0';
@@ -145,6 +148,9 @@ final class PreviewConfigGenerator {
         return $commands;
       }
       $commands[] = sprintf('cd "${DOCROOT}" && composer require drupal/%s:%s --no-update', $parameters['project'], $parameters['project_version']);
+      foreach ($parameters['additionals'] as $additional) {
+        $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-update', $additional['shortname'], $additional['version']);
+      }
     }
     else if ($parameters['major_version'] === '7') {
       // @todo this should probably be removed, but it is kept for BC during the
@@ -160,58 +166,56 @@ final class PreviewConfigGenerator {
     return $commands;
   }
 
+  private function getComposerPatchCommand($project_name, $patch) {
+    return sprintf(
+      'cd "${DOCROOT}" && composer patch-add drupal/%s "STM patch %s" "%s"',
+      $project_name,
+      basename($patch),
+      $patch
+    );
+  }
+
+  private function getLegacyPatchCommand($project_type, $project_name, $patch) {
+    if ($project_type === 'drupal') {
+      return sprintf('cd "${DOCROOT}" && curl %s | patch -p1', $patch);
+    }
+    return sprintf(
+      'cd "${DOCROOT}/sites/all/%ss/%s" && curl %s | patch -p1',
+      $project_type,
+      $project_name,
+      $patch
+    );
+  }
+
   private function getPatchingCommands(array $parameters) {
     $commands = [
       'echo "SIMPLYEST_STAGE_PATCHING"',
     ];
 
-    $is_core = $parameters['project'] === 'drupal';
-
-    if ($parameters['major_version'] === '9') {
+    if ($parameters['major_version'] === '8' || $parameters['major_version'] === '9') {
+      $is_core = $parameters['project'] === 'drupal';
       // @todo previous version had cd DOCROOT vs cd stm, normalize.
       if (count($parameters['patches']) > 0) {
         $commands[] = 'cd "${DOCROOT}" && composer patch-enable --file="patches.json"';
       }
       foreach ($parameters['patches'] as $patch) {
-        $commands[] = sprintf(
-          'cd "${DOCROOT}" && composer patch-add drupal/%s "STM patch %s" "%s"',
-          $is_core ? 'core' : $parameters['project'],
-          basename($patch),
-          $patch
-        );
+        $commands[] = $this->getComposerPatchCommand($is_core ? 'core' : $parameters['project'], $patch);
       }
-      $commands[] = 'cd stm && composer update --no-ansi';
-    }
-    else if ($parameters['major_version'] === '8') {
-      if (count($parameters['patches']) > 0) {
-        $commands[] = 'cd "${DOCROOT}" && composer patch-enable --file="patches.json"';
-      }
-      foreach ($parameters['patches'] as $patch) {
-        $commands[] = sprintf(
-          'cd "${DOCROOT}" && composer patch-add drupal/%s "STM patch %s" "%s"',
-          $is_core ? 'core' : $parameters['project'],
-          basename($patch),
-          $patch
-        );
+      foreach ($parameters['additionals'] as $additional) {
+        foreach ($additional['patches'] as $additional_patch) {
+          $commands[] = $this->getComposerPatchCommand($additional['shortname'], $additional_patch);
+        }
       }
       $commands[] = 'cd "${DOCROOT}" && composer update --no-ansi --no-dev';
     }
     else if ($parameters['major_version'] === '7') {
       foreach ($parameters['patches'] as $patch) {
-        // @todo can we refactor to `curl %s | patch -p1`
-        $commands[] = sprintf('wget %s --output-document="/tmp/patch.%s"', $patch, $parameters['instance_id']);
-        if ($is_core) {
-          $commands[] = sprintf('cd "${DOCROOT}" && patch -p1 < "/tmp/patch.%s"', $parameters['instance_id']);
+        $commands[] = $this->getLegacyPatchCommand(strtolower($parameters['project_type']), $parameters['project'], $patch);
+      }
+      foreach ($parameters['additionals'] as $additional) {
+        foreach ($additional['patches'] as $additional_patch) {
+          $commands[] = $this->getLegacyPatchCommand(strtolower($additional['type']), $additional['shortname'], $additional_patch);
         }
-        else {
-          $commands[] = sprintf(
-            'cd "${DOCROOT}/sites/all/%ss/%s" && patch -p1 < "/tmp/patch.%s"',
-            strtolower($parameters['project_type']),
-            $parameters['project'],
-            $parameters['instance_id']
-          );
-        }
-        $commands[] = sprintf('rm "/tmp/patch.%s"', $parameters['instance_id']);
       }
     }
     return $commands;

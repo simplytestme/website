@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { LauncherProvider, useLauncher } from './context/launcher'
 import Fieldset from './components/Fieldset'
 import ProjectSelection from './components/ProjectSelection'
+import Patches from './components/Patches'
 
 function InstallationOptions() {
   const {selectedProject, drupalVersion, installProfile, setInstallProfile, manualInstall, setManualInstall } = useLauncher()
@@ -87,6 +88,7 @@ function AdditionalProjects() {
       title: '',
       shortname: '',
       version: '',
+      patches: [],
     }]);
   }
 
@@ -99,16 +101,30 @@ function AdditionalProjects() {
   return (
     <div>
       {additionalProjects.map((project, k) => (
-        <div className="grid grid-cols-3">
-          <div className="col-span-2">
+        <div key={k} className="grid grid-cols-4 mb-4">
+          <div className="col-span-3">
             <ProjectSelection onChange={(project, version) => {
-              const newProjects = [...additionalProjects];
-              additionalProjects[k] = {
-                version,
-                ...project
+              // @todo the state management for ProjectSelection needs refactor
+              // onChange is technically called with each render, and the
+              // component has no idea if it has really changed or not and ends
+              // up being called on each render.
+              if (additionalProjects[k].shortname !== project.shortname || additionalProjects[k].version !== version) {
+                debugger;
+                const newProjects = [...additionalProjects];
+                newProjects[k] = {
+                  version,
+                  patches: [],
+                  ...project
+                }
+                debugger;
+                setAdditionalProjects(newProjects);
               }
-              setAdditionalProjects(additionalProjects);
             }} />
+            {project.shortname ? <Patches patches={project.patches} setPatches={updatedPatches => {
+              const newProjects = [...additionalProjects];
+              newProjects[k].patches = updatedPatches;
+              setAdditionalProjects(newProjects)
+            }} /> : null}
           </div>
           <button type="button" onClick={() => removeExtraProject(k)}>Remove</button>
         </div>
@@ -118,36 +134,8 @@ function AdditionalProjects() {
   )
 }
 
-function Patches() {
-  const { patches, setPatches } = useLauncher();
-
-  if (patches.length === 0) {
-    patches.push("")
-  }
-
-  function addPatch() {
-    setPatches([...patches, []]);
-  }
-
-  return (
-    <div>
-      <h3 className="font-bold mb-2">Patches</h3>
-      {patches.map((patch, k) => (
-        <div className="mb-2 flex flex-row">
-          <input type="text" value={patch} onChange={event => {
-            const newPatches = [...patches];
-            newPatches[k] = event.target.value;
-            setPatches(newPatches);
-          }} className="text-lg font-sans border rounded-md shadow px-4 py-1 flex-grow w-full" placeholder="https://www.drupal.org/files/..."/>
-        </div>
-      ))}
-      <button type="button" className="text-base p-2 rounded-md shadow-sm border border-gray-300" onClick={addPatch}>Add patch</button>
-    </div>
-  )
-}
-
 function AdvancedOptions() {
-  const { canLaunch } = useLauncher();
+  const { canLaunch, patches, setPatches } = useLauncher();
 
   if (!canLaunch) {
     return null
@@ -157,7 +145,7 @@ function AdvancedOptions() {
       <summary className="font-medium text-sm">Advanced options</summary>
       <Fieldset summary="Build options">
         <DrupalCoreVersionSelector />
-        <Patches />
+        <Patches patches={patches} setPatches={setPatches} />
       </Fieldset>
       <Fieldset summary={"Extra projects"}>
         <AdditionalProjects />
@@ -316,7 +304,7 @@ function InstanceProgress() {
       {state.state === 'ready' ? [<BuildSuccessMessage key={state.state} url={state.url} />] : null}
       <div>
         <pre className="h-96 overflow-scroll bg-gray-900 text-gray-50 text-xs p-4">
-          {state.logs.map(item => <code key={item.id}>{item.message}</code>)}
+          {state.logs.map(item => <code className="block" key={item.id}>{item.message}</code>)}
         </pre>
       </div>
     </div>
