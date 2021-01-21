@@ -4,6 +4,7 @@ import { LauncherProvider, useLauncher } from './context/launcher'
 import Fieldset from './components/Fieldset'
 import ProjectSelection from './components/ProjectSelection'
 import Patches from './components/Patches'
+import OneClickDemos from './components/OneClickDemos'
 
 function InstallationOptions() {
   const {selectedProject, drupalVersion, installProfile, setInstallProfile, manualInstall, setManualInstall } = useLauncher()
@@ -205,14 +206,7 @@ function Launcher() {
           </button>
         </div>
         <AdvancedOptions />
-        <fieldset className="mt-4 border shadow-md p-4 bg-white">
-          {/* @todo fetch via API or drupalSettings to know what demos exist. */}
-          <summary className="font-medium text-sm">One click demos</summary>
-          <div className="grid md:grid-cols-4 gap-2 mt-2">
-            <button type="button" className="p-2 bg-dark-sky-blue rounded-sm shadow-sm">Umami Demo</button>
-            <button type="button" className="p-2 bg-dark-sky-blue rounded-sm shadow-sm">Drupal Commerce</button>
-          </div>
-        </fieldset>
+        <OneClickDemos />
       </form>
     </div>
   );
@@ -265,7 +259,7 @@ function InstanceProgress() {
       if (json.type === 'preview') {
         clearInterval(interval)
       }
-      if (json.url && state.state === 'ready') {
+      if (json.url && json.state === 'ready') {
        setTimeout(() => {
          window.location.href = json.url;
        }, 3000);
@@ -304,7 +298,7 @@ function InstanceProgress() {
       {state.state === 'ready' ? [<BuildSuccessMessage key={state.state} url={state.url} />] : null}
       <div>
         <pre className="h-96 overflow-scroll bg-gray-900 text-gray-50 text-xs p-4">
-          {state.logs.map(item => <code className="block" key={item.id}>{item.message}</code>)}
+          {state.logs.map(item => <code className="block m-0 p-0" key={item.id}>{item.message.replace(/^\s+|\s+$/g, '')}</code>)}
         </pre>
       </div>
     </div>

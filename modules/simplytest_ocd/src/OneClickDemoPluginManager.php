@@ -5,11 +5,13 @@ namespace Drupal\simplytest_ocd;
 use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\simplytest_ocd\Annotation\OneClickDemo;
+use Drupal\simplytest_ocd\OneClickDemoInterface;
 
 /**
  * Simplytest OCD plugin manager.
  */
-class SimplyTestOCDPluginManager extends DefaultPluginManager {
+class OneClickDemoPluginManager extends DefaultPluginManager {
 
   /**
    * Constructs an SimplyTestOCDPluginManager object.
@@ -23,10 +25,16 @@ class SimplyTestOCDPluginManager extends DefaultPluginManager {
    *   The module handler to invoke the alter hook with.
    */
   public function __construct(\Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler) {
-    parent::__construct('Plugin/SimplyTestOCD', $namespaces, $module_handler, 'Drupal\simplytest_ocd\SimplyTestOCDInterface', 'Drupal\simplytest_ocd\Annotation\SimplyTestOCD');
+    parent::__construct(
+      'Plugin/OneClickDemo',
+      $namespaces,
+      $module_handler,
+      OneClickDemoInterface::class,
+      OneClickDemo::class
+    );
 
-    $this->alterInfo('simplytest_ocd');
-    $this->setCacheBackend($cache_backend, 'simplytest_ocd');
+    $this->alterInfo('oneclickdemo');
+    $this->setCacheBackend($cache_backend, 'oneclickdemo', ['oneclickdemo']);
   }
 
 }

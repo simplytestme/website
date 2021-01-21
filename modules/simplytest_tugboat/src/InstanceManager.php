@@ -9,6 +9,7 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Logger\LoggerChannelInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
+use Drupal\simplytest_ocd\OneClickDemoPluginManager;
 use Drupal\simplytest_projects\SimplytestProjectFetcher;
 use Drupal\tugboat\TugboatClient;
 
@@ -185,10 +186,10 @@ class InstanceManager implements InstanceManagerInterface {
     // Make the context and write the record.
     $context = "drupal$major_version";
 
+    // @todo move into its own method or OCD controller directly?
     // Check for one click demos.
-    if ($this->moduleHandler->moduleExists('simplytest_ocd') && !empty($submission['stm_one_click_demo'])) {
+    if ($this->moduleHandler->moduleExists('simplytest_ocd') && !empty($submission['oneclickdemo'])) {
       // Temporarily set the major version to 8.x tags only.
-      $core_versions = $this->projectFetcher->fetchVersions('drupal');
       usort($core_versions['tags'], 'version_compare');
       while ($core_release[0] == '9' && !empty($core_release)){
         $core_release = array_pop($core_versions['tags']);
@@ -201,18 +202,12 @@ class InstanceManager implements InstanceManagerInterface {
       }
 
       // Run OCD specific logic.
-      $ocds = $this->moduleHandler->invokeAll('simplytest_ocd');
-      if (count($ocds)) {
-        // Add a button for each one.
-        foreach ($ocds as $ocd) {
-          $button_id = $ocd['ocd_id'];
-          if ($submission['stm_one_click_demo']['#name'] == $button_id) {
-            $context = $button_id;
-            $config = $this->previewConfigGenerator->oneClickDemo($ocd['theme_key'], $parameters);
-          }
-        }
-      }
-      // Standard form submit.
+      $ocd_manager = \Drupal::service('plugin.manager.oneclickdemo');
+      assert($ocd_manager instanceof OneClickDemoPluginManager);
+      $ocd = $ocd_manager->getDefinition($submission['oneclickdemo']);
+
+      $context = $ocd['base_preview_name'];
+      $config = $this->previewConfigGenerator->oneClickDemo($submission['oneclickdemo'], $parameters);
     }
     else {
       $config = $this->previewConfigGenerator->generate($parameters);

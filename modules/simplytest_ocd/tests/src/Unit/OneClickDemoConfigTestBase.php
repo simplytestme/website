@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Tests\simplytest_tugboat\Unit;
+namespace Drupal\Tests\simplytest_ocd\Unit;
 
 use Drupal\simplytest_ocd\OneClickDemoPluginManager;
 use Drupal\simplytest_tugboat\PreviewConfigGenerator;
@@ -9,7 +9,10 @@ use Drupal\Tests\UnitTestCase;
 /**
  * Base test class for testing Tugboat configuration generation.
  */
-abstract class TugboatConfigTestBase extends UnitTestCase {
+abstract class OneClickDemoConfigTestBase extends UnitTestCase {
+
+  protected static $pluginId;
+  protected static $pluginClass;
 
   /**
    * The preview config generator.
@@ -18,42 +21,29 @@ abstract class TugboatConfigTestBase extends UnitTestCase {
    */
   protected $previewConfigGenerator;
 
-  /**
-   * {@inheritdoc}
-   */
-  protected static $modules = [
-    'simplytest_projects',
-    'tugboat',
-    'simplytest_tugboat',
-  ];
-
   protected function setUp(): void {
     parent::setUp();
+    $manager = $this->prophesize(OneClickDemoPluginManager::class);
+    $manager->createInstance(static::$pluginId)->willReturn(new static::$pluginClass());
     $this->previewConfigGenerator = new PreviewConfigGenerator(
-      $this->prophesize(OneClickDemoPluginManager::class)->reveal()
+      $manager->reveal()
     );
   }
 
   /**
+   * @param string $demo_id
    * @param array $parameters
    * @param array $expected_config
-   *
-   * @dataProvider configData
    */
-  public function testConfigData(array $parameters, array $expected_config) {
-    $generated_config = $this->previewConfigGenerator->generate($parameters);
+  public function testConfigData() {
+    $generated_config = $this->previewConfigGenerator->oneClickDemo(static::$pluginId, []);
     self::assertEquals([
       // Services is the root property, so we do not require test classes to
       // provide it for sample data.
-      'services' => $expected_config
+      'services' => $this->getExpectedConfig(),
     ], $generated_config);
   }
 
-  /**
-   * The test data.
-   *
-   * @return \Generator
-   */
-  abstract public function configData(): \Generator;
+  abstract protected function getExpectedConfig(): array;
 
 }

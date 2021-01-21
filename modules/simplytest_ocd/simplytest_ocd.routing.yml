@@ -1,6 +1,16 @@
 simplytest_ocd.ocd:
-  path: 'simplytest/ocd'
+  path: '/one-click-demos'
+  methods: [GET]
   defaults:
-    _controller: '\Drupal\simplytest_ocd\Controller\SimplyTestOCD::ocdInfo'
+    _controller: '\Drupal\simplytest_ocd\Controller\Resources::info'
   requirements:
     _permission: 'submit simplytest requests'
+    _format: 'json'
+simplytest_ocd.launch:
+  path: '/one-click-demos/{oneclickdemo_id}'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\simplytest_ocd\Controller\Resources::launch'
+  requirements:
+    _permission: 'submit simplytest requests'
+    _format: 'json'

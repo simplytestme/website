@@ -14,4 +14,4 @@ services:
       - '@simplytest_tugboat.preview_config_generator'
   simplytest_tugboat.preview_config_generator:
     class: Drupal\simplytest_tugboat\PreviewConfigGenerator
-    arguments: ['@renderer']
+    arguments: ['@plugin.manager.oneclickdemo']

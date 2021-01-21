@@ -2,8 +2,8 @@
 
 namespace Drupal\simplytest_tugboat;
 
-use Drupal\Core\Render\RendererInterface;
-use Drupal\Core\Serialization\Yaml;
+use Drupal\simplytest_ocd\OneClickDemoInterface;
+use Drupal\simplytest_ocd\OneClickDemoPluginManager;
 
 /**
  * Generates preview configurations for Tugboat.
@@ -11,20 +11,21 @@ use Drupal\Core\Serialization\Yaml;
 final class PreviewConfigGenerator {
 
   /**
-   * The renderer.
+   * The one click demo manager.
    *
-   * @var \Drupal\Core\Render\RendererInterface
+   * @var \Drupal\simplytest_ocd\OneClickDemoPluginManager
    */
-  private $renderer;
+  private $oneClickDemoManager;
 
   /**
    * Constructs a new PreviewConfigGenerator object.
    *
-   * @param \Drupal\Core\Render\RendererInterface $renderer
-   *   The renderer.
+   * @param \Drupal\simplytest_ocd\OneClickDemoPluginManager $one_click_demo_manager
+   *   The one click demo manager.
    */
-  public function __construct(RendererInterface $renderer) {
-    $this->renderer = $renderer;
+  public function __construct(OneClickDemoPluginManager $one_click_demo_manager) {
+    // @todo what if all builds were a plugin – so D7, D8, D9, Umami, Commerce?
+    $this->oneClickDemoManager = $one_click_demo_manager;
   }
 
   /**
@@ -51,7 +52,14 @@ final class PreviewConfigGenerator {
       ['composer self-update'],
       $this->getSetupCommands($parameters),
       $this->getDownloadCommands($parameters),
+      ['echo "SIMPLYEST_STAGE_PATCHING"'],
       $this->getPatchingCommands($parameters),
+      [
+        // @todo this order should be flip flopped; it's this way for keeping
+        //   the tests green during refactor.
+        'cd "${DOCROOT}" && chmod -R 777 sites/default',
+        'echo "SIMPLYEST_STAGE_INSTALLING"',
+      ],
       $this->getInstallingCommands($parameters),
       ['echo "SIMPLYEST_STAGE_FINALIZE"'],
     ];
@@ -85,12 +93,43 @@ final class PreviewConfigGenerator {
    *   The preview config.
    */
   public function oneClickDemo(string $demo_id, array $parameters): array {
-    $elements = [
-      '#theme' => 'simplytest_tugboat_config_' . $demo_id . '_yml',
-      '#parameters' => $parameters,
+    $one_click_demo = $this->oneClickDemoManager->createInstance($demo_id);
+    assert($one_click_demo instanceof OneClickDemoInterface);
+
+    // @todo all things should be build plugins, normalize with ::generate.
+    $build_commands = [
+      ['composer self-update'],
+      $one_click_demo->getSetupCommands($parameters),
+      ['echo "SIMPLYEST_STAGE_DOWNLOAD"'],
+      $one_click_demo->getDownloadCommands($parameters),
+      ['echo "SIMPLYEST_STAGE_PATCHING"'],
+      $one_click_demo->getPatchingCommands($parameters),
+      [
+        'echo "SIMPLYEST_STAGE_INSTALLING"',
+        'cd "${DOCROOT}" && chmod -R 777 sites/default',
+      ],
+      $one_click_demo->getInstallingCommands($parameters),
+      [
+        'chown -R www-data:www-data "${DOCROOT}"/sites/default/files',
+        'echo "SIMPLYEST_STAGE_FINALIZE"'
+      ],
     ];
-    $config_yml_contents = (string) $this->renderer->renderPlain($elements);
-    return Yaml::decode($config_yml_contents);
+
+    return [
+      'services' => [
+        'php' => [
+          'image' => 'tugboatqa/php:7.3-apache',
+          'default' => TRUE,
+          'depends' => 'mysql',
+          'commands' => [
+            'build' => array_merge(...$build_commands),
+          ],
+        ],
+        'mysql' => [
+          'image' => 'tugboatqa/mysql:5',
+        ],
+      ],
+    ];
   }
 
   private function getSetupCommands(array $parameters) {
@@ -103,7 +142,7 @@ final class PreviewConfigGenerator {
       $commands[] = sprintf('cd stm && composer require --no-update drupal/core-recommended:%s', $parameters['drupal_core_version']);
       $commands[] = sprintf('cd stm && composer require --no-update drupal/core-composer-scaffold:%s', $parameters['drupal_core_version']);
       $commands[] = 'cd stm && composer require --dev --no-update drupal/dev-dependencies:dev-default';
-      $commands[] = 'cd stm && composer require --dev --no-update drush/drush:^10.0';
+      $commands[] = 'cd stm && composer require --no-update drush/drush:^10.0';
       $commands[] = 'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"';
     }
     else if ($parameters['major_version'] === '7' || $parameters['major_version'] === '8') {
@@ -136,6 +175,7 @@ final class PreviewConfigGenerator {
       foreach ($parameters['additionals'] as $additional) {
         $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-update', $additional['shortname'], $additional['version']);
       }
+      $commands[] = 'cd stm && composer update --no-ansi --no-dev';
     }
     else if ($parameters['major_version'] === '8') {
       $commands[] = 'composer global require szeidler/composer-patches-cli:~1.0';
@@ -188,9 +228,7 @@ final class PreviewConfigGenerator {
   }
 
   private function getPatchingCommands(array $parameters) {
-    $commands = [
-      'echo "SIMPLYEST_STAGE_PATCHING"',
-    ];
+    $commands = [];
 
     if ($parameters['major_version'] === '8' || $parameters['major_version'] === '9') {
       $is_core = $parameters['project'] === 'drupal';
@@ -222,12 +260,7 @@ final class PreviewConfigGenerator {
   }
 
   private function getInstallingCommands(array $parameters) {
-    $commands = [
-      // @todo this order should be flip flopped; it's this way for keeping the
-      //   tests green during refactor.
-      'cd "${DOCROOT}" && chmod -R 777 sites/default',
-      'echo "SIMPLYEST_STAGE_INSTALLING"',
-    ];
+    $commands = [];
     if ($parameters['perform_install'] === FALSE) {
       return $commands;
     }

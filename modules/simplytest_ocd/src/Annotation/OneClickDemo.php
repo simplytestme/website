@@ -5,13 +5,13 @@ namespace Drupal\simplytest_ocd\Annotation;
 use Drupal\Component\Annotation\Plugin;
 
 /**
- * Defines a simplytest_ocd annotation object.
+ * Defines a OneClickDemo annotation object.
  *
  * @see plugin_api
  *
  * @Annotation
  */
-class SimplyTestOCD extends Plugin {
+class OneClickDemo extends Plugin {
 
   /**
    * The plugin ID.
@@ -30,17 +30,10 @@ class SimplyTestOCD extends Plugin {
   public $title;
 
   /**
-   * The id for ocd buttons.
+   * The base Tugboat preview name.
    *
    * @var string
    */
-  public $ocd_id;
-
-  /**
-   * The theme_key for yaml.
-   *
-   * @var string
-   */
-  public $theme_key;
+  public $base_preview_name;
 
 }

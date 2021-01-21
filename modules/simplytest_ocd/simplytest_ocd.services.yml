@@ -1,4 +1,4 @@
 services:
-  plugin.manager.simplytest_ocd:
-    class: Drupal\simplytest_ocd\SimplyTestOCDPluginManager
+  plugin.manager.oneclickdemo:
+    class: Drupal\simplytest_ocd\OneClickDemoPluginManager
     parent: default_plugin_manager
