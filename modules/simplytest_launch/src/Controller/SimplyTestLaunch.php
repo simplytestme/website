@@ -8,6 +8,7 @@ use Drupal\Core\Render\Markup;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\TypedData\TypedDataManagerInterface;
 use Drupal\Core\Url;
+use Drupal\simplytest_launch\Exception\UnprocessableHttpEntityException;
 use Drupal\simplytest_launch\TypedData\InstanceLaunchDefinition;
 use Drupal\simplytest_projects\SimplytestProjectFetcher;
 use Drupal\simplytest_tugboat\InstanceManagerInterface;
@@ -15,7 +16,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
-use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 
 /**
@@ -184,12 +184,9 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
     }
     $constraints = $definition->validate();
     if ($constraints->count() > 0) {
-      $messages = array_map(static function (ConstraintViolationInterface $violation) {
-        return sprintf("%s: %s", $violation->getPropertyPath(), $violation->getMessage());
-      }, \iterator_to_array($constraints));
-      throw new UnprocessableEntityHttpException(Json::encode([
-        'errors' => $messages,
-      ]));
+      $exception = new UnprocessableHttpEntityException();
+      $exception->setViolations($constraints);
+      throw $exception;
     }
 
     // @todo convert these following checks into constraints.

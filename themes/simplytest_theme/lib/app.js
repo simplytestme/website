@@ -159,11 +159,11 @@ function AdvancedOptions() {
 }
 
 function Launcher() {
+  const [errors, setErrors] = useState([]);
   const { canLaunch, getLaunchPayload, setMainProject } = useLauncher();
   function onSubmit(e) {
     e.preventDefault();
     const payload = JSON.stringify(getLaunchPayload());
-    console.log(payload)
     fetch(`/launch-project`, {
       method: 'POST',
       body: payload,
@@ -179,23 +179,23 @@ function Launcher() {
             if (res.ok) {
               window.location.href = json.progress
             } else {
-              console.log(json);
-              alert('There was an error, check the console.')
+              setErrors(json.errors);
             }
           })
           .catch(error => {
-            console.log(err)
-            alert('There was an error, check the console.')
+            setErrors([`${error.name}: ${error.message}`]);
           })
       })
       .catch(error => {
-        console.log(err)
-        alert('There was an error, check the console.')
+        setErrors([`${error.name}: ${error.message}`]);
       })
   }
 
   return (
     <div className="bg-gradient-to-r from-flat-blue to-sky-blue py-5">
+      {errors.map((error, i) => {
+        return <div key={i} className="container max-w-screen-lg mx-auto px-4 py-2 mb-4 bg-red-600 text-red-100">{error}</div>
+      })}
       <form className="flex flex-col mb-10 max-w-screen-lg container mx-auto" onSubmit={onSubmit}>
         <div className="flex flex-row flex-grow items-center">
           <ProjectSelection onChange={setMainProject} />

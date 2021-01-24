@@ -42,7 +42,6 @@ function OneClickDemos() {
       })
   }
 
-  console.log(demos)
   return (
     <fieldset className="mt-4 border shadow-md p-4 bg-white">
       <summary className="font-medium text-xl">One Click Demos</summary>

@@ -27,8 +27,7 @@ final class InstanceLaunchDefinition extends ComplexDataDefinitionBase {
       // @todo add a custom constraint validating a legit version.
       ->setLabel(new TranslatableMarkup('Drupal version'))
       ->addConstraint('NotBlank')
-      ->addConstraint('PrimitiveType')
-      ->setRequired(TRUE);
+      ->addConstraint('PrimitiveType');
     $properties['installProfile'] = DataDefinition::create('string')
       ->setLabel(new TranslatableMarkup('Install profile'))
       ->addConstraint('NotBlank')

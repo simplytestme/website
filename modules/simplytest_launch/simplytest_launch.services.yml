@@ -1,0 +1,5 @@
+services:
+  exception.unprocessable_http_json:
+    class: Drupal\simplytest_launch\EventSubscriber\UnprocessableHttpExceptionSubscriber
+    tags:
+      - { name: event_subscriber }
