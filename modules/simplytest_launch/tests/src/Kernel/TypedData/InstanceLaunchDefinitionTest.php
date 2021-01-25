@@ -15,10 +15,19 @@ final class InstanceLaunchDefinitionTest extends KernelTestBase {
 
   protected static $modules = [
     'tugboat',
+    'simplytest_ocd',
     'simplytest_tugboat',
     'simplytest_projects',
     'simplytest_launch',
   ];
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function setUp(): void {
+    parent::setUp();
+    $this->installConfig(['simplytest_launch']);
+  }
 
   /**
    * @dataProvider instanceLaunchData
@@ -156,6 +165,26 @@ final class InstanceLaunchDefinitionTest extends KernelTestBase {
           'patches' => [
             'https://example.com/foo/bar.patch',
             'https://example.com/baz/dazzle.patch',
+          ],
+        ],
+        'drupalVersion' => '9.1.0',
+        'installProfile' => 'umami',
+        'manualInstall' => '0',
+      ],
+      [
+        'project.patches.0: Patches must only originate from a Drupal.org domain.',
+      ]
+    ];
+    yield [
+      [
+        'project' => [
+          'shortname' => 'token',
+          'type' => 'module',
+          'sandbox' => false,
+          'version' => '8.x-1.9',
+          'patches' => [
+            'https://www.drupal.org/foo/bar.patch',
+            'https://git.drupalcode.org/baz/dazzle.patch',
           ],
         ],
         'drupalVersion' => '9.1.0',

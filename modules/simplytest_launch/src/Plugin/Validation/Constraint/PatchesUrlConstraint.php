@@ -26,11 +26,4 @@ final class PatchesUrlConstraint extends Url {
     parent::__construct($options);
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function validatedBy() {
-    return UrlValidator::class;
-  }
-
 }
