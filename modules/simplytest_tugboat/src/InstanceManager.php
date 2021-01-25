@@ -169,6 +169,7 @@ class InstanceManager implements InstanceManagerInterface {
     // Send parameters.
     $parameters  = [
       'perform_install' => !$submission['manualInstall'],
+      'install_profile' => $submission['installProfile'],
       // @todo why aren't we using $submission['drupalVersion']? security?
       'drupal_core_version' => $core_release,
       // @todo we have $submission['project']['type] but it is human-readable not machine name.

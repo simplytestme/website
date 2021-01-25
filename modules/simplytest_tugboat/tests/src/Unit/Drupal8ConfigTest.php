@@ -21,6 +21,7 @@ final class Drupal8ConfigTest extends TugboatConfigTestBase {
     yield [
       [
         'perform_install' => TRUE,
+        'install_profile' => 'standard',
         'drupal_core_version' => '8.9.12',
         'project_type' => 'Module',
         'project_version' => '8.x-1.9',
@@ -67,6 +68,7 @@ final class Drupal8ConfigTest extends TugboatConfigTestBase {
     yield [
       [
         'perform_install' => TRUE,
+        'install_profile' => 'standard',
         'drupal_core_version' => '8.9.12',
         'project_type' => 'Module',
         'project_version' => '8.x-1.9',
@@ -119,6 +121,7 @@ final class Drupal8ConfigTest extends TugboatConfigTestBase {
     yield [
       [
         'perform_install' => TRUE,
+        'install_profile' => 'standard',
         'drupal_core_version' => '8.9.12',
         'project_type' => 'Distribution',
         'project_version' => '8.x-2.0-alpha15',
@@ -164,6 +167,7 @@ final class Drupal8ConfigTest extends TugboatConfigTestBase {
     yield [
       [
         'perform_install' => FALSE,
+        'install_profile' => 'standard',
         'drupal_core_version' => '8.9.12',
         'project_type' => 'Module',
         'project_version' => '8.x-1.9',

@@ -267,8 +267,7 @@ final class PreviewConfigGenerator {
 
     $is_core = $parameters['project'] === 'drupal';
     $is_distro = strtolower($parameters['project_type']) === 'distribution';
-    // @todo read install profile from parameters.
-    $install_profile = 'standard';
+    $install_profile = $parameters['install_profile'];
     if ($is_distro) {
       $install_profile = $parameters['project'];
     }

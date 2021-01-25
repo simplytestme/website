@@ -21,6 +21,7 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
     yield [
       [
         'perform_install' => TRUE,
+        'install_profile' => 'standard',
         'drupal_core_version' => '7.77',
         'project_type' => 'Module',
         'project_version' => '7.x-1.0',
@@ -62,6 +63,7 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
     yield [
       [
         'perform_install' => TRUE,
+        'install_profile' => 'standard',
         'drupal_core_version' => '7.77',
         'project_type' => 'Module',
         'project_version' => '7.x-1.0',
@@ -108,6 +110,7 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
     yield [
       [
         'perform_install' => TRUE,
+        'install_profile' => 'standard',
         'drupal_core_version' => '7.77',
         'project_type' => 'Distribution',
         'project_version' => '7.x-1.78',
@@ -148,6 +151,7 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
     yield [
       [
         'perform_install' => FALSE,
+        'install_profile' => 'standard',
         'drupal_core_version' => '7.77',
         'project_type' => 'Module',
         'project_version' => '7.x-1.0',
