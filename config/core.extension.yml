@@ -21,8 +21,6 @@ module:
   simplytest_import: 0
   simplytest_launch: 0
   simplytest_ocd: 0
-  simplytest_ocd_commerce: 0
-  simplytest_ocd_umami: 0
   simplytest_projects: 0
   simplytest_tugboat: 0
   system: 0

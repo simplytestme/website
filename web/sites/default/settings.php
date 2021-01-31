@@ -74,14 +74,16 @@ if (isset($_ENV['REDIS_HOST']) && extension_loaded('redis')) {
   }
 }
 
-$databases['default']['default'] = [
-  'driver' => 'mysql',
-  'database' => $_ENV['DRUPAL_DATABASE_NAME'],
-  'username' => $_ENV['DRUPAL_DATABASE_USERNAME'],
-  'password' => $_ENV['DRUPAL_DATABASE_PASSWORD'],
-  'host' => $_ENV['DRUPAL_DATABASE_HOST'],
-  'port' => $_ENV['DRUPAL_DATABASE_PORT'],
-];
+if (!empty($_ENV['DRUPAL_DATABASE_HOST'])) {
+  $databases['default']['default'] = [
+    'driver' => 'mysql',
+    'database' => $_ENV['DRUPAL_DATABASE_NAME'],
+    'username' => $_ENV['DRUPAL_DATABASE_USERNAME'],
+    'password' => $_ENV['DRUPAL_DATABASE_PASSWORD'],
+    'host' => $_ENV['DRUPAL_DATABASE_HOST'],
+    'port' => $_ENV['DRUPAL_DATABASE_PORT'],
+  ];
+}
 
 // Reverse proxy on App Platform.
 // Stolen from trusted_reverse_proxy. We should get this in core...
