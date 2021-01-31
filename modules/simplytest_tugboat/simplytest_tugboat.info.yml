@@ -2,8 +2,7 @@ name: SimplyTest Tugboat
 type: module
 description: Submits instances to Tugboat QA
 package: Simplytest
-core: 8.x
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^9
 dependencies:
   - simplytest:simplytest_projects
   - simplytest:simplytest_ocd

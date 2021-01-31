@@ -1,8 +1,7 @@
 name: Simplytest
 type: profile
 description: Installation profile for simplytest.me.
-core: 8.x
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^9
 
 distribution:
   name: Simplytest
