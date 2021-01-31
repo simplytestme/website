@@ -10,10 +10,10 @@ simplytest_projects.projects:
   defaults:
     _controller: '\Drupal\simplytest_projects\Controller\SimplyTestProjects::autocompleteProjects'
   requirements:
-    _permission: 'submit simplytest requests'
+    _access: 'TRUE'
 simplytest_projects.versions:
   path: 'simplytest/project/{project}/versions'
   defaults:
     _controller: '\Drupal\simplytest_projects\Controller\SimplyTestProjects::projectVersions'
   requirements:
-    _permission: 'submit simplytest requests'
+    _access: 'TRUE'

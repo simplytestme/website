@@ -4,7 +4,7 @@ simplytest_tugboat.progress:
     _title: 'Progress indicator page for a specific submission'
     _controller: '\Drupal\simplytest_tugboat\Controller\SimplytestTugboatController::progress'
   requirements:
-    _permission: 'submit simplytest requests'
+    _access: 'TRUE'
 
 simplytest_tugboat.state:
   path: '/tugboat/status/{instance_id}/{job_id}'
@@ -12,5 +12,5 @@ simplytest_tugboat.state:
     _title: 'New JSON output callback for current instance status'
     _controller: '\Drupal\simplytest_tugboat\Controller\SimplytestTugboatController::instanceState'
   requirements:
-    _permission: 'submit simplytest requests'
+    _access: 'TRUE'
     _format: 'json'

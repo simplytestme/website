@@ -1,6 +1,3 @@
 administer simplytest projects:
   title: 'Administer SimplyTest Projects'
   restrict access: true
-submit simplytest requests:
-  title: 'Submit SimplyTest Requests'
-  restrict access: true
