@@ -82,7 +82,7 @@ jobs:
       - name: Run php built-in server
         run: php -S 127.0.0.1:8080 -t web &
       - name: PHPUnit
-        run: php vendor/bin/phpunit web/profiles/simplytest
+        run: php vendor/bin/phpunit web/profiles/contrib/simplytest
         env:
           SYMFONY_DEPRECATIONS_HELPER: weak
           SIMPLETEST_DB: mysql://root:@127.0.0.1:${{ job.services.mysql.ports[3306] }}/db
