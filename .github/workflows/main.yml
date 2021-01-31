@@ -44,13 +44,7 @@ jobs:
       - name: Install dependencies
         run: composer update
       - name: Install Simplytest
-        env:
-          DRUPAL_DATABASE_NAME: db
-          DRUPAL_DATABASE_USERNAME: db
-          DRUPAL_DATABASE_PASSWORD: db
-          DRUPAL_DATABASE_HOST: db
-          DRUPAL_DATABASE_PORT: 3306
-        run: php vendor/bin/drush site:install simplytest --account-pass=admin --yes
+        run: php vendor/bin/drush site:install simplytest --account-pass=admin --db-url=mysql://root:@127.0.0.1:${{ job.services.mysql.ports[3306] }}/db --yes
   phpunit:
     runs-on: ${{ matrix.os }}
     strategy:
