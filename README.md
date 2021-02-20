@@ -10,10 +10,17 @@ Clone this repo and run `composer install`.
 
 This will install all dependencies, including Drupal core and the Simplytest distribution profile.
 
+### DDEV
 The run the following command to install the site locally:
 
 ```
 ddev si
+```
+
+### Lando
+The run the following command to install the site locally:
+```
+lando drush si simplytest --existing-config --account-pass=admin --yes
 ```
 
 ## Tests
