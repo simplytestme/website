@@ -33,6 +33,9 @@ tooling:
     service: appserver
     env:
       DRUSH_OPTIONS_URI: "https://simplytest-me.lndo.site/"
+  compile:
+    service: nodejs
+    cmd: cd $LANDO_MOUNT/web/profiles/contrib/simplytest/themes/simplytest_theme && npm run build
   gulp:
     service: nodejs
   node:
