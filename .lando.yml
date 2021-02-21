@@ -29,6 +29,10 @@ services:
     type: phpmyadmin
 
 tooling:
+  drush:
+    service: appserver
+    env:
+      DRUSH_OPTIONS_URI: "https://simplytest-me.lndo.site/"
   gulp:
     service: nodejs
   node:
