@@ -26,4 +26,6 @@ if (getenv('LANDO_INFO')) {
     'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
     'driver' => 'mysql',
   ];
+
+  $settings['hash_salt'] = 'mYFN2M9k6xljq3SUDINzXTOmR0nT210j0FEjClbsfl3empeU_lIvJApGK2tv3fcFWyuHSZNUPQ';
 }
