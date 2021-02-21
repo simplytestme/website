@@ -18,7 +18,7 @@ services:
       - cd $LANDO_MOUNT && composer install --no-scripts
 
   nodejs:
-    type: node:10
+    type: node:14
     globals:
       gulp-cli: latest
     run:
