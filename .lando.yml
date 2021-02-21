@@ -23,7 +23,7 @@ services:
       gulp-cli: latest
     run:
       - cd $LANDO_MOUNT/web/profiles/contrib/simplytest/themes/simplytest_theme && npm install
-      - cd $LANDO_MOUNT/web/profiles/contrib/simplytest/themes/simplytest_theme && gulp build
+      - cd $LANDO_MOUNT/web/profiles/contrib/simplytest/themes/simplytest_theme && npm run build
 
   phpmyadmin:
     type: phpmyadmin
