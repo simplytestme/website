@@ -15,7 +15,7 @@ events:
 services:
   appserver:
     run:
-      - cd $LANDO_MOUNT && composer install
+      - cd $LANDO_MOUNT && composer install --no-scripts
 
   nodejs:
     type: node:10
