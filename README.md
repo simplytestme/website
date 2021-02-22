@@ -5,7 +5,7 @@ This is a Composer project for setting up and running Simplytest for develoment.
 For convenience, this project is configured to use either DDev or Lando for
 local development. You can use any local development environment you prefer.
 
-## Installation with DDev
+## Installation with DDEV
 
 Clone this repo and run `composer install`.
 
