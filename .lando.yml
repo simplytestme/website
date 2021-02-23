@@ -53,7 +53,7 @@ tooling:
     cmd: "php vendor/sensiolabs/security-checker/security-checker security:check composer.lock"
   si:
     service: appserver
-    cmd: $LANDO_MOUNT/.ddev/commands/web/si
+    cmd: drush si simplytest --existing-config --account-pass=admin --yes
     env:
       DRUSH_OPTIONS_URI: "https://simplytest-me.lndo.site/"
 
