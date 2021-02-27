@@ -19,8 +19,6 @@ services:
 
   nodejs:
     type: node:14
-    globals:
-      gulp-cli: latest
     run:
       - cd $LANDO_MOUNT/web/profiles/contrib/simplytest/themes/simplytest_theme && npm install
       - cd $LANDO_MOUNT/web/profiles/contrib/simplytest/themes/simplytest_theme && npm run build
@@ -36,8 +34,6 @@ tooling:
   compile:
     service: nodejs
     cmd: cd $LANDO_MOUNT/web/profiles/contrib/simplytest/themes/simplytest_theme && npm run build
-  gulp:
-    service: nodejs
   node:
     service: nodejs
   npm:
