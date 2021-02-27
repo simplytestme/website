@@ -23,9 +23,6 @@ services:
       - cd $LANDO_MOUNT/web/profiles/contrib/simplytest/themes/simplytest_theme && npm install
       - cd $LANDO_MOUNT/web/profiles/contrib/simplytest/themes/simplytest_theme && npm run build
 
-  phpmyadmin:
-    type: phpmyadmin
-
 tooling:
   drush:
     service: appserver
