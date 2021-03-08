@@ -17,3 +17,10 @@ simplytest_projects.versions:
     _controller: '\Drupal\simplytest_projects\Controller\SimplyTestProjects::projectVersions'
   requirements:
     _access: 'TRUE'
+simplytest_projects.core_versions:
+  path: 'simplytest/core/versions/{major_version}'
+  defaults:
+    _controller: '\Drupal\simplytest_projects\Controller\SimplyTestProjects::coreVersions'
+  requirements:
+    _access: 'TRUE'
+    _format: 'json'

@@ -1,0 +1,79 @@
+<?php declare(strict_types=1);
+
+/**
+ * @file
+ * Install, update and uninstall functions for the simplyest_projects module.
+ */
+
+use Drupal\simplytest_projects\CoreVersionManager;
+
+/**
+ * Implements hook_schema().
+ */
+function simplytest_projects_schema() {
+  $schema = [];
+  $schema[CoreVersionManager::TABLE_NAME] = [
+    'description' => 'Cache of Drupal core releases',
+    'fields' => [
+      'version' => [
+        'description' => 'Display label of the release',
+        'type' => 'varchar_ascii',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+      'major' => [
+        'description' => 'Major version',
+        'type' => 'varchar_ascii',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+      'minor' => [
+        'description' => 'Minor versions',
+        'type' => 'varchar_ascii',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+      'patch' => [
+        'description' => 'Patch version',
+        'type' => 'varchar_ascii',
+        'length' => 255,
+        'not null' => FALSE,
+      ],
+      'extra' => [
+        'description' => 'Extra version identifier',
+        'type' => 'varchar_ascii',
+        'length' => 255,
+        'not null' => FALSE,
+      ],
+      'vcs_label' => [
+        'description' => 'Git branch or tag',
+        'type' => 'varchar_ascii',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+      'insecure' => [
+        'description' => 'Boolean indicating whether release is insecure.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'size' => 'tiny',
+      ],
+    ],
+    'primary key' => ['version'],
+    'indexes' => [
+      'major_version' => ['major', 'insecure'],
+    ],
+  ];
+  return $schema;
+}
+
+/**
+ * Installs the `simplytest_core_versions` table.
+ */
+function simplytest_projects_update_9001() {
+  $database = \Drupal::database();
+  $db_schema = $database->schema();
+  $our_schema = simplytest_projects_schema();
+  $db_schema->createTable(CoreVersionManager::TABLE_NAME, $our_schema[CoreVersionManager::TABLE_NAME]);
+}

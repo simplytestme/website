@@ -1,0 +1,6 @@
+services:
+  simplytest_projects.commands:
+    class: Drupal\simplytest_projects\Commands\SimplytestProjectsCommands
+    arguments: ['@simplytest_projects.core_version_manager']
+    tags:
+      - { name: drush.command }

@@ -54,19 +54,17 @@ function InstallationOptions() {
 function DrupalCoreVersionSelector() {
   const [drupalVersions, setDrupalVersions] = useState([]);
   const { selectedVersion, drupalVersion, setDrupalVersion } = useLauncher();
-  // @todo leveraged cached core releases in SM; but same major version detection.
-  const apiUrl = 'https://www.drupal.org/api-d7/node.json?type=project_release&field_release_project=3060&limit=100&sort=field_release_version_minor&direction=desc&field_release_version_major=';
   useEffect(() => {
     let drupalMajor = '9';
     if (selectedVersion) {
       if (selectedVersion.indexOf('.x-') === 1) {
         drupalMajor = selectedVersion[0]
       }
-      fetch(apiUrl + drupalMajor)
+      fetch(`/simplytest/core/versions/${drupalMajor}`)
         .then(res => res.json())
         .then(json => {
-          setDrupalVersions(json.list.map(release => release.field_release_version))
-          setDrupalVersion(json.list[0].field_release_version);
+          setDrupalVersions(json.list.map(release => release.version))
+          setDrupalVersion(json.list[1].version);
         })
     }
   }, [selectedVersion])
