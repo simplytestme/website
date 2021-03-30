@@ -122,58 +122,15 @@ class InstanceManager implements InstanceManagerInterface {
    * @todo decide if data types should be refactored into here.
    */
   public function launchInstance($submission) {
-    // Get relevant Drupal core version.
-    $core_versions = $this->projectFetcher->fetchVersions('drupal');
-    usort($core_versions['tags'], 'version_compare');
-
-    // Set a default project and version, if none exist.
-    if (empty($submission['project'])) {
-      $submission['project'] = [
-        'shortname' => 'drupal',
-        'version' => end($core_versions['tags'])
-      ];
-    }
     $project_version = $submission['project']['version'];
-    // Let's generate contents of the .tugboat/config.yml file.
-    // @todo needs to handle semver.
-    if (strpos($submission['project']['version'], '.x-') === 1) {
-      $major_version = $submission['project']['version'][0];
-      [, $project_version] = explode('-', $submission['project']['version'], 2);
-    }
-    // Default to D9 for semantic versions.
-    elseif (is_numeric($submission['project']['version'])) {
-      $major_version = '9';
-    }
-    // Who knows how we got here, default to 9.
-    else {
-      $major_version = '9';
-    }
-
-    // Check for dev release for 8 only (composer).
-    if ($submission['project']['shortname'] !== 'drupal' && substr($project_version, -1) == 'x' && $major_version >= '7') {
-      $project_version .= '-dev';
-    }
-
-    $core_version_candidates = array_filter($core_versions['tags'], static function($tag) use ($major_version) {
-      return $tag[0] === $major_version;
-    });
-
-    // Get the latest.
-    $core_release = end($core_version_candidates);
-
-    // Clean it up.
-    if (substr($core_release, -3) === '^{}') {
-      $core_release = substr($core_release, 0, -3);
-    }
+    $major_version = $submission['drupalVersion'][0];
 
     // Send parameters.
     $parameters  = [
       'perform_install' => !$submission['manualInstall'],
       'install_profile' => $submission['installProfile'],
-      // @todo why aren't we using $submission['drupalVersion']? security?
-      'drupal_core_version' => $core_release,
-      // @todo we have $submission['project']['type] but it is human-readable not machine name.
-      'project_type' => $this->projectFetcher->fetchProject($submission['project']['shortname'])['type'],
+      'drupal_core_version' => $submission['drupalVersion'],
+      'project_type' => $submission['project']['type'],
       'project_version' => $project_version,
       'project' => $submission['project']['shortname'],
       'patches' => array_filter($submission['project']['patches'] ?? []),
@@ -190,17 +147,14 @@ class InstanceManager implements InstanceManagerInterface {
     // @todo move into its own method or OCD controller directly?
     // Check for one click demos.
     if ($this->moduleHandler->moduleExists('simplytest_ocd') && !empty($submission['oneclickdemo'])) {
+      $core_version_manager = \Drupal::getContainer()->get('simplytest_projects.core_version_manager');
+      $core_versions = $core_version_manager->getVersions(9);
       // Temporarily set the major version to 8.x tags only.
-      usort($core_versions['tags'], 'version_compare');
+      usort($core_versions, 'version_compare');
       while ($core_release[0] == '9' && !empty($core_release)){
-        $core_release = array_pop($core_versions['tags']);
+        $core_release = array_pop($core_versions);
       }
       $parameters['drupal_core_version'] = $core_release;
-
-      // Clean it up.
-      if (substr($parameters['drupal_core_version'], -3) === '^{}') {
-        $parameters['drupal_core_version'] = substr($parameters['drupal_core_version'], 0, -3);
-      }
 
       // Run OCD specific logic.
       $ocd_manager = \Drupal::service('plugin.manager.oneclickdemo');

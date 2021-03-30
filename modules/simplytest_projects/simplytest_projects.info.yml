@@ -3,3 +3,5 @@ description: Entity for drupal projects, and fetcher for retreiving project meta
 type: module
 package: Simplytest
 core_version_requirement: ^9
+dependencies:
+  - drupal:update

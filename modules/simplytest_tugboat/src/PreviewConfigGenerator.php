@@ -139,9 +139,8 @@ final class PreviewConfigGenerator {
       // @todo drupal/recommended-project minimum stability is now stable
       //    add composer config minimum-stability dev and prefer-stable true
       $commands[] = sprintf('composer -n create-project drupal/recommended-project:%s stm --no-install', $parameters['drupal_core_version']);
-      $commands[] = sprintf('cd stm && composer require --no-update drupal/core-recommended:%s', $parameters['drupal_core_version']);
-      $commands[] = sprintf('cd stm && composer require --no-update drupal/core-composer-scaffold:%s', $parameters['drupal_core_version']);
-      $commands[] = 'cd stm && composer require --dev --no-update drupal/dev-dependencies:dev-default';
+      $commands[] = sprintf('cd stm && composer require --dev --no-update drupal/core-dev:%s', $parameters['drupal_core_version']);
+      $commands[] = 'cd stm && composer required --dev phpspec/prophecy-phpunit:^2';
       $commands[] = 'cd stm && composer require --no-update drush/drush:^10.0';
       $commands[] = 'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"';
     }

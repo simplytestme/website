@@ -16,6 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 
 /**
@@ -194,7 +195,9 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
     $version = $data['project']['version'];
 
     // Get available project versions.
-    $versions = $this->simplytestProjectFetcher->fetchVersions($project);
+    $versions = array_map(static function (\stdClass $release) {
+      return $release->version;
+    }, $this->simplytestProjectFetcher->fetchVersions($project));
 
     // Check whether the submitted project exists.
     if ($versions === FALSE) {
@@ -206,17 +209,9 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
       ]));
     }
 
-    // Check whether the selected has any available releases.
-    if (empty($versions['heads']) && empty($versions['tags'])) {
-      throw new UnprocessableEntityHttpException(Json::encode([
-        'errors' => [new TranslatableMarkup(
-          'The selected project %project has no available releases. (Release cache is cleared once an hour)',
-          ['%project' => $project]
-        )]
-      ]));
-    }
     // Check whether the selected version is a known tag or branch.
-    if (!in_array($version, $versions['tags']) && !in_array($version, $versions['heads'])) {
+    // @todo this should be in the data type constraint.
+    if (!in_array($version, $versions, TRUE)) {
       // Even if the selected version is no known tag or branch it's still
       // possible that it's not a version but a specific commit.
       throw new UnprocessableEntityHttpException(Json::encode([

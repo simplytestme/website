@@ -2,26 +2,30 @@ import { useLauncher } from '../context/launcher'
 import React, { useEffect, useState } from 'react'
 
 // @todo this might be better coupled within the ProjectAutocomplete component?
-function VersionSelector({ selectedProject, selectedVersion, setSelectedVersion }) {
-  const [versions, setVersions] = useState({
-    branches: [],
-    tags: [],
-  });
+function VersionSelector({ selectedProject, selectedVersion, setSelectedVersion, appliedCoreConstraint }) {
+  const [versions, setVersions] = useState([]);
   useEffect(() => {
     if (selectedProject) {
-      fetch(`/simplytest/project/${selectedProject.shortname}/versions`)
-        .then(res => res.json())
-        .then(json => {
-          setVersions(json);
-        });
+
+      if (appliedCoreConstraint) {
+        fetch(`/simplytest/project/${selectedProject.shortname}/compatibility/${appliedCoreConstraint}`)
+          .then(res => res.json())
+          .then(json => {
+            setVersions(json.list);
+          });
+      }
+      else {
+        fetch(`/simplytest/project/${selectedProject.shortname}/versions`)
+          .then(res => res.json())
+          .then(json => {
+            setVersions(json.list);
+          });
+      }
     }
   }, [selectedProject]);
   useEffect(() => {
-    if (versions.tags.length > 0) {
-      setSelectedVersion(versions.tags[0].tags[0]);
-    }
-    else if(versions.branches.length > 0) {
-      setSelectedVersion(versions.branches[0].branch)
+    if (versions.length > 0) {
+      setSelectedVersion(versions[0].version)
     }
   }, [versions])
   if (selectedProject === null) {
@@ -33,16 +37,11 @@ function VersionSelector({ selectedProject, selectedVersion, setSelectedVersion 
       <select className="text-xl font-sans border rounded-md shadow px-4 py-1 w-full" value={selectedVersion} onChange={(e) => {
         setSelectedVersion(e.target.value)
       }}>
-        {versions.tags.map(versionGroup => {
+        {versions.map(version => {
           return (
-            <optgroup label={versionGroup.grouping} key={versionGroup.grouping}>
-              {versionGroup.tags.map(version => <option value={version} key={version}>{version}</option>)}
-            </optgroup>
+            <option value={version.version} key={version.version}>{version.version}</option>
           )
         })}
-        <optgroup label={"Branches"}>
-          {versions.branches.map(version => <option value={version.branch} key={version.branch}>{version.branch}</option>)}
-        </optgroup>
       </select>
     </div>
   );

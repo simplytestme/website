@@ -2,6 +2,7 @@
 
 namespace Drupal\simplytest_projects;
 
+use Composer\Semver\Semver;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Database\Connection;
@@ -46,6 +47,28 @@ final class CoreVersionManager {
       ->orderBy('minor', 'DESC')
       ->orderBy('patch', 'DESC');
     return $query->execute()->fetchAll();
+  }
+
+  /**
+   * Get releases based on compatibility.
+   *
+   * @param string $constraint
+   *   The version constraint.
+   *
+   * @return array
+   *   The releases.
+   */
+  public function getWithCompatibility(string $constraint): array {
+    $query = $this->database->select(self::TABLE_NAME);
+    $query
+      ->fields(self::TABLE_NAME)
+      ->orderBy('major', 'DESC')
+      ->orderBy('minor', 'DESC')
+      ->orderBy('patch', 'DESC');
+    $versions = $query->execute()->fetchAll();
+    return array_values(array_filter($versions, static function (\stdClass $row) use ($constraint) {
+      return Semver::satisfies($row->version, $constraint);
+    }));
   }
 
   /**

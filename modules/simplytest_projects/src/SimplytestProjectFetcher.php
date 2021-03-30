@@ -45,6 +45,8 @@ class SimplytestProjectFetcher {
    */
   public $connection;
 
+  private $projectVersionManager;
+
   /**
    * SimplytestProjectFetcher constructor.
    *
@@ -59,13 +61,16 @@ class SimplytestProjectFetcher {
     LoggerChannelFactory $logger_factory,
     ConfigFactoryInterface $config_factory,
     EntityTypeManagerInterface $entity_type_manager,
-    Connection $connection)
+    Connection $connection,
+    ProjectVersionManager $project_version_manager
+  )
   {
     $this->httpClient = $http_client;
     $this->log = $logger_factory->get('simplytest_projects');
     $this->config = $config_factory->get('simplytest_projects.settings');
     $this->entityTypeManager = $entity_type_manager;
     $this->connection = $connection;
+    $this->projectVersionManager = $project_version_manager;
   }
 
   /**
@@ -199,6 +204,10 @@ class SimplytestProjectFetcher {
    *   - heads: Existing heads of the project.
    */
   public function fetchVersions($shortname, $force = FALSE) {
+    if (!$force) {
+      return $this->projectVersionManager->getAllReleases($shortname);
+    }
+
     // Check whether project is known in database.
     $project_ids = $this->entityTypeManager
       ->getStorage('simplytest_project')
@@ -212,66 +221,11 @@ class SimplytestProjectFetcher {
       return FALSE;
     }
 
-    if (!$force && $project->getTimestamp() > strtotime('-4 hour')) {
-      return $project->getVersions();
+    if ($project->getTimestamp() > strtotime('-4 hour')) {
+      return $this->projectVersionManager->getAllReleases($shortname);
     }
 
-    $result = shell_exec('git ls-remote --tags ' . escapeshellarg($project->getGitWebUrl()));
-
-    if (!empty($result) and strpos($result, 'refs/tags') === FALSE) {
-      $this->log->warning('Failed to fetch version data for %project (Fetched tags).', [
-        '%project' => $shortname,
-      ]);
-      return FALSE;
-    }
-
-    // Try to match out a list of tags of the raw HTML.
-    $lines = explode(PHP_EOL, $result);
-    $tags = [];
-
-    foreach ($lines as $line) {
-      $tag_line = explode('refs/tags/', $line);
-      if (!empty($tag_line[1])) {
-        $tags[] = $tag_line[1];
-      }
-    }
-
-    $result = shell_exec('git ls-remote --heads ' . escapeshellarg($project->getGitWebUrl()));
-
-    // Try to match out a list of heads of the raw HTML.
-    if (!empty($result) and strpos($result, 'refs/heads') === FALSE) {
-      $this->log->warning('Failed to fetch version data for %project (Requested heads).', [
-        '%project' => $shortname,
-      ]);
-      return FALSE;
-    }
-
-    $lines = explode("\n", $result);
-    $heads = array();
-    foreach ($lines as $line) {
-      $head_line = explode('refs/heads/', $line);
-      if (!empty($head_line[1])) {
-        $heads[] = $head_line[1];
-      }
-    }
-
-    // Blacklist filters.
-    $blacklisted_versions = $this->config->get('blacklisted_versions');
-    foreach ($blacklisted_versions as $blacklisted) {
-      foreach ($tags as $key => $tag) {
-        if (preg_match('!' . $blacklisted . '!', $tag)) {
-          unset($tags[$key]);
-        }
-      }
-      foreach ($heads as $key => $head) {
-        if (preg_match('!' . $blacklisted . '!', $head)) {
-          unset($heads[$key]);
-        }
-      }
-    }
-
-    // Now save the information about this project to database.
-    $project->setVersions($tags, $heads);
+    $this->projectVersionManager->updateData($shortname);
     $project->set('timestamp', \Drupal::time()->getRequestTime());
     $project->save();
 
@@ -279,7 +233,7 @@ class SimplytestProjectFetcher {
       '%project' => $shortname,
     ]);
 
-    return $project->getVersions();
+    return $this->projectVersionManager->getAllReleases($shortname);
   }
 
   /**

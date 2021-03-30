@@ -88,4 +88,16 @@ final class CoreVersionManagerTest extends KernelTestBase {
     ]];
   }
 
+  public function testGetWithCompatibility() {
+    $this->sut->updateData(7);
+    $this->sut->updateData(8);
+    $this->sut->updateData(9);
+
+    $this->assertCount(89, $this->sut->getWithCompatibility('7.x'));
+    $this->assertCount(0, $this->sut->getWithCompatibility('^10.0'));
+    $this->assertCount(32, $this->sut->getWithCompatibility('^9'));
+    $this->assertCount(14, $this->sut->getWithCompatibility('^8.9.1'));
+    $this->assertCount(200, $this->sut->getWithCompatibility('8.x'));
+  }
+
 }

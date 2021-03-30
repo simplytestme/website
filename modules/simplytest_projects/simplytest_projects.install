@@ -6,6 +6,7 @@
  */
 
 use Drupal\simplytest_projects\CoreVersionManager;
+use Drupal\simplytest_projects\ProjectVersionManager;
 
 /**
  * Implements hook_schema().
@@ -21,18 +22,21 @@ function simplytest_projects_schema() {
         'length' => 255,
         'not null' => TRUE,
       ],
+      // @todo convert to int for proper sorting.
       'major' => [
         'description' => 'Major version',
         'type' => 'varchar_ascii',
         'length' => 255,
         'not null' => TRUE,
       ],
+      // @todo convert to int for proper sorting.
       'minor' => [
         'description' => 'Minor versions',
         'type' => 'varchar_ascii',
         'length' => 255,
         'not null' => TRUE,
       ],
+      // @todo convert to int for proper sorting.
       'patch' => [
         'description' => 'Patch version',
         'type' => 'varchar_ascii',
@@ -65,6 +69,49 @@ function simplytest_projects_schema() {
       'major_version' => ['major', 'insecure'],
     ],
   ];
+  $schema[ProjectVersionManager::TABLE_NAME] = [
+    'description' => 'Project version data',
+    'fields' => [
+      'short_name' => [
+        'description' => 'The project short name',
+        'type' => 'varchar_ascii',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+      'version' => [
+        'description' => 'The version name',
+        'type' => 'varchar_ascii',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+      'tag' => [
+        'description' => 'The release VCS tag',
+        'type' => 'varchar_ascii',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+      'date' => [
+        'description' => 'The Unix timestamp when the release was created',
+        'type' => 'int',
+        'not null' => TRUE,
+      ],
+      'status' => [
+        'description' => 'Boolean indicating whether the release is published.',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => 0,
+        'size' => 'tiny',
+      ],
+      'core_compatibility' => [
+        'description' => 'Core compatibility constraint',
+        'type' => 'varchar_ascii',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+    ],
+    'primary key' => ['short_name', 'version'],
+  ];
+
   return $schema;
 }
 
@@ -76,4 +123,14 @@ function simplytest_projects_update_9001() {
   $db_schema = $database->schema();
   $our_schema = simplytest_projects_schema();
   $db_schema->createTable(CoreVersionManager::TABLE_NAME, $our_schema[CoreVersionManager::TABLE_NAME]);
+}
+
+/**
+ * Installs the `simplytest_project_versions` table.
+ */
+function simplytest_projects_update_9002() {
+  $database = \Drupal::database();
+  $db_schema = $database->schema();
+  $our_schema = simplytest_projects_schema();
+  $db_schema->createTable(ProjectVersionManager::TABLE_NAME, $our_schema[ProjectVersionManager::TABLE_NAME]);
 }

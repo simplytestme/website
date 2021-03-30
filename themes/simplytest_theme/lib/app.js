@@ -29,7 +29,7 @@ function InstallationOptions() {
           <option value="standard">Standard</option>
           <option value="minimal">Minimal</option>
           {/* @todo the following is only Core 8.x+ */}
-          {drupalVersion.indexOf('8.') === 0 ? [<option value="umami_demo">Umami Demo</option>] : null}
+          {drupalVersion.indexOf('8.') === 0 || drupalVersion.indexOf('9.0') === 0 ? [<option value="umami_demo">Umami Demo</option>] : null}
         </select>
       </div>
     )
@@ -53,21 +53,16 @@ function InstallationOptions() {
 
 function DrupalCoreVersionSelector() {
   const [drupalVersions, setDrupalVersions] = useState([]);
-  const { selectedVersion, drupalVersion, setDrupalVersion } = useLauncher();
+  const { selectedProject, selectedVersion, drupalVersion, setDrupalVersion } = useLauncher();
   useEffect(() => {
-    let drupalMajor = '9';
-    if (selectedVersion) {
-      if (selectedVersion.indexOf('.x-') === 1) {
-        drupalMajor = selectedVersion[0]
-      }
-      fetch(`/simplytest/core/versions/${drupalMajor}`)
-        .then(res => res.json())
-        .then(json => {
-          setDrupalVersions(json.list.map(release => release.version))
-          setDrupalVersion(json.list[1].version);
-        })
-    }
-  }, [selectedVersion])
+    fetch(`simplytest/core/compatible/${selectedProject.shortname}/${selectedVersion}`)
+      .then(res => res.json())
+      .then(json => {
+        console.log(json)
+        setDrupalVersions(json.list.map(release => release.version))
+        setDrupalVersion(json.list[1].version);
+      });
+  }, [selectedProject, selectedVersion])
 
   return (
     <div className="mb-2 flex items-center text-base">
@@ -80,7 +75,7 @@ function DrupalCoreVersionSelector() {
 }
 
 function AdditionalProjects() {
-  const { additionalProjects, setAdditionalProjects } = useLauncher();
+  const { additionalProjects, setAdditionalProjects, drupalVersion } = useLauncher();
 
   function addAdditionalProject(event) {
     setAdditionalProjects([...additionalProjects, {
@@ -102,7 +97,7 @@ function AdditionalProjects() {
       {additionalProjects.map((project, k) => (
         <div key={k} className="grid grid-cols-4 mb-4">
           <div className="col-span-3">
-            <ProjectSelection onChange={(project, version) => {
+            <ProjectSelection appliedCoreConstraint={drupalVersion} onChange={(project, version) => {
               // @todo the state management for ProjectSelection needs refactor
               // onChange is technically called with each render, and the
               // component has no idea if it has really changed or not and ends
@@ -115,7 +110,6 @@ function AdditionalProjects() {
                   patches: [],
                   ...project
                 }
-                debugger;
                 setAdditionalProjects(newProjects);
               }
             }} />

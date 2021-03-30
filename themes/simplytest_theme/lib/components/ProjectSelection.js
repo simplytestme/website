@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import ProjectAutocomplete from './ProjectAutocomplete'
 import VersionSelector from './VersionSelector'
 
-function ProjectSelection({ onChange }) {
+function ProjectSelection({ onChange, appliedCoreConstraint }) {
   const [project, setProject] = useState(null);
   const [version, setVersion] = useState('');
 
@@ -16,11 +16,12 @@ function ProjectSelection({ onChange }) {
   return (
     <div className="flex flex-row flex-grow">
       <ProjectAutocomplete setSelectedItem={setProject} />
-      <VersionSelector selectedProject={project} selectedVersion={version} setSelectedVersion={setVersion} />
+      <VersionSelector selectedProject={project} selectedVersion={version} setSelectedVersion={setVersion} appliedCoreConstraint={appliedCoreConstraint} />
     </div>
   )
 }
 ProjectSelection.propTypes = {
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  appliedCoreConstraint: PropTypes.string
 }
 export default ProjectSelection;
