@@ -79,6 +79,14 @@
 
   </main>
 
+  {% if page.sponsors %}
+    <div role="contentinfo" class = "sponsors__wrapper">
+      <div class = "sponsors">
+        {{ page.sponsors }}
+      </div>
+    </div>
+  {% endif %}
+
   {% if page.footer %}
     <footer role="contentinfo" class = "footer__wrapper">
       <div class = "footer">

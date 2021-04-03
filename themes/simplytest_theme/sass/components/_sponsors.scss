@@ -1,0 +1,34 @@
+.sponsors {
+  @include full-width;
+  @media all and (min-width: $xl) {
+    padding-left: 120px;
+  }
+  &__wrapper {
+    background-color: $chathams-blue;
+    padding: $gutter 0;
+  }
+  .region__sponsors {
+    .block {
+      margin: 0;
+    }
+    .views-row {
+      display: flex;
+      align-items: center;
+      @media all and (max-width: $xl) {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+      .views-col {
+        @media all and (max-width: $xl) {
+          width: 100% !important;
+          display: flex;
+          justify-content: center;
+          margin-bottom: $gutter;
+        }
+      }
+    }
+  }
+}

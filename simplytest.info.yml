@@ -10,6 +10,7 @@ install:
   - simplytest_projects
   - simplytest_launch
   - simplytest_import
+  - simplytest_sponsor
 
 dependencies:
   - block
@@ -25,6 +26,8 @@ dependencies:
   - toolbar
   - views
   - views_ui
+  - media
+  - media_library
 
 themes:
   - bartik
