@@ -2,13 +2,18 @@
   @include full-width;
 
   &__wrapper {
-    background-color: $greyish-brown;
+    background-color: $dark-blue;
+    ;
     color: $white;
     padding: $gutter 0;
   }
 
   .region__footer {
     @include flex-container;
+    justify-content: space-between;
+    @media all and (max-width: $sm) {
+      flex-direction: column;
+    }
   }
 
   .block {
@@ -29,11 +34,29 @@
     li {
       list-style: none;
       display: inline-block;
+      @media all and (max-width: $sm) {
+        width: 100%;
+      }
 
       a {
         color: $white;
         padding: 0 $gutter;
+        @media all and (max-width: $sm) {
+          padding: 0.3rem 0;
+          display: block;
+        }
+        &:first-child {
+          padding-left: 0;
+        }
       }
+    }
+  }
+  .block-poweredbydrupal {
+    a {
+      color: $dark-sky-blue;
+    }
+    @media all and (max-width: $sm) {
+      padding-top: $gutter;
     }
   }
 }
