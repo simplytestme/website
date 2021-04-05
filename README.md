@@ -2,7 +2,7 @@
 
 This is a Composer project for setting up and running Simplytest for develoment.
 
-It uses DDEV for local development, but is not a requirement.
+It uses DDEV or Lando for local development, but is not a requirement.
 
 ## Installation
 
