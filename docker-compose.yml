@@ -31,7 +31,7 @@ services:
     build:
       context: .
       dockerfile: lagoon/cli.dockerfile
-    image: &cli-image ${COMPOSE_PROJECT_NAME:-drupal9-example-simple}-cli # this image will be reused as `CLI_IMAGE` in subsequent Docker builds
+    image: &cli-image ${COMPOSE_PROJECT_NAME:-simplytestme}-cli # this image will be reused as `CLI_IMAGE` in subsequent Docker builds
     labels:
       # Lagoon Labels
       lagoon.type: cli-persistent
