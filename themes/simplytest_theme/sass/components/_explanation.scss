@@ -1,0 +1,62 @@
+.explanation__wrapper {
+  background-color: $light-blue;
+  padding: 20px 0;
+  .explanation_container {
+    @media all and (max-width: $xl) {
+      padding: 0 20px;
+    }
+    display: flex;
+    @media all and (max-width: $xl) {
+      flex-direction: column;
+    }
+    .explanation__first {
+      @media all and (max-width: $xl) {
+        margin-bottom: 40px;
+      }
+    }
+    .explanation__second {
+      padding-left: 96px;
+      @media all and (max-width: $xl) {
+        padding-left: 0;
+      }
+    }
+    & > div {
+      width: 50%;
+      @media all and (max-width: $xl) {
+        width: 100%;
+      }
+    }
+    .title {
+      color: $heading-blue;
+      font-size: 30px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 14px;
+    }
+    ol {
+      counter-reset: item;
+      margin-left: 0;
+      padding-left: 0;
+    }
+    li {
+      display: block;
+      margin-bottom: .5em;
+      margin-left: 2em;
+    }
+    li::before {
+      display: inline-block;
+      content: counter(item);
+      counter-increment: item;
+      width: 2em;
+      margin-left: -2em;
+      margin-right:4px;
+      background-color: $heading-blue;
+      color: white;
+      font-weight: bold;
+      padding: 3px 11px;
+      border-radius: 20px;
+    }
+  }
+}
