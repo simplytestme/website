@@ -8,9 +8,6 @@ regions:
   banner: Banner
   content: Main Content
   messages: Messages
-  triptych_first: First Triptych column
-  triptych_second: Second Triptych column
-  triptych_third: Third Triptych column
   sponsors: Sponsors
   footer: Footer
 

@@ -72,36 +72,7 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
     );
   }
 
-  public function configure(Request $request) {
-    $text = [
-      'problems' => [
-        'title' => new TranslatableMarkup('Encountered a problem?'),
-        'text' => new TranslatableMarkup('Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue.'),
-        'link' => [
-          '#type' => 'link',
-          '#title' => new TranslatableMarkup('Report a problem'),
-          '#url' => 'https://www.drupal.org/project/issues/simplytest',
-        ]
-      ],
-      'future' => [
-        'title' => new TranslatableMarkup('Future of Simplytest.me'),
-        'text' => new TranslatableMarkup('Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue.'),
-        'link' => [
-          '#type' => 'link',
-          '#title' => new TranslatableMarkup('Join the conversation'),
-          '#url' => 'https://www.drupal.org/project/issues/simplytest',
-        ]
-      ],
-      'spread' => [
-        'title' => new TranslatableMarkup('Spread the word'),
-        'text' => new TranslatableMarkup('Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue.'),
-        'link' => [
-          '#type' => 'link',
-          '#title' => new TranslatableMarkup('Follow'),
-          '#url' => 'https://www.drupal.org/project/issues/simplytest',
-        ]
-      ],
-    ];
+  public function configure(Request $request) { 
     $build = [
       'mount' => [
         '#markup' => Markup::create('<div class="simplytest-react-component" id="launcher_mount"></div>'),
@@ -115,24 +86,7 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
           ],
         ],
       ],
-      'triptych' => [
-        '#type' => 'container',
-        '#attributes' => [
-          'class' => 'grid grid-cols-1 md:grid-cols-3 gap-4 max-w-screen-lg container mx-auto pt-8',
-        ],
-      ]
     ];
-    foreach ($text as $key => $content) {
-      $build['triptych'][$key] = [
-        '#type' => 'inline_template',
-        '#template' => '<div class="">
-    <h2 class="block__title text-xl font-bold mb-2">{{title}}</h2>
-    <p class="mb-2">{{text}}</p>
-        <div><a class="text-blue-400" href="/">Report a problem</a></div>
-</div>',
-        '#context' => $content,
-      ];
-    }
     return $build;
   }
 

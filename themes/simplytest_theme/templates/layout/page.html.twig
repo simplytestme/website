@@ -72,14 +72,31 @@
       {{ page.messages }}
     </div>
 
-    {% if page.triptych_first or page.triptych_second or page.triptych_third %}
-      <section class = "grid grid-cols-1 md:grid-cols-3 gap-4">
-        {% if page.triptych_first  %}<div class = "triptych__first">{{ page.triptych_first }}</div>{% endif %}
-        {% if page.triptych_second %}<div class = "triptych__second">{{ page.triptych_second }}</div>{% endif %}
-        {% if page.triptych_third  %}<div class = "triptych__third">{{ page.triptych_third }}</div>{% endif %}
+    <div class="triptych">
+      <section class = "grid grid-cols-1 md:grid-cols-3 gap-4 max-w-screen-lg container mx-auto pt-8">
+        <div>
+          <h2 class="block__title text-xl font-bold mb-2">Encountered A Problem?</h2>
+          <p class="mb-2">
+            Please report any problems that you run into while using the service on drupal.org. Also general feedback or support requests are welcome.
+          </p>
+          <div class="cta-link"><a href="#"> Report a problem</a></div>
+        </div>
+        <div>
+          <h2 class="block__title text-xl font-bold mb-2">Future Of Simplytest.Me</h2>
+          <p class="mb-2">
+            Join the conversation about the future of this service on drupal.org
+          </p>
+          <div class="cta-link"><a href="#">Join the conversation</a></div>
+        </div>
+        <div>
+          <h2 class="block__title text-xl font-bold mb-2">Spread The Word</h2>
+          <p class="mb-2">
+            If you like the service please consider spreading the word and following me on twitter for updates about the project.
+          </p>
+          <div class="cta-link social-link"><a href="#">Follow</a></div>
+        </div>
       </section>
-
-    {% endif %}
+    </div>
 
   </main>
 
