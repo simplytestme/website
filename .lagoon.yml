@@ -1,0 +1,50 @@
+docker-compose-yaml: docker-compose.yml
+
+project: simplytestme-website
+
+tasks:
+#   pre-rollout:
+#     - run:
+#         name: drush sql-dump
+#         command: mkdir -p /app/web/sites/default/files/private/ && drush sql-dump --ordered-dump --gzip --result-file=/app/web/sites/default/files/private/pre-deploy-dump.sql.gz || true
+#         service: cli
+
+  post-rollout:
+    # Enable once config sync has been setup.
+    # - run:
+    #     name: drush cim
+    #     command: drush -y cim
+    #     service: cli
+    - run:
+        name: drush updb
+        command: drush -y updb
+        service: cli
+    - run:
+        name: drush cr
+        command: drush -y cr
+        service: cli
+
+
+
+environments:
+  main:
+    # routes:
+    cronjobs:
+      - name: drush cron
+        schedule: "*/15 * * * *"
+        command: drush cron
+        service: cli
+  staging:
+    # routes:
+    cronjobs:
+      - name: drush cron
+        schedule: "*/15 * * * *"
+        command: drush cron
+        service: cli
+  prod:
+    # routes:
+    cronjobs:
+      - name: drush cron
+        schedule: "*/15 * * * *"
+        command: drush cron
+        service: cli
