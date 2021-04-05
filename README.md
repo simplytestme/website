@@ -12,9 +12,15 @@ This will install all dependencies, including Drupal core and the Simplytest dis
 
 The run the following command to install the site locally:
 
+### DDEV install
+
 ```
 ddev si
 ```
+
+### Lando install
+
+TBD
 
 ## Tests
 
