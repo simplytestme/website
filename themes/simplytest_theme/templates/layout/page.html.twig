@@ -68,6 +68,10 @@
       {{ page.content }}
     </div>{# /.layout-content #}
 
+    <div role="contentinfo" class = "messages__wrapper">
+      {{ page.messages }}
+    </div>
+
     {% if page.triptych_first or page.triptych_second or page.triptych_third %}
       <section class = "grid grid-cols-1 md:grid-cols-3 gap-4">
         {% if page.triptych_first  %}<div class = "triptych__first">{{ page.triptych_first }}</div>{% endif %}

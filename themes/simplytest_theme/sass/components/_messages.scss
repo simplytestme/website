@@ -1,0 +1,43 @@
+.messages__wrapper {
+  .region__messages {
+    max-width: 1024px;
+    margin: 30px auto 20px auto;
+    min-height: 75px;
+    background-color: $warning-bg;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
+    padding: 13px 14px 12px;
+    .block-simplytestmessage {
+      display: flex;
+      align-items: center;
+      margin: 0 0 2px;
+      @media all and (max-width: $xl) {
+        align-items: flex-start;
+      }
+      .warning-img {
+        width: 50px;
+        height: 50px;
+        margin: 0 16px 0 0;
+        padding: 8px 9px 14px;
+        background-color: $yellow-tan;
+        border-radius: 50%;
+        .messages__icon {
+          max-width: 30px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: auto;
+        }
+      }
+      .warning-wrapper {
+        .messages__title {
+          margin: 0;
+          font-weight: bold;
+        }
+        .messages__body {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
+

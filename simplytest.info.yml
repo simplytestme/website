@@ -11,6 +11,7 @@ install:
   - simplytest_launch
   - simplytest_import
   - simplytest_sponsor
+  - simplytest_messages
 
 dependencies:
   - block
