@@ -14,7 +14,7 @@ function ProjectSelection({ onChange, appliedCoreConstraint }) {
   }, [project, version, onChange])
 
   return (
-    <div className="flex flex-row flex-grow">
+    <div className="flex flex-row flex-grow mobile-column-flex desktop-align-item-end">
       <ProjectAutocomplete setSelectedItem={setProject} />
       <VersionSelector selectedProject={project} selectedVersion={version} setSelectedVersion={setVersion} appliedCoreConstraint={appliedCoreConstraint} />
     </div>

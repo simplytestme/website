@@ -21,6 +21,7 @@ $browser-context: 16;
 
 //------- Colors -------
 $yellow-tan: #ffde65;
+$yellow-dark: #f5b723;
 $sky-blue: #5ccdff;
 $dark-sky-blue: #2da8df;
 $flat-blue: #3877af;
@@ -42,9 +43,9 @@ $color--highlight: $yellow-tan;
 
 
 //------- Typography -------
-@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,700');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap');
 
-$font-family: 'Nunito Sans', Arial, 'Helvetica Neue', Helvetica, sans-serif;
+$font-family: 'Open Sans', sans-serif;
 $base-font-size: rem(16px);
 
 $h1: rem(48px);

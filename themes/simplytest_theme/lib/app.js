@@ -184,15 +184,15 @@ function Launcher() {
   }
 
   return (
-    <div className="bg-gradient-to-r from-flat-blue to-sky-blue py-5">
+    <div className="bg-gradient-to-r from-flat-blue py-5">
       {errors.map((error, i) => {
         return <div key={i} className="container max-w-screen-lg mx-auto px-4 py-2 mb-4 bg-red-600 text-red-100">{error}</div>
       })}
-      <form className="flex flex-col mb-10 max-w-screen-lg container mx-auto" onSubmit={onSubmit}>
-        <div className="flex flex-row flex-grow items-center">
+      <form className="flex flex-col mb-10 max-w-screen-lg container mx-auto pl-130" onSubmit={onSubmit}>
+        <div className="flex flex-row flex-grow items-center mobile-column-flex desktop-align-item-end">
           <ProjectSelection onChange={setMainProject} />
           <button
-            className="px-4 py-1 text-xl border rounded-md shadow bg-white hover:bg-gray-50 cursor-pointer disabled:cursor-not-allowed"
+            className="px-4 py-1 text-xl border rounded-md shadow bg-white hover:bg-gray-50 cursor-pointer disabled:cursor-not-allowed bg-yellow-tan"
             disabled={!canLaunch}>
             Launch Sandbox
           </button>

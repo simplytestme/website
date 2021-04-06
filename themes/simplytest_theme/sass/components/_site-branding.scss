@@ -1,3 +1,6 @@
+.block-sitebranding {
+  margin: 0;
+}
 .site-branding {
   @include flex-container;
   color: $white;
@@ -8,6 +11,9 @@
     img {
       max-width: 120px;
       width: 100%;
+      @media all and (max-width: $xl) {
+        font-size: 80px;
+      }
     }
 
     @media all and (min-width: $xl) {
@@ -22,7 +28,12 @@
   &__name {
     font-weight: bold;
 
-    h1 {margin-bottom: 0;}
+    h1 {margin-bottom: 0;
+      font-size: 48px;
+      @media all and (max-width: $xl) {
+        font-size: 28px;
+      }
+    }
 
     a {
       color: $white;

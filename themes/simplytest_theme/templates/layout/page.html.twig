@@ -43,12 +43,15 @@
  * @see html.html.twig
  */
 #}
-<div class="layout-container font-sans">
+<div class="layout-container">
 
   <header role="banner" class = "header__wrapper" style = "background-image: url({{ header_bg_file }})">
-    <div class = "header__overlay ">
+    <div class = "bg-gradient-to-r from-flat-blue">
       <div class = "header">{{ page.banner }}</div>
     </div>
+    <div class="layout-content">
+      {{ page.content }}
+    </div>{# /.layout-content #}
   </header>
 
 
@@ -74,7 +77,7 @@
 
     {% if is_front %}
       <div class="explanation__wrapper">
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-screen-lg container mx-auto explanation_container">
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-screen-lg container mx-auto explanation_container pl-130">
           <div class = "explanation__first">
             <div class="title">
               What is this?
@@ -101,7 +104,7 @@
       </div>
 
       <div class="triptych">
-        <section class = "grid grid-cols-1 md:grid-cols-3 gap-4 max-w-screen-lg container mx-auto pt-8">
+        <section class = "grid grid-cols-1 md:grid-cols-3 gap-4 max-w-screen-lg container mx-auto pt-8 pl-130">
           <div>
             <h2 class="block__title text-xl font-bold mb-2">Encountered A Problem?</h2>
             <p class="mb-2">

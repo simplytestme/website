@@ -43,11 +43,11 @@ function OneClickDemos() {
   }
 
   return (
-    <fieldset className="mt-4 border shadow-md p-4 bg-white">
-      <summary className="font-medium text-xl">One Click Demos</summary>
-      <div className="grid md:grid-cols-4 gap-2 mt-2">
+    <fieldset className="mt-4">
+      <summary className="font-medium text-xl text-white">One Click Demos</summary>
+      <div className="flex md:grid-cols-2 gap-2 mt-2 mobile-column-flex">
         {demos.map(demo => (
-          <button key={demo.id} type="button" disabled={processing !== ''} className="p-3 text-left bg-dark-sky-blue border-flat-blue hover:bg-flat-blue hover:text-white rounded-sm shadow-sm flex flex-row items-center" onClick={event => {
+          <button key={demo.id} type="button" disabled={processing !== ''} className="p-3 hover:bg-flat-blue hover:text-white rounded-sm shadow-sm flex flex-row items-center demo-btn" onClick={event => {
             event.preventDefault()
             doLaunch(demo)
           }}>

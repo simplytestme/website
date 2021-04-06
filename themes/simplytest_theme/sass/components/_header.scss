@@ -1,12 +1,15 @@
 .header {
   // sass-lint:disable no-color-literals
   @include full-width;
-  padding-bottom: $section-margin;
+  padding-bottom: 0;
 
   &__wrapper {
     //min-height: 100px;
     background: no-repeat top center;
     background-size: cover;
+    .bg-gradient-to-r {
+      background-image: linear-gradient(to right, rgba(4,20,33,0.7), rgba(4,20,33,0.7));
+    }
   }
 
   &__overlay {
@@ -27,4 +30,66 @@
 .region__banner {
   max-width: $content-width;
   margin: 0 auto;
+}
+
+.pl-250 {
+  padding-left: 250px;
+}
+.pl-130 {
+  padding-left: 130px;
+  @media all and (max-width: $xl) {
+    padding-left: 0px;
+  }
+}
+
+.bg-yellow-tan {
+  background-color: $yellow-tan;
+  border: 1px solid $yellow-dark;
+  color: $greyish-brown;
+}
+
+.version-list {
+  min-width: 170px;
+  height: 38px;
+  background-color: $off-white;
+}
+
+.simplytest-react-component summary::marker {
+  color: transparent;
+}
+
+.demo-btn {
+  width: 100%;
+  background-color: $off-white;
+}
+
+.simplytest-react-component {
+  .bg-gradient-to-r {
+    @media all and (max-width: $xl) {
+      padding: 10px 15px;
+    }
+  }
+  .mobile-column-flex {
+    @media all and (max-width: $xl) {
+      flex-direction: column;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+    & > .relative {
+      @media all and (max-width: $xl) {
+        margin-bottom: 15px;
+      }
+    }
+  }
+  .evaluate-project.label {
+    font-size: 21px;
+    color: $white;
+    margin-bottom: 15px;
+    display: inline-block;
+  }
+  .desktop-align-item-end {
+    @media all and (min-width: $xl) {
+      align-items: flex-end;
+    }
+  }
 }

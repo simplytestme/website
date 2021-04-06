@@ -2,14 +2,18 @@
   .region__messages {
     max-width: 1024px;
     margin: 30px auto 20px auto;
-    min-height: 75px;
-    background-color: $warning-bg;
-    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
-    padding: 13px 14px 12px;
+    padding-left: 130px;
+    @media all and (max-width: $xl) {
+      padding: 0px 15px;
+    }
     .block-simplytestmessage {
       display: flex;
       align-items: center;
       margin: 0 0 2px;
+      min-height: 75px;
+      background-color: $warning-bg;
+      box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
+      padding: 13px 14px 12px;
       @media all and (max-width: $xl) {
         align-items: flex-start;
       }

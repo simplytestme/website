@@ -34,8 +34,8 @@ function ProjectAutocomplete({ setSelectedItem }) {
 
   return (
     <div className="flex-grow mr-2 relative">
-      <label {...getLabelProps()} className="sr-only">
-        Enter a project name
+      <label {...getLabelProps()} className="evaluate-project label">
+        Evaluate Drupal projects
       </label>
       <div {...getComboboxProps({
         className: "relative"

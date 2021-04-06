@@ -26,9 +26,8 @@ display:
     position: 0
     display_options:
       access:
-        type: perm
-        options:
-          perm: 'view media'
+        type: none
+        options: { }
       cache:
         type: tag
         options: {  }
