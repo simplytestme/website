@@ -8,7 +8,7 @@ $settings['config_sync_directory'] = '../config';
 $settings['class_loader_auto_detect'] = FALSE;
 
 // Private directory.
-$settings['file_private_path'] = '../private';
+$settings['file_private_path'] = 'sites/default/files/private';
 
 if (getenv('LAGOON_GIT_SHA')) {
   $settings['deployment_identifier'] = getenv('LAGOON_GIT_SHA');
