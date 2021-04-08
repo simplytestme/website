@@ -19,6 +19,7 @@
         }
     ],
     "require": {
+        "amazeeio/drupal_integrations": "^0.3.4",
         "composer/installers": "^1.9",
         "drupal/admin_toolbar": "^2.4",
         "drupal/core-composer-scaffold": "^9.1",
@@ -55,7 +56,10 @@
             },
             "file-mapping": {
                 "[web-root]/sites/development.services.yml": false
-            }
+            },
+            "allowed-packages": [
+                "amazeeio/drupal_integrations"
+            ]
         },
         "installer-paths": {
             "web/core": [
@@ -106,6 +110,9 @@
                 "  * Remove the plugin that prints this message:",
                 "      composer remove drupal/core-project-message"
             ]
+        },
+        "violinist": {
+            "one_pull_request_per_package": 1
         }
     }
 }
