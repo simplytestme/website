@@ -22,7 +22,7 @@ tasks:
         service: cli
     - run:
         name: drush cr
-        command: php vendor/bin/drush -y cr
+        command: php vendor/bin/drush cr
         service: cli
 environments:
   main:
