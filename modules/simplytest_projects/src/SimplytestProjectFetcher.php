@@ -186,9 +186,6 @@ class SimplytestProjectFetcher {
     // Now save the information about this project to database.
     $project = SimplytestProject::create($data);
     $project->save();
-
-    $this->fetchVersions($shortname, TRUE);
-
     return $data;
   }
 

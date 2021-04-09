@@ -1,0 +1,12 @@
+<?php declare(strict_types=1);
+
+use Drupal\simplytest_projects\Entity\SimplytestProject;
+
+/**
+ * Implements hook_ENTITY_TYPE_insert().
+ */
+function simplytest_projects_simplytest_project_insert(SimplytestProject $project) {
+  $project_version_manager = \Drupal::getContainer()->get('simplytest_projects.project_version_manager');
+  assert($project_version_manager !== NULL);
+  $project_version_manager->updateData($project->getShortname());
+}
