@@ -5,7 +5,7 @@
   "main": "js/scripts.js",
   "license": "MIT",
   "scripts": {
-    "build": "npm run production",
+    "build": "npm run production && gulp build",
     "develop": "cross-env NODE_ENV=development webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "hot": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
     "production": "cross-env NODE_ENV=production webpack --config=node_modules/laravel-mix/setup/webpack.config.js",
