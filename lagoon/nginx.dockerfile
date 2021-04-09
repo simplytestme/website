@@ -7,3 +7,5 @@ COPY --from=cli /app /app
 
 # Define where the Drupal Root is located
 ENV WEBROOT=web
+
+RUN echo "~^www.simplytest.me           https://simplytest.me\$request_uri;" >> /etc/nginx/redirects-map.conf
