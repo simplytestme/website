@@ -42,7 +42,7 @@ jobs:
             coverage: none
             tools: composer:v2
       - name: Install dependencies
-        run: composer update
+        run: composer install
       - name: Install Simplytest
         run: php vendor/bin/drush site:install simplytest --account-pass=admin --db-url=mysql://root:@127.0.0.1:${{ job.services.mysql.ports[3306] }}/db --yes
   phpunit:
@@ -78,7 +78,7 @@ jobs:
             coverage: none
             tools: composer:v2
       - name: Install dependencies
-        run: composer update
+        run: composer install
       - name: Run php built-in server
         run: php -S 127.0.0.1:8080 -t web &
       - name: PHPUnit
