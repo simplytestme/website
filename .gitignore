@@ -31,3 +31,6 @@
 /phpunit.xml
 .phpunit.result.cache
 /.drush-lock-update
+
+# Ignore gitpod dynamnically generated settings
+.ddev/docker-compose.host-docker-internal.yaml
