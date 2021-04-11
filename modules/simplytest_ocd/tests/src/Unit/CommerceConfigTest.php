@@ -27,7 +27,7 @@ final class CommerceConfigTest extends OneClickDemoConfigTestBase {
             'echo "SIMPLYEST_STAGE_INSTALLING"',
             'cd "${DOCROOT}" && chmod -R 777 sites/default',
             'php -d memory_limit=-1 commerce/bin/drush si --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y',
-            'chown -R www-data:www-data stm/web/sites/default/files',
+            'chown -R www-data:www-data "${DOCROOT}"/sites/default/files',
             'echo "SIMPLYEST_STAGE_FINALIZE"',
           ],
         ],
