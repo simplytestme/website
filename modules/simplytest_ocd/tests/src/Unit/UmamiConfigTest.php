@@ -26,7 +26,7 @@ final class UmamiConfigTest extends OneClickDemoConfigTestBase {
             'cd stm && composer require --no-update drush/drush:^10.0',
             'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"',
             'echo "SIMPLYEST_STAGE_DOWNLOAD"',
-            'cd stm && composer update --no-ansi --no-dev',
+            'cd stm && composer update --no-ansi',
             'echo "SIMPLYEST_STAGE_PATCHING"',
             'echo "SIMPLYEST_STAGE_INSTALLING"',
             'cd "${DOCROOT}" && chmod -R 777 sites/default',

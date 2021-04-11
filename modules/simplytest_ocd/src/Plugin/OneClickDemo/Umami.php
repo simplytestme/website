@@ -17,7 +17,7 @@ class Umami extends Drupal9Base {
 
   public function getDownloadCommands($parameters): array {
     $commands = [];
-    $commands[] = 'cd stm && composer update --no-ansi --no-dev';
+    $commands[] = 'cd stm && composer update --no-ansi';
     return $commands;
   }
 

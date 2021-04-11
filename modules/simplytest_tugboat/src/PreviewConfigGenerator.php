@@ -174,13 +174,13 @@ final class PreviewConfigGenerator {
       foreach ($parameters['additionals'] as $additional) {
         $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-update', $additional['shortname'], $additional['version']);
       }
-      $commands[] = 'cd stm && composer update --no-ansi --no-dev';
+      $commands[] = 'cd stm && composer update --no-ansi';
     }
     else if ($parameters['major_version'] === '8') {
       $commands[] = 'composer global require szeidler/composer-patches-cli:~1.0';
       $commands[] = 'cd "${DOCROOT}" && composer require cweagans/composer-patches:~1.0 --no-update';
       $commands[] = 'cd "${DOCROOT}" && composer require zaporylie/composer-drupal-optimizations:^1.0 --no-update';
-      $commands[] = 'cd "${DOCROOT}" && composer install --no-ansi --no-dev';
+      $commands[] = 'cd "${DOCROOT}" && composer install --no-ansi';
       // @todo this should probably be removed, but it is kept for BC during the
       //   initial refactor (removing should fix distro instances)
       if ($is_distro) {
@@ -243,7 +243,7 @@ final class PreviewConfigGenerator {
           $commands[] = $this->getComposerPatchCommand($additional['shortname'], $additional_patch);
         }
       }
-      $commands[] = 'cd "${DOCROOT}" && composer update --no-ansi --no-dev';
+      $commands[] = 'cd "${DOCROOT}" && composer update --no-ansi';
     }
     else if ($parameters['major_version'] === '7') {
       foreach ($parameters['patches'] as $patch) {

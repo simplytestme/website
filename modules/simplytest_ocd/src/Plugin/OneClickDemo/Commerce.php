@@ -26,7 +26,7 @@ class Commerce extends Drupal8Base {
       'cd "${TUGBOAT_ROOT}" && composer create-project drupalcommerce/demo-project commerce --stability dev --no-interaction',
       'ln -snf "${TUGBOAT_ROOT}/commerce/web" "${DOCROOT}"'
     ];
-    // $commands[] = 'cd "${TUGBOAT_ROOT}"/commerce && composer update --no-ansi --no-dev';
+    // $commands[] = 'cd "${TUGBOAT_ROOT}"/commerce && composer update --no-ansi';
     return $commands;
   }
 
