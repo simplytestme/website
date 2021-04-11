@@ -28,10 +28,4 @@ function simplytest_install_setup() {
   $user = User::load(1);
   $user->roles[] = 'administrator';
   $user->save();
-
-  $site = \Drupal::configFactory()->getEditable('system.site');
-  $configure_url = \Drupal\Core\Url::fromRoute('simplytest_launch.configure');
-  $site->set('name', 'Simplytest');
-  $site->set('page.front', $configure_url->toString());
-  $site->save();
 }
