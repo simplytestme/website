@@ -1,8 +1,0 @@
-uuid: f21fb523-554d-4bca-8bc5-3ec9f466411e
-langcode: en
-status: true
-dependencies: {  }
-id: cta_block
-label: 'CTA Block'
-revision: 0
-description: 'Block with a title, some text, and a link button'

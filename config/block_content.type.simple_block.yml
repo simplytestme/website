@@ -1,8 +1,0 @@
-uuid: efa33c90-608e-4961-92e4-3ba9c451131d
-langcode: en
-status: true
-dependencies: {  }
-id: simple_block
-label: 'Simple Block'
-revision: 0
-description: 'Block with title and body'
