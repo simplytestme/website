@@ -1,14 +1,13 @@
-simplytest_projects:
-  settings:
-    type: config_object
-    label: 'Simply Test Project Settings'
-    mapping:
-      version_timeout:
-        type: string
-        label: 'Maximum age of version data'
-      blacklisted_projects:
-        type: sequence
-        label: 'Blacklisted projects'
-      blacklisted_versions:
-        type: sequence
-        label: 'Blacklisted versions'
+simplytest_projects.settings:
+  type: config_object
+  label: 'Simply Test Project Settings'
+  mapping:
+    version_timeout:
+      type: string
+      label: 'Maximum age of version data'
+    blacklisted_projects:
+      type: sequence
+      label: 'Blacklisted projects'
+    blacklisted_versions:
+      type: sequence
+      label: 'Blacklisted versions'
