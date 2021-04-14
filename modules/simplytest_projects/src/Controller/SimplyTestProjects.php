@@ -10,6 +10,7 @@ use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\ProjectVersionManager;
 use Drupal\simplytest_projects\SimplytestProjectFetcher;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -91,10 +92,11 @@ class SimplyTestProjects extends ControllerBase implements ContainerInjectionInt
   /**
    * It fulfills autocomplete request of a project.
    */
-  public function autocompleteProjects() {
+  public function autocompleteProjects(Request $request) {
     $matches = [];
-    if ($string = $this->requestStack->getCurrentRequest()->query->get('string')) {
+    if ($string = $request->query->get('string')) {
       if (!$matches = $this->simplytestProjectFetcher->searchFromProjects($string)) {
+        $string = str_replace(' ', '_', $string);
         if ($project = $this->simplytestProjectFetcher->fetchProject($string)) {
           unset($project['creator']);
           $matches = [$project];

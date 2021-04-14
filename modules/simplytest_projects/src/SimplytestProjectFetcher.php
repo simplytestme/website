@@ -82,6 +82,9 @@ class SimplytestProjectFetcher {
    * @throws \Exception
    */
   public function fetchProject($shortname) {
+    // Ensure the shortname is always lowercase. The Drupal.org API is not case
+    // sensitive, but other APIs are.
+    $shortname = strtolower($shortname);
     $result = $this->httpClient->get(DrupalUrls::ORG_API . 'node.json?field_project_machine_name=' . urlencode($shortname));
     if ($result->getStatusCode() != 200 || empty($result->getBody())) {
       $this->log->warning('Failed to fetch initial data for %project (Request).', [
