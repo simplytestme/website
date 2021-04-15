@@ -1993,16 +1993,16 @@
         },
         {
             "name": "drush/drush",
-            "version": "10.4.2",
+            "version": "10.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drush-ops/drush.git",
-                "reference": "0d48a046f5511dd8fda10ac3376b97bb65a2b7ec"
+                "reference": "472ce3e0ac48b418f8168a053b3bcb4c8582bf99"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drush-ops/drush/zipball/0d48a046f5511dd8fda10ac3376b97bb65a2b7ec",
-                "reference": "0d48a046f5511dd8fda10ac3376b97bb65a2b7ec",
+                "url": "https://api.github.com/repos/drush-ops/drush/zipball/472ce3e0ac48b418f8168a053b3bcb4c8582bf99",
+                "reference": "472ce3e0ac48b418f8168a053b3bcb4c8582bf99",
                 "shasum": ""
             },
             "require": {
@@ -2126,7 +2126,7 @@
                 "irc": "irc://irc.freenode.org/drush",
                 "issues": "https://github.com/drush-ops/drush/issues",
                 "slack": "https://drupal.slack.com/messages/C62H9CWQM",
-                "source": "https://github.com/drush-ops/drush/tree/10.4.2"
+                "source": "https://github.com/drush-ops/drush/tree/10.4.3"
             },
             "funding": [
                 {
@@ -2134,7 +2134,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-04-06T03:37:46+00:00"
+            "time": "2021-04-14T14:08:05+00:00"
         },
         {
             "name": "egulias/email-validator",
