@@ -1,7 +1,8 @@
 global:
   css:
     theme:
-      css/styles.css: {}
+      # @todo preprocessing this file breaks styling.
+      css/styles.css: { preprocess: false }
       dist/tailwind.css: { minified: true }
 
 # @todo rename to just app.
@@ -10,3 +11,4 @@ launcher:
     dist/app.js: { minified: true }
   dependencies:
     - core/drupalSettings
+`
