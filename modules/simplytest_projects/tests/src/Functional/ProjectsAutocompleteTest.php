@@ -6,6 +6,10 @@ use Drupal\Component\Serialization\Json;
 use Drupal\Core\Url;
 use Drupal\Tests\BrowserTestBase;
 
+/**
+ * @group simplytest
+ * @group simplytest_projects
+ */
 final class ProjectsAutocompleteTest extends BrowserTestBase {
 
   protected $profile = 'simplytest';
@@ -14,6 +18,11 @@ final class ProjectsAutocompleteTest extends BrowserTestBase {
   ];
 
   protected $defaultTheme = 'stark';
+
+  protected function setUp(): void {
+    parent::setUp();
+    $this->markTestSkipped('Moved to Cypress due to Functional test problems with output HTTP requests');
+  }
 
   public function testAutoImport() {
     $test_queries = [

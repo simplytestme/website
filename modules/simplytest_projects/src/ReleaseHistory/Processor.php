@@ -46,6 +46,11 @@ final class Processor {
         foreach ($release->children() as $k => $v) {
           $release_data[$k] = (string) $v;
         }
+
+        // @todo for some reason various releases do not have dates.
+        if (empty($release_data['date'])) {
+          continue;
+        }
         if ($is_legacy) {
           $release_data['core_compatibility'] = $data['api_version'];
         }

@@ -66,8 +66,8 @@ function DrupalCoreVersionSelector() {
 
   return (
     <div className="mb-2 flex items-center text-base">
-      <label className="text-base font-bold mr-2">Drupal core version</label>
-      <select className="text-base border border-gray-400 rounded-md p-1 w-full md:w-1/3" disabled={!selectedVersion} value={drupalVersion} onChange={e => setDrupalVersion(e.target.value)}>
+      <label for="drupal_core_version" className="text-base font-bold mr-2">Drupal core version</label>
+      <select id="drupal_core_version" className="text-base border border-gray-400 rounded-md p-1 w-full md:w-1/3" disabled={!selectedVersion} value={drupalVersion} onChange={e => setDrupalVersion(e.target.value)}>
         {drupalVersions.map(release => <option value={release} key={release}>{release}</option>)}
       </select>
     </div>

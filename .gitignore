@@ -1,3 +1,5 @@
 .DS_Store
 .idea
 themes/simplytest/react/src/config/const.js
+/node_modules
+/.env

@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\user\Entity\User;
 use Drupal\shortcut\Entity\Shortcut;
 
@@ -16,6 +17,9 @@ function simplytest_install_tasks(&$install_state) {
   return [
     'simplytest_install_setup' => [
       'display_name' => new TranslatableMarkup('Install setup'),
+    ],
+    'simplytest_fetch_drupal_core_versions' => [
+      'display_name' => new TranslatableMarkup('Fetch Drupal Core Versions'),
     ],
   ];
 }
@@ -28,4 +32,15 @@ function simplytest_install_setup() {
   $user = User::load(1);
   $user->roles[] = 'administrator';
   $user->save();
+}
+
+/**
+ * Ensures Drupal core versions are available on install.
+ */
+function simplytest_fetch_drupal_core_versions() {
+  $core_version_manager = \Drupal::service('simplytest_projects.core_version_manager');
+  assert($core_version_manager instanceof CoreVersionManager);
+  $core_version_manager->updateData(7);
+  $core_version_manager->updateData(8);
+  $core_version_manager->updateData(9);
 }

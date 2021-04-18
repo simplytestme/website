@@ -33,8 +33,8 @@ function VersionSelector({ selectedProject, selectedVersion, setSelectedVersion,
   }
   return (
     <div className={"mr-2"}>
-      <label className="sr-only">Project version</label>
-      <select className="text-xl font-sans border rounded-md shadow px-4 py-1 w-full version-list" value={selectedVersion} onChange={(e) => {
+      <label for="project_version" className="sr-only">Project version</label>
+      <select id="project_version" className="text-xl font-sans border rounded-md shadow px-4 py-1 w-full version-list" value={selectedVersion} onChange={(e) => {
         setSelectedVersion(e.target.value)
       }}>
         {versions.map(version => {

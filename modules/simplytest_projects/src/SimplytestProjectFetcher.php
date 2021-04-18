@@ -177,7 +177,7 @@ class SimplytestProjectFetcher {
     $data = array(
       'title' => $title,
       'shortname' => $shortname,
-      'sandbox' => (int) $sandbox,
+      'sandbox' => ((int) $sandbox),
       'type' => $type,
       'creator' => $creator,
     );
@@ -281,6 +281,8 @@ class SimplytestProjectFetcher {
 
     $projects = [];
     foreach ($results as $result) {
+      // Cast sandbox to int.
+      $result->sandbox = (int) $result->sandbox;
       $projects[] = (array) $result;
     }
 
