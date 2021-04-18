@@ -34,6 +34,10 @@ environments:
           - www.simplytest.me:
               insecure: Redirect
               tls-acme: "true"
+          # temp route for beta
+          - beta.simplytest.me:
+              insecure: Redirect
+              tls-acme: "true"
     cronjobs:
       - name: drush cron
         schedule: "*/15 * * * *"
