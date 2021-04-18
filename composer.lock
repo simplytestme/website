@@ -1904,7 +1904,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/simplytest.git",
-                "reference": "61ec03c726896965a9bdd191cdf358ddc390cb6f"
+                "reference": "034d9afc3d6ec8750518dd5ad61661f6a942eef3"
             },
             "require": {
                 "drupal/core": "^9.0",
@@ -1948,7 +1948,7 @@
                 "issues": "https://www.drupal.org/project/issues/simplytest",
                 "source": "https://git.drupalcode.org/project/simplytest"
             },
-            "time": "2021-04-14T20:44:07+00:00"
+            "time": "2021-04-18T20:24:15+00:00"
         },
         {
             "name": "drupal/tugboat",
@@ -2569,16 +2569,16 @@
         },
         {
             "name": "knplabs/github-api",
-            "version": "v2.19.2",
+            "version": "v2.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/php-github-api.git",
-                "reference": "ad3b8e6084729adff5c804bc7058afc57ba04224"
+                "reference": "939869394c6414768547685945fdba4fe3f061b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/php-github-api/zipball/ad3b8e6084729adff5c804bc7058afc57ba04224",
-                "reference": "ad3b8e6084729adff5c804bc7058afc57ba04224",
+                "url": "https://api.github.com/repos/KnpLabs/php-github-api/zipball/939869394c6414768547685945fdba4fe3f061b5",
+                "reference": "939869394c6414768547685945fdba4fe3f061b5",
                 "shasum": ""
             },
             "require": {
@@ -2602,7 +2602,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-2.x": "2.19.x-dev",
+                    "dev-2.x": "2.20.x-dev",
                     "dev-master": "3.2.x-dev"
                 }
             },
@@ -2636,7 +2636,7 @@
             ],
             "support": {
                 "issues": "https://github.com/KnpLabs/php-github-api/issues",
-                "source": "https://github.com/KnpLabs/php-github-api/tree/v2.19.2"
+                "source": "https://github.com/KnpLabs/php-github-api/tree/v2.20.0"
             },
             "funding": [
                 {
@@ -2644,7 +2644,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-03-28T13:11:08+00:00"
+            "time": "2021-04-16T09:36:20+00:00"
         },
         {
             "name": "laminas/laminas-diactoros",
