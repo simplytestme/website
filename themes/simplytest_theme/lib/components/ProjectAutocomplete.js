@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types';
 import { useCombobox } from 'downshift'
 
-function ProjectAutocomplete({ setSelectedItem }) {
+function ProjectAutocomplete({ setSelectedItem, additionalBtn }) {
   const itemToString = (item) => (item ? item.title : "");
   const [inputItems, setInputItems] = useState([]);
   const {
@@ -34,9 +34,13 @@ function ProjectAutocomplete({ setSelectedItem }) {
 
   return (
     <div className="flex-grow mr-2 relative">
-      <label {...getLabelProps()} className="evaluate-project label">
-        Evaluate Drupal projects
-      </label>
+      {additionalBtn === true ? (
+        ""
+      ) : (
+        <label {...getLabelProps()} className="evaluate-project label">
+          Evaluate Drupal projects
+        </label>
+      )}
       <div {...getComboboxProps({
         className: "relative"
       })}>
@@ -55,20 +59,20 @@ function ProjectAutocomplete({ setSelectedItem }) {
         })}
       >
         {isOpen &&
-        inputItems.map((item, index) => (
-          <li
-            className="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9"
-            style={
-              highlightedIndex === index ? { backgroundColor: "#bde4ff" } : {}
-            }
-            key={`${item}${index}`}
-            {...getItemProps({ item, index })}
-          >
-            <span className="font-bold">{item.title}</span>
-            <br />
-            {item.shortname}
-          </li>
-        ))}
+          inputItems.map((item, index) => (
+            <li
+              className="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9"
+              style={
+                highlightedIndex === index ? { backgroundColor: "#bde4ff" } : {}
+              }
+              key={`${item}${index}`}
+              {...getItemProps({ item, index })}
+            >
+              <span className="font-bold">{item.title}</span>
+              <br />
+              {item.shortname}
+            </li>
+          ))}
       </ul>
     </div>
   );

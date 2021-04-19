@@ -92,4 +92,33 @@
       align-items: flex-end;
     }
   }
+  details {
+    .arrow-circle {
+      &:after {
+        content: url('../images/icons/down_arrow.svg');
+      }
+    }
+    &[open] {
+      .arrow-circle {
+        &:after {
+          content: url('../images/icons/up_arrow.svg');
+        }
+      }
+    }
+  }
+}
+
+.advance-summary {
+  color: $sky-blue;
+  cursor: pointer;
+  margin-bottom: 30px;
+  &::marker {
+    content: '';
+  }
+}
+
+.btn-blue {
+  background: $dark-sky-blue;
+  border: 1px solid #1983c4;
+  color: $white;
 }

@@ -12,19 +12,18 @@ function InstallationOptions() {
 
   function ManualInstallCheckbox() {
     return (
-      <div className="flex flex-col text-base">
+      <div className="flex flex-col text-base w-full sm:w-1/2 sm:mr-4">
         <label className="inline-flex items-center font-bold">
-          <input type="checkbox" value={manualInstall} onChange={event => setManualInstall(event.target.checked)} /><span className="ml-2">Manual installation</span>
+          <input type="checkbox" value={manualInstall} onChange={event => setManualInstall(event.target.checked)} /><span className="ml-2 text-white">Manual installation</span>
         </label>
-        <p className="text-sm mb-2">Check this box to perform a manual Drupal install, useful for selecting advanced options.</p>
-        <p className="text-sm"><strong>During install, please enter the ID of the spawned instance for your database credentials (user, pass, and database name.)</strong></p>
+        <p className="text-sm mb-2 text-white">Check this box to perform a manual Drupal install, useful for selecting advanced options.</p>
       </div>
     )
   }
   function SelectProfile() {
     return (
-      <div className="mb-2 flex flex-col pl-4 text-base">
-        <label className="font-bold mr-2">Installation profile</label>
+      <div className="mb-2 flex flex-col text-lg w-full sm:w-1/2">
+        <label className=" mr-2 text-white">Install profile</label>
         <select className="p-1 border border-gray-400 rounded-md w-full md:w-1/3" value={installProfile} onChange={e => setInstallProfile(e.target.value)} disabled={!selectedProject}>
           <option value="standard">Standard</option>
           <option value="minimal">Minimal</option>
@@ -37,7 +36,7 @@ function InstallationOptions() {
 
   if (allowProfileSelection) {
   return (
-    <div className="grid grid-cols-2">
+    <div className="pb-4 border-b flex flex-col sm:flex-row">
       <ManualInstallCheckbox />
       <SelectProfile />
     </div>
@@ -65,8 +64,8 @@ function DrupalCoreVersionSelector() {
   }, [selectedProject, selectedVersion])
 
   return (
-    <div className="mb-2 flex items-center text-base">
-      <label for="drupal_core_version" className="text-base font-bold mr-2">Drupal core version</label>
+    <div className="mb-2 flex items-center text-base w-full sm:w-1/2 sm:mr-4">
+      <label for="drupal_core_version" className="text-lg mr-2 text-white">Drupal Core</label>
       <select id="drupal_core_version" className="text-base border border-gray-400 rounded-md p-1 w-full md:w-1/3" disabled={!selectedVersion} value={drupalVersion} onChange={e => setDrupalVersion(e.target.value)}>
         {drupalVersions.map(release => <option value={release} key={release}>{release}</option>)}
       </select>
@@ -76,6 +75,7 @@ function DrupalCoreVersionSelector() {
 
 function AdditionalProjects() {
   const { additionalProjects, setAdditionalProjects, drupalVersion } = useLauncher();
+  const [additionalBtn, setAdditionalBtn] = useState(false);
 
   function addAdditionalProject(event) {
     setAdditionalProjects([...additionalProjects, {
@@ -84,6 +84,7 @@ function AdditionalProjects() {
       version: '',
       patches: [],
     }]);
+    setAdditionalBtn(true)
   }
 
   function removeExtraProject(k) {
@@ -97,7 +98,7 @@ function AdditionalProjects() {
       {additionalProjects.map((project, k) => (
         <div key={k} className="grid grid-cols-4 mb-4">
           <div className="col-span-3">
-            <ProjectSelection appliedCoreConstraint={drupalVersion} onChange={(project, version) => {
+            <ProjectSelection appliedCoreConstraint={drupalVersion} additionalBtn={additionalBtn} onChange={(project, version) => {
               // @todo the state management for ProjectSelection needs refactor
               // onChange is technically called with each render, and the
               // component has no idea if it has really changed or not and ends
@@ -119,10 +120,10 @@ function AdditionalProjects() {
               setAdditionalProjects(newProjects)
             }} /> : null}
           </div>
-          <button type="button" onClick={() => removeExtraProject(k)}>Remove</button>
+          <button className="text-white text-2xl font-semibold" type="button" onClick={() => removeExtraProject(k)}><span>×</span></button>
         </div>
       ))}
-      <button type="button" className="text-base p-2 rounded-md shadow-sm border border-gray-300" onClick={addAdditionalProject}>Add additional project</button>
+      <button type="button" className="text-base p-2 rounded-md btn-blue" onClick={addAdditionalProject}>Add additional project</button>
     </div>
   )
 }
@@ -134,17 +135,17 @@ function AdvancedOptions() {
     return null
   }
   return (
-    <details className="mt-4 flex flex-col border shadow-md p-4 bg-white">
-      <summary className="font-medium text-sm">Advanced options</summary>
-      <Fieldset summary="Build options">
+    <details className="mt-4 flex flex-col py-4">
+      <summary className="flex font-medium text-lg underline p-0 advance-summary focus:outline-none focus:shadow-none arrow-circle
+">Advanced options</summary>
+      <div class="flex mb-10 flex-col sm:flex-row">
         <DrupalCoreVersionSelector />
         <Patches patches={patches} setPatches={setPatches} />
-      </Fieldset>
-      <Fieldset summary={"Extra projects"}>
-        <AdditionalProjects />
-      </Fieldset>
-      <Fieldset summary="Installation options">
+      </div>
         <InstallationOptions />
+      <Fieldset summary={"Add additional projects"}>
+        <p className="text-sm mb-2 text-white">Include additional modules and themes</p>
+        <AdditionalProjects />
       </Fieldset>
     </details>
   )

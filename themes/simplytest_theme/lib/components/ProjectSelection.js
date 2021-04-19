@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import ProjectAutocomplete from './ProjectAutocomplete'
 import VersionSelector from './VersionSelector'
 
-function ProjectSelection({ onChange, appliedCoreConstraint }) {
+function ProjectSelection({ onChange, appliedCoreConstraint, additionalBtn }) {
   const [project, setProject] = useState(null);
   const [version, setVersion] = useState('');
 
@@ -15,7 +15,7 @@ function ProjectSelection({ onChange, appliedCoreConstraint }) {
 
   return (
     <div className="flex flex-row flex-grow mobile-column-flex desktop-align-item-end">
-      <ProjectAutocomplete setSelectedItem={setProject} />
+      <ProjectAutocomplete setSelectedItem={setProject} additionalBtn={additionalBtn} />
       <VersionSelector selectedProject={project} selectedVersion={version} setSelectedVersion={setVersion} appliedCoreConstraint={appliedCoreConstraint} />
     </div>
   )

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 function Fieldset({ summary, children }) {
   return (
     <fieldset className="flex flex-col mt-4">
-      <summary className="font-medium text-xl pb-2 border-b mb-2">{summary}</summary>
+      <summary className="font-medium text-xl pb-2 p-0 mb-2 text-white">{summary}</summary>
       {children}
     </fieldset>
   )

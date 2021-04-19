@@ -11,4 +11,3 @@ launcher:
     dist/app.js: { minified: true }
   dependencies:
     - core/drupalSettings
-`
