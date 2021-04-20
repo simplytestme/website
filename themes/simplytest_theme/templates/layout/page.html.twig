@@ -76,10 +76,10 @@
     </div>
 
     {% if is_front %}
-      <div class="explanation__wrapper">
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-screen-lg container mx-auto explanation_container pl-130">
-          <div class = "explanation__first">
-            <div class="title">
+      <div class="explanation__wrapper py-5 bg-light-blue">
+        <section class="gap-4 max-w-screen-lg container mx-auto explanation-container p-5 lg:pl-32 flex flex-col md:flex-row">
+          <div class = "explanation__first mb-10 lg:mb-0 w-full md:w-1/2">
+            <div class="text-title-blue text-3xl font-bold mb-5">
               What is this?
             </div>
             <div class="body">
@@ -88,8 +88,8 @@
               Simple, fast and for free!
             </div>
           </div>
-          <div class = "explanation__second">
-            <div class="title">
+          <div class = "explanation__second w-full md:w-1/2">
+            <div class="text-title-blue text-3xl font-bold mb-5">
               How to use it?
             </div>
             <div class="body">
@@ -103,28 +103,28 @@
         </section>
       </div>
 
-      <div class="triptych">
-        <section class = "grid grid-cols-1 md:grid-cols-3 gap-4 max-w-screen-lg container mx-auto pt-8 pl-130">
+      <div class="triptych px-5 mb-10 lg:mt-2.5 lg:mb-16">
+        <section class = "grid grid-cols-1 lg:grid-cols-3 gap-4 max-w-screen-lg container mx-auto pt-8 lg:pl-32">
           <div>
-            <h2 class="block__title text-xl font-bold mb-2">Encountered A Problem?</h2>
+            <h2 class="block__title text-title-blue mb-5 flex items-end text-xl font-bold mb-2">Encountered A Problem?</h2>
             <p class="mb-2">
               Please report any problems that you run into while using the service on drupal.org. Also general feedback or support requests are welcome.
             </p>
-            <div class="cta-link"><a href="#"> Report a problem</a></div>
+            <div class="cta-link"><a class="btn hover:bg-red-700" href="#"> Report a problem</a></div>
           </div>
           <div>
-            <h2 class="block__title text-xl font-bold mb-2">Future Of Simplytest.Me</h2>
+            <h2 class="block__title text-title-blue mb-5 flex items-end text-xl font-bold mb-2">Future Of Simplytest.Me</h2>
             <p class="mb-2">
               Join the conversation about the future of this service on drupal.org
             </p>
-            <div class="cta-link"><a href="#">Join the conversation</a></div>
+            <div class="cta-link"><a class="btn hover:bg-red-700" href="#">Join the conversation</a></div>
           </div>
           <div>
-            <h2 class="block__title text-xl font-bold mb-2">Spread The Word</h2>
+            <h2 class="block__title text-title-blue mb-5 flex items-end text-xl font-bold mb-2">Spread The Word</h2>
             <p class="mb-2">
               If you like the service please consider spreading the word and following me on twitter for updates about the project.
             </p>
-            <div class="cta-link social-link"><a href="#">Follow</a></div>
+            <div class="cta-link social-link"><a class="btn " href="#">Follow</a></div>
           </div>
         </section>
       </div>
@@ -132,15 +132,15 @@
   </main>
 
   {% if page.sponsors %}
-    <div role="contentinfo" class = "sponsors__wrapper">
-      <div class = "sponsors">
+    <div role="contentinfo" class = "sponsors__wrapper bg-title-blue py-5">
+      <div class = "sponsors p-5 lg:pl-32">
         {{ page.sponsors }}
       </div>
     </div>
   {% endif %}
 
   {% if page.footer %}
-    <footer role="contentinfo" class = "footer__wrapper">
+    <footer role="contentinfo" class = "footer__wrapper bg-dark-blue text-white py-6">
       <div class = "footer">
         {{ page.footer }}
       </div>

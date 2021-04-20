@@ -1,8 +1,7 @@
 global:
   css:
     theme:
-      # @todo preprocessing this file breaks styling.
-      css/styles.css: { preprocess: false }
+      dist/css/styles.css: {}
       dist/tailwind.css: { minified: true }
 
 # @todo rename to just app.

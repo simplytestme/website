@@ -1,0 +1,74 @@
+.triptych {
+  margin-top: 2em;
+  @media (--x-min-large-viewport) {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-content: space-between;
+
+    .col {
+      flex: 0 1 auto;
+      align-self: auto;
+      width: 30%;
+      margin: 0 1%;
+    }
+  }
+
+  .col {
+    &::before {
+      height: 1px;
+      width: 120px;
+      background: var(--medium-gray);
+      content: '';
+      display: block;
+    }
+  }
+  .block__title  {
+    font-size: var(--h3);
+    min-height: 80px;
+    border-top: 1px solid var(--medium-gray);
+    position: relative;
+    @media (--x-large-viewport) {
+      min-height: 60px;
+    }
+    &::after {
+
+      padding: 0;
+      margin: 0;
+      display: block;
+      content: '';
+      width: 250px;
+      height: 1.1px;
+      background-color: var(--white);
+      position: absolute;
+      right: 0;
+      top: -1px;
+      @media (--x-large-viewport) {
+        width: calc(100% - 150px);
+      }
+    }
+  }
+
+  .cta-link {
+    &.social-link {
+      a {
+        background-color: var(--flat-blue);
+        &::before {
+          display: inline-block;
+          content: ' ';
+          background: url('../../images/twitter.png') no-repeat;
+          height: 20px;
+          width: 20px;
+          margin-right: 4px;
+          position: relative;
+          top: 6px;
+          background-size: contain;
+        }
+        &:hover {
+          background-color: var(--heading-blue);
+        }
+      }
+    }
+  }
+}

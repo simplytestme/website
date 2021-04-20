@@ -1,8 +1,9 @@
 
 
+
 //-- FLEXBOX
 //---------------------------------------------
-@mixin flex-container(
+@define-mixin flex-container(
   $justify-content: flex-start,
   $align-content: space-between,
   $flex-wrap: nowrap) {
@@ -14,22 +15,22 @@
 }
 
 //  Flex item
-@mixin flex-item($flex: 0 1 auto) {
+@define-mixin flex-item($flex: 0 1 auto) {
   // Define this value by default to avoid IE10 bug
   flex: $flex;
   align-self: auto;
 }
 
-@mixin full-width {
+@define-mixin full-width {
   width: calc(100% - 40px);
   margin: 0 auto;
 
   @media all and (min-width: $sm) {
-    max-width: $body-container-width;
+    max-width: --body-container-width;
   }
 }
 
-@mixin button(
+@define-mixin button(
   $font-color: $off-white,
   $bg: $dark-sky-blue,
   $hover-color: $greyish-brown,

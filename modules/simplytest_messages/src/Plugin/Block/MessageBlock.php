@@ -85,7 +85,7 @@ class MessageBlock extends BlockBase implements ContainerFactoryPluginInterface 
         '#type' => 'responsive_image',
         '#theme' => 'image',
         '#uri' => $icon->getFileUri(),
-        '#prefix' => '<div class="warning-img">',
+        '#prefix' => '<div class="warning-img w-3 h-3 bg-yellow-tan">',
         '#suffix' => '</div>',
         '#attributes' => [
           'class' => [

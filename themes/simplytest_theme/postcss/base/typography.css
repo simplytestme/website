@@ -22,7 +22,7 @@ body {
   color: $greyish-brown;
 }
 
-// ----- Links
+/* Links */
 a {
   color: $color--primary;
   text-decoration: none;

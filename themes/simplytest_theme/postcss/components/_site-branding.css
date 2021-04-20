@@ -1,28 +1,33 @@
 .block-sitebranding {
   margin: 0;
 }
+
 .site-branding {
-  @include flex-container;
-  color: $white;
-  padding: $section-margin 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: space-between;
+  color: var(--white);
+  padding: 1.875rem 0;
   align-items: center;
 
   &__logo {
     img {
       max-width: 120px;
       width: 100%;
-      @media all and (max-width: $xl) {
+      @media (--x-large-viewport) {
         font-size: 80px;
       }
     }
 
-    @media all and (min-width: $xl) {
+    @media (--x-min-large-viewport) {
       margin-left: -140px;
     }
   }
 
   &__text {
-    padding-left: $gutter;
+    padding-left: 1.25rem;
   }
 
   &__name {
@@ -30,13 +35,13 @@
 
     h1 {margin-bottom: 0;
       font-size: 48px;
-      @media all and (max-width: $xl) {
+      @media (--x-large-viewport) {
         font-size: 28px;
       }
     }
 
     a {
-      color: $white;
+      color: var(--white);
     }
   }
 }
