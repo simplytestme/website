@@ -113,7 +113,8 @@
             ]
         },
         "violinist": {
-            "one_pull_request_per_package": 1
+            "one_pull_request_per_package": 1,
+            "run_scripts": 0
         }
     }
 }
