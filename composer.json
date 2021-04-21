@@ -11,7 +11,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://git.drupalcode.org/project/simplytest.git"
+            "url": "https://git.drupalcode.org/issue/simplytest-3209828.git"
         },
         {
             "type": "composer",
@@ -25,7 +25,7 @@
         "drupal/core-composer-scaffold": "^9.1",
         "drupal/core-project-message": "^9.1",
         "drupal/core-recommended": "^9.1",
-        "drupal/simplytest": "dev-8.x-4.x",
+        "drupal/simplytest": "dev-3209828-fetch-drupal-core",
         "drush/drush": "^10.3"
     },
     "require-dev": {
