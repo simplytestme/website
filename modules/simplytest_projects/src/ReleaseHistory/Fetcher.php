@@ -2,8 +2,12 @@
 
 namespace Drupal\simplytest_projects\ReleaseHistory;
 
+use Drupal\Component\Datetime\DateTimePlus;
+use Drupal\Core\State\StateInterface;
+use Drupal\simplytest_projects\Exception\ReleaseHistoryNotModifiedException;
 use Drupal\update\UpdateFetcher;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Psr7\Request;
 
 /**
  * Fetches release history.
@@ -21,8 +25,16 @@ final class Fetcher {
    */
   private $httpClient;
 
-  public function __construct(ClientInterface $http_client) {
+  /**
+   * The state.
+   *
+   * @var \Drupal\Core\State\StateInterface
+   */
+  private $state;
+
+  public function __construct(ClientInterface $http_client, StateInterface $state) {
     $this->httpClient = $http_client;
+    $this->state = $state;
   }
 
   /**
@@ -35,15 +47,33 @@ final class Fetcher {
    *
    * @return string
    *   The release history XML as a string.
+   *
+   * @throws \Drupal\simplytest_projects\Exception\ReleaseHistoryNotModifiedException
    */
   public function getProjectData(string $project, string $channel): string {
     if ($channel !== 'current' && $channel !== '7.x') {
       throw new \InvalidArgumentException("Only the 'current' and '7.x' channel are supported, {$channel} was provided.");
     }
+
     $url = UpdateFetcher::UPDATE_DEFAULT_URL . '/' . $project . '/' . $channel;
-    $response = $this->httpClient->get($url, ['headers' => ['Accept' => 'text/xml']]);
-    $data = (string) $response->getBody();
-    return $data;
+    $headers = [
+      'Accept' => 'text/xml',
+    ];
+    // When sending an If-Modified-Since header, the server will return a 200
+    // if the content has been modified, otherwise it returns 304.
+    // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-Modified-Since
+    $last_modified = $this->state->get("release_history_last_modified:$project:$channel");
+    if ($last_modified) {
+      $headers['If-Modified-Since'] = gmdate(DateTimePlus::RFC7231, $last_modified);
+    }
+
+    $response = $this->httpClient->get($url, ['headers' => $headers]);
+    if ($response->getStatusCode() === 304) {
+      throw new ReleaseHistoryNotModifiedException();
+    }
+
+    $this->state->set("release_history_last_modified:$project:$channel", strtotime($response->getHeaderLine('Last-Modified')));
+    return (string) $response->getBody();
   }
 
 }

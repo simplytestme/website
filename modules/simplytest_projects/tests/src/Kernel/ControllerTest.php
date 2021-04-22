@@ -39,18 +39,18 @@ final class ControllerTest extends KernelTestBase implements ServiceModifierInte
 
     $response = $this->container->get('http_kernel')->handle($request);
     assert($response instanceof CacheableJsonResponse);
-    $this->assertEquals('core_versions:9 http_response', $response->headers->get('x-drupal-cache-tags'));
+    $this->assertEquals('core_versions core_versions:9 http_response', $response->headers->get('x-drupal-cache-tags'));
     $this->assertEquals('', $response->headers->get('x-drupal-cache-context'));
     $this->assertEquals('-1 (Permanent)', $response->headers->get('x-drupal-cache-max-age'));
     $data = Json::decode((string) $response->getContent());
-    $this->assertCount(32, $data['list']);
+    $this->assertCount(33, $data['list']);
     $this->assertEquals([
-      'version' => '9.1.5',
+      'version' => '9.1.6',
       'major' => '9',
       'minor' => '1',
-      'patch' => '5',
+      'patch' => '6',
       'extra' => null,
-      'vcs_label' => '9.1.5',
+      'vcs_label' => '9.1.6',
       'insecure' => '0',
     ], $data['list'][1]);
 

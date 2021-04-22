@@ -2,8 +2,11 @@
 
 namespace Drupal\Tests\simplytest_projects\Kernel;
 
+use Drupal\Core\KeyValueStore\KeyValueMemoryFactory;
+use Drupal\Core\State\State;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_projects\CoreVersionManager;
+use GuzzleHttp\Client;
 
 /**
  * @group simplytest
@@ -28,6 +31,20 @@ final class CoreVersionManagerTest extends KernelTestBase {
     $this->sut = $this->container->get('simplytest_projects.core_version_manager');
   }
 
+  public function testPreflightCheck() {
+    $state = new State(new KeyValueMemoryFactory());
+    $sut = new CoreVersionManager(
+      $this->container->get('database'),
+      new Client(),
+      $state
+    );
+    $sut->updateData(7);
+    self::assertNotNull($state->get('release_history_last_modified:drupal:7'));
+    $last_modified = $state->get('release_history_last_modified:drupal:7');
+    $sut->updateData(7);
+    self::assertEquals($last_modified, $state->get('release_history_last_modified:drupal:7'));
+  }
+
   /**
    * @dataProvider coreVersionData
    * @covers ::updateData
@@ -50,7 +67,7 @@ final class CoreVersionManagerTest extends KernelTestBase {
   }
 
   public function coreVersionData(): \Generator {
-    yield [9, 32, [
+    yield [9, 33, [
       'version' => '9.2.x-dev',
       'major' => '9',
       'minor' => '2',
@@ -68,7 +85,7 @@ final class CoreVersionManagerTest extends KernelTestBase {
       'vcs_label' => '8.9.9',
       'insecure' => '1',
     ]];
-    yield [7, 89, [
+    yield [7, 90, [
       'version' => '7.9',
       'major' => '7',
       'minor' => '9',
@@ -93,9 +110,9 @@ final class CoreVersionManagerTest extends KernelTestBase {
     $this->sut->updateData(8);
     $this->sut->updateData(9);
 
-    $this->assertCount(89, $this->sut->getWithCompatibility('7.x'));
+    $this->assertCount(90, $this->sut->getWithCompatibility('7.x'));
     $this->assertCount(0, $this->sut->getWithCompatibility('^10.0'));
-    $this->assertCount(32, $this->sut->getWithCompatibility('^9'));
+    $this->assertCount(33, $this->sut->getWithCompatibility('^9'));
     $this->assertCount(14, $this->sut->getWithCompatibility('^8.9.1'));
     $this->assertCount(200, $this->sut->getWithCompatibility('8.x'));
   }

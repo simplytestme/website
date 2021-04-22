@@ -3,9 +3,14 @@
 namespace Drupal\simplytest_projects;
 
 use Composer\Semver\Semver;
+use Drupal\Component\Datetime\DateTimePlus;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Database\Connection;
+use Drupal\Core\State\StateInterface;
+use Drupal\simplytest_projects\Exception\ReleaseHistoryNotModifiedException;
+use Drupal\simplytest_projects\ReleaseHistory\Fetcher;
+use Drupal\update\UpdateFetcher;
 use GuzzleHttp\ClientInterface;
 
 final class CoreVersionManager {
@@ -24,9 +29,12 @@ final class CoreVersionManager {
    */
   private $client;
 
-  public function __construct(Connection $connection, ClientInterface $client) {
+  private $state;
+
+  public function __construct(Connection $connection, ClientInterface $client, StateInterface $state) {
     $this->database = $connection;
     $this->client = $client;
+    $this->state = $state;
   }
 
   /**
@@ -81,6 +89,14 @@ final class CoreVersionManager {
     if ($major_version < 7) {
       throw new \InvalidArgumentException("The major version '$major_version' is not supported");
     }
+    // @todo this is a bit of a workaround until this is fully refactored.
+    // See method for details.
+    try {
+      $this->preflightShouldUpdateCheck($major_version);
+    }
+    catch (ReleaseHistoryNotModifiedException $e) {
+      return;
+    }
 
     $releases = [];
     $current_page = 0;
@@ -125,6 +141,46 @@ final class CoreVersionManager {
         ->execute();
     }
     Cache::invalidateTags(["core_versions:$major_version"]);
+  }
+
+  /**
+   * Checks if we should process the update check.
+   *
+   * The Drupal.org JSON API endpoints do not leverage the Last-Modified header
+   * like the Updates XML API. However, this service was written before we began
+   * using that Updates XML API. So, to prevent a complete rewrite of this
+   * service upfront, this method is a compromise. It checks if the update XML
+   * has changed and uses that to determine if we should fetch verbose release
+   * data over the Drupal.org JSON API.
+   *
+   * Changes here have side effects to the core versions returned to the
+   * frontend, given the hesitancy to deal with the change right now.
+   *
+   * @param int $major_version
+   *   The major version (7, 8, 9, etc.)
+   *
+   * @see \Drupal\simplytest_projects\ReleaseHistory\Fetcher::getProjectData
+   * @todo Decide if we still want this service or just handle it in ProjectVersionManager alone.
+   *
+   * @throws \Drupal\simplytest_projects\Exception\ReleaseHistoryNotModifiedException
+   */
+  private function preflightShouldUpdateCheck(int $major_version): void {
+    $channel = $major_version === 7 ? '7.x' : 'current';
+    $headers = [];
+    // When sending an If-Modified-Since header, the server will return a 200
+    // if the content has been modified, otherwise it returns 304.
+    // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-Modified-Since
+    $last_modified = $this->state->get("release_history_last_modified:drupal:$major_version");
+    if ($last_modified) {
+      $headers['If-Modified-Since'] = gmdate(DateTimePlus::RFC7231, $last_modified);
+    }
+    // We perform a HEAD request here, since we don't care about the response.
+    // This is a hacky preflight check to see if we should do a full API pull.
+    $response = $this->client->head(UpdateFetcher::UPDATE_DEFAULT_URL . '/drupal/' . $channel, ['headers' => $headers]);
+    if ($response->getStatusCode() === 304) {
+      throw new ReleaseHistoryNotModifiedException();
+    }
+    $this->state->set("release_history_last_modified:drupal:$major_version", strtotime($response->getHeaderLine('Last-Modified')));
   }
 
 }

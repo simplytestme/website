@@ -20,8 +20,8 @@ final class ProjectsAutocompleteTest extends BrowserTestBase {
   protected $defaultTheme = 'stark';
 
   protected function setUp(): void {
-    parent::setUp();
     $this->markTestSkipped('Moved to Cypress due to Functional test problems with output HTTP requests');
+    parent::setUp();
   }
 
   public function testAutoImport() {

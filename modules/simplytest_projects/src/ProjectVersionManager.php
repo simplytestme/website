@@ -5,6 +5,7 @@ namespace Drupal\simplytest_projects;
 use Composer\Semver\Semver;
 use Drupal\Core\Database\Connection;
 use Drupal\simplytest_projects\Exception\NoReleaseHistoryFoundException;
+use Drupal\simplytest_projects\Exception\ReleaseHistoryNotModifiedException;
 use Drupal\simplytest_projects\ReleaseHistory\Fetcher;
 use Drupal\simplytest_projects\ReleaseHistory\Processor;
 use Drupal\simplytest_projects\ReleaseHistory\ProjectRelease;
@@ -33,7 +34,13 @@ final class ProjectVersionManager {
   // @todo needs tests
   public function updateData(string $project) {
     foreach (['current', '7.x'] as $channel) {
-      $release_xml = $this->fetcher->getProjectData($project, $channel);
+      try {
+        $release_xml = $this->fetcher->getProjectData($project, $channel);
+      }
+      catch (ReleaseHistoryNotModifiedException $e) {
+        // The release history has not been modified, so skip processing.
+        continue;
+      }
       try {
         $release_data = Processor::getData($release_xml);
       }

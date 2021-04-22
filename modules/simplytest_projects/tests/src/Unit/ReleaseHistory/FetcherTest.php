@@ -2,7 +2,11 @@
 
 namespace Drupal\Tests\simplytest_projects\Unit\ReleaseHistory;
 
+use Drupal\Core\KeyValueStore\KeyValueMemoryFactory;
+use Drupal\Core\State\State;
+use Drupal\simplytest_projects\Exception\ReleaseHistoryNotModifiedException;
 use Drupal\simplytest_projects\ReleaseHistory\Fetcher;
+use GuzzleHttp\Client;
 
 /**
  * Tests fetching release data
@@ -11,6 +15,14 @@ use Drupal\simplytest_projects\ReleaseHistory\Fetcher;
  */
 final class FetcherTest extends ReleaseHistoryUnitTestBase {
 
+  public function testLastModified() {
+    $sut = new Fetcher(new Client(), new State(new KeyValueMemoryFactory()));
+    $sut->getProjectData('token', 'current');
+    $sut->getProjectData('token', '7.x');
+    $this->expectException(ReleaseHistoryNotModifiedException::class);
+    $sut->getProjectData('token', 'current');
+  }
+
   /**
    * @param string $channel
    * @param bool $expected_exception
@@ -18,14 +30,18 @@ final class FetcherTest extends ReleaseHistoryUnitTestBase {
    * @dataProvider releaseChannelData
    */
   public function testValidReleaseChannels(string $channel, bool $expected_exception) {
-    $sut = new Fetcher($this->getMockedHttpClient());
+    $state = new State(new KeyValueMemoryFactory());
+    $sut = new Fetcher($this->getMockedHttpClient(), $state);
 
     if ($expected_exception) {
       $this->expectException(\InvalidArgumentException::class);
       $this->expectExceptionMessage("Only the 'current' and '7.x' channel are supported, {$channel} was provided.");
     }
     $sut->getProjectData('pathauto', $channel);
-    self::assertTrue(true);
+    self::assertNotNull($state->get("release_history_last_modified:pathauto:$channel"));
+
+    $this->expectException(ReleaseHistoryNotModifiedException::class);
+    $sut->getProjectData('pathauto', $channel);
   }
 
   public function releaseChannelData(): \Generator {

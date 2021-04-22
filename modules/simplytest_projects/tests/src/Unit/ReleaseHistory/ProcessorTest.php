@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\simplytest_projects\Unit\ReleaseHistory;
 
+use Drupal\Core\KeyValueStore\KeyValueMemoryFactory;
+use Drupal\Core\State\State;
 use Drupal\simplytest_projects\ReleaseHistory\Fetcher;
 use Drupal\simplytest_projects\ReleaseHistory\Processor;
 use Drupal\simplytest_projects\ReleaseHistory\ProjectRelease;
@@ -17,8 +19,9 @@ final class ProcessorTest extends ReleaseHistoryUnitTestBase {
    * @covers ::getData
    */
   public function testGetData() {
+    $state = new State(new KeyValueMemoryFactory());
     $client = $this->getMockedHttpClient();
-    $fetcher = new Fetcher($client);
+    $fetcher = new Fetcher($client, $state);
     $data = $fetcher->getProjectData('pathauto', 'current');
 
     $processed_data = Processor::getData($data);
@@ -38,8 +41,9 @@ final class ProcessorTest extends ReleaseHistoryUnitTestBase {
   }
 
   public function testCoreCompatibility() {
+    $state = new State(new KeyValueMemoryFactory());
     $client = $this->getMockedHttpClient();
-    $fetcher = new Fetcher($client);
+    $fetcher = new Fetcher($client, $state);
     $data = $fetcher->getProjectData('pathauto', '7.x');
     $processed_data = Processor::getData($data);
     $release_71x13 = $processed_data['releases']['7.x-1.3'];
