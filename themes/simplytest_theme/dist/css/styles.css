@@ -174,10 +174,24 @@ body:not(.toolbar-tray-open) .layout-container {
   }
 }
 .simplytest-react-component details .arrow-circle:after {
-  content: url(../../images/icons/down_arrow.svg)
+  content: url(../../images/icons/down_arrow.svg);
+  display: inline-block;
+  width: 33px;
+  top: 10px;
+  position: relative
 }
 .simplytest-react-component details[open] .arrow-circle:after {
-  content: url(../../images/icons/up_arrow.svg)
+  content: url(../../images/icons/up_arrow.svg);
+  display: inline-block;
+  width: 33px;
+  top: 10px;
+  position: relative
+}
+details > summary {
+  list-style: none
+}
+details > summary::-webkit-details-marker {
+  display: none
 }
 .advance-summary {
   color: #5ccdff;

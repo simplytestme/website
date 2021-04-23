@@ -142,7 +142,7 @@ function AdvancedOptions() {
   }
   return (
     <details className="mt-4 flex flex-col py-4">
-      <summary className="flex font-medium text-lg underline p-0 advance-summary focus:outline-none focus:shadow-none arrow-circle
+      <summary className="inline-block font-medium text-lg underline p-0 advance-summary focus:outline-none focus:shadow-none arrow-circle
 ">Advanced options</summary>
       <div class="flex mb-10 flex-col sm:flex-row">
         <DrupalCoreVersionSelector />
