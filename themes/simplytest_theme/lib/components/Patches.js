@@ -26,7 +26,7 @@ function Patches({ patches, setPatches }) {
             debugger;
             setPatches(newPatches);
           }} className="text-lg font-sans border rounded-md shadow px-4 py-1 flex-grow w-full" placeholder="https://www.drupal.org/files/..."/>
-          <button className="text-white text-2xl font-semibold w-1/5" type="button" onClick={() => removeExtraPatche(k)}>
+          <button className="text-white text-2xl font-semibold w-8" type="button" onClick={() => removeExtraPatche(k)}>
             <span>×</span>
           </button>
         </div>
