@@ -16,16 +16,21 @@ function Patches({ patches, setPatches }) {
   }
 
   return (
-    <div class="w-full sm:w-1/2 mt-4">
+    <div className="w-full sm:w-1/2 mt-4">
       <h3 className="mb-2 text-sm text-white">Add patches on the chosen project</h3>
       {patches.map((patch, k) => (
-        <div key={k} className="mb-2 flex flex-row">
-          <input type="text" value={patch} onChange={event => {
+        // NOTE: we should not use `k`, but if we use `patch`, the value is
+        // constantly modified onChange as the array is rebuilt. This is a major
+        // peformance problem as we're constantly rebuilding the entire component
+        // whenever someone types.
+        // eslint-disable-next-line react/no-array-index-key
+        <div key={k} id={`project_patch_${k}`} className="mb-2 flex flex-row">
+          <label className="sr-only" htmlFor={`project_patch_url_${k}`}>Project patch {k}</label>
+          <input id={`project_patch_url_${k}`} type="url" value={patch} onChange={event => {
             const newPatches = [...patches];
             newPatches[k] = event.target.value;
-            debugger;
             setPatches(newPatches);
-          }} className="text-lg font-sans border rounded-md shadow px-4 py-1 flex-grow w-full" placeholder="https://www.drupal.org/files/..."/>
+          }} className="text-lg font-sans border rounded-md shadow px-4 py-1 flex-grow w-full" placeholder="https://www.drupal.org/files/..." />
           <button className="text-white text-2xl font-semibold w-8" type="button" onClick={() => removeExtraPatche(k)}>
             <span>×</span>
           </button>

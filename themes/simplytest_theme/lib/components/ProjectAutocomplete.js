@@ -35,7 +35,9 @@ function ProjectAutocomplete({ setSelectedItem, additionalBtn }) {
   return (
     <div className="flex-grow mr-2 relative">
       {additionalBtn === true ? (
-        ""
+        <label {...getLabelProps()} className="mb-2 text-sm text-white">
+          Additional project name
+        </label>
       ) : (
         <label {...getLabelProps()} className="evaluate-project label">
           Evaluate Drupal projects
@@ -46,6 +48,7 @@ function ProjectAutocomplete({ setSelectedItem, additionalBtn }) {
       })}>
         <input
           {...getInputProps()}
+          type="text"
           tabIndex="-1"
           autoFocus={true}
           className="text-lg font-sans border rounded-md shadow px-4 py-1 w-full"

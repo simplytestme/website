@@ -40,3 +40,11 @@ Cypress.Commands.add('getByLabel', (label) => {
 Cypress.Commands.add('toggleDetailsElement', (label) => {
   cy.contains('summary', label).click()
 })
+
+Cypress.Commands.add('pickProject', input => {
+  cy.getByLabel('Evaluate Drupal projects')
+    .type(input)
+    .wait(300)
+    .wait(200)
+    .type('{downarrow}{enter}')
+})

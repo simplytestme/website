@@ -3,26 +3,33 @@ import React, { useEffect, useState } from 'react'
 
 // @todo this might be better coupled within the ProjectAutocomplete component?
 function VersionSelector({ selectedProject, selectedVersion, setSelectedVersion, appliedCoreConstraint }) {
+  const { selectedVersion: rootProjectVersion } = useLauncher();
   const [versions, setVersions] = useState([]);
+  // Side effect: when we have a project shortname, and no core constraints
+  // AKA the root project, fetch the direct versions.
   useEffect(() => {
-    if (selectedProject) {
-
-      if (appliedCoreConstraint) {
-        fetch(`/simplytest/project/${selectedProject.shortname}/compatibility/${appliedCoreConstraint}`)
-          .then(res => res.json())
-          .then(json => {
-            setVersions(json.list);
-          });
-      }
-      else {
-        fetch(`/simplytest/project/${selectedProject.shortname}/versions`)
-          .then(res => res.json())
-          .then(json => {
-            setVersions(json.list);
-          });
-      }
+    if (selectedProject && !appliedCoreConstraint) {
+      fetch(`/simplytest/project/${selectedProject.shortname}/versions`)
+        .then(res => res.json())
+        .then(json => {
+          setVersions(json.list);
+        });
     }
-  }, [selectedProject]);
+  }, [selectedProject, appliedCoreConstraint]);
+
+  // Side effect: when we have a project shortname AND core constraints, we know
+  // this is a dependent/additional project. If the root project version changes,
+  // we want to update for new compatibility.
+  useEffect(() => {
+    if (selectedProject && appliedCoreConstraint) {
+      fetch(`/simplytest/project/${selectedProject.shortname}/compatibility/${appliedCoreConstraint}`)
+        .then(res => res.json())
+        .then(json => {
+          setVersions(json.list);
+        });
+    }
+  }, [selectedProject, appliedCoreConstraint, rootProjectVersion])
+
   useEffect(() => {
     if (versions.length > 0) {
       setSelectedVersion(versions[0].version)
@@ -33,7 +40,7 @@ function VersionSelector({ selectedProject, selectedVersion, setSelectedVersion,
   }
   return (
     <div className={"mr-2"}>
-      <label for="project_version" className="sr-only">Project version</label>
+      <label htmlFor="project_version" className="sr-only">Project version</label>
       <select id="project_version" className="text-xl font-sans border rounded-md shadow px-4 py-1 w-full version-list" value={selectedVersion} onChange={(e) => {
         setSelectedVersion(e.target.value)
       }}>

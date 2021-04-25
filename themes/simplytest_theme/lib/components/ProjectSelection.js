@@ -16,6 +16,7 @@ function ProjectSelection({ onChange, appliedCoreConstraint, additionalBtn }) {
   return (
     <div className="flex flex-row flex-grow mobile-column-flex desktop-align-item-end">
       <ProjectAutocomplete setSelectedItem={setProject} additionalBtn={additionalBtn} />
+      {/* @todo version select can have a duplicate ID */}
       <VersionSelector selectedProject={project} selectedVersion={version} setSelectedVersion={setVersion} appliedCoreConstraint={appliedCoreConstraint} />
     </div>
   )

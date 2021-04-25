@@ -21,14 +21,23 @@ function InstallationOptions() {
     )
   }
   function SelectProfile() {
+    const validChecks = [
+      '8.6.',
+      '8.7.',
+      '8.8.',
+      '8.9.',
+      '9.',
+    ]
+    const isValid = validChecks.reduce((allowed, version) => {
+      return allowed || drupalVersion.indexOf(version) === 0;
+    }, false);
     return (
       <div className="mb-2 flex flex-col text-lg w-full sm:w-1/2">
-        <label className=" mr-2 text-white">Install profile</label>
-        <select className="p-1 border border-gray-400 rounded-md w-full md:w-1/3" value={installProfile} onChange={e => setInstallProfile(e.target.value)} disabled={!selectedProject}>
+        <label htmlFor="install_profile" className=" mr-2 text-white">Install profile</label>
+        <select id="install_profile" className="p-1 border border-gray-400 rounded-md w-full md:w-1/3" value={installProfile} onChange={e => setInstallProfile(e.target.value)} disabled={!selectedProject}>
           <option value="standard">Standard</option>
           <option value="minimal">Minimal</option>
-          {/* @todo the following is only Core 8.x+ */}
-          {drupalVersion.indexOf('8.') === 0 || drupalVersion.indexOf('9.0') === 0 ? [<option value="umami_demo">Umami Demo</option>] : null}
+          {isValid ? [<option value="umami_demo">Umami Demo</option>] : null}
         </select>
       </div>
     )
@@ -96,7 +105,7 @@ function AdditionalProjects() {
   return (
     <div>
       {additionalProjects.map((project, k) => (
-        <div key={k} className="py-4 border-b">
+        <div key={k} id={`additional_project_${k}`} className="py-4 border-b">
           <div className="flex flex-wrap mb-4 sm:w-1/2">
             <div className="flex-grow">
               <ProjectSelection appliedCoreConstraint={drupalVersion} additionalBtn={additionalBtn} onChange={(project, version) => {
@@ -105,7 +114,6 @@ function AdditionalProjects() {
                 // component has no idea if it has really changed or not and ends
                 // up being called on each render.
                 if (additionalProjects[k].shortname !== project.shortname || additionalProjects[k].version !== version) {
-                  debugger;
                   const newProjects = [...additionalProjects];
                   newProjects[k] = {
                     version,
