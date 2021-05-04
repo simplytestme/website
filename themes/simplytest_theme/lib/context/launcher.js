@@ -28,6 +28,12 @@ export function LauncherProvider({ children }) {
   function setMainProject(project, version) {
     setSelectedProject(project)
     setSelectedVersion(version)
+    // @todo in the future, maybe we need to have a reducer that can set all of
+    //   this. Like when we refactor the fact the main project version and
+    //   project data are two state values.
+    if (project.shortname === 'drupal') {
+      setDrupalVersion(version)
+    }
   }
 
   function getLaunchPayload() {

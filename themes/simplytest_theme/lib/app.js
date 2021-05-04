@@ -63,7 +63,16 @@ function DrupalCoreVersionSelector() {
   const [drupalVersions, setDrupalVersions] = useState([]);
   const { selectedProject, selectedVersion, drupalVersion, setDrupalVersion } = useLauncher();
   useEffect(() => {
-    fetch(`simplytest/core/compatible/${selectedProject.shortname}/${selectedVersion}`)
+    const isDrupalCore = selectedProject.shortname === 'drupal';
+
+    // @todo Prevent extra requests for core version if we're on the same major.
+    let releaseUrl;
+    if (isDrupalCore) {
+      releaseUrl = `simplytest/core/versions/${selectedVersion[0]}`;
+    } else {
+      releaseUrl = `simplytest/core/compatible/${selectedProject.shortname}/${selectedVersion}`;
+    }
+    fetch(releaseUrl)
       .then(res => res.json())
       .then(json => {
         console.log(json)
@@ -72,9 +81,13 @@ function DrupalCoreVersionSelector() {
       });
   }, [selectedProject, selectedVersion])
 
+  if (selectedProject.shortname === 'drupal') {
+    return null;
+  }
+
   return (
     <div className="mb-2 flex items-center text-base w-full sm:w-1/2 sm:mr-4">
-      <label for="drupal_core_version" className="text-lg mr-2 text-white">Drupal Core</label>
+      <label htmlFor="drupal_core_version" className="text-lg mr-2 text-white">Drupal Core</label>
       <select id="drupal_core_version" className="text-base border border-gray-400 rounded-md p-1 w-full md:w-1/3" disabled={!selectedVersion} value={drupalVersion} onChange={e => setDrupalVersion(e.target.value)}>
         {drupalVersions.map(release => <option value={release} key={release}>{release}</option>)}
       </select>
@@ -152,7 +165,7 @@ function AdvancedOptions() {
     <details className="mt-4 flex flex-col py-4">
       <summary className="inline-block font-medium text-lg underline p-0 advance-summary focus:outline-none focus:shadow-none arrow-circle
 ">Advanced options</summary>
-      <div class="flex mb-10 flex-col sm:flex-row">
+      <div className="flex mb-10 flex-col sm:flex-row">
         <DrupalCoreVersionSelector />
         <Patches patches={patches} setPatches={setPatches} />
       </div>

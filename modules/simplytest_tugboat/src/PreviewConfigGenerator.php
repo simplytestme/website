@@ -4,6 +4,7 @@ namespace Drupal\simplytest_tugboat;
 
 use Drupal\simplytest_ocd\OneClickDemoInterface;
 use Drupal\simplytest_ocd\OneClickDemoPluginManager;
+use Drupal\simplytest_projects\ProjectTypes;
 
 /**
  * Generates preview configurations for Tugboat.
@@ -45,6 +46,14 @@ final class PreviewConfigGenerator {
     }
     else {
       $image_name = 'tugboatqa/php:7.2-apache';
+    }
+
+    // Rename drupal to core so that it becomes drupal/core as a package name.
+    // Have core version match the selected project version, as they user may
+    // not have opened advanced options.
+    if ($parameters['project_type'] === ProjectTypes::CORE) {
+      $parameters['project'] = 'core';
+      $parameters['drupal_core_version'] = $parameters['project_version'];
     }
 
     // @todo we could have different Config classes, but this is an easy start.
@@ -140,7 +149,7 @@ final class PreviewConfigGenerator {
       //    add composer config minimum-stability dev and prefer-stable true
       $commands[] = sprintf('composer -n create-project drupal/recommended-project:%s stm --no-install', $parameters['drupal_core_version']);
       $commands[] = sprintf('cd stm && composer require --dev --no-update drupal/core-dev:%s', $parameters['drupal_core_version']);
-      $commands[] = 'cd stm && composer require --dev phpspec/prophecy-phpunit:^2';
+      $commands[] = 'cd stm && composer require --dev --no-update phpspec/prophecy-phpunit:^2';
       $commands[] = 'cd stm && composer require --no-update drush/drush:^10.0';
       $commands[] = 'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"';
     }
@@ -161,7 +170,9 @@ final class PreviewConfigGenerator {
     $commands = [
       'echo "SIMPLYEST_STAGE_DOWNLOAD"',
     ];
-    $is_distro = strtolower($parameters['project_type']) === 'distribution';
+    $is_core = $parameters['project_type'] === ProjectTypes::CORE;
+    $is_distro = $parameters['project_type'] === ProjectTypes::DISTRO;
+
     if ($parameters['major_version'] === '9') {
       $commands[] = 'composer global require szeidler/composer-patches-cli:~1.0';
       $commands[] = 'cd stm && composer require cweagans/composer-patches:~1.0 --no-update';
@@ -170,6 +181,7 @@ final class PreviewConfigGenerator {
       if ($is_distro) {
         return $commands;
       }
+      // @todo If `drupal/drupal`, change to `drupal/core`
       $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-update', $parameters['project'], $parameters['project_version']);
       foreach ($parameters['additionals'] as $additional) {
         $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-update', $additional['shortname'], $additional['version']);
@@ -194,7 +206,7 @@ final class PreviewConfigGenerator {
     else if ($parameters['major_version'] === '7') {
       // @todo this should probably be removed, but it is kept for BC during the
       //   initial refactor (removing should fix distro instances)
-      if ($is_distro) {
+      if ($is_distro || $is_core) {
         return $commands;
       }
       $commands[] = sprintf('drush -r "${DOCROOT}" dl %s-%s -y', $parameters['project'], $parameters['project_version']);
@@ -207,7 +219,7 @@ final class PreviewConfigGenerator {
 
   private function getComposerPatchCommand($project_name, $patch) {
     return sprintf(
-      'cd "${DOCROOT}" && composer patch-add drupal/%s "STM patch %s" "%s"',
+      'cd stm && composer patch-add drupal/%s "STM patch %s" "%s"',
       $project_name,
       basename($patch),
       $patch
@@ -215,12 +227,31 @@ final class PreviewConfigGenerator {
   }
 
   private function getLegacyPatchCommand($project_type, $project_name, $patch) {
-    if ($project_type === 'drupal') {
+    if ($project_type === ProjectTypes::CORE) {
       return sprintf('cd "${DOCROOT}" && curl %s | patch -p1', $patch);
     }
+
+    if ($project_type === ProjectTypes::DISTRO) {
+      return sprintf('cd "${DOCROOT}/profiles/%s" && curl %s | patch -p1',
+        $project_name,
+        $patch,
+      );
+    }
+    $directory = '';
+    if ($project_type === ProjectTypes::MODULE) {
+      $directory = 'modules';
+    }
+    elseif ($project_type === ProjectTypes::THEME) {
+      $directory = 'themes';
+    }
+    else {
+      // @todo exception or log?
+      return 'echo "Could not determine how to patch"';
+    }
+
     return sprintf(
-      'cd "${DOCROOT}/sites/all/%ss/%s" && curl %s | patch -p1',
-      $project_type,
+      'cd "${DOCROOT}/sites/all/%s/%s" && curl %s | patch -p1',
+      $directory,
       $project_name,
       $patch
     );
@@ -230,28 +261,27 @@ final class PreviewConfigGenerator {
     $commands = [];
 
     if ($parameters['major_version'] === '8' || $parameters['major_version'] === '9') {
-      $is_core = $parameters['project'] === 'drupal';
       // @todo previous version had cd DOCROOT vs cd stm, normalize.
       if (count($parameters['patches']) > 0) {
-        $commands[] = 'cd "${DOCROOT}" && composer patch-enable --file="patches.json"';
+        $commands[] = 'cd stm && composer patch-enable --file="patches.json"';
       }
       foreach ($parameters['patches'] as $patch) {
-        $commands[] = $this->getComposerPatchCommand($is_core ? 'core' : $parameters['project'], $patch);
+        $commands[] = $this->getComposerPatchCommand($parameters['project'], $patch);
       }
       foreach ($parameters['additionals'] as $additional) {
         foreach ($additional['patches'] as $additional_patch) {
           $commands[] = $this->getComposerPatchCommand($additional['shortname'], $additional_patch);
         }
       }
-      $commands[] = 'cd "${DOCROOT}" && composer update --no-ansi';
+      $commands[] = 'cd stm && composer update --no-ansi';
     }
     else if ($parameters['major_version'] === '7') {
       foreach ($parameters['patches'] as $patch) {
-        $commands[] = $this->getLegacyPatchCommand(strtolower($parameters['project_type']), $parameters['project'], $patch);
+        $commands[] = $this->getLegacyPatchCommand($parameters['project_type'], $parameters['project'], $patch);
       }
       foreach ($parameters['additionals'] as $additional) {
         foreach ($additional['patches'] as $additional_patch) {
-          $commands[] = $this->getLegacyPatchCommand(strtolower($additional['type']), $additional['shortname'], $additional_patch);
+          $commands[] = $this->getLegacyPatchCommand($additional['type'], $additional['shortname'], $additional_patch);
         }
       }
     }
@@ -264,8 +294,8 @@ final class PreviewConfigGenerator {
       return $commands;
     }
 
-    $is_core = $parameters['project'] === 'drupal';
-    $is_distro = strtolower($parameters['project_type']) === 'distribution';
+    $is_core = $parameters['project_type'] === ProjectTypes::CORE;
+    $is_distro = $parameters['project_type'] === ProjectTypes::DISTRO;
     $install_profile = $parameters['install_profile'];
     if ($is_distro) {
       $install_profile = $parameters['project'];
