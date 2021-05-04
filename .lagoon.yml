@@ -44,6 +44,11 @@ environments:
         command: drush cron
         service: cli
   main:
+    routes:
+      - nginx:
+          - alpha.simplytest.me:
+              insecure: Redirect
+              tls-acme: "true"
     cronjobs:
       - name: drush cron
         schedule: "*/15 * * * *"
