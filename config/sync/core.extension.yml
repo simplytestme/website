@@ -23,6 +23,7 @@ module:
   path_alias: 0
   simplytest_import: 0
   simplytest_launch: 0
+  simplytest_messages: 0
   simplytest_ocd: 0
   simplytest_projects: 0
   simplytest_tugboat: 0
