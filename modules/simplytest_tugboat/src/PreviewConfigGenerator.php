@@ -58,18 +58,22 @@ final class PreviewConfigGenerator {
 
     // @todo we could have different Config classes, but this is an easy start.
     $build_commands = [
+      // @todo these belong in a base preview.
+      [
+        'docker-php-ext-install opcache',
+        'a2enmod headers rewrite'
+      ],
       ['composer self-update'],
       $this->getSetupCommands($parameters),
       $this->getDownloadCommands($parameters),
       ['echo "SIMPLYEST_STAGE_PATCHING"'],
       $this->getPatchingCommands($parameters),
-      [
-        // @todo this order should be flip flopped; it's this way for keeping
-        //   the tests green during refactor.
-        'cd "${DOCROOT}" && chmod -R 777 sites/default',
-        'echo "SIMPLYEST_STAGE_INSTALLING"',
-      ],
+      ['echo "SIMPLYEST_STAGE_INSTALLING"'],
       $this->getInstallingCommands($parameters),
+      [
+        'mkdir ${DOCROOT}/sites/default/files',
+        'chown -R www-data:www-data ${DOCROOT}/sites/default',
+      ],
       ['echo "SIMPLYEST_STAGE_FINALIZE"'],
     ];
 
@@ -291,6 +295,26 @@ final class PreviewConfigGenerator {
   private function getInstallingCommands(array $parameters) {
     $commands = [];
     if ($parameters['perform_install'] === FALSE) {
+      $commands[] = 'cp ${DOCROOT}/sites/default/default.settings.php ${DOCROOT}/sites/default/settings.php';
+      $commands[] = 'echo "\$databases[\'default\'][\'default\'] = [" >> ${DOCROOT}/sites/default/settings.php';
+      $commands[] = 'echo "     \'database\' => \'tugboat\'," >> ${DOCROOT}/sites/default/settings.php';
+      $commands[] = 'echo "     \'host\' => \'mysql\'," >> ${DOCROOT}/sites/default/settings.php';
+      $commands[] = 'echo "     \'username\' => \'tugboat\'," >> ${DOCROOT}/sites/default/settings.php';
+      $commands[] = 'echo "     \'password\' => \'tugboat\'," >> ${DOCROOT}/sites/default/settings.php';
+      $commands[] = 'echo "     \'port\' => 3306," >> ${DOCROOT}/sites/default/settings.php';
+      $commands[] = 'echo "     \'driver\' => \'mysql\'," >> ${DOCROOT}/sites/default/settings.php';
+      $commands[] = 'echo "     \'prefix\' => \'\'," >> ${DOCROOT}/sites/default/settings.php';
+      $commands[] = 'echo "];" >> ${DOCROOT}/sites/default/settings.php';
+
+      // Provide a hash salt so that install begins automatically.
+      // @see install_begin_request
+      if ($parameters['major_version'] === '9' || $parameters['major_version'] === '8') {
+        $commands[] = 'echo "\$settings[\'hash_salt\'] = \'JzbemMqk0y1ALpbGBWhz8N_p9mr7wyYm_AQIpkxH1y-uSIGNTb5EnDwhJygBCyRKJhAOkQ1d7Q\';" >> ${DOCROOT}/sites/default/settings.php';
+        $commands[] = 'echo "\$settings[\'config_sync_directory\'] = \'sites/default/files/sync\';" >> ${DOCROOT}/sites/default/settings.php';
+      }
+      else {
+        $commands[] = 'echo "\$drupal_hash_salt = \'JzbemMqk0y1ALpbGBWhz8N_p9mr7wyYm_AQIpkxH1y-uSIGNTb5EnDwhJygBCyRKJhAOkQ1d7Q\'" >> ${DOCROOT}/sites/default/settings.php';
+      }
       return $commands;
     }
 
@@ -303,7 +327,6 @@ final class PreviewConfigGenerator {
 
     if ($parameters['major_version'] === '9') {
       $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush si %s --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y', $install_profile);
-      $commands[] = 'cd "${DOCROOT}" && chmod -R 777 sites/default/files';
       if (!$is_distro && !$is_core) {
         $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush en %s -y', $parameters['project']);
       }
@@ -313,7 +336,6 @@ final class PreviewConfigGenerator {
     }
     else if ($parameters['major_version'] === '7' || $parameters['major_version'] === '8') {
       $commands[] = sprintf('drush -r "${DOCROOT}" si %s --account-name=admin --account-pass=admin -y', $install_profile);
-      $commands[] = 'cd "${DOCROOT}" && chmod -R 777 sites/default/files';
       if (!$is_distro && !$is_core) {
         $commands[] = sprintf('drush -r "${DOCROOT}" en %s -y', $parameters['project']);
       }
