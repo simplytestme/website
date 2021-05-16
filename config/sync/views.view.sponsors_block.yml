@@ -1,16 +1,15 @@
+uuid: d88061b9-f138-4492-b219-beabf37368e9
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.media.field_link
     - field.storage.media.field_media_image
-    - image.style.thumbnail
     - media.type.sponsor
   module:
     - image
     - link
     - media
-    - user
 id: sponsors_block
 label: 'Sponsors Block'
 module: views
@@ -27,7 +26,7 @@ display:
     display_options:
       access:
         type: none
-        options: { }
+        options: {  }
       cache:
         type: tag
         options: {  }
@@ -50,9 +49,8 @@ display:
           sort_asc_label: Asc
           sort_desc_label: Desc
       pager:
-        type: some
+        type: none
         options:
-          items_per_page: 5
           offset: 0
       style:
         type: grid
@@ -193,7 +191,7 @@ display:
           click_sort_column: target_id
           type: image
           settings:
-            image_style: thumbnail
+            image_style: ''
             image_link: ''
           group_column: ''
           group_columns: {  }
@@ -245,7 +243,6 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
-        - user.permissions
       tags:
         - 'config:field.storage.media.field_link'
         - 'config:field.storage.media.field_media_image'
@@ -262,7 +259,6 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
-        - user.permissions
       tags:
         - 'config:field.storage.media.field_link'
         - 'config:field.storage.media.field_media_image'

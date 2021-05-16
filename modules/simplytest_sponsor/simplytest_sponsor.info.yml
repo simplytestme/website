@@ -1,8 +1,0 @@
-name: Simplytest Sponsor
-type: module
-description: Provide listing for sponsors.
-package: Custom
-core: 8.x
-core_version_requirement: ^8 || ^9
-dependencies:
-  - drupal:media_library
