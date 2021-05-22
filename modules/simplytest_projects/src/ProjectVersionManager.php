@@ -69,12 +69,16 @@ final class ProjectVersionManager {
 
   // @todo needs tests.
   public function getRelease(string $project, string $version): ?array {
+    if (substr($version, -1) === 'x') {
+      $version .= '-dev';
+    }
+
     $query = $this->database->select(self::TABLE_NAME);
     $query
       ->fields(self::TABLE_NAME)
       ->condition('short_name', $project)
       ->condition('version', $version);
-    return $query->execute()->fetchAssoc();
+    return $query->execute()->fetchAssoc() ?: NULL;
   }
 
   // @todo needs tests.

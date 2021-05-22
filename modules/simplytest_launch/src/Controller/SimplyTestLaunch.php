@@ -3,8 +3,10 @@
 namespace Drupal\simplytest_launch\Controller;
 
 use Drupal\Component\Serialization\Json;
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Render\Markup;
+use Drupal\Core\Routing\LocalRedirectResponse;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\TypedData\TypedDataManagerInterface;
 use Drupal\Core\Url;
@@ -72,7 +74,7 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
     );
   }
 
-  public function configure(Request $request) { 
+  public function configure(Request $request) {
     $build = [
       'mount' => [
         '#markup' => Markup::create('<div class="simplytest-react-component" id="launcher_mount"></div>'),
@@ -93,9 +95,68 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
   /**
    * Return response for the controller.
    */
-  public function projectSelector() {
-    return [];
+  public function projectSelector(string $project, string $version, Request $request) {
+    if (substr($version, -1) === 'x') {
+      $version .= '-dev';
+    }
+    $query = [
+        'project' => $project,
+        'version' => $version
+    ] + $request->query->all();
+
+    // @todo inject the database services.
+    $database = \Drupal::database();
+    $project_version_manager = \Drupal::getContainer()->get('simplytest_projects.project_version_manager');
+    assert($project_version_manager !== NULL);
+
+
+    $count = $database->select('simplytest_project', 'p')
+      ->condition('shortname', $project)
+      ->countQuery()
+      ->execute()
+      ->fetchField();
+    if ($count === 0) {
+      // @note on project insert, the release history is automatically fetched.
+      // @see simplytest_projects_simplytest_project_insert
+      $fetched_project = $this->simplytestProjectFetcher->fetchProject($project);
+      if ($fetched_project === FALSE) {
+        // @todo how do we handle an invalid project.
+      }
+      else {
+        $release = $project_version_manager->getRelease($project, $version);
+        if ($release === NULL) {
+          // @todo display a message letting them know invalid version?
+          unset($query['version']);
+        }
+      }
+    }
+    else {
+      $release = $project_version_manager->getRelease($project, $version);
+      if ($release === NULL) {
+        $project_version_manager->updateData($project);
+        $release = $project_version_manager->getRelease($project, $version);
+        if ($release === NULL) {
+          // @todo display a message letting them know invalid version?
+          unset($query['version']);
+        }
+      }
+    }
+
+    $configure_url = Url::fromRoute('simplytest_launch.configure', [], [
+      'query' => $query,
+    ]);
+
+    $configure_url_generated = $configure_url->toString(TRUE);
+    $response = LocalRedirectResponse::create($configure_url_generated->getGeneratedUrl());
+    $response->addCacheableDependency($configure_url_generated);
+
+    $cacheable_metadata = new CacheableMetadata();
+    $cacheable_metadata->addCacheContexts(['url.query_args']);
+    $response->addCacheableDependency($cacheable_metadata);
+    return $response;
   }
+
+
 
   /**
    * Project launcher service for react.

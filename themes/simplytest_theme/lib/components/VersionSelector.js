@@ -2,8 +2,7 @@ import { useLauncher } from '../context/launcher'
 import React, { useEffect, useState } from 'react'
 
 // @todo this might be better coupled within the ProjectAutocomplete component?
-function VersionSelector({ selectedProject, selectedVersion, setSelectedVersion, appliedCoreConstraint }) {
-  const { selectedVersion: rootProjectVersion } = useLauncher();
+function VersionSelector({ selectedProject, selectedVersion, setSelectedVersion, appliedCoreConstraint, initialVersion, rootProjectVersion }) {
   const [versions, setVersions] = useState([]);
   // Side effect: when we have a project shortname, and no core constraints
   // AKA the root project, fetch the direct versions.
@@ -31,10 +30,10 @@ function VersionSelector({ selectedProject, selectedVersion, setSelectedVersion,
   }, [selectedProject, appliedCoreConstraint, rootProjectVersion])
 
   useEffect(() => {
-    if (versions.length > 0) {
+    if (!initialVersion && versions.length > 0) {
       setSelectedVersion(versions[0].version)
     }
-  }, [versions])
+  }, [versions, initialVersion])
   if (selectedProject === null) {
     return null;
   }

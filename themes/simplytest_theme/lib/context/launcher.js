@@ -16,15 +16,6 @@ export function LauncherProvider({ children }) {
   const [additionalProjects, setAdditionalProjects] = useState([]);
   const [canLaunch, setCanLaunch] = useState(false);
 
-  useEffect(() => {
-    if (selectedProject && selectedProject.type === "Distribution") {
-      setInstallProfile(selectedProject.shortname)
-    }
-  }, [selectedProject, setInstallProfile]);
-  useEffect(() => {
-      setCanLaunch(selectedProject && selectedVersion)
-  }, [selectedVersion, selectedProject, setCanLaunch])
-
   function setMainProject(project, version) {
     setSelectedProject(project)
     setSelectedVersion(version)
@@ -35,6 +26,34 @@ export function LauncherProvider({ children }) {
       setDrupalVersion(version)
     }
   }
+  useEffect(() => {
+    const { search } = window.location;
+    const searchParams = new URLSearchParams(search);
+
+    if (searchParams.has("project") && searchParams.has("version")) {
+      setMainProject(
+        { shortname: searchParams.get("project") },
+        searchParams.get("version")
+      );
+    } else if (searchParams.has("project")) {
+      setSelectedProject({
+        shortname: searchParams.get("project")
+      });
+    }
+    if (searchParams.has("patch")) {
+      const paramsPatch = searchParams.get("patch");
+      setPatches(Array.isArray(paramsPatch) ? paramsPatch : [paramsPatch]);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (selectedProject && selectedProject.type === "Distribution") {
+      setInstallProfile(selectedProject.shortname)
+    }
+  }, [selectedProject, setInstallProfile]);
+  useEffect(() => {
+      setCanLaunch(selectedProject && selectedVersion)
+  }, [selectedVersion, selectedProject, setCanLaunch])
 
   function getLaunchPayload() {
     return {

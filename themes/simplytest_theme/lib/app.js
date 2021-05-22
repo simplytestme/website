@@ -96,7 +96,7 @@ function DrupalCoreVersionSelector() {
 }
 
 function AdditionalProjects() {
-  const { additionalProjects, setAdditionalProjects, drupalVersion } = useLauncher();
+  const { additionalProjects, setAdditionalProjects, drupalVersion, selectedVersion } = useLauncher();
   const [additionalBtn, setAdditionalBtn] = useState(false);
 
   function addAdditionalProject(event) {
@@ -121,7 +121,7 @@ function AdditionalProjects() {
         <div key={k} id={`additional_project_${k}`} className="py-4 border-b">
           <div className="flex flex-wrap mb-4 sm:w-1/2">
             <div className="flex-grow">
-              <ProjectSelection appliedCoreConstraint={drupalVersion} additionalBtn={additionalBtn} onChange={(project, version) => {
+              <ProjectSelection appliedCoreConstraint={drupalVersion} rootProjectVersion={selectedVersion} additionalBtn={additionalBtn} onChange={(project, version) => {
                 // @todo the state management for ProjectSelection needs refactor
                 // onChange is technically called with each render, and the
                 // component has no idea if it has really changed or not and ends
@@ -162,7 +162,7 @@ function AdvancedOptions() {
     return null
   }
   return (
-    <details className="mt-4 flex flex-col py-4">
+    <details className="mt-4 flex flex-col py-4" open={patches.length > 0}>
       <summary className="inline-block font-medium text-lg underline p-0 advance-summary focus:outline-none focus:shadow-none arrow-circle
 ">Advanced options</summary>
       <div className="flex mb-10 flex-col sm:flex-row">
@@ -180,7 +180,7 @@ function AdvancedOptions() {
 
 function Launcher() {
   const [errors, setErrors] = useState([]);
-  const { canLaunch, getLaunchPayload, setMainProject } = useLauncher();
+  const { canLaunch, getLaunchPayload, setMainProject, selectedProject, selectedVersion } = useLauncher();
   function onSubmit(e) {
     e.preventDefault();
     const payload = JSON.stringify(getLaunchPayload());
@@ -218,7 +218,7 @@ function Launcher() {
       })}
       <form className="flex flex-col mb-10 max-w-screen-lg container mx-auto pl-130" onSubmit={onSubmit}>
         <div className="flex flex-row flex-grow items-center mobile-column-flex desktop-align-item-end">
-          <ProjectSelection onChange={setMainProject} />
+          <ProjectSelection onChange={setMainProject} initialDefaultProject={selectedProject} initialDefaultVersion={selectedVersion} />
           <button
             className="px-4 py-1 text-xl border rounded-md shadow bg-white hover:bg-gray-50 cursor-pointer disabled:cursor-not-allowed bg-yellow-tan"
             disabled={!canLaunch}>

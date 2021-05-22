@@ -3,9 +3,14 @@ import PropTypes from 'prop-types'
 import ProjectAutocomplete from './ProjectAutocomplete'
 import VersionSelector from './VersionSelector'
 
-function ProjectSelection({ onChange, appliedCoreConstraint, additionalBtn }) {
-  const [project, setProject] = useState(null);
-  const [version, setVersion] = useState('');
+function ProjectSelection({ onChange, appliedCoreConstraint, additionalBtn, initialDefaultProject, initialDefaultVersion, rootProjectVersion }) {
+  const [project, setProject] = useState(initialDefaultProject);
+  const [version, setVersion] = useState(initialDefaultVersion);
+
+  useEffect(() => {
+    setProject(initialDefaultProject);
+    setVersion(initialDefaultVersion);
+  }, [initialDefaultProject, initialDefaultVersion])
 
   useEffect(() => {
     if (project && version) {
@@ -15,9 +20,9 @@ function ProjectSelection({ onChange, appliedCoreConstraint, additionalBtn }) {
 
   return (
     <div className="flex flex-row flex-grow mobile-column-flex desktop-align-item-end">
-      <ProjectAutocomplete setSelectedItem={setProject} additionalBtn={additionalBtn} />
+      <ProjectAutocomplete initialProject={project} setSelectedItem={setProject} additionalBtn={additionalBtn}  />
       {/* @todo version select can have a duplicate ID */}
-      <VersionSelector selectedProject={project} selectedVersion={version} setSelectedVersion={setVersion} appliedCoreConstraint={appliedCoreConstraint} />
+      <VersionSelector initialVersion={version} selectedProject={project} selectedVersion={version} setSelectedVersion={setVersion} appliedCoreConstraint={appliedCoreConstraint} rootProjectVersion={rootProjectVersion} />
     </div>
   )
 }
