@@ -80,19 +80,21 @@ class MessageBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $messageConfig = $this->configFactory->get('simplytest_messages.settings');
     if ($messageConfig->get('enable')) {
       $fileStorage = $this->entityTypeManager->getStorage('file');
-      $icon = $fileStorage->load($messageConfig->get('icon')[0]);
-      $build['icon'] = [
-        '#type' => 'responsive_image',
-        '#theme' => 'image',
-        '#uri' => $icon->getFileUri(),
-        '#prefix' => '<div class="warning-img w-3 h-3 bg-yellow-tan">',
-        '#suffix' => '</div>',
-        '#attributes' => [
-          'class' => [
-            'messages__icon',
+      $messageConfig->get('icon') && $icon = $fileStorage->load($messageConfig->get('icon')[0]);
+      if (isset($icon)) {
+        $build['icon'] = [
+          '#type' => 'responsive_image',
+          '#theme' => 'image',
+          '#uri' => $icon->getFileUri(),
+          '#prefix' => '<div class="warning-img w-3 h-3 bg-yellow-tan">',
+          '#suffix' => '</div>',
+          '#attributes' => [
+            'class' => [
+              'messages__icon',
+            ],
           ],
-        ],
-      ];
+        ];
+      }
       $build['title'] = [
         '#type' => 'html_tag',
         '#tag' => 'div',
