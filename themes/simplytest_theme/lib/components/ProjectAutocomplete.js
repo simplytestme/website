@@ -82,6 +82,7 @@ function ProjectAutocomplete({
           type="text"
           tabIndex="-1"
           className="text-lg font-sans border rounded-md shadow px-4 py-1 w-full"
+          placeholder="Start typing the name of a project"
         />
       </div>
       <ul
