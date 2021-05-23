@@ -5,13 +5,16 @@ namespace Drupal\simplytest_ocd\Plugin\OneClickDemo;
 /**
  * Provides one click demo for commerce.
  *
+ * This directly extends OneClickDemoBase since it has its own Composer template
+ * for the demo.
+ *
  * @OneClickDemo(
  *   id = "oneclickdemo_commerce",
  *   title = @Translation("Drupal Commerce Demo"),
  *   base_preview_name = "commerce"
  * )
  */
-class Commerce extends Drupal8Base {
+class Commerce extends OneClickDemoBase {
 
   public function getSetupCommands(array $parameters): array {
     return [

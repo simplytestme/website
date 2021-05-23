@@ -4,7 +4,7 @@ namespace Drupal\simplytest_ocd\Plugin\OneClickDemo;
 
 use Drupal\simplytest_ocd\OneClickDemoInterface;
 
-abstract class Drupal8Base implements OneClickDemoInterface {
+abstract class Drupal8Base extends OneClickDemoBase  {
 
   /**
    * {@inheritdoc}

@@ -122,49 +122,39 @@ class InstanceManager implements InstanceManagerInterface {
    * @todo decide if data types should be refactored into here.
    */
   public function launchInstance($submission) {
-    $project_version = $submission['project']['version'];
-    $major_version = $submission['drupalVersion'][0];
-
-    // Send parameters.
-    $parameters  = [
-      'perform_install' => !$submission['manualInstall'],
-      'install_profile' => $submission['installProfile'],
-      'drupal_core_version' => $submission['drupalVersion'],
-      'project_type' => $submission['project']['type'],
-      'project_version' => $project_version,
-      'project' => $submission['project']['shortname'],
-      'patches' => array_filter($submission['project']['patches'] ?? []),
-      // @todo do we need to map the versions at all?
-      'additionals' => $submission['additionalProjects'] ?? [],
-      'instance_id' => Crypt::randomBytesBase64(),
-      'hash' => Crypt::randomBytesBase64(),
-      'major_version' => $major_version,
-    ];
-
-    // Make the context and write the record.
-    $context = "drupal$major_version";
-
     // @todo move into its own method or OCD controller directly?
     // Check for one click demos.
-    if ($this->moduleHandler->moduleExists('simplytest_ocd') && !empty($submission['oneclickdemo'])) {
-      $core_version_manager = \Drupal::getContainer()->get('simplytest_projects.core_version_manager');
-      $core_versions = $core_version_manager->getVersions(9);
-      // Temporarily set the major version to 8.x tags only.
-      usort($core_versions, 'version_compare');
-      while ($core_release[0] == '9' && !empty($core_release)){
-        $core_release = array_pop($core_versions);
-      }
-      $parameters['drupal_core_version'] = $core_release;
-
-      // Run OCD specific logic.
+    if (!empty($submission['oneclickdemo']) && $this->moduleHandler->moduleExists('simplytest_ocd')) {
       $ocd_manager = \Drupal::service('plugin.manager.oneclickdemo');
       assert($ocd_manager instanceof OneClickDemoPluginManager);
       $ocd = $ocd_manager->getDefinition($submission['oneclickdemo']);
 
       $context = $ocd['base_preview_name'];
-      $config = $this->previewConfigGenerator->oneClickDemo($submission['oneclickdemo'], $parameters);
+      // @todo Should one-click-demos _really_ have parameters? they're one click.
+      $config = $this->previewConfigGenerator->oneClickDemo($submission['oneclickdemo'], []);
     }
     else {
+      $project_version = $submission['project']['version'];
+      $major_version = $submission['drupalVersion'][0];
+
+      // Send parameters.
+      $parameters  = [
+        'perform_install' => !$submission['manualInstall'],
+        'install_profile' => $submission['installProfile'],
+        'drupal_core_version' => $submission['drupalVersion'],
+        'project_type' => $submission['project']['type'],
+        'project_version' => $project_version,
+        'project' => $submission['project']['shortname'],
+        'patches' => array_filter($submission['project']['patches'] ?? []),
+        // @todo do we need to map the versions at all?
+        'additionals' => $submission['additionalProjects'] ?? [],
+        'instance_id' => Crypt::randomBytesBase64(),
+        'hash' => Crypt::randomBytesBase64(),
+        'major_version' => $major_version,
+      ];
+
+      // Make the context and write the record.
+      $context = "drupal$major_version";
       $config = $this->previewConfigGenerator->generate($parameters);
     }
 

@@ -24,7 +24,7 @@ abstract class OneClickDemoConfigTestBase extends UnitTestCase {
   protected function setUp(): void {
     parent::setUp();
     $manager = $this->prophesize(OneClickDemoPluginManager::class);
-    $manager->createInstance(static::$pluginId)->willReturn(new static::$pluginClass());
+    $manager->createInstance(static::$pluginId)->willReturn(new static::$pluginClass([], static::$pluginId, []));
     $this->previewConfigGenerator = new PreviewConfigGenerator(
       $manager->reveal()
     );
