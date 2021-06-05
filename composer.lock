@@ -1474,16 +1474,16 @@
         },
         {
             "name": "drupal/core",
-            "version": "9.1.9",
+            "version": "9.1.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core.git",
-                "reference": "2c649d5807f08f8c7945d1c6ffb4bb21d5c7849a"
+                "reference": "7fa70eb78addcef8ad704edad9fa73337b8cdab5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core/zipball/2c649d5807f08f8c7945d1c6ffb4bb21d5c7849a",
-                "reference": "2c649d5807f08f8c7945d1c6ffb4bb21d5c7849a",
+                "url": "https://api.github.com/repos/drupal/core/zipball/7fa70eb78addcef8ad704edad9fa73337b8cdab5",
+                "reference": "7fa70eb78addcef8ad704edad9fa73337b8cdab5",
                 "shasum": ""
             },
             "require": {
@@ -1720,13 +1720,13 @@
             ],
             "description": "Drupal is an open source content management platform powering millions of websites and applications.",
             "support": {
-                "source": "https://github.com/drupal/core/tree/9.1.9"
+                "source": "https://github.com/drupal/core/tree/9.1.10"
             },
-            "time": "2021-05-25T09:18:28+00:00"
+            "time": "2021-06-04T17:28:30+00:00"
         },
         {
             "name": "drupal/core-composer-scaffold",
-            "version": "9.1.9",
+            "version": "9.1.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core-composer-scaffold.git",
@@ -1770,13 +1770,13 @@
                 "drupal"
             ],
             "support": {
-                "source": "https://github.com/drupal/core-composer-scaffold/tree/9.2.0-beta1"
+                "source": "https://github.com/drupal/core-composer-scaffold/tree/9.2.0-beta3"
             },
             "time": "2020-08-07T22:30:13+00:00"
         },
         {
             "name": "drupal/core-project-message",
-            "version": "9.1.9",
+            "version": "9.1.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core-project-message.git",
@@ -1811,22 +1811,22 @@
                 "drupal"
             ],
             "support": {
-                "source": "https://github.com/drupal/core-project-message/tree/9.2.0-beta1"
+                "source": "https://github.com/drupal/core-project-message/tree/9.2.0-beta3"
             },
             "time": "2020-09-14T13:40:36+00:00"
         },
         {
             "name": "drupal/core-recommended",
-            "version": "9.1.9",
+            "version": "9.1.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core-recommended.git",
-                "reference": "c29e4707ba567b7b80b86a8fa6aea0d0e50967b0"
+                "reference": "cf3bc76f7f15a77b6655d74a535ed6e704da9490"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core-recommended/zipball/c29e4707ba567b7b80b86a8fa6aea0d0e50967b0",
-                "reference": "c29e4707ba567b7b80b86a8fa6aea0d0e50967b0",
+                "url": "https://api.github.com/repos/drupal/core-recommended/zipball/cf3bc76f7f15a77b6655d74a535ed6e704da9490",
+                "reference": "cf3bc76f7f15a77b6655d74a535ed6e704da9490",
                 "shasum": ""
             },
             "require": {
@@ -1835,7 +1835,7 @@
                 "doctrine/annotations": "1.11.1",
                 "doctrine/lexer": "1.2.1",
                 "doctrine/reflection": "1.2.2",
-                "drupal/core": "9.1.9",
+                "drupal/core": "9.1.10",
                 "egulias/email-validator": "2.1.22",
                 "guzzlehttp/guzzle": "6.5.5",
                 "guzzlehttp/promises": "1.4.0",
@@ -1896,9 +1896,9 @@
             ],
             "description": "Locked core dependencies; require this project INSTEAD OF drupal/core.",
             "support": {
-                "source": "https://github.com/drupal/core-recommended/tree/9.1.9"
+                "source": "https://github.com/drupal/core-recommended/tree/9.1.10"
             },
-            "time": "2021-05-25T09:18:28+00:00"
+            "time": "2021-06-04T17:28:30+00:00"
         },
         {
             "name": "drupal/simplytest",
@@ -8032,16 +8032,16 @@
         },
         {
             "name": "drupal/core-dev-pinned",
-            "version": "9.1.9",
+            "version": "9.1.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core-dev-pinned.git",
-                "reference": "61f833e0e53b6f911c68f68fd3615b166b965e3f"
+                "reference": "57f76077f1286edce93fa55b7c31efebe8c7c4ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core-dev-pinned/zipball/61f833e0e53b6f911c68f68fd3615b166b965e3f",
-                "reference": "61f833e0e53b6f911c68f68fd3615b166b965e3f",
+                "url": "https://api.github.com/repos/drupal/core-dev-pinned/zipball/57f76077f1286edce93fa55b7c31efebe8c7c4ae",
+                "reference": "57f76077f1286edce93fa55b7c31efebe8c7c4ae",
                 "shasum": ""
             },
             "require": {
@@ -8056,7 +8056,7 @@
                 "composer/xdebug-handler": "1.4.4",
                 "doctrine/instantiator": "1.3.1",
                 "drupal/coder": "8.3.10",
-                "drupal/core": "9.1.9",
+                "drupal/core": "9.1.10",
                 "easyrdf/easyrdf": "1.0.0",
                 "fabpot/goutte": "v3.3.1",
                 "instaclick/php-webdriver": "1.4.7",
@@ -8112,9 +8112,9 @@
             ],
             "description": "Pinned require-dev dependencies from drupal/drupal; use in addition to drupal/core-recommended to run tests from drupal/core.",
             "support": {
-                "source": "https://github.com/drupal/core-dev-pinned/tree/9.1.9"
+                "source": "https://github.com/drupal/core-dev-pinned/tree/9.1.10"
             },
-            "time": "2021-05-25T09:18:28+00:00"
+            "time": "2021-06-04T17:28:30+00:00"
         },
         {
             "name": "easyrdf/easyrdf",
@@ -10556,5 +10556,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
