@@ -62,11 +62,20 @@ final class CoreVersionManagerTest extends KernelTestBase {
   public function testReleaseData(int $major_version, int $expected_count, array $expected_result_sample): void {
     $this->sut->updateData($major_version);
     $results = $this->sut->getVersions($major_version);
-    $this->assertCount($expected_count, $results);
+    $this->assertGreaterThanOrEqual($expected_count, $results);
     $this->assertEquals($expected_result_sample, (array) $results[0]);
   }
 
   public function coreVersionData(): \Generator {
+    yield [9, 1, [
+      'version' => '9.3.x-dev',
+      'major' => '9',
+      'minor' => '3',
+      'patch' => null,
+      'extra' => 'dev',
+      'vcs_label' => '9.3.x',
+      'insecure' => '0',
+    ]];
     yield [9, 33, [
       'version' => '9.2.x-dev',
       'major' => '9',
@@ -110,11 +119,11 @@ final class CoreVersionManagerTest extends KernelTestBase {
     $this->sut->updateData(8);
     $this->sut->updateData(9);
 
-    $this->assertCount(90, $this->sut->getWithCompatibility('7.x'));
+    $this->assertGreaterThanOrEqual(90, $this->sut->getWithCompatibility('7.x'));
     $this->assertCount(0, $this->sut->getWithCompatibility('^10.0'));
-    $this->assertCount(33, $this->sut->getWithCompatibility('^9'));
-    $this->assertCount(14, $this->sut->getWithCompatibility('^8.9.1'));
-    $this->assertCount(200, $this->sut->getWithCompatibility('8.x'));
+    $this->assertGreaterThanOrEqual(33, $this->sut->getWithCompatibility('^9'));
+    $this->assertGreaterThanOrEqual(14, $this->sut->getWithCompatibility('^8.9.1'));
+    $this->assertGreaterThanOrEqual(200, $this->sut->getWithCompatibility('8.x'));
   }
 
 }
