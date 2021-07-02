@@ -23,6 +23,8 @@ export function LauncherProvider({ children }) {
     //   this. Like when we refactor the fact the main project version and
     //   project data are two state values.
     if (project.shortname === 'drupal') {
+      // @todo this is somehow picking the old project version if changes from
+      //    contrib to core.
       setDrupalVersion(version)
     }
   }
@@ -46,14 +48,20 @@ export function LauncherProvider({ children }) {
     }
   }, []);
 
-  useEffect(() => {
-    if (selectedProject && selectedProject.type === "Distribution") {
-      setInstallProfile(selectedProject.shortname)
-    }
-  }, [selectedProject, setInstallProfile]);
-  useEffect(() => {
-      setCanLaunch(selectedProject && selectedVersion)
-  }, [selectedVersion, selectedProject, setCanLaunch])
+  useEffect(
+    () => {
+      if (selectedProject && selectedProject.type === "Distribution") {
+        setInstallProfile(selectedProject.shortname);
+      }
+    },
+    [selectedProject, setInstallProfile]
+  );
+  useEffect(
+    () => {
+      setCanLaunch(selectedProject && selectedVersion);
+    },
+    [selectedVersion, selectedProject]
+  );
 
   function getLaunchPayload() {
     return {

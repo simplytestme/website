@@ -46,5 +46,6 @@ Cypress.Commands.add('pickProject', input => {
     .type(input)
     .wait(300)
     .wait(200)
+    // @todo: strengthen this to make sure select item matches input.
     .type('{downarrow}{enter}')
 })

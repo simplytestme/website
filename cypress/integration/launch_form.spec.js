@@ -40,7 +40,7 @@ describe('Test the launch form', function () {
     cy.getByLabel('Project version')
       .select('8.x-1.8')
     cy.getByLabel('Drupal Core')
-      .should('have.value', '9.1.7')
+      .select('9.2.0')
   })
   it('should show the Umami demo for Drupal 8.6.x and Drupal 9 sites', function () {
     cy.pickProject('Pathauto')
@@ -84,7 +84,7 @@ describe('Test the launch form', function () {
     cy.getByLabel('Project version')
       .select('8.x-1.8')
     cy.getByLabel('Drupal Core')
-      .should('have.value', '9.1.7')
+      .select('9.2.0')
     cy.wait(100);
     cy.getByLabel('Install profile')
       .contains('Minimal')
