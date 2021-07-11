@@ -37,7 +37,7 @@ function InstanceProgress() {
 
   if (error) {
     return (
-      <div className="flex flex-col mb-10 max-w-screen-lg container mx-auto">
+      <div className="flex flex-col pb-10 max-w-screen-lg container mx-auto">
         <p>{state.message}</p>
         <p>
           <a href="/">Go back and try again</a>
@@ -57,7 +57,7 @@ function InstanceProgress() {
   }
 
   return (
-    <div className="flex flex-col mb-10 max-w-screen-lg container mx-auto">
+    <div className="flex flex-col pb-10 max-w-screen-lg container mx-auto">
       <div className="flex flex-col items-center">
         <p className="py-4 text-xl font-bold">{progressTitle}</p>
         <progress className="my-2 w-full" max="100" value={state.progress}>
