@@ -31,7 +31,6 @@ final class ProjectVersionManager {
     $this->fetcher = $fetcher;
   }
 
-  // @todo needs tests
   public function updateData(string $project) {
     foreach (['current', '7.x'] as $channel) {
       try {
@@ -86,7 +85,8 @@ final class ProjectVersionManager {
     $query = $this->database->select(self::TABLE_NAME);
     $query
       ->fields(self::TABLE_NAME)
-      ->condition('short_name', $project);
+      ->condition('short_name', $project)
+      ->orderBy('date', 'DESC');
     return $query->execute()->fetchAll();
   }
 
@@ -96,6 +96,72 @@ final class ProjectVersionManager {
     return array_values(array_filter($releases, static function (\stdClass $row) use ($core_version) {
       return Semver::satisfies($core_version, $row->core_compatibility);
     }));
+  }
+
+  public function organizeAndSortReleases(array $releases): array {
+    $organized_releases = [];
+
+    $branches = [];
+    $core_compatibilities = [
+      [
+        'label' => 'Drupal 10',
+        'constraint' => '10',
+        'versions' => [],
+      ],
+      [
+        'label' => 'Drupal 9',
+        'constraint' => '9',
+        'versions' => [],
+      ],
+      [
+        'label' => 'Drupal 8',
+        'constraint' => '8',
+        'versions' => [],
+      ],
+      [
+        'label' => 'Drupal 7',
+        'constraint' => '7',
+        'versions' => [],
+      ]
+    ];
+    foreach ($releases as $release) {
+      if (strpos($release->version, '-dev') !== FALSE) {
+        $branches[] = $release;
+        continue;
+      }
+
+      $compatibility = $release->core_compatibility;
+      foreach ($core_compatibilities as $key => $major_version) {
+        if (Semver::satisfies($major_version['constraint'], $compatibility)) {
+          $core_compatibilities[$key]['versions'][] = $release;
+        }
+      }
+    }
+    $core_compatibilities = array_filter($core_compatibilities);
+
+    $organized_releases['latest'] = [];
+    $organized_releases['branches'] = $branches;
+    foreach ($core_compatibilities as $core_data) {
+      if (empty($core_data['versions'])) {
+        continue;
+      }
+      $organized_releases['latest'][] = $core_data['versions'][0];
+      unset($core_data['versions'][0]);
+      $core_data['versions'] = array_values($core_data['versions']);
+      $organized_releases['core'][] = $core_data;
+    }
+
+    // Due to the fact some versions may support multiple Drupal core majors, we
+    // could have duplicate latest releases. We filter out non-unique releases
+    // where.
+    $latest_versions = array_map(static function (\stdClass $version) {
+      return $version->version;
+    }, $organized_releases['latest']);
+    $latest_versions = array_unique($latest_versions);
+    $organized_releases['latest'] = array_values(array_intersect_key($organized_releases['latest'], $latest_versions));
+
+
+    return $organized_releases;
   }
 
 }

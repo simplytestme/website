@@ -111,6 +111,7 @@ class SimplyTestProjects extends ControllerBase implements ContainerInjectionInt
    */
   public function projectVersions($project) {
     $versions = $this->projectVersionManager->getAllReleases($project);
+    $versions = $this->projectVersionManager->organizeAndSortReleases($versions);
     $response = new CacheableJsonResponse([
       'list' => $versions
     ]);
@@ -120,6 +121,7 @@ class SimplyTestProjects extends ControllerBase implements ContainerInjectionInt
 
   public function compatibleProjectVersions($project, $core_version) {
     $versions = $this->projectVersionManager->getCompatibleReleases($project, $core_version);
+    $versions = $this->projectVersionManager->organizeAndSortReleases($versions);
     $response = new CacheableJsonResponse([
       'list' => $versions
     ]);

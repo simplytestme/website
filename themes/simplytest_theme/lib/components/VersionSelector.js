@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
 
+function versionWithoutCoreModifier(version) {
+  if (version.indexOf(".x-")) {
+    return version.substr(4);
+  }
+  return version;
+}
+
 // @todo this might be better coupled within the ProjectAutocomplete component?
 function VersionSelector({
   selectedProject,
@@ -9,7 +16,7 @@ function VersionSelector({
   initialVersion,
   rootProjectVersion
 }) {
-  const [versions, setVersions] = useState([]);
+  const [versions, setVersions] = useState(null);
   // Side effect: when we have a project shortname, and no core constraints
   // AKA the root project, fetch the direct versions.
   useEffect(
@@ -47,13 +54,13 @@ function VersionSelector({
 
   useEffect(
     () => {
-      if (!initialVersion && versions.length > 0) {
-        setSelectedVersion(versions[0].version);
+      if (!initialVersion && versions && versions.latest.length > 0) {
+        setSelectedVersion(versions.latest[0].version);
       }
     },
     [versions, initialVersion]
   );
-  if (selectedProject === null) {
+  if (selectedProject === null || versions === null) {
     return null;
   }
   return (
@@ -69,12 +76,36 @@ function VersionSelector({
           setSelectedVersion(e.target.value);
         }}
       >
-        {versions.map(version => {
+        <optgroup label="Latest">
+          {versions.latest.map(version => {
+            return (
+              <option value={version.version} key={version.version}>
+                {versionWithoutCoreModifier(version.version)} ({version.core_compatibility})
+              </option>
+            );
+          })}
+        </optgroup>
+        <optgroup label="Branches">
+          {versions.branches.map(version => {
+            return (
+              <option value={version.version} key={version.version}>
+                {version.version}
+              </option>
+            );
+          })}
+        </optgroup>
+        {versions.core.map(core => {
           return (
-            <option value={version.version} key={version.version}>
-              {version.version}
-            </option>
-          );
+            <optgroup label={core.label} key={core.label}>
+              {core.versions.map(version => {
+                return (
+                  <option value={version.version} key={version.version}>
+                    {version.version}
+                  </option>
+                );
+              })}
+            </optgroup>
+          )
         })}
       </select>
     </div>
