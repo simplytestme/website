@@ -7,17 +7,13 @@ use Drupal\Component\Utility\Crypt;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Logger\LoggerChannelInterface;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\simplytest_ocd\OneClickDemoPluginManager;
-use Drupal\simplytest_projects\SimplytestProjectFetcher;
 use Drupal\tugboat\TugboatClient;
 
 /**
  * InstanceManager service.
  */
 class InstanceManager implements InstanceManagerInterface {
-  use StringTranslationTrait;
 
   /**
    * The Tugboat module settings.
@@ -41,13 +37,6 @@ class InstanceManager implements InstanceManagerInterface {
   protected $moduleHandler;
 
   /**
-   * The project service.
-   *
-   * @var \Drupal\simplytest_projects\SimplytestProjectFetcher
-   */
-  protected $projectFetcher;
-
-  /**
    * The Tugboat client.
    * @var \Drupal\tugboat\TugboatClient
    */
@@ -69,19 +58,13 @@ class InstanceManager implements InstanceManagerInterface {
    *   The logger channel for this module.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler service.
-   * @param \Drupal\Core\StringTranslation\TranslationInterface $string_translation
-   *   The string translation service.
-   * @param \Drupal\simplytest_projects\SimplytestProjectFetcher $project_fetcher
-   *   The project service.
    * @param \Drupal\tugboat\TugboatClient $tugboat_client
    *   The Tugboat client.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, LoggerChannelInterface $logger, ModuleHandlerInterface $module_handler, TranslationInterface $string_translation, SimplytestProjectFetcher $project_fetcher, TugboatClient $tugboat_client, PreviewConfigGenerator $preview_config_generator) {
+  public function __construct(ConfigFactoryInterface $config_factory, LoggerChannelInterface $logger, ModuleHandlerInterface $module_handler, TugboatClient $tugboat_client, PreviewConfigGenerator $preview_config_generator) {
     $this->tugboatSettings = $config_factory->get('tugboat.settings');
     $this->logger = $logger;
     $this->moduleHandler = $module_handler;
-    $this->stringTranslation = $string_translation;
-    $this->projectFetcher = $project_fetcher;
     $this->tugboatClient = $tugboat_client;
     $this->previewConfigGenerator = $preview_config_generator;
   }

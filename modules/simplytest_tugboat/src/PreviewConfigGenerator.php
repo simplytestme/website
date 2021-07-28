@@ -71,7 +71,7 @@ final class PreviewConfigGenerator {
       ['echo "SIMPLYEST_STAGE_INSTALLING"'],
       $this->getInstallingCommands($parameters),
       [
-        'mkdir ${DOCROOT}/sites/default/files',
+        'mkdir -p ${DOCROOT}/sites/default/files',
         'chown -R www-data:www-data ${DOCROOT}/sites/default',
       ],
       ['echo "SIMPLYEST_STAGE_FINALIZE"'],
