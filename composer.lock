@@ -1841,7 +1841,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/simplytest.git",
-                "reference": "6080d77f03821229a6221d2b56469eb8a612356e"
+                "reference": "169737ceb2cb3996c7e4c736ad36d9bdbcff4cbc"
             },
             "require": {
                 "drupal/core": "^9.0",
@@ -1884,7 +1884,7 @@
                 "issues": "https://www.drupal.org/project/issues/simplytest",
                 "source": "https://git.drupalcode.org/project/simplytest"
             },
-            "time": "2021-07-28T03:29:28+00:00"
+            "time": "2021-08-19T12:20:34+00:00"
         },
         {
             "name": "drupal/tugboat",
