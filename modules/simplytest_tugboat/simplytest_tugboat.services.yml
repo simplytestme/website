@@ -8,8 +8,6 @@ services:
       - '@config.factory'
       - '@logger.channel.simplytest_tugboat'
       - '@module_handler'
-      - '@string_translation'
-      - '@simplytest_projects.fetcher'
       - '@tugboat.client'
       - '@simplytest_tugboat.preview_config_generator'
   simplytest_tugboat.preview_config_generator:
