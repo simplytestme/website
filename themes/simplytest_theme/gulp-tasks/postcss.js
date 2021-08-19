@@ -36,7 +36,7 @@ module.exports = function (gulp, options, plugins) {
             overrideBrowserslist: ['last 2 version']
         })
         ];
-        return gulp.src(options.sass.sassFiles  + '/sass')
+        return gulp
         .pipe(sourcemaps.init())
         .pipe(using({prefix: 'Styles update 👉'}))
         .pipe(postcss(plugins))

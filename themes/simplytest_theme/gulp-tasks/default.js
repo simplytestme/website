@@ -10,7 +10,6 @@ module.exports = function (gulp) {
 
   // Watch
   gulp.task('default', gulp.series(
-    'sass-lint',
     'postcss',
     'watch'
   ));
