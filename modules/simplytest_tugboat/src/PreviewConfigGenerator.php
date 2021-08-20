@@ -180,16 +180,12 @@ final class PreviewConfigGenerator {
     if ($parameters['major_version'] === '9') {
       $commands[] = 'composer global require szeidler/composer-patches-cli:~1.0';
       $commands[] = 'cd stm && composer require cweagans/composer-patches:~1.0 --no-update';
-      // @todo this should probably be removed, but it is kept for BC during the
-      //   initial refactor (removing should fix distro instances)
-      if ($is_distro) {
-        return $commands;
-      }
       // @todo If `drupal/drupal`, change to `drupal/core`
-      $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-update', $parameters['project'], $parameters['project_version']);
+      $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-update', $parameters['project'], $this->getComposerCompatibleVersionString($parameters['project_version']));
       foreach ($parameters['additionals'] as $additional) {
-        $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-update', $additional['shortname'], $additional['version']);
+        $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-update', $additional['shortname'], $this->getComposerCompatibleVersionString($additional['version']));
       }
+      // @todo this can probably be removed, but all D9Config test needs update.
       $commands[] = 'cd stm && composer update --no-ansi';
     }
     else if ($parameters['major_version'] === '8') {
@@ -197,19 +193,15 @@ final class PreviewConfigGenerator {
       $commands[] = 'cd "${DOCROOT}" && composer require cweagans/composer-patches:~1.0 --no-update';
       $commands[] = 'cd "${DOCROOT}" && composer require zaporylie/composer-drupal-optimizations:^1.0 --no-update';
       $commands[] = 'cd "${DOCROOT}" && composer install --no-ansi';
-      // @todo this should probably be removed, but it is kept for BC during the
-      //   initial refactor (removing should fix distro instances)
-      if ($is_distro) {
-        return $commands;
-      }
-      $commands[] = sprintf('cd "${DOCROOT}" && composer require drupal/%s:%s --no-update', $parameters['project'], $parameters['project_version']);
+      $commands[] = sprintf('cd "${DOCROOT}" && composer require drupal/%s:%s --no-update', $parameters['project'], $this->getComposerCompatibleVersionString($parameters['project_version']));
       foreach ($parameters['additionals'] as $additional) {
-        $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-update', $additional['shortname'], $additional['version']);
+        $commands[] = sprintf('cd "${DOCROOT}" && composer require drupal/%s:%s --no-update', $additional['shortname'], $this->getComposerCompatibleVersionString($additional['version']));
       }
     }
     else if ($parameters['major_version'] === '7') {
       // @todo this should probably be removed, but it is kept for BC during the
       //   initial refactor (removing should fix distro instances)
+      // @note Drupal 7 + distro might be too hard.
       if ($is_distro || $is_core) {
         return $commands;
       }
@@ -221,9 +213,10 @@ final class PreviewConfigGenerator {
     return $commands;
   }
 
-  private function getComposerPatchCommand($project_name, $patch) {
+  private function getComposerPatchCommand(string $project_name, string $patch, string $dir = 'stm') {
     return sprintf(
-      'cd stm && composer patch-add drupal/%s "STM patch %s" "%s"',
+      'cd %s && composer patch-add drupal/%s "STM patch %s" "%s"',
+      $dir,
       $project_name,
       basename($patch),
       $patch
@@ -265,19 +258,20 @@ final class PreviewConfigGenerator {
     $commands = [];
 
     if ($parameters['major_version'] === '8' || $parameters['major_version'] === '9') {
+      $composerWorkingDir = $parameters['major_version'] === '9' ? 'stm' : '"${DOCROOT}"';
       // @todo previous version had cd DOCROOT vs cd stm, normalize.
       if (count($parameters['patches']) > 0) {
-        $commands[] = 'cd stm && composer patch-enable --file="patches.json"';
+        $commands[] = 'cd ' . $composerWorkingDir .  ' && composer patch-enable --file="patches.json"';
       }
       foreach ($parameters['patches'] as $patch) {
-        $commands[] = $this->getComposerPatchCommand($parameters['project'], $patch);
+        $commands[] = $this->getComposerPatchCommand($parameters['project'], $patch, $composerWorkingDir);
       }
       foreach ($parameters['additionals'] as $additional) {
         foreach ($additional['patches'] as $additional_patch) {
-          $commands[] = $this->getComposerPatchCommand($additional['shortname'], $additional_patch);
+          $commands[] = $this->getComposerPatchCommand($additional['shortname'], $additional_patch, $composerWorkingDir);
         }
       }
-      $commands[] = 'cd stm && composer update --no-ansi';
+      $commands[] = 'cd ' . $composerWorkingDir . ' && composer update --no-ansi';
     }
     else if ($parameters['major_version'] === '7') {
       foreach ($parameters['patches'] as $patch) {
@@ -331,7 +325,7 @@ final class PreviewConfigGenerator {
         $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush en %s -y', $parameters['project']);
       }
       foreach ($parameters['additionals'] as $additional) {
-        $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush %s -y', $additional['shortname']);
+        $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush en %s -y', $additional['shortname']);
       }
     }
     else if ($parameters['major_version'] === '7' || $parameters['major_version'] === '8') {
@@ -344,6 +338,14 @@ final class PreviewConfigGenerator {
       }
     }
     return $commands;
+  }
+
+  private function getComposerCompatibleVersionString(string $version): string {
+    $split = strpos($version, '-');
+    if ($split !== FALSE) {
+      return substr($version, $split + 1);
+    }
+    return $version;
   }
 
 }

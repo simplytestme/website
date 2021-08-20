@@ -21,9 +21,10 @@ final class InstanceManagerTest extends UnitTestCase {
 
   private InstanceManager $instanceManager;
   private TugboatClient $tugboatClient;
+  private array $previewIds = [];
 
   protected function setUp(): void {
-    if (getenv('TUGBOAT_API_KEY') === null && getenv('TUGBOAT_REPOSITORY_ID')) {
+    if (getenv('TUGBOAT_API_KEY') === FALSE || getenv('TUGBOAT_REPOSITORY_ID') === FALSE) {
       $this->markTestSkipped('Requires TUGBOAT env variables.');
     }
     parent::setUp();
@@ -54,10 +55,7 @@ final class InstanceManagerTest extends UnitTestCase {
   }
 
   public function testDrupal7() {
-    $instance_id = Crypt::randomBytesBase64();
-    $hash = Crypt::randomBytesBase64();
-
-    $result = $this->instanceManager->launchInstance([
+    $this->doTest([
       'manualInstall' => FALSE,
       'installProfile' => 'standard',
       'drupalVersion' => '7.77',
@@ -68,9 +66,132 @@ final class InstanceManagerTest extends UnitTestCase {
       ],
       'patches' => [],
       'additionals' => [],
-      'instance_id' => $instance_id,
-      'hash' => $hash,
     ]);
+  }
+
+  public function testDrupal7WithPatches() {
+    $this->doTest([
+      'manualInstall' => FALSE,
+      'installProfile' => 'standard',
+      'drupalVersion' => '7.77',
+      'project' => [
+        'version' => '7.x-1.0',
+        'shortname' => 'token',
+        'type' => 'Module',
+      ],
+      'patches' => [
+        'https://www.drupal.org/files/issues/2021-03-02/array-to-string-conversion-notice-3048863-9.patch'
+      ],
+      'additionals' => [],
+    ]);
+  }
+
+  public function testDrupal8() {
+    $this->doTest([
+      'manualInstall' => FALSE,
+      'installProfile' => 'standard',
+      'drupalVersion' => '8.9.18',
+      'project' => [
+        'version' => '8.x-1.9',
+        'shortname' => 'token',
+        'type' => 'Module',
+      ],
+      'patches' => [],
+      'additionals' => [],
+    ]);
+  }
+
+  public function testDrupal8WithAdditionals() {
+    $this->doTest([
+      'manualInstall' => FALSE,
+      'installProfile' => 'standard',
+      'drupalVersion' => '8.9.18',
+      'project' => [
+        'version' => '8.x-3.0-beta1',
+        'shortname' => 'password_policy',
+        'type' => 'Module',
+      ],
+      'patches' => [],
+      'additionals' => [
+        [
+          'version' => '8.x-1.0-beta2',
+          'shortname' => 'password_policy_pwned',
+          'type' => 'Module',
+        ]
+      ],
+    ]);
+  }
+
+  public function testDrupal9() {
+    $this->doTest([
+      'manualInstall' => FALSE,
+      'installProfile' => 'standard',
+      'drupalVersion' => '9.2.4',
+      'project' => [
+        'version' => '8.x-1.9',
+        'shortname' => 'token',
+        'type' => 'Module',
+      ],
+      'patches' => [],
+      'additionals' => [],
+    ]);
+  }
+
+  public function testDrupal9WithAdditionals() {
+    $this->doTest([
+      'manualInstall' => FALSE,
+      'installProfile' => 'standard',
+      'drupalVersion' => '9.2.4',
+      'project' => [
+        'version' => '8.x-3.0-beta1',
+        'shortname' => 'password_policy',
+        'type' => 'Module',
+      ],
+      'patches' => [],
+      'additionals' => [
+        [
+          'version' => '8.x-1.0-beta2',
+          'shortname' => 'password_policy_pwned',
+          'type' => 'Module',
+        ]
+      ],
+    ]);
+  }
+
+  public function testPanopoly() {
+    $this->markTestIncomplete('Weird issues afoot, like missing pathauto and ctools dependency');
+    $this->doTest([
+      'manualInstall' => FALSE,
+      'installProfile' => 'standard',
+      // ?? Panopoly works on D9, but Drupal.org Compsoer facade says no (~8.0)
+      'drupalVersion' => '8.9.18',
+      'project' => [
+        'version' => '8.x-2.x-dev',
+        'shortname' => 'panopoly',
+        'type' => 'Distribution',
+      ],
+      'patches' => [],
+      'additionals' => [],
+    ]);
+  }
+
+  /**
+   * Do the test.
+   *
+   * We do not use a dataProvider, which would normally make a lot of sense.
+   * However, this makes it easier to run a specific test scenario since this
+   * involves a fully functional integration with Tugboat.
+   *
+   * @param array $submission
+   *   The submission.
+   *
+   * @throws \GuzzleHttp\Exception\GuzzleException
+   */
+  private function doTest(array $submission) {
+    $submission['instance_id'] = Crypt::randomBytesBase64();
+    $submission['hash'] = Crypt::randomBytesBase64();
+
+    $result = $this->instanceManager->launchInstance($submission);
     $job_id = $result['tugboat']['job_id'];
 
     $finished = false;
@@ -88,10 +209,14 @@ final class InstanceManagerTest extends UnitTestCase {
         $this->fail($e->getMessage());
       }
     }
-    self::assertEquals('ready', $status_data['state'], var_export($status_data, TRUE));
+    $log_response = $this->tugboatClient->requestWithApiKey('GET', "jobs/$job_id/log");
+    $logs_data = Json::decode((string) $log_response->getBody());
+
+    // Delete preview so that test failure doesn't leave it lingering.
     $sandbox_id = $status_data['id'];
     $this->tugboatClient->requestWithApiKey('DELETE', "previews/$sandbox_id");
 
+    self::assertEquals('ready', $status_data['state'], var_export($logs_data, TRUE));
   }
 
 }

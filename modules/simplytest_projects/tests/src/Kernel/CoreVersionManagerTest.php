@@ -63,19 +63,15 @@ final class CoreVersionManagerTest extends KernelTestBase {
     $this->sut->updateData($major_version);
     $results = $this->sut->getVersions($major_version);
     $this->assertGreaterThanOrEqual($expected_count, $results);
-    $this->assertEquals($expected_result_sample, (array) $results[0]);
+    // NOTE: We do the array map because assertContains performs a strict check
+    // and strict checks against objects always fail if they are not literally
+    // the same object.
+    $this->assertContains($expected_result_sample, array_map(static function(object $result) {
+      return (array) $result;
+    }, $results));
   }
 
   public function coreVersionData(): \Generator {
-    yield [9, 1, [
-      'version' => '9.3.x-dev',
-      'major' => '9',
-      'minor' => '3',
-      'patch' => null,
-      'extra' => 'dev',
-      'vcs_label' => '9.3.x',
-      'insecure' => '0',
-    ]];
     yield [9, 33, [
       'version' => '9.2.x-dev',
       'major' => '9',
