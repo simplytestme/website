@@ -1841,11 +1841,12 @@
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/simplytest.git",
-                "reference": "169737ceb2cb3996c7e4c736ad36d9bdbcff4cbc"
+                "reference": "a64bb3bcbc394d4ed667d4b3b3bfa52a7768aab0"
             },
             "require": {
                 "drupal/core": "^9.0",
                 "drupal/tugboat": "1.x-dev",
+                "php": "^7.4",
                 "php-http/guzzle6-adapter": "^1.1"
             },
             "type": "drupal-profile",
@@ -1884,7 +1885,7 @@
                 "issues": "https://www.drupal.org/project/issues/simplytest",
                 "source": "https://git.drupalcode.org/project/simplytest"
             },
-            "time": "2021-08-19T12:20:34+00:00"
+            "time": "2021-08-20T22:59:59+00:00"
         },
         {
             "name": "drupal/tugboat",
