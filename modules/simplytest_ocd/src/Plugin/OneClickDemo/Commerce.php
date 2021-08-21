@@ -18,7 +18,9 @@ class Commerce extends OneClickDemoBase {
 
   public function getSetupCommands(array $parameters): array {
     return [
+      'docker-php-ext-install opcache',
       'docker-php-ext-install bcmath',
+      'a2enmod headers rewrite',
       'rm -rf "${DOCROOT}"',
     ];
   }

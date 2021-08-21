@@ -2,8 +2,6 @@
 
 namespace Drupal\simplytest_ocd\Plugin\OneClickDemo;
 
-use Drupal\simplytest_ocd\OneClickDemoInterface;
-
 abstract class Drupal9Base extends OneClickDemoBase {
 
   /**
@@ -14,6 +12,8 @@ abstract class Drupal9Base extends OneClickDemoBase {
    * be an extension of that or just specific definitions.
    */
   public function getSetupCommands(array $parameters): array {
+    $commands[] = 'docker-php-ext-install opcache';
+    $commands[] = 'a2enmod headers rewrite';
     $commands[] = 'rm -rf "${DOCROOT}"';
     $commands[] = 'composer -n create-project drupal/recommended-project:^9.0 stm --no-install';
     $commands[] = 'cd stm && composer require --no-update drupal/core-recommended:^9.0';
