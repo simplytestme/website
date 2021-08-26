@@ -2,7 +2,9 @@
 
 namespace Drupal\simplytest_projects;
 
+use Composer\Semver\Comparator;
 use Composer\Semver\Semver;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Database\Connection;
 use Drupal\simplytest_projects\Exception\NoReleaseHistoryFoundException;
 use Drupal\simplytest_projects\Exception\ReleaseHistoryNotModifiedException;
@@ -32,6 +34,7 @@ final class ProjectVersionManager {
   }
 
   public function updateData(string $project) {
+    $invalidate_caches = FALSE;
     foreach (['current', '7.x'] as $channel) {
       try {
         $release_xml = $this->fetcher->getProjectData($project, $channel);
@@ -46,6 +49,7 @@ final class ProjectVersionManager {
       catch (NoReleaseHistoryFoundException $e) {
         continue;
       }
+      $invalidate_caches = TRUE;
       foreach ($release_data['releases'] as $release) {
         assert($release instanceof ProjectRelease);
         $this->database->merge(self::TABLE_NAME)
@@ -63,6 +67,9 @@ final class ProjectVersionManager {
           ])
           ->execute();
       }
+    }
+    if ($invalidate_caches) {
+      Cache::invalidateTags(["project_versions:{$project}"]);
     }
   }
 
@@ -99,6 +106,7 @@ final class ProjectVersionManager {
   }
 
   public function organizeAndSortReleases(array $releases): array {
+    $is_core = $releases[0]->short_name === 'drupal';
     $organized_releases = [];
 
     $branches = [];
@@ -137,7 +145,6 @@ final class ProjectVersionManager {
         }
       }
     }
-    $core_compatibilities = array_filter($core_compatibilities);
 
     $organized_releases['latest'] = [];
     $organized_releases['branches'] = $branches;
@@ -145,6 +152,23 @@ final class ProjectVersionManager {
       if (empty($core_data['versions'])) {
         continue;
       }
+
+      // For now, we only limit this sorting to Drupal core. This can get akward
+      // with contrib which has 8.x- prefixes AND semantic versioning across
+      // the same core compatibilities (see decoupled_router.)
+      if ($is_core) {
+        // Inspired from \Composer\Semver\Semver::usort.
+        usort($core_data['versions'], static function (object $left, object $right) {
+          if ($left->version === $right->version) {
+            return 0;
+          }
+          if (Comparator::lessThan($left->version, $right->version)) {
+            return 1;
+          }
+          return -1;
+        });
+      }
+
       $organized_releases['latest'][] = $core_data['versions'][0];
       unset($core_data['versions'][0]);
       $core_data['versions'] = array_values($core_data['versions']);

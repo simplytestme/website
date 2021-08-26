@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 function versionWithoutCoreModifier(version) {
-  if (version.indexOf(".x-")) {
+  if (version.indexOf(".x-") !== -1) {
     return version.substr(4);
   }
   return version;

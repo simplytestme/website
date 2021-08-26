@@ -54,6 +54,9 @@ final class Processor {
         if ($is_legacy) {
           $release_data['core_compatibility'] = $data['api_version'];
         }
+        elseif ($data['short_name'] === 'drupal') {
+          $release_data['core_compatibility'] = $version[0] . '.x';
+        }
         // Some projects are missing this, somehow. Assume just 8.x if it is
         // not present, safest assumption.
         // @see https://www.drupal.org/project/password_policy_pwned/releases/8.x-1.0-beta1
