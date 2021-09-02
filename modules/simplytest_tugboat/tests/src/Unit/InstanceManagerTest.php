@@ -84,6 +84,21 @@ final class InstanceManagerTest extends UnitTestCase {
     ]);
   }
 
+  public function testDrupal7ManualInstall() {
+    $this->doTest([
+      'manualInstall' => TRUE,
+      'installProfile' => 'standard',
+      'drupalVersion' => '7.80',
+      'project' => [
+        'version' => '7.80',
+        'shortname' => 'drupal',
+        'type' => 'Drupal core',
+      ],
+      'patches' => [],
+      'additionals' => [],
+    ]);
+  }
+
   public function testDrupal7WithPatches() {
     $this->doTest([
       'manualInstall' => FALSE,
