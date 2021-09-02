@@ -292,7 +292,7 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
       ]
     ];
     // Test testing Drupal core with patches
-    yield [
+    yield 'drupal core with patches and umami' => [
       [
         'perform_install' => TRUE,
         'install_profile' => 'demo_umami',
@@ -328,7 +328,6 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'echo "SIMPLYEST_STAGE_DOWNLOAD"',
               'composer global require szeidler/composer-patches-cli:~1.0',
               'cd stm && composer require cweagans/composer-patches:~1.0 --no-update',
-              'cd stm && composer require drupal/core:9.3.2 --no-update',
               'cd stm && composer update --no-ansi',
               'echo "SIMPLYEST_STAGE_PATCHING"',
               'cd stm && composer patch-enable --file="patches.json"',
@@ -445,6 +444,55 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'echo "SIMPLYEST_STAGE_INSTALLING"',
               'cd "${DOCROOT}" && ../vendor/bin/drush si standard --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y',
               'cd "${DOCROOT}" && ../vendor/bin/drush en token -y',
+              'mkdir -p ${DOCROOT}/sites/default/files',
+              'chown -R www-data:www-data ${DOCROOT}/sites/default',
+              'echo "SIMPLYEST_STAGE_FINALIZE"',
+            ],
+          ],
+        ],
+        'mysql' => [
+          'image' => 'tugboatqa/mysql:5',
+        ],
+      ]
+    ];
+    yield '9.3.x' => [
+      [
+        'perform_install' => TRUE,
+        'install_profile' => 'standard',
+        'drupal_core_version' => '9.3.x-dev',
+        'project_type' => 'Drupal core',
+        'project_version' => '9.3.x-dev',
+        'project' => 'drupal',
+        'patches' => [],
+        'additionals' => [],
+        'instance_id' => $instance_id,
+        'hash' => $hash,
+        'major_version' => '9',
+      ],
+      [
+        'php' => [
+          'image' => 'tugboatqa/php:7.3-apache',
+          'default' => true,
+          'depends' => 'mysql',
+          'commands' => [
+            'build' => [
+              'docker-php-ext-install opcache',
+              'a2enmod headers rewrite',
+              'composer self-update',
+              'rm -rf "${DOCROOT}"',
+              'composer -n create-project drupal/recommended-project:9.3.x-dev stm --no-install',
+              'cd stm && composer require --dev --no-update drupal/core-dev:9.3.x-dev',
+              'cd stm && composer require --dev --no-update phpspec/prophecy-phpunit:^2',
+              'cd stm && composer require --no-update drush/drush:^10.0',
+              'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"',
+              'echo "SIMPLYEST_STAGE_DOWNLOAD"',
+              'composer global require szeidler/composer-patches-cli:~1.0',
+              'cd stm && composer require cweagans/composer-patches:~1.0 --no-update',
+              'cd stm && composer update --no-ansi',
+              'echo "SIMPLYEST_STAGE_PATCHING"',
+              'cd stm && composer update --no-ansi',
+              'echo "SIMPLYEST_STAGE_INSTALLING"',
+              'cd "${DOCROOT}" && ../vendor/bin/drush si standard --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y',
               'mkdir -p ${DOCROOT}/sites/default/files',
               'chown -R www-data:www-data ${DOCROOT}/sites/default',
               'echo "SIMPLYEST_STAGE_FINALIZE"',

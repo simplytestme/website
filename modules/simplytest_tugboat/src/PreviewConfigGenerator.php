@@ -166,8 +166,9 @@ final class PreviewConfigGenerator {
     else if ($parameters['major_version'] === '7' || $parameters['major_version'] === '8') {
       $commands[] = 'cd "${DOCROOT}" && git config core.fileMode false';
       $commands[] = 'cd "${DOCROOT}" && git fetch --all';
-      if (substr($parameters['drupal_core_version'], -1) === 'x') {
-        $commands[] = sprintf('cd "${DOCROOT}" && git reset --hard origin/%s', $parameters['drupal_core_version']);
+
+      if (substr($parameters['drupal_core_version'], -4) === '-dev') {
+        $commands[] = sprintf('cd "${DOCROOT}" && git reset --hard origin/' . substr($parameters['drupal_core_version'], 0, -4));
       }
       else {
         $commands[] = sprintf('cd "${DOCROOT}" && git reset --hard %s', $parameters['drupal_core_version']);
@@ -187,7 +188,9 @@ final class PreviewConfigGenerator {
       $commands[] = 'composer global require szeidler/composer-patches-cli:~1.0';
       $commands[] = 'cd stm && composer require cweagans/composer-patches:~1.0 --no-update';
       // @todo If `drupal/drupal`, change to `drupal/core`
-      $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-update', $parameters['project'], $this->getComposerCompatibleVersionString($parameters['project_version']));
+      if (!$is_core) {
+        $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-update', $parameters['project'], $this->getComposerCompatibleVersionString($parameters['project_version']));
+      }
       foreach ($parameters['additionals'] as $additional) {
         $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-update', $additional['shortname'], $this->getComposerCompatibleVersionString($additional['version']));
       }
@@ -199,7 +202,9 @@ final class PreviewConfigGenerator {
       $commands[] = 'cd "${DOCROOT}" && composer require cweagans/composer-patches:~1.0 --no-update';
       $commands[] = 'cd "${DOCROOT}" && composer require zaporylie/composer-drupal-optimizations:^1.0 --no-update';
       $commands[] = 'cd "${DOCROOT}" && composer install --no-ansi';
-      $commands[] = sprintf('cd "${DOCROOT}" && composer require drupal/%s:%s --no-update', $parameters['project'], $this->getComposerCompatibleVersionString($parameters['project_version']));
+      if (!$is_core) {
+        $commands[] = sprintf('cd "${DOCROOT}" && composer require drupal/%s:%s --no-update', $parameters['project'], $this->getComposerCompatibleVersionString($parameters['project_version']));
+      }
       foreach ($parameters['additionals'] as $additional) {
         $commands[] = sprintf('cd "${DOCROOT}" && composer require drupal/%s:%s --no-update', $additional['shortname'], $this->getComposerCompatibleVersionString($additional['version']));
       }

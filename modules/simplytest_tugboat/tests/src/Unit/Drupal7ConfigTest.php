@@ -256,6 +256,48 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
         ],
       ]
     ];
+    yield '7.x-dev as main project' => [
+      [
+        'perform_install' => TRUE,
+        'install_profile' => 'standard',
+        'drupal_core_version' => '7.x-dev',
+        'project_type' => 'Drupal core',
+        'project_version' => '7.x-dev',
+        'project' => 'drupal',
+        'patches' => [],
+        'additionals' => [],
+        'instance_id' => $instance_id,
+        'hash' => $hash,
+        'major_version' => '7',
+      ],
+      [
+        'php' => [
+          'image' => 'tugboatqa/php:7.2-apache',
+          'default' => true,
+          'depends' => 'mysql',
+          'commands' => [
+            'build' => [
+              'docker-php-ext-install opcache',
+              'a2enmod headers rewrite',
+              'composer self-update',
+              'cd "${DOCROOT}" && git config core.fileMode false',
+              'cd "${DOCROOT}" && git fetch --all',
+              'cd "${DOCROOT}" && git reset --hard origin/7.x',
+              'echo "SIMPLYEST_STAGE_DOWNLOAD"',
+              'echo "SIMPLYEST_STAGE_PATCHING"',
+              'echo "SIMPLYEST_STAGE_INSTALLING"',
+              'drush -r "${DOCROOT}" si standard --account-name=admin --account-pass=admin -y',
+              'mkdir -p ${DOCROOT}/sites/default/files',
+              'chown -R www-data:www-data ${DOCROOT}/sites/default',
+              'echo "SIMPLYEST_STAGE_FINALIZE"',
+            ],
+          ],
+        ],
+        'mysql' => [
+          'image' => 'tugboatqa/mysql:5',
+        ],
+      ]
+    ];
   }
 
 

@@ -24,7 +24,7 @@ final class InstanceManagerTest extends UnitTestCase {
   private array $previewIds = [];
 
   protected function setUp(): void {
-    if (getenv('TUGBOAT_API_KEY') === FALSE || getenv('TUGBOAT_REPOSITORY_ID') === FALSE) {
+    if (empty(getenv('TUGBOAT_API_KEY')) || empty(getenv('TUGBOAT_REPOSITORY_ID'))) {
       $this->markTestSkipped('Requires TUGBOAT env variables.');
     }
     parent::setUp();
@@ -52,6 +52,21 @@ final class InstanceManagerTest extends UnitTestCase {
       $this->tugboatClient,
       $preview_config_generator
     );
+  }
+
+  public function testDrupal7Core() {
+    $this->doTest([
+      'manualInstall' => FALSE,
+      'installProfile' => 'standard',
+      'drupalVersion' => '7.x-dev',
+      'project' => [
+        'version' => '7.x-dev',
+        'shortname' => 'drupal',
+        'type' => 'Drupal core',
+      ],
+      'patches' => [],
+      'additionals' => [],
+    ]);
   }
 
   public function testDrupal7() {
@@ -119,6 +134,21 @@ final class InstanceManagerTest extends UnitTestCase {
           'type' => 'Module',
         ]
       ],
+    ]);
+  }
+
+  public function testDrupal9Core() {
+    $this->doTest([
+      'manualInstall' => FALSE,
+      'installProfile' => 'standard',
+      'drupalVersion' => '9.3.x-dev',
+      'project' => [
+        'version' => '9.3.x-dev',
+        'shortname' => 'drupal',
+        'type' => 'Drupal core',
+      ],
+      'patches' => [],
+      'additionals' => [],
     ]);
   }
 
