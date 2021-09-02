@@ -1841,9 +1841,10 @@
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/simplytest.git",
-                "reference": "85c32727f678fb6c2c5a5a5329221899ae6dff65"
+                "reference": "3d9d53be893d1a7bb799fb83784d9bbf651184c2"
             },
             "require": {
+                "composer/semver": "^3.0",
                 "drupal/core": "^9.0",
                 "drupal/tugboat": "1.x-dev",
                 "php": "^7.4",
@@ -1885,7 +1886,7 @@
                 "issues": "https://www.drupal.org/project/issues/simplytest",
                 "source": "https://git.drupalcode.org/project/simplytest"
             },
-            "time": "2021-08-26T02:24:47+00:00"
+            "time": "2021-09-02T02:50:48+00:00"
         },
         {
             "name": "drupal/tugboat",
