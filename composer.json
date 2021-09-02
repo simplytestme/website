@@ -30,6 +30,7 @@
     ],
     "require": {
         "php": "^7.4",
+        "composer/semver": "^3.0",
         "drupal/core": "^9.0",
         "drupal/tugboat": "1.x-dev",
         "php-http/guzzle6-adapter": "^1.1"

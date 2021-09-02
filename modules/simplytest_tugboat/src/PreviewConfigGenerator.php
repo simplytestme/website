@@ -2,6 +2,7 @@
 
 namespace Drupal\simplytest_tugboat;
 
+use Composer\Semver\Semver;
 use Drupal\simplytest_ocd\OneClickDemoInterface;
 use Drupal\simplytest_ocd\OneClickDemoPluginManager;
 use Drupal\simplytest_projects\ProjectTypes;
@@ -153,7 +154,12 @@ final class PreviewConfigGenerator {
       //    add composer config minimum-stability dev and prefer-stable true
       $commands[] = sprintf('composer -n create-project drupal/recommended-project:%s stm --no-install', $parameters['drupal_core_version']);
       $commands[] = sprintf('cd stm && composer require --dev --no-update drupal/core-dev:%s', $parameters['drupal_core_version']);
-      $commands[] = 'cd stm && composer require --dev --no-update phpspec/prophecy-phpunit:^2';
+      // The phpspec/prophecy-phpunit check was added in 9.1.6
+      // @see https://www.drupal.org/i/3182653
+      // @see https://git.drupalcode.org/project/drupal/-/commit/94d0c1f
+      if (Semver::satisfies($parameters['drupal_core_version'], '>=9.1.6')) {
+        $commands[] = 'cd stm && composer require --dev --no-update phpspec/prophecy-phpunit:^2';
+      }
       $commands[] = 'cd stm && composer require --no-update drush/drush:^10.0';
       $commands[] = 'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"';
     }
