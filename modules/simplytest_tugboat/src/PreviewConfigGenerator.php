@@ -187,10 +187,7 @@ final class PreviewConfigGenerator {
     if ($parameters['major_version'] === '9') {
       $commands[] = 'composer global require szeidler/composer-patches-cli:~1.0';
       $commands[] = 'cd stm && composer require cweagans/composer-patches:~1.0 --no-update';
-      // @todo If `drupal/drupal`, change to `drupal/core`
-      if (!$is_core) {
-        $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-update', $parameters['project'], $this->getComposerCompatibleVersionString($parameters['project_version']));
-      }
+      $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-update', $parameters['project'], $this->getComposerCompatibleVersionString($parameters['project_version']));
       foreach ($parameters['additionals'] as $additional) {
         $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-update', $additional['shortname'], $this->getComposerCompatibleVersionString($additional['version']));
       }
@@ -355,10 +352,24 @@ final class PreviewConfigGenerator {
     return $commands;
   }
 
+  /**
+   * Converts Drupal version strings to semver compatible ones for Composer
+   *
+   * Legacy: 8.x-1.3 becomes 1.3, same was 8.x-1.x-dev becomes 1.x-dev
+   *
+   * @param string $version
+   *   The version.
+   *
+   * @return string
+   *   The compatible version.
+   */
   private function getComposerCompatibleVersionString(string $version): string {
-    $split = strpos($version, '-');
-    if ($split !== FALSE) {
-      return substr($version, $split + 1);
+    // Check if the version is a contrib extension using the legacy core prefix
+    // versioning.
+    $legacy_matches = [];
+    $result = preg_match('/^[7|8].x-(.*)$/', $version, $legacy_matches);
+    if ($result === 1 && count($legacy_matches) === 2) {
+      return $legacy_matches[1];
     }
     return $version;
   }

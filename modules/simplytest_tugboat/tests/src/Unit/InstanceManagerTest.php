@@ -167,6 +167,21 @@ final class InstanceManagerTest extends UnitTestCase {
     ]);
   }
 
+  public function testDrupal9CoreLowerVersion() {
+    $this->doTest([
+      'manualInstall' => FALSE,
+      'installProfile' => 'standard',
+      'drupalVersion' => '9.1.9',
+      'project' => [
+        'version' => '9.1.9',
+        'shortname' => 'drupal',
+        'type' => 'Drupal core',
+      ],
+      'patches' => [],
+      'additionals' => [],
+    ]);
+  }
+
   public function testDrupal9() {
     $this->doTest([
       'manualInstall' => FALSE,
