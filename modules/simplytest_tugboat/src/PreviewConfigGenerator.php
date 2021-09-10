@@ -285,6 +285,10 @@ final class PreviewConfigGenerator {
       $commands[] = 'cd ' . $composerWorkingDir . ' && composer update --no-ansi';
     }
     else if ($parameters['major_version'] === '7') {
+      // Patch Drupal 7 to automatically redirect to the installer.
+      if ($parameters['perform_install'] === FALSE) {
+        $commands[] = $this->getLegacyPatchCommand(ProjectTypes::CORE, '', 'https://www.drupal.org/files/issues/2019-12-19/3077423-11.patch');
+      }
       foreach ($parameters['patches'] as $patch) {
         $commands[] = $this->getLegacyPatchCommand($parameters['project_type'], $parameters['project'], $patch);
       }
