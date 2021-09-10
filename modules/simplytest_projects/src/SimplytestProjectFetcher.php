@@ -265,8 +265,8 @@ class SimplytestProjectFetcher {
       ->range(0, $range);
 
     $title_or_shortname = new Condition('OR');
-    $title_or_shortname->condition('title', $this->connection->escapeLike($string) . '%', 'LIKE');
-    $title_or_shortname->condition('shortname', $this->connection->escapeLike($string) . '%', 'LIKE');
+    $title_or_shortname->condition('title', '%' . $this->connection->escapeLike($string) . '%', 'LIKE');
+    $title_or_shortname->condition('shortname', '%' . $this->connection->escapeLike($string) . '%', 'LIKE');
     $query->condition($title_or_shortname);
 
     if ($types) {
