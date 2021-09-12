@@ -6,6 +6,7 @@ image:
 tasks:
   - name: watch
     init: |
+      gp sync-await composer
       cd "$GITPOD_REPO_ROOT"/web/profiles/contrib/simplytest/themes/simplytest_theme && npm install
     command: |
       cd "$GITPOD_REPO_ROOT"/web/profiles/contrib/simplytest/themes/simplytest_theme && npm run watch
@@ -15,6 +16,7 @@ tasks:
       .gitpod/ddev-in-gitpod-setup.sh
       ddev start
       ddev composer install
+      gp sync-done composer
       ddev si
     command: |
       .gitpod/ddev-in-gitpod-setup.sh
