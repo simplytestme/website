@@ -5,7 +5,6 @@ image:
 # when starting a workspace all docker images are ready
 tasks:
   - name: ddev
-    openMode: split-left
     init: |
       .gitpod/ddev-in-gitpod-setup.sh
       ddev start
@@ -15,7 +14,9 @@ tasks:
     command: |
       .gitpod/ddev-in-gitpod-setup.sh
       ddev start
+      gp preview "$(gp url 8080)"
   - name: watch
+    openMode: split-right
     init: |
       gp sync-await composer
       cd "$GITPOD_REPO_ROOT"/web/profiles/contrib/simplytest/themes/simplytest_theme && npm install
@@ -35,6 +36,12 @@ vscode:
     - mblode.twig-language-2
 
 ports:
+  # Used by node
+  - port: 3000
+    onOpen: ignore
+  # Used by node
+  - port: 3001
+    onOpen: ignore
   # Used by projector
   - port: 6942
     onOpen: ignore
