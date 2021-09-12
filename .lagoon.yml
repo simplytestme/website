@@ -25,7 +25,7 @@ tasks:
         command: php vendor/bin/drush cr
         service: cli
 environments:
-  main:
+  prod:
     routes:
       - nginx:
           - simplytest.me:
@@ -36,6 +36,17 @@ environments:
               tls-acme: "true"
           # temp route for beta
           - beta.simplytest.me:
+              insecure: Redirect
+              tls-acme: "true"
+    cronjobs:
+      - name: drush cron
+        schedule: "*/15 * * * *"
+        command: drush cron
+        service: cli
+  main:
+    routes:
+      - nginx:
+          - alpha.simplytest.me:
               insecure: Redirect
               tls-acme: "true"
     cronjobs:

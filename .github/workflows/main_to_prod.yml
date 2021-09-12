@@ -1,0 +1,18 @@
+name: Main to Prod
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+jobs:
+  main_to_prod:
+    name: Create pull request
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Open PR
+        run: gh pr create --base prod --title "Production deployment" --body ""
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        # @todo find exit codes when PR exists or no changes required.
+        continue-on-error: true
