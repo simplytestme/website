@@ -6,13 +6,13 @@ image:
 tasks:
   - name: ddev
     init: |
-      .gitpod/env-setup.sh
       .gitpod/ddev-in-gitpod-setup.sh
       ddev start
       ddev composer install
       gp sync-done composer
       ddev si
     command: |
+      .gitpod/env-setup.sh
       .gitpod/ddev-in-gitpod-setup.sh
       ddev start
       gp await-port 3000
