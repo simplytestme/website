@@ -6,9 +6,9 @@ image:
 tasks:
   - name: watch
     init: |
-      cd "$GITPOD_REPO_ROOT"/web/profiles/contrib/simplytest/themes/simplytest_theme && yarn
+      cd "$GITPOD_REPO_ROOT"/web/profiles/contrib/simplytest/themes/simplytest_theme && npm install
     command: |
-      cd "$GITPOD_REPO_ROOT"/web/profiles/contrib/simplytest/themes/simplytest_theme && yarn watch
+      cd "$GITPOD_REPO_ROOT"/web/profiles/contrib/simplytest/themes/simplytest_theme && npm run watch
   - name: ddev
     openMode: split-left
     init: |
