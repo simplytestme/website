@@ -6,22 +6,17 @@ It uses Gitpod or DDEV or Lando for local development, but neither are a require
 
 ## Easiest - develop Simplytest in your browser
 
-Click on either the link or button below -
+Click on the button below -
 
-[https://gitpod.io/#https://github.com/simplytestme/website](https://gitpod.io/#https://github.com/simplytestme/website)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/from-referrer/)
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/simplytestme/website)
-
-(You will be asked to login using your Github account)
-<br><br>
-This method is using `ddev-gitpod` technology.
-<br>`ddev` help configure complex systems with ease.
-<br> `gitpod` mean there's no setup or local machine needed.
+(When using this for the first time, you will be asked to login to Gitpod using your Github account)
+<br>
 
 In less than a minute - you will have a full Drupal development environment in your browser.
 You can run drush commands, xdebug, and even use PHPStorm. Simplytestme's CSS and JS files are watched and will be compiled when updated.
 
-![Developing Simplytestme using ddev-gitpod](https://user-images.githubusercontent.com/22901/114256346-b36f1100-9986-11eb-81f2-d9bb63864822.jpg)
+![Developing Simplytestme with Gitpod](https://user-images.githubusercontent.com/22901/114256346-b36f1100-9986-11eb-81f2-d9bb63864822.jpg)
 ### Useful commands:
 
 **Open Simplytestme website in a new tab**
@@ -35,7 +30,7 @@ gp preview $(gp url 8080) --external
 Run the command below in terminal, click on "Open Browser" message that will pop-up, and follow the steps in the new browser tab.
 
 ```sh
-.gitpod/run-phpstorm.sh
+phpstorm
 ```
 
 **xdebug**

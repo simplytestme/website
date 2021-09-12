@@ -4,43 +4,66 @@ image:
 # ddev and composer are running as part of the prebuild
 # when starting a workspace all docker images are ready
 tasks:
-  - name: docker-up
-    before: |
-      sudo docker-up &
-      echo $! > /tmp/docker.pid
-    prebuild: |
-      gp sync-await init-ddev-setup && sudo kill $(cat /tmp/docker.pid)
   - name: watch
     init: |
-      gp sync-await init-ddev-setup && cd web/profiles/contrib/simplytest/themes/simplytest_theme && yarn
+      cd "$GITPOD_REPO_ROOT"/web/profiles/contrib/simplytest/themes/simplytest_theme && yarn
     command: |
-      cd web/profiles/contrib/simplytest/themes/simplytest_theme && yarn gulp
+      cd "$GITPOD_REPO_ROOT"/web/profiles/contrib/simplytest/themes/simplytest_theme && yarn watch
   - name: ddev
     openMode: split-left
     init: |
-      .gitpod/gitpod-setup-ddev.sh
+      .gitpod/ddev-in-gitpod-setup.sh
+      ddev start
       ddev composer install
       ddev si
-      gp sync-done init-ddev-setup
     command: |
-      .gitpod/gitpod-setup-ddev.sh
-      gp await-port 8080 && gp preview $(gp url 8080)
+      .gitpod/ddev-in-gitpod-setup.sh
+      ddev start
 
-# Set the following ports public
+# VScode xdebug extension
+vscode:
+  extensions:
+    # PHP extensions.
+    - felixfbecker.php-debug
+    - wongjn.php-sniffer
+    - neilbrayfield.php-docblocker
+    - bmewburn.vscode-intelephense-client
+
+    # Twig extensions.
+    - mblode.twig-language-2
+
+    # Help extensions.
+    - drupal-mentoring.drupalpod-ext
+
 ports:
+  # Used by projector
   - port: 6942
     onOpen: ignore
+  # Direct-connect ddev-webserver port that is the main port
   - port: 8080
+    onOpen: ignore
+  # Currently un-notified and unsupported mailhog http port
   - port: 8025
     onOpen: ignore
+  # Currently un-notified and unsupported mailhog https port
   - port: 8026
     onOpen: ignore
+  # Currently un-notified and unsupported phpmyadmin http port
   - port: 8036
     onOpen: ignore
+  # Currently un-notified and unsupported phpmyadmin https port
   - port: 8037
     onOpen: ignore
-  - port: 8443
+  # router http port that we're ignoring.
+  - port: 8888
     onOpen: ignore
+  # router https port that we're ignoring.
+  - port: 8889
+    onOpen: ignore
+  # xdebug port
+  - port: 9000
+    onOpen: ignore
+  # projector port
   - port: 9999
 
 github:
@@ -56,7 +79,7 @@ github:
     # add a check to pull requests (defaults to true)
     addCheck: true
     # add a "Review in Gitpod" button as a comment to pull requests (defaults to false)
-    addComment: true
+    addComment: false
     # add a "Review in Gitpod" button to the pull request's description (defaults to false)
     addBadge: true
     # add a label once the prebuild is ready to pull requests (defaults to false)
