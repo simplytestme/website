@@ -153,7 +153,10 @@ final class PreviewConfigGenerator {
       // @todo drupal/recommended-project minimum stability is now stable
       //    add composer config minimum-stability dev and prefer-stable true
       $commands[] = sprintf('composer -n create-project drupal/recommended-project:%s stm --no-install', $parameters['drupal_core_version']);
-      $commands[] = sprintf('cd stm && composer require --dev --no-update drupal/core-dev:%s', $parameters['drupal_core_version']);
+      // We need to require drupal/core and drupal/core-dev at the requested
+      // Drupal core version, otherwise `composer update` could bump the
+      // versions to the latest available one.
+      $commands[] = sprintf('cd stm && composer require --dev --no-update drupal/core:%1$s drupal/core-dev:%1$s', $parameters['drupal_core_version']);
       // The phpspec/prophecy-phpunit check was added in 9.1.6
       // @see https://www.drupal.org/i/3182653
       // @see https://git.drupalcode.org/project/drupal/-/commit/94d0c1f
