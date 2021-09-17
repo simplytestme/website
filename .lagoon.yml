@@ -42,10 +42,10 @@ environments:
   main:
     routes:
       - nginx:
-          - alpha.simplytest.me:
+          - beta.simplytest.me:
               insecure: Redirect
               tls-acme: "true"
-          - beta.simplytest.me:
+          - dev.simplytest.me:
               insecure: Redirect
               tls-acme: "true"
     cronjobs:
