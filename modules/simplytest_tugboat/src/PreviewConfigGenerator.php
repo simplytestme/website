@@ -150,9 +150,9 @@ final class PreviewConfigGenerator {
     $commands = [];
     if ($parameters['major_version'] === '9') {
       $commands[] = 'rm -rf "${DOCROOT}"';
-      // @todo drupal/recommended-project minimum stability is now stable
-      //    add composer config minimum-stability dev and prefer-stable true
       $commands[] = sprintf('composer -n create-project drupal/recommended-project:%s stm --no-install', $parameters['drupal_core_version']);
+      $commands[] = 'cd stm && composer config minimum-stability dev';
+      $commands[] = 'cd stm && composer config prefer-stable true';
       // We need to require drupal/core and drupal/core-dev at the requested
       // Drupal core version, otherwise `composer update` could bump the
       // versions to the latest available one.
