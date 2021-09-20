@@ -12,12 +12,12 @@ function ProjectSelection({
   rootProjectVersion
 }) {
   const [project, setProject] = useState(initialDefaultProject);
-  const [version, setVersion] = useState(initialDefaultVersion);
+  const [version, setVersion] = useState(initialDefaultVersion || "");
 
   useEffect(
     () => {
       setProject(initialDefaultProject);
-      setVersion(initialDefaultVersion);
+      setVersion(initialDefaultVersion || "");
     },
     [initialDefaultProject, initialDefaultVersion]
   );
@@ -28,7 +28,7 @@ function ProjectSelection({
         onChange(project, version);
       }
     },
-    [project, version, onChange]
+    [project, version]
   );
 
   return (
@@ -50,8 +50,21 @@ function ProjectSelection({
     </div>
   );
 }
+ProjectSelection.defaultProps = {
+  appliedCoreConstraint: null,
+  additionalBtn: false,
+  initialDefaultProject: null,
+  initialDefaultVersion: null,
+  rootProjectVersion: null
+};
 ProjectSelection.propTypes = {
   onChange: PropTypes.func.isRequired,
-  appliedCoreConstraint: PropTypes.string
+  appliedCoreConstraint: PropTypes.string,
+  additionalBtn: PropTypes.bool,
+  initialDefaultProject: PropTypes.shape({
+    shortname: PropTypes.string.isRequired
+  }),
+  initialDefaultVersion: PropTypes.string,
+  rootProjectVersion: PropTypes.string
 };
 export default ProjectSelection;

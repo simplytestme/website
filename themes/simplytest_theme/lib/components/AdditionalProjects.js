@@ -44,6 +44,16 @@ function AdditionalProjects() {
               <ProjectSelection
                 appliedCoreConstraint={drupalVersion}
                 rootProjectVersion={selectedVersion}
+                initialDefaultProject={
+                  project.shortname !== ""
+                    ? {
+                        shortname: project.shortname,
+                        title: project.title,
+                        type: project.type
+                      }
+                    : null
+                }
+                initialDefaultVersion={project.version}
                 additionalBtn={additionalBtn}
                 onChange={(changedProject, changedVersion) => {
                   // @todo the state management for ProjectSelection needs refactor
@@ -55,11 +65,11 @@ function AdditionalProjects() {
                       changedProject.shortname ||
                     additionalProjects[k].version !== changedVersion
                   ) {
-                    const newProjects = [...additionalProjects];
+                    const newProjects = additionalProjects;
                     newProjects[k] = {
                       version: changedVersion,
                       patches: [],
-                      ...project
+                      ...changedProject
                     };
                     setAdditionalProjects(newProjects);
                   }
