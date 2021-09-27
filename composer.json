@@ -3,7 +3,7 @@
     "description": "Launch and management of simplytest.me service.",
     "keywords": ["Drupal"],
     "type": "drupal-profile",
-    "license": "GPL-2.0+",
+    "license": "GPL-2.0-or-later",
     "homepage": "https://www.drupal.org/project/simplytest",
     "authors": [
         {
