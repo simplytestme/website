@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useCombobox } from "downshift";
+import { debounce } from "../utils";
 
 function fetchProjects(inputValue, callback) {
   fetch(`/simplytest/projects/autocomplete?string=${inputValue}`)
@@ -36,8 +37,9 @@ function ProjectAutocomplete({
     onSelectedItemChange: ({ selectedItem }) => {
       setSelectedItem(selectedItem);
     },
-    onInputValueChange: ({ inputValue }) =>
-      fetchProjects(inputValue, setInputItems)
+    onInputValueChange: ({ inputValue }) => {
+      debounce(() => fetchProjects(inputValue, setInputItems))();
+    }
   });
 
   // If there is an initial project, kick off a query to populate list items
