@@ -1,39 +1,26 @@
-const mix = require('laravel-mix');
-const tailwindcss = require('tailwindcss');
-require('laravel-mix-purgecss');
+const mix = require("laravel-mix");
 
-mix.disableNotifications()
-  .react('lib/app.js', 'dist')
-  .postCss('lib/tailwind.pcss', 'dist')
-  .options({
-    processCssUrls: false,
-    postCss: [
-      tailwindcss('./tailwind.config.js'),
-    ],
-  })
-  .purgeCss({
-    enabled: mix.inProduction(),
-    content: [
-      'templates/**/*.twig',
-      'lib/**/*.js',
-    ]
-  })
+mix
+  .disableNotifications()
+  .js("lib/app.js", "dist").react()
+  // eslint-disable-next-line global-require
+  .postCss("lib/tailwind.pcss", "dist", [require("tailwindcss")])
   .sourceMaps()
   .webpackConfig({
     devtool: "source-map",
     externals: {
       jquery: "jQuery",
-      drupal: "Drupal",
+      drupal: "Drupal"
     }
   })
   .browserSync({
-    proxy: 'simplytestme.ddev.site:80',
+    proxy: "simplytestme.ddev.site:80",
     files: [
-      'dist/tailwind.css',
-      'dist/app.js',
-      'simplytest.theme',
-      'templates/**/*',
-      'lib/**/*',
-      '../../modules/**/*',
+      "dist/tailwind.css",
+      "dist/app.js",
+      "simplytest.theme",
+      "templates/**/*",
+      "lib/**/*",
+      "../../modules/**/*"
     ]
   });

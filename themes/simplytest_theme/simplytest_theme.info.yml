@@ -13,3 +13,8 @@ regions:
 
 libraries:
   - simplytest_theme/global
+libraries-override:
+  core/normalize:
+    css:
+      base:
+        assets/vendor/normalize-css/normalize.css: false

@@ -5,15 +5,15 @@ describe('Test the launch form', function () {
   it('allows autocompleting of a project with a version selected', () => {
     cy.pickProject('Password Policy')
     cy.getByLabel('Project version')
-      .should('have.value', '7.x-1.0')
+      .should('have.value', '8.x-3.0')
   })
   it('with a project and modify the drupal core version', () => {
     cy.pickProject('Password Policy')
     cy.getByLabel('Project version')
-      .should('have.value', '7.x-1.0')
+      .should('have.value', '8.x-3.0')
     cy.toggleDetailsElement('Advanced options')
     cy.getByLabel('Drupal Core')
-      .select('7.79')
+      .select('9.2.5')
   })
   it('should allow me to attach a patch to my project', function () {
     cy.pickProject('Pathauto')
@@ -29,10 +29,10 @@ describe('Test the launch form', function () {
   it('should adjust available core versions based on compatibility', function () {
     cy.pickProject('Pathauto')
     cy.getByLabel('Project version')
-      .should('have.value', '7.x-1.0')
+      .should('have.value', '8.x-1.8')
     cy.toggleDetailsElement('Advanced options')
     cy.getByLabel('Drupal Core')
-      .should('have.value', '7.80')
+      .should('have.value', '9.2.6')
     cy.getByLabel('Project version')
       .select('8.x-1.6')
     cy.getByLabel('Drupal Core')
@@ -45,12 +45,14 @@ describe('Test the launch form', function () {
   it('should show the Umami demo for Drupal 8.6.x and Drupal 9 sites', function () {
     cy.pickProject('Pathauto')
     cy.getByLabel('Project version')
-      .should('have.value', '7.x-1.0')
+      .should('have.value', '8.x-1.8')
+    cy.getByLabel('Project version')
+      .select('7.x-1.0')
     cy.toggleDetailsElement('Advanced options')
 
     // Drupal 7 has no Umami.
     cy.getByLabel('Drupal Core')
-      .should('have.value', '7.80')
+      .should('have.value', '7.82')
     cy.getByLabel('Install profile')
       .contains('Minimal')
     cy.getByLabel('Install profile')
