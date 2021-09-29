@@ -1842,12 +1842,12 @@
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/simplytest.git",
-                "reference": "9a0b1d6c2a80c4c6418d93b2cc320213043bb744"
+                "reference": "6b2b17c139aa750133b2c8214f8b9fca1e0955fc"
             },
             "require": {
                 "composer/semver": "^3.0",
                 "drupal/core": "^9.0",
-                "drupal/tugboat": "1.x-dev",
+                "drupal/tugboat": "^1.0@alpha",
                 "php": "^7.4",
                 "php-http/guzzle6-adapter": "^1.1"
             },
@@ -1863,7 +1863,7 @@
                 }
             },
             "license": [
-                "GPL-2.0+"
+                "GPL-2.0-or-later"
             ],
             "authors": [
                 {
@@ -1887,27 +1887,30 @@
                 "issues": "https://www.drupal.org/project/issues/simplytest",
                 "source": "https://git.drupalcode.org/project/simplytest"
             },
-            "time": "2021-09-20T21:04:13+00:00"
+            "time": "2021-09-28T13:46:05+00:00"
         },
         {
             "name": "drupal/tugboat",
-            "version": "dev-1.x",
+            "version": "1.0.0-alpha2",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/tugboat.git",
-                "reference": "7ffc758424cc0d1ad6d1d4c41ce75f58f075bd5f"
+                "reference": "8.x-1.0-alpha2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/tugboat-8.x-1.0-alpha2.zip",
+                "reference": "8.x-1.0-alpha2",
+                "shasum": "819e3787658fb8359c6aed9e4e627b51ba1dc6bc"
             },
             "require": {
                 "drupal/core": "^8 || ^9"
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
-                    "version": "8.x-1.0-alpha1+3-dev",
-                    "datestamp": "1631378962",
+                    "version": "8.x-1.0-alpha2",
+                    "datestamp": "1631379207",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Project has not opted into security advisory coverage!"
