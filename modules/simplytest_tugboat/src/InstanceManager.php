@@ -117,6 +117,14 @@ class InstanceManager implements InstanceManagerInterface {
       $config = $this->previewConfigGenerator->oneClickDemo($submission['oneclickdemo'], []);
     }
     else {
+      // @todo this is a hack to load the project type to make further
+      //   configuration decisions work. Rushed to fix loading by URL params for
+      //   DrupalCon Europe 2021.
+      $project_storage = \Drupal::entityTypeManager()->getStorage('simplytest_project');
+      $project_result = $project_storage->loadByProperties(['shortname' => $submission['project']['shortname']]);
+      $project = reset($project_result);
+
+
       $project_version = $submission['project']['version'];
       $major_version = $submission['drupalVersion'][0];
 
@@ -125,9 +133,9 @@ class InstanceManager implements InstanceManagerInterface {
         'perform_install' => !$submission['manualInstall'],
         'install_profile' => $submission['installProfile'],
         'drupal_core_version' => $submission['drupalVersion'],
-        'project_type' => $submission['project']['type'],
+        'project_type' => $project->type->value,
         'project_version' => $project_version,
-        'project' => $submission['project']['shortname'],
+        'project' => $project->shortname->value,
         'patches' => array_filter($submission['project']['patches'] ?? []),
         // @todo do we need to map the versions at all?
         'additionals' => $submission['additionalProjects'] ?? [],

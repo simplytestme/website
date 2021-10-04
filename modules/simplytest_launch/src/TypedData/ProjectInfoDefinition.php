@@ -32,10 +32,7 @@ final class ProjectInfoDefinition extends ComplexDataDefinitionBase {
       ->addConstraint('PrimitiveType')
       ->setRequired(TRUE);
     $properties['type'] = DataDefinition::create('string')
-      ->addConstraint('NotBlank')
-      ->addConstraint('PrimitiveType')
-      ->setLabel(new TranslatableMarkup('Extension type'))
-      ->setRequired(TRUE);
+      ->setLabel(new TranslatableMarkup('Extension type'));
     $properties['sandbox'] = DataDefinition::create('boolean')
       // NotBlank considers `false` to be invalid.
       ->addConstraint('PrimitiveType')
