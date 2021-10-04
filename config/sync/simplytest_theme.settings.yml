@@ -7,5 +7,5 @@ logo:
   use_default: true
 favicon:
   use_default: true
-header_bg_file: /profiles/contrib/simplytest/themes/simplytest_theme/background.png
+header_bg_file: /profiles/contrib/simplytest/themes/simplytest_theme/background.webp
 header_bg: ''
