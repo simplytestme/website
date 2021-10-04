@@ -73,6 +73,7 @@ final class PreviewConfigGenerator {
       $this->getInstallingCommands($parameters),
       [
         'mkdir -p ${DOCROOT}/sites/default/files',
+        'mkdir -p ${DOCROOT}/sites/default/files/private',
         'chown -R www-data:www-data ${DOCROOT}/sites/default',
       ],
       ['echo "SIMPLYEST_STAGE_FINALIZE"'],
@@ -177,6 +178,7 @@ final class PreviewConfigGenerator {
         $commands[] = sprintf('cd "${DOCROOT}" && git reset --hard %s', $parameters['drupal_core_version']);
       }
     }
+
     return $commands;
   }
 
@@ -320,9 +322,11 @@ final class PreviewConfigGenerator {
       if ($parameters['major_version'] === '9' || $parameters['major_version'] === '8') {
         $commands[] = 'echo "\$settings[\'hash_salt\'] = \'JzbemMqk0y1ALpbGBWhz8N_p9mr7wyYm_AQIpkxH1y-uSIGNTb5EnDwhJygBCyRKJhAOkQ1d7Q\';" >> ${DOCROOT}/sites/default/settings.php';
         $commands[] = 'echo "\$settings[\'config_sync_directory\'] = \'sites/default/files/sync\';" >> ${DOCROOT}/sites/default/settings.php';
+        $commands[] = 'echo \'$settings["file_private_path"] = "sites/default/files/private";\' >> ${DOCROOT}/sites/default/settings.php';
       }
       else {
         $commands[] = 'echo "\$drupal_hash_salt = \'JzbemMqk0y1ALpbGBWhz8N_p9mr7wyYm_AQIpkxH1y-uSIGNTb5EnDwhJygBCyRKJhAOkQ1d7Q\';" >> ${DOCROOT}/sites/default/settings.php';
+        $commands[] = 'echo \'$conf["file_private_path"] = "sites/default/files/private";\'  >> ${DOCROOT}/sites/default/settings.php';
       }
       return $commands;
     }
@@ -351,6 +355,13 @@ final class PreviewConfigGenerator {
       foreach ($parameters['additionals'] as $additional) {
         $commands[] = sprintf('drush -r "${DOCROOT}" en %s -y', $additional['shortname']);
       }
+    }
+
+    if ($parameters['major_version'] === '7') {
+      $commands[] = 'cd "${DOCROOT}" && echo \'$conf["file_private_path"] = "sites/default/files/private";\'  >> sites/default/settings.php';
+    }
+    else {
+      $commands[] = 'cd "${DOCROOT}" && echo \'$settings["file_private_path"] = "sites/default/files/private";\' >> sites/default/settings.php';
     }
     return $commands;
   }
