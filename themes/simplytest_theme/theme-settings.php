@@ -37,7 +37,7 @@ function simplytest_theme_form_system_theme_settings_alter(&$form, FormStateInte
 function _simplytest_theme_header_bg_validate($element, FormStateInterface $form_state) {
   global $base_url;
 
-  $validators = array('file_validate_extensions' => array('png gif jpg jpeg apng svg'));
+  $validators = array('file_validate_extensions' => array('jpg jpeg svg webp'));
   $files = file_save_upload('header_bg', $validators, "public://", NULL, FileSystemInterface::EXISTS_REPLACE);
 
   if (!empty($files)) {
