@@ -19,13 +19,11 @@ ddev si
 
 ## Installation with Lando
 
-Clone this repo.
+Clone this repo and run `lando start`.
 
-Run `lando start`. This will automatically run `composer install` from the
-`appserver` container. It also runs `npm install` in the theme directory, using
-the `nodejs` container.
+This will download and prepare all dependencies, including Drupal core and the Simplytest distribution profile.
 
-Run `lando si`. This will install the site locally.
+Run `lando si` to install and configure the SimplyTest distribution profile.
 
 If you are working on the theme, then you can run `lando compile` to generate
 the CSS and JavaScript assets.
