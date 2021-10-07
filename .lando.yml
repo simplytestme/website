@@ -1,65 +1,68 @@
-name: simplytest-me
-recipe: drupal9
-
+name: simplytestme
+recipe: lagoon
 config:
-  php: "7.3"
-  webroot: web
-  xdebug: false
-  database: mariadb:10.3
-
-events:
-  # Clear cache after a database import
-  post-db-import:
-    - appserver: cd $LANDO_WEBROOT && drush cache-rebuild --yes
+  flavor: drupal
+  build:
+    - COMPOSER_PROCESS_TIMEOUT=600 composer install
 
 services:
-  appserver:
-    run:
-      - cd $LANDO_MOUNT && composer install --no-scripts
-
-  nodejs:
-    type: node:14
-    run:
-      - cd $LANDO_MOUNT/web/profiles/contrib/simplytest/themes/simplytest_theme && npm install
-      - cd $LANDO_MOUNT/web/profiles/contrib/simplytest/themes/simplytest_theme && npm run build
+  cli:
+    overrides:
+      environment:
+        DRUSH_OPTIONS_URI: 'https://simplytestme.lndo.site/'
 
 tooling:
-  drush:
-    service: appserver
-    env:
-      DRUSH_OPTIONS_URI: "https://simplytest-me.lndo.site/"
   compile:
-    service: nodejs
-    cmd: cd $LANDO_MOUNT/web/profiles/contrib/simplytest/themes/simplytest_theme && npm run build
-  node:
-    service: nodejs
-  npm:
-    service: nodejs
-  phpunit:
-    service: appserver
-    cmd: vendor/bin/phpunit
-  phpcs:
-    service: appserver
-    cmd: vendor/bin/phpcs
-  si:
-    service: appserver
-    cmd: drush si simplytest --existing-config --account-pass=admin --yes
-    env:
-      DRUSH_OPTIONS_URI: "https://simplytest-me.lndo.site/"
+    description: Compile the SimplyTest theme
+    service: cli
+    dir: /app
+    cmd: composer compile
 
-  # Tooling to enable/disable Xdebug (see https://github.com/AaronFeledy/lando-examples/tree/master/xdebug )
+  install:
+    description: Install dependencies
+    service: cli
+    dir: /app
+    env:
+      COMPOSER_PROCESS_TIMEOUT: 600
+    cmd: composer install
+
+  phpunit:
+    service: cli
+    cmd: vendor/bin/phpunit
+
+  phpcs:
+    service: cli
+    cmd: vendor/bin/phpcs
+
+  si:
+    description: Install and configure the SimplyTest Drupal profile
+    service: cli
+    dir: /app
+    cmd: drush si simplytest --existing-config --account-pass=admin --yes
+
+  test:
+    description: Run PHPUnit tests
+    service: cli
+    dir: /app
+    cmd: composer tests
+
   xdebug-on:
-    service: appserver
-    description: Enable Xdebug.
+    description: Enable Xdebug
+    service: php
     user: root
+    env:
+      XDEBUG_ENABLE: true
     cmd:
-      - docker-php-ext-enable xdebug && pkill -o -USR2 php-fpm || /etc/init.d/apache2 reload
-      - tput setaf 2 && echo "Xdebug On" && tput sgr 0 && echo
+      - /lagoon/entrypoints/60-php-xdebug.sh && kill -USR2 $(pgrep -o php-fpm)
+      - echo "Xdebug is ON" && echo
 
   xdebug-off:
-    service: appserver
-    description: Disable Xdebug.
+    description: Disable Xdebug
+    service: php
     user: root
+    env:
+      XD_INI: /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     cmd:
-      - rm /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && pkill -o -USR2 php-fpm || /etc/init.d/apache2 reload
-      - tput setaf 1 && echo "Xdebug Off" && tput sgr 0 && echo
+      # Revert the changes made by the Lagoon Xdebug entrypoints script
+      - sed -i '/^xdebug.remote_host\|^$/d; s/^;*/;/g' $XD_INI && kill -USR2 $(pgrep -o php-fpm)
+      - echo "Xdebug is OFF" && echo
