@@ -8,6 +8,7 @@ simplytest_launch.project_selector:
   path: '/project/{project}/{version}'
   defaults:
     _controller: '\Drupal\simplytest_launch\Controller\SimplyTestLaunch::projectSelector'
+    version: ''
   requirements:
     _access: 'TRUE'
 
