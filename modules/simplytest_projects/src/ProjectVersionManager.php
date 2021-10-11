@@ -106,6 +106,13 @@ final class ProjectVersionManager {
   }
 
   public function organizeAndSortReleases(array $releases): array {
+    if (count($releases) === 0) {
+      return [
+        'latest' => [],
+        'branches' => [],
+        'core' => [],
+      ];
+    }
     $is_core = $releases[0]->short_name === 'drupal';
     $organized_releases = [];
 
