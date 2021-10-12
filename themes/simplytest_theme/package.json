@@ -5,7 +5,8 @@
   "main": "js/scripts.js",
   "license": "MIT",
   "scripts": {
-    "build": "npm run production && node node_modules/gulp/bin/gulp.js build:css",
+    "build": "npm run production && npm run postcss",
+    "postcss": "node node_modules/gulp/bin/gulp.js build:css",
     "develop": "mix",
     "hot": "mix watch --hot",
     "production": "mix --production",

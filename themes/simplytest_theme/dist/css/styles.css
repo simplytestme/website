@@ -206,6 +206,10 @@ details > summary::-webkit-details-marker {
   border: 1px solid #1983c4;
   color: #fff
 }
+main .region__content {
+  max-width: 760px;
+  margin: 2em auto
+}
 .footer {
   width: calc(100% - 40px);
   margin: 0 auto

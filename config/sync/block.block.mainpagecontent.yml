@@ -1,4 +1,4 @@
-uuid: 4a1b8fb5-c8fd-43c0-b908-d038cc260650
+uuid: a6c65a73-9e4f-491a-8356-22856fc7cc3e
 langcode: en
 status: true
 dependencies:
@@ -6,15 +6,15 @@ dependencies:
     - system
   theme:
     - simplytest_theme
-id: messages
+id: mainpagecontent
 theme: simplytest_theme
 region: content
-weight: -3
+weight: -2
 provider: null
-plugin: system_messages_block
+plugin: system_main_block
 settings:
-  id: system_messages_block
-  label: 'Messages - Theme this to show messaging format'
+  id: system_main_block
+  label: 'Main page content'
   provider: system
   label_display: visible
 visibility: {  }

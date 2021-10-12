@@ -1,5 +1,6 @@
 /* Import variables */
 @import 'header';
+@import 'content';
 @import 'footer';
 @import 'messages';
 @import 'explanation';
