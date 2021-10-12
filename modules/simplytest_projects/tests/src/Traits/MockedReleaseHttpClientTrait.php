@@ -44,6 +44,29 @@ trait MockedReleaseHttpClientTrait {
       'https://updates.drupal.org/release-history/pathauto/7.x',
       ['headers' => ['Accept' => 'text/xml', 'If-Modified-Since' => 'Wed, 21 Apr 2021 00:36:14 GMT']])
       ->willReturn($not_modified_response->reveal());
+
+    $drupalbin_7x_response = $this->prophesize(ResponseInterface::class);
+    $drupalbin_7x_response->getHeaderLine('Last-Modified')->willReturn('Wed, 21 Apr 2021 00:36:14 GMT');
+    $drupalbin_7x_response->getStatusCode()->willReturn(200);
+    $drupalbin_7x_response->getBody()->willReturn(
+      file_get_contents(__DIR__ . '/../../fixtures/release-history/7.x/drupalbin.xml')
+    );
+    $client->get(
+      'https://updates.drupal.org/release-history/drupalbin/7.x',
+      ['headers' => ['Accept' => 'text/xml']])
+      ->willReturn($drupalbin_7x_response->reveal());
+
+    $drupalbin_current_response = $this->prophesize(ResponseInterface::class);
+    $drupalbin_current_response->getHeaderLine('Last-Modified')->willReturn('Wed, 21 Apr 2021 00:36:14 GMT');
+    $drupalbin_current_response->getStatusCode()->willReturn(200);
+    $drupalbin_current_response->getBody()->willReturn(
+      file_get_contents(__DIR__ . '/../../fixtures/release-history/current/drupalbin.xml')
+    );
+    $client->get(
+      'https://updates.drupal.org/release-history/drupalbin/current',
+      ['headers' => ['Accept' => 'text/xml']])
+      ->willReturn($drupalbin_current_response->reveal());
+
     return $client->reveal();
   }
 

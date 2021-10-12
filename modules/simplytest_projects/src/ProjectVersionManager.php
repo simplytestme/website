@@ -62,7 +62,7 @@ final class ProjectVersionManager {
             'version' => $release->version,
             'tag' => $release->tag,
             'date' => $release->date,
-            'status' => $release->status === 'published',
+            'status' => (int) ($release->status === 'published'),
             'core_compatibility' => $release->core_compatibility,
           ])
           ->execute();

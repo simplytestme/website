@@ -21,6 +21,9 @@ final class Processor {
     if (strpos($release_xml, 'No release history available for') !== FALSE) {
       throw new NoReleaseHistoryFoundException();
     }
+    if (strpos($release_xml, 'No release history was found for') !== FALSE) {
+      throw new NoReleaseHistoryFoundException();
+    }
     try {
       $xml = new \SimpleXMLElement($release_xml);
     }
@@ -45,6 +48,12 @@ final class Processor {
         $release_data = [];
         foreach ($release->children() as $k => $v) {
           $release_data[$k] = (string) $v;
+        }
+
+        // Somehow the release node had no tag value associated. Assume it is
+        // the same as the version.
+        if (empty($release_data['tag'])) {
+          $release_data['tag'] = $version;
         }
 
         // @todo for some reason various releases do not have dates.

@@ -55,6 +55,22 @@ final class ProjectVersionManagerTest extends KernelTestBase {
   }
 
   /**
+   * @see https://www.drupal.org/project/simplytest/issues/3208252
+   */
+  public function testInvalidIntegerValue(): void {
+    $this->sut->updateData('drupalbin');
+    $database = $this->container->get('database');
+
+    $query = $database->select(ProjectVersionManager::TABLE_NAME);
+    assert($query instanceof SelectInterface);
+    $query
+      ->fields(ProjectVersionManager::TABLE_NAME)
+      ->condition('short_name', 'drupalbin');
+    $count = $query->countQuery()->execute()->fetchField();
+    self::assertEquals(1, $count);
+  }
+
+  /**
    * @covers ::getAllReleases
    */
   public function testGetAllReleases(): void {
