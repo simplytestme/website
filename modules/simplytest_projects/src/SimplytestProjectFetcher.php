@@ -5,6 +5,7 @@ namespace Drupal\simplytest_projects;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Query\Condition;
+use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactory;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
@@ -187,8 +188,13 @@ class SimplytestProjectFetcher {
     ]);
 
     // Now save the information about this project to database.
-    $project = SimplytestProject::create($data);
-    $project->save();
+    try {
+      $project = SimplytestProject::create($data);
+      $project->save();
+    }
+    catch (EntityStorageException $e) {
+      // @todo decide how to handle this error if we got a dupe save, somehow.
+    }
     return $data;
   }
 

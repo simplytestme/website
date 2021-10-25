@@ -2,9 +2,10 @@
 
 namespace Drupal\simplytest_import\Form;
 
+use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\simplytest_import\SimplytestImportService;
+use Drupal\simplytest_import\ProjectImporter;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
 use Drupal\simplytest_projects\ProjectTypes;
 use Drupal\simplytest_projects\SimplytestProjectFetcher;
@@ -20,21 +21,21 @@ class ImportForm extends FormBase {
    *
    * @var \Drupal\simplytest_projects\SimplytestProjectFetcher
    */
-  protected $simplytestProjectFetcher;
+  protected SimplytestProjectFetcher $simplytestProjectFetcher;
 
   /**
    * Simplytest Project Import Service.
    *
-   * @var \Drupal\simplytest_import\SimplytestImportService
+   * @var \Drupal\simplytest_import\ProjectImporter
    */
-  protected $importService;
+  protected ProjectImporter $projectImporter;
 
   /**
    * {@inheritdoc}
    */
-  public function __construct(SimplytestProjectFetcher $simplytestProjectFetcher, SimplytestImportService $simplytestImportService) {
+  public function __construct(SimplytestProjectFetcher $simplytestProjectFetcher, ProjectImporter $projectImporter) {
     $this->simplytestProjectFetcher = $simplytestProjectFetcher;
-    $this->importService = $simplytestImportService;
+    $this->projectImporter = $projectImporter;
   }
 
   /**
@@ -43,7 +44,7 @@ class ImportForm extends FormBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('simplytest_projects.fetcher'),
-      $container->get('simplytest_import.service')
+      $container->get('simplytest_import.importer')
     );
   }
 
@@ -80,74 +81,27 @@ class ImportForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $type = $form_state->getValue('type');
+    $types = array_filter($form_state->getValue('type'));
     // Import the Drupal core data.
     if (empty($this->simplytestProjectFetcher->searchFromProjects('drupal'))) {
-      $project = SimplytestProject::create($this->getCoreData());
-      $project->save();
-    }
-    foreach ($type as $value) {
-      if ($value) {
-        $this->import($value);
+      try {
+        $project = SimplytestProject::create([
+          'title' => 'Drupal core',
+          'shortname' => 'drupal',
+          'sandbox' => "0",
+          'type' => ProjectTypes::CORE,
+          'creator' => 'dries',
+        ]);
+        $project->save();
+      }
+      catch (EntityStorageException $e) {
+        // @todo decide how to handle this error if we got a dupe save, somehow.
       }
     }
-  }
-
-  /**
-   * Import the data via batch process.
-   *
-   * @param string $type
-   *   Type of the items.
-   */
-  protected function import($type) {
-    $items = $this->importService->dataProvider($type);
-    if (!empty($items)) {
-      $operations = [];
-      $count = $this->getTotalDataCount($items['last']);
-      for ($index = 0; $index < $count; $index++) {
-        $operations[] = ['simplytest_import_batch_process', [$index, $type]];
-      }
-      $batch = [
-        'title' => $this->t('Importing @num pages of @type',
-          [
-            '@num' => $count,
-            '@type' => str_replace('project_', '', $type),
-          ]
-        ),
-        'operations' => $operations,
-        'finished' => 'simplytest_import_batch_finished',
-      ];
-      batch_set($batch);
+    foreach ($types as $type) {
+      $batch_builder = $this->projectImporter->buildBatch($type);
+      batch_set($batch_builder->toArray());
     }
-  }
-
-  /**
-   * Get core data from drupal.org.
-   */
-  protected function getCoreData() {
-    return [
-      'title' => 'Drupal core',
-      'shortname' => 'drupal',
-      'sandbox' => "0",
-      'type' => ProjectTypes::CORE,
-      'creator' => 'dries',
-    ];
-  }
-
-  /**
-   * Get the total page count from a particular request.
-   *
-   * @param string $lastUrl
-   *   The last data url.
-   *
-   * @return string|null
-   *   Return the total page count.
-   */
-  protected function getTotalDataCount($lastUrl) {
-    if (preg_match('/&page=(\d*)/', $lastUrl, $count)) {
-      return $count[1];
-    }
-    return NULL;
   }
 
 }

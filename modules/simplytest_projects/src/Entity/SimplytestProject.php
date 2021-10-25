@@ -3,9 +3,11 @@
 namespace Drupal\simplytest_projects\Entity;
 
 use Drupal\Core\Entity\ContentEntityBase;
+use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\simplytest_projects\DrupalUrls;
+use Drupal\simplytest_projects\Exception\EntityValidationException;
 
 /**
  * Defines the Simplytest Project entity.
@@ -153,6 +155,19 @@ class SimplytestProject extends ContentEntityBase implements SimplytestProjectIn
   /**
    * {@inheritdoc}
    */
+  public function preSave(EntityStorageInterface $storage) {
+    parent::preSave($storage);
+
+    $violations = $this->validate();
+    if (count($violations) > 0) {
+      throw new EntityValidationException($violations);
+    }
+
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields = parent::baseFieldDefinitions($entity_type);
 
@@ -179,6 +194,7 @@ class SimplytestProject extends ContentEntityBase implements SimplytestProjectIn
     $fields['shortname'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Shortname'))
       ->setDescription(t('The shortname of the project.'))
+      ->addConstraint('UniqueField')
       ->setSettings([
         'max_length' => 255,
         'text_processing' => 0,

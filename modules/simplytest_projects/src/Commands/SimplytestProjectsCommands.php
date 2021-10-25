@@ -2,9 +2,11 @@
 
 namespace Drupal\simplytest_projects\Commands;
 
-use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
+use Drupal\Core\Entity\EntityStorageException;
+use Drupal\simplytest_import\ProjectImporter;
 use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\ProjectVersionManager;
+use Drupal\simplytest_projects\SimplytestProjectFetcher;
 use Drush\Commands\DrushCommands;
 
 /**
@@ -20,13 +22,22 @@ use Drush\Commands\DrushCommands;
  */
 class SimplytestProjectsCommands extends DrushCommands {
 
-  private $coreVersionManager;
-  private $projectVersionManager;
+  private CoreVersionManager $coreVersionManager;
+  private ProjectVersionManager $projectVersionManager;
+  private SimplytestProjectFetcher $projectFetcher;
+  private ProjectImporter $projectImporter;
 
-  public function __construct(CoreVersionManager $core_version_manager, ProjectVersionManager $project_version_manager) {
+  public function __construct(
+    CoreVersionManager $core_version_manager,
+    ProjectVersionManager $project_version_manager,
+    SimplytestProjectFetcher $project_fetcher,
+    ProjectImporter $project_importer
+  ) {
     parent::__construct();
     $this->coreVersionManager = $core_version_manager;
     $this->projectVersionManager = $project_version_manager;
+    $this->projectFetcher = $project_fetcher;
+    $this->projectImporter = $project_importer;
   }
 
   /**
@@ -37,7 +48,7 @@ class SimplytestProjectsCommands extends DrushCommands {
    *
    * @command simplytest:projects:core-versions-update
    */
-  public function updateData(string $version) {
+  public function coreVersionsUpdate(string $version) {
     $this->coreVersionManager->updateData((int) $version);
   }
 
@@ -51,4 +62,39 @@ class SimplytestProjectsCommands extends DrushCommands {
   public function getReleaseData(string $short_name) {
     $this->projectVersionManager->updateData($short_name);
   }
+
+  /**
+   * Gets release data for a project
+   *
+   * @param string $short_name
+   *
+   * @command simplytest:projects:import-project
+   *
+   * @throws \Exception
+   */
+  public function importProject(string $short_name) {
+    try {
+      $this->projectFetcher->fetchProject($short_name);
+      $this->projectVersionManager->updateData($short_name);
+    }
+    catch (EntityStorageException $exception) {
+      $previous = $exception->getPrevious();
+      assert($previous !== NULL);
+      $this->io()->error($previous->getMessage());
+    }
+  }
+
+  /**
+   * Batch import a type.
+   *
+   * @param string $type
+   *   module, theme, or distribution.
+   * @command simplytest:projects:import
+   */
+  public function importType(string $type) {
+    $batch_builder = $this->projectImporter->buildBatch($type);
+    batch_set($batch_builder->toArray());
+    drush_backend_batch_process();
+  }
+
 }
