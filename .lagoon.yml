@@ -14,15 +14,7 @@ tasks:
         service: cli
     - run:
         name: drush updb
-        command: php vendor/bin/drush -y updb
-        service: cli
-    - run:
-        name: drush cim
-        command: php vendor/bin/drush -y cim
-        service: cli
-    - run:
-        name: drush cr
-        command: php vendor/bin/drush cr
+        command: php vendor/bin/drush deploy
         service: cli
 environments:
   prod:

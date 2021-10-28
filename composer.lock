@@ -1799,16 +1799,241 @@
             "time": "2021-10-06T10:34:39+00:00"
         },
         {
+            "name": "drupal/fastly",
+            "version": "3.14.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/fastly.git",
+                "reference": "8.x-3.14"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/fastly-8.x-3.14.zip",
+                "reference": "8.x-3.14",
+                "shasum": "fbdbf748a639ffb539944bb36a55859bdaf4b60a"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9",
+                "php": ">=7.3"
+            },
+            "require-dev": {
+                "drupal/purge": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-3.14",
+                    "datestamp": "1616970068",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                },
+                "drush": {
+                    "services": {
+                        "drush.services.yml": "^9"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Fastly",
+                    "homepage": "https://www.drupal.org/user/3301349"
+                },
+                {
+                    "name": "Leon Kessler",
+                    "homepage": "https://www.drupal.org/user/595374"
+                },
+                {
+                    "name": "balatin",
+                    "homepage": "https://www.drupal.org/user/2302070"
+                },
+                {
+                    "name": "bradleymgreenwood",
+                    "homepage": "https://www.drupal.org/user/2733843"
+                },
+                {
+                    "name": "drwilco",
+                    "homepage": "https://www.drupal.org/user/3225467"
+                },
+                {
+                    "name": "dwkitchen",
+                    "homepage": "https://www.drupal.org/user/367701"
+                },
+                {
+                    "name": "ebender",
+                    "homepage": "https://www.drupal.org/user/2895513"
+                },
+                {
+                    "name": "ejgreenberg",
+                    "homepage": "https://www.drupal.org/user/3324657"
+                },
+                {
+                    "name": "ezkl",
+                    "homepage": "https://www.drupal.org/user/3009609"
+                },
+                {
+                    "name": "jcpitcho",
+                    "homepage": "https://www.drupal.org/user/2242312"
+                },
+                {
+                    "name": "kimmi8",
+                    "homepage": "https://www.drupal.org/user/3419929"
+                },
+                {
+                    "name": "landing",
+                    "homepage": "https://www.drupal.org/user/994222"
+                },
+                {
+                    "name": "philfastly",
+                    "homepage": "https://www.drupal.org/user/3497097"
+                },
+                {
+                    "name": "robertDouglass",
+                    "homepage": "https://www.drupal.org/user/5449"
+                },
+                {
+                    "name": "tomasinchoo",
+                    "homepage": "https://www.drupal.org/user/3536122"
+                },
+                {
+                    "name": "triblondon",
+                    "homepage": "https://www.drupal.org/user/260433"
+                },
+                {
+                    "name": "vasike",
+                    "homepage": "https://www.drupal.org/user/156237"
+                },
+                {
+                    "name": "vvuksan-fastly",
+                    "homepage": "https://www.drupal.org/user/3520351"
+                }
+            ],
+            "description": "Fastly Integration for Drupal",
+            "homepage": "https://www.drupal.org/project/fastly",
+            "support": {
+                "source": "http://cgit.drupalcode.org/fastly",
+                "issues": "http://drupal.org/project/issues/fastly"
+            }
+        },
+        {
+            "name": "drupal/http_cache_control",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/http_cache_control.git",
+                "reference": "8.x-2.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/http_cache_control-8.x-2.0.zip",
+                "reference": "8.x-2.0",
+                "shasum": "7c528eedf27be54943c84e61474b3d6ff855a767"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-2.0",
+                    "datestamp": "1591254259",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Josh Waihi",
+                    "homepage": "https://www.drupal.org/user/188162"
+                }
+            ],
+            "description": "Module for controlling HTTP Cache Control response headers.",
+            "homepage": "https://www.drupal.org/project/http_cache_control",
+            "support": {
+                "source": "https://git.drupalcode.org/project/http_cache_control"
+            }
+        },
+        {
+            "name": "drupal/purge",
+            "version": "3.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/purge.git",
+                "reference": "8.x-3.2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/purge-8.x-3.2.zip",
+                "reference": "8.x-3.2",
+                "shasum": "eb025762097e5435d11f8b5bcb1b0ef32a6b72fe"
+            },
+            "require": {
+                "drupal/core": "^8.7.7 || ^9",
+                "php": ">=7.2"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-3.2",
+                    "datestamp": "1633428281",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                },
+                "branch-alias": {
+                    "dev-8.x-3.x": "3.x-dev"
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Niels van Mourik",
+                    "homepage": "http://www.nielsvm.org"
+                },
+                {
+                    "name": "djbobbydrake",
+                    "homepage": "https://www.drupal.org/user/336378"
+                },
+                {
+                    "name": "nielsvm",
+                    "homepage": "https://www.drupal.org/user/163285"
+                }
+            ],
+            "description": "Provides a generic external cache invalidation API and queue service.",
+            "homepage": "https://www.drupal.org/project/purge",
+            "support": {
+                "source": "https://git.drupalcode.org/project/purge"
+            }
+        },
+        {
             "name": "drupal/simplytest",
             "version": "dev-8.x-4.x",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/simplytest.git",
-                "reference": "75bc71cdd77f14225899a485ea0e1320748f4323"
+                "reference": "4e230dad736d28f4068393846bee177d8154f6c6"
             },
             "require": {
                 "composer/semver": "^3.0",
                 "drupal/core": "^9.0",
+                "drupal/fastly": "^3.14",
+                "drupal/http_cache_control": "^2.0",
+                "drupal/purge": "^3.0",
                 "drupal/tugboat": "^1.0@alpha",
                 "php": "^7.4",
                 "php-http/guzzle6-adapter": "^1.1"
@@ -1849,7 +2074,7 @@
                 "issues": "https://www.drupal.org/project/issues/simplytest",
                 "source": "https://git.drupalcode.org/project/simplytest"
             },
-            "time": "2021-10-12T01:21:02+00:00"
+            "time": "2021-10-28T02:08:21+00:00"
         },
         {
             "name": "drupal/tugboat",
