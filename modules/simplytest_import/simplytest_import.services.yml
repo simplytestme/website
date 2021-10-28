@@ -1,4 +1,4 @@
 services:
   simplytest_import.importer:
     class: Drupal\simplytest_import\ProjectImporter
-    arguments: ['@http_client', '@simplytest_projects.fetcher']
+    arguments: ['@http_client', '@simplytest_projects.fetcher', '@logger.channel.default']
