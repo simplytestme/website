@@ -106,7 +106,9 @@ jobs:
       - name: Run php built-in server
         run: php -S 127.0.0.1:8080 -t web &
       - name: Ensure sites/simpletest directory
-        run: mkdir -p web/sites/simpletest
+        run: |
+          mkdir -p web/sites/simpletest
+          chmod 777 web/sites/simpletest
       - name: PHPUnit
         run: php vendor/bin/phpunit web/profiles/contrib/simplytest
         env:
