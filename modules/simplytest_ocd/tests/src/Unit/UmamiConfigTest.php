@@ -18,6 +18,8 @@ final class UmamiConfigTest extends OneClickDemoConfigTestBase {
         'commands' => [
           'build' => [
             'composer self-update',
+            'docker-php-ext-install opcache',
+            'a2enmod headers rewrite',
             'rm -rf "${DOCROOT}"',
             'composer -n create-project drupal/recommended-project:^9.0 stm --no-install',
             'cd stm && composer require --no-update drupal/core-recommended:^9.0',

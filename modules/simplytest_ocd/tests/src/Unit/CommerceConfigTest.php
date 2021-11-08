@@ -18,7 +18,9 @@ final class CommerceConfigTest extends OneClickDemoConfigTestBase {
         'commands' => [
           'build' => [
             'composer self-update',
+            'docker-php-ext-install opcache',
             'docker-php-ext-install bcmath',
+            'a2enmod headers rewrite',
             'rm -rf "${DOCROOT}"',
             'echo "SIMPLYEST_STAGE_DOWNLOAD"',
             'cd "${TUGBOAT_ROOT}" && composer create-project drupalcommerce/demo-project commerce --stability dev --no-interaction',

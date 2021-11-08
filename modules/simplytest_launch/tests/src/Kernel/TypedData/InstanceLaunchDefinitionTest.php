@@ -57,11 +57,9 @@ final class InstanceLaunchDefinitionTest extends KernelTestBase {
       ],
       [
         0 => 'project.shortname: This value should not be blank.',
-        1 => 'project.type: This value should not be blank.',
-        2 => 'project.type: This value should not be null.',
-        3 => 'project.version: This value should not be blank.',
-        4 => 'drupalVersion: This value should not be blank.',
-        5 => 'installProfile: This value should not be blank.',
+        1 => 'project.version: This value should not be blank.',
+        2 => 'drupalVersion: This value should not be blank.',
+        3 => 'installProfile: This value should not be blank.',
       ]
     ];
     yield [

@@ -30,7 +30,7 @@ function simplytest_install_tasks(&$install_state) {
 function simplytest_install_setup() {
   // Assign user 1 the "administrator" role.
   $user = User::load(1);
-  $user->roles[] = 'administrator';
+  $user->addRole('administrator');
   $user->save();
 }
 
