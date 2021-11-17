@@ -4,8 +4,16 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
-  schedule:
-    - cron: 0 0 * * *
+  workflow_dispatch:
+    inputs:
+      issue_fork:
+        description: 'Issue fork ID'
+        required: true
+        default: ''
+      issue_branch:
+        description: 'Issue branch'
+        required: true
+        default: ''
 jobs:
   install:
     runs-on: ${{ matrix.os }}
@@ -41,6 +49,14 @@ jobs:
             extensions: dom, curl, libxml, mbstring, zip, pdo, mysql, pdo_mysql, bcmath, soap, intl, gd, exif, iconv
             coverage: none
             tools: composer:v2
+
+      - name: Configure issue fork
+        run: composer config repositories.0 vcs https://git.drupalcode.org/issue/${{ github.event.inputs.issue_fork }}.git
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+      - name: Require issue fork branch
+        run: composer require drupal/simplytest:dev-${{ github.event.inputs.issue_branch }} --no-install
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+
       - name: Install dependencies
         run: composer install
       - name: Install Simplytest
@@ -77,10 +93,22 @@ jobs:
             extensions: dom, curl, libxml, mbstring, zip, pdo, mysql, pdo_mysql, bcmath, soap, intl, gd, exif, iconv
             coverage: none
             tools: composer:v2
+
+      - name: Configure issue fork
+        run: composer config repositories.0 vcs https://git.drupalcode.org/issue/${{ github.event.inputs.issue_fork }}.git
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+      - name: Require issue fork branch
+        run: composer require drupal/simplytest:dev-${{ github.event.inputs.issue_branch }} --no-install
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+
       - name: Install dependencies
         run: composer install
       - name: Run php built-in server
         run: php -S 127.0.0.1:8080 -t web &
+      - name: Ensure sites/simpletest directory
+        run: |
+          mkdir -p web/sites/simpletest
+          chmod 777 web/sites/simpletest
       - name: PHPUnit
         run: php vendor/bin/phpunit web/profiles/contrib/simplytest
         env:
