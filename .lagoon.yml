@@ -4,6 +4,11 @@ environment_variables:
 project: simplytestme-website
 
 tasks:
+  pre-rollout:
+    - run:
+        command: env
+        name: env variables
+        service: cli
   post-rollout:
     - run:
         command: |
@@ -15,6 +20,10 @@ tasks:
     - run:
         name: drush updb
         command: php vendor/bin/drush deploy
+        service: cli
+    - run:
+        command: ./scripts/github-deployment.sh
+        name: Push a pending status
         service: cli
 environments:
   prod:
