@@ -16,6 +16,8 @@ if ($githubToken === '') {
   exit(1);
 }
 
+$lagoonEnvironment = getenv('LAGOON_ENVIRONMENT');
+
 $client = new Client([
   'base_uri' => 'https://api.github.com',
   'headers' => [
@@ -23,23 +25,33 @@ $client = new Client([
   ],
 ]);
 
+$createDeploymentBody = [
+  'ref' => $lagoonGitSha,
+  'environment' => $lagoonEnvironment,
+  'transient_environment' => !empty(getenv('LAGOON_PR_NUMBER')),
+  'production_environment' => getenv('LAGOON_ENVIRONMENT_TYPE') === 'production',
+  'description' => $lagoonEnvironment,
+];
+print "Create deployment body: " . PHP_EOL;
+var_export($createDeploymentBody);
+print PHP_EOL;
+
 $createDeploymentResponse = $client->post('/repos/simplytestme/website/deployments', [
-  RequestOptions::JSON => [
-    'ref' => $lagoonGitSha,
-    'environment' => $_ENV['LAGOON_ENVIRONMENT'],
-    'transient_environment' => !empty($_ENV['LAGOON_PR_NUMBER']),
-    'production_environment' => $_ENV['LAGOON_ENVIRONMENT_TYPE'] === 'production',
-    'description' => $_ENV['LAGOON_ENVIRONMENT']
-  ],
+  RequestOptions::JSON => $createDeploymentBody,
 ]);
 $deploymentData = \json_decode((string) $createDeploymentResponse->getBody());
 $deploymentId = $deploymentData->id;
 
+$createDeploymentStatusBody = [
+  'state' => 'success',
+  'environment' => $lagoonEnvironment,
+  'log_url' => 'https://dashboard.amazeeio.cloud/projects/simplytest/simplytest-' . $lagoonEnvironment . '/deployments/',
+  'environment_url' => getenv('LAGOON_ROUTE'),
+];
+print "Create deployment body: " . PHP_EOL;
+var_export($createDeploymentStatusBody);
+print PHP_EOL;
+
 $client->post("/repos/simplytestme/website/deployments/{$deploymentId}/statuses", [
-  RequestOptions::JSON => [
-    'state' => 'success',
-    'environment' => $_ENV['LAGOON_ENVIRONMENT'],
-    'log_url' => 'https://dashboard.amazeeio.cloud/projects/simplytest/simplytest-' . $_ENV['LAGOON_ENVIRONMENT'] . '/deployments/',
-    'environment_url' => $_ENV['LAGOON_ROUTE'],
-  ],
+  RequestOptions::JSON => $createDeploymentStatusBody,
 ]);
