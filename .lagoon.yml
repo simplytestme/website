@@ -22,8 +22,8 @@ tasks:
         command: php vendor/bin/drush deploy
         service: cli
     - run:
-        command: ./scripts/github-deployment.sh
-        name: Push a pending status
+        command: php scripts/github/deployment.php
+        name: Push a deployment and success status
         service: cli
 environments:
   prod:
