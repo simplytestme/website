@@ -5,12 +5,12 @@ use GuzzleHttp\RequestOptions;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-$lagoonGitSha = $_ENV['LAGOON_GIT_SHA'] ?? '';
+$lagoonGitSha = getenv('LAGOON_GIT_SHA') ?: '';
 if ($lagoonGitSha === '') {
   print 'Cannot detect LAGOON_GIT_SHA';
   exit(1);
 }
-$githubToken = $_ENV['GITHUB_TOKEN'] ?? '';
+$githubToken = getenv('GITHUB_TOKEN') ?: '';
 if ($githubToken === '') {
   print 'Cannot detect GITHUB_TOKEN';
   exit(1);
