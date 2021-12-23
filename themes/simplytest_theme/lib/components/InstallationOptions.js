@@ -61,7 +61,7 @@ function SelectProfile() {
         </option>
         {isUmamiAllowed
           ? [
-              <option key="umami_demo" value="umami_demo">
+              <option key="demo_umami" value="demo_umami">
                 Umami Demo
               </option>
             ]
