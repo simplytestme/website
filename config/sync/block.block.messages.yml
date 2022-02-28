@@ -15,6 +15,6 @@ plugin: system_messages_block
 settings:
   id: system_messages_block
   label: 'Messages - Theme this to show messaging format'
-  provider: system
   label_display: visible
+  provider: system
 visibility: {  }

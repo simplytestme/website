@@ -15,6 +15,6 @@ plugin: simplytest_messages_example
 settings:
   id: simplytest_messages_example
   label: 'Simplytest Message'
-  provider: simplytest_messages
   label_display: '0'
+  provider: simplytest_messages
 visibility: {  }

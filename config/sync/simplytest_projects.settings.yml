@@ -1,5 +1,5 @@
+_core:
+  default_config_hash: a2ab0uEAZG0RAvtizCPh95W6Zg4AGQh27tTKRwZZSmo
 version_timeout: '-1 hour'
 blacklisted_projects: {  }
 blacklisted_versions: {  }
-_core:
-  default_config_hash: a2ab0uEAZG0RAvtizCPh95W6Zg4AGQh27tTKRwZZSmo
