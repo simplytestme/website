@@ -116,3 +116,51 @@ jobs:
           SIMPLETEST_DB: mysql://root:@127.0.0.1:${{ job.services.mysql.ports[3306] }}/db
           SIMPLETEST_BASE_URL: http://127.0.0.1:8080
           MINK_DRIVER_ARGS_WEBDRIVER: '["chrome", {"browserName":"chrome","chromeOptions":{"args":["--disable-gpu","--headless", "--no-sandbox"]}}, "http://127.0.0.1:${{ job.services.chromedriver.ports[9515] }}"]'
+  cypress:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        php: [7.4]
+        os: [ubuntu-latest]
+    name: site:install - ${{ matrix.php }}
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: db
+        ports:
+          - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      chromedriver:
+        image: drupalci/webdriver-chromedriver:production
+        ports:
+          - 9515
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.composer/cache/files
+            ~/.composer/cache/repo
+          key: dependencies-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pdo, mysql, pdo_mysql, bcmath, soap, intl, gd, exif, iconv
+          coverage: none
+          tools: composer:v2
+
+      - name: Configure issue fork
+        run: composer config repositories.0 vcs https://git.drupalcode.org/issue/${{ github.event.inputs.issue_fork }}.git
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+      - name: Require issue fork branch
+        run: composer require drupal/simplytest:dev-${{ github.event.inputs.issue_branch }} --no-install
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+
+      - name: Install dependencies
+        run: composer install
+      - name: Install Simplytest
+        run: php vendor/bin/drush site:install simplytest --account-pass=admin --db-url=mysql://root:@127.0.0.1:${{ job.services.mysql.ports[3306] }}/db --yes
+      - name: Run php built-in server
+        run: php -S 127.0.0.1:8080 -t web &
