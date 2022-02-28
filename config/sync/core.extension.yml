@@ -1,3 +1,5 @@
+_core:
+  default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc
 module:
   admin_toolbar: 0
   admin_toolbar_links_access_filter: 0
@@ -35,7 +37,6 @@ module:
   purge_processor_lateruntime: 0
   purge_queuer_coretags: 0
   purge_ui: 0
-  simplytest_import: 0
   simplytest_launch: 0
   simplytest_messages: 0
   simplytest_ocd: 0
@@ -59,5 +60,3 @@ theme:
   seven: 0
   simplytest_theme: 0
 profile: simplytest
-_core:
-  default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc

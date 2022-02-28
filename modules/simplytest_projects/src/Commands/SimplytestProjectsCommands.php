@@ -3,7 +3,7 @@
 namespace Drupal\simplytest_projects\Commands;
 
 use Drupal\Core\Entity\EntityStorageException;
-use Drupal\simplytest_import\ProjectImporter;
+use Drupal\simplytest_projects\ProjectImporter;
 use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\ProjectVersionManager;
 use Drupal\simplytest_projects\SimplytestProjectFetcher;

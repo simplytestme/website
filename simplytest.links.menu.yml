@@ -1,0 +1,5 @@
+simplytest.config:
+  title: 'Simplytest'
+  description: 'Administer simplytest site settings.'
+  parent: system.admin_config
+  route_name: simplytest.config

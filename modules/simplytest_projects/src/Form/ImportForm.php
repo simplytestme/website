@@ -1,11 +1,11 @@
 <?php
 
-namespace Drupal\simplytest_import\Form;
+namespace Drupal\simplytest_projects\Form;
 
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\simplytest_import\ProjectImporter;
+use Drupal\simplytest_projects\ProjectImporter;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
 use Drupal\simplytest_projects\ProjectTypes;
 use Drupal\simplytest_projects\SimplytestProjectFetcher;
@@ -26,7 +26,7 @@ class ImportForm extends FormBase {
   /**
    * Simplytest Project Import Service.
    *
-   * @var \Drupal\simplytest_import\ProjectImporter
+   * @var \Drupal\simplytest_projects\ProjectImporter
    */
   protected ProjectImporter $projectImporter;
 
@@ -44,7 +44,7 @@ class ImportForm extends FormBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('simplytest_projects.fetcher'),
-      $container->get('simplytest_import.importer')
+      $container->get('simplytest_projects.importer')
     );
   }
 
@@ -64,9 +64,9 @@ class ImportForm extends FormBase {
       '#title' => $this->t('Importing Type:'),
       '#required' => TRUE,
       '#options' => [
-        'project_module' => $this->t('Modules'),
-        'project_theme' => $this->t('Themes'),
-        'project_distribution' => $this->t('Distributions'),
+        'module' => $this->t('Modules'),
+        'theme' => $this->t('Themes'),
+        'distribution' => $this->t('Distributions'),
       ],
     ];
     $form['submit'] = [
@@ -99,8 +99,13 @@ class ImportForm extends FormBase {
       }
     }
     foreach ($types as $type) {
-      $batch_builder = $this->projectImporter->buildBatch($type);
-      batch_set($batch_builder->toArray());
+      try {
+        $batch_builder = $this->projectImporter->buildBatch($type);
+        batch_set($batch_builder->toArray());
+      }
+      catch (\Exception $exception) {
+        $this->messenger()->addError($exception->getMessage());
+      }
     }
   }
 

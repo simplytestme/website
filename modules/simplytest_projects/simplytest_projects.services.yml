@@ -12,3 +12,7 @@ services:
   simplytest_projects.project_version_manager:
     class: Drupal\simplytest_projects\ProjectVersionManager
     arguments: [ '@database', '@simpleyest_projects.release_history_fetcher' ]
+
+  simplytest_projects.importer:
+    class: Drupal\simplytest_projects\ProjectImporter
+    arguments: ['@http_client', '@simplytest_projects.fetcher', '@logger.channel.default']

@@ -14,3 +14,9 @@ simplytest_projects_settings_form:
   title: 'Settings'
   parent: simplytest_projects_collection_menu
   route_name: simplytest_projects.settings
+
+simplytest_projects_import:
+  title: 'Projects import'
+  description: 'Import Drupal.org project data.'
+  parent: simplytest.config
+  route_name: 'simplytest_projects.import_form'

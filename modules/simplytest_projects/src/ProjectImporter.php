@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\simplytest_import;
+namespace Drupal\simplytest_projects;
 
 use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Component\Serialization\Json;
@@ -32,7 +32,7 @@ class ProjectImporter {
    *
    * @var \Drupal\simplytest_projects\SimplytestProjectFetcher
    */
-  protected $projectFetcher;
+  protected SimplytestProjectFetcher $projectFetcher;
 
   private LoggerInterface $logger;
 
@@ -132,7 +132,7 @@ class ProjectImporter {
   }
 
   public static function batchProcess($index, $type, &$context): void {
-    $importService = \Drupal::service('simplytest_import.importer');
+    $importService = \Drupal::service('simplytest_projects.importer');
     assert($importService instanceof self);
     $items = $importService->fetchData($type, $index);
     $data = $importService->filterExistingProjects($items['list']);

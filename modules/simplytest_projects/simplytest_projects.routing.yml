@@ -38,3 +38,10 @@ simplytest_projects.compatible_core_versions:
   requirements:
     _access: 'TRUE'
     _format: 'json'
+simplytest_projects.import_form:
+  path: '/admin/config/simplytest/import'
+  defaults:
+    _form: '\Drupal\simplytest_projects\Form\ImportForm'
+    _title: 'Import Form'
+  requirements:
+    _permission: 'access administration pages'
