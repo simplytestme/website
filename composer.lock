@@ -2030,11 +2030,11 @@
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/simplytest.git",
-                "reference": "8c458f67fa31da950331833165a2433b605440b9"
+                "reference": "be9e496da120e28f6573adaac87665278581448a"
             },
             "require": {
                 "composer/semver": "^3.0",
-                "drupal/core": "^9.0",
+                "drupal/core": "^9.3",
                 "drupal/fastly": "^3.14",
                 "drupal/http_cache_control": "^2.0",
                 "drupal/purge": "^3.0",
@@ -2078,7 +2078,7 @@
                 "issues": "https://www.drupal.org/project/issues/simplytest",
                 "source": "https://git.drupalcode.org/project/simplytest"
             },
-            "time": "2021-12-23T21:56:37+00:00"
+            "time": "2022-02-28T23:37:19+00:00"
         },
         {
             "name": "drupal/tugboat",
@@ -8021,9 +8021,6 @@
             "require": {
                 "php": "^7.1 || ^8.0"
             },
-            "replace": {
-                "myclabs/deep-copy": "self.version"
-            },
             "require-dev": {
                 "doctrine/collections": "^1.0",
                 "doctrine/common": "^2.6",
@@ -10228,5 +10225,5 @@
         "php": "^7.4"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }
