@@ -12,7 +12,7 @@ use Drupal\Core\TypedData\TypedDataManagerInterface;
 use Drupal\Core\Url;
 use Drupal\simplytest_launch\Exception\UnprocessableHttpEntityException;
 use Drupal\simplytest_launch\TypedData\InstanceLaunchDefinition;
-use Drupal\simplytest_projects\SimplytestProjectFetcher;
+use Drupal\simplytest_projects\ProjectFetcher;
 use Drupal\simplytest_tugboat\InstanceManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -29,36 +29,36 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
   /**
    * Simplytest Project Fetcher Service.
    *
-   * @var \Drupal\simplytest_projects\SimplytestProjectFetcher
+   * @var \Drupal\simplytest_projects\ProjectFetcher
    */
-  protected $simplytestProjectFetcher;
+  protected ProjectFetcher $projectFetcher;
 
   /**
    * Simplytest Project Fetcher Service.
    *
    * @var \Drupal\simplytest_tugboat\InstanceManagerInterface
    */
-  protected $instanceManager;
+  protected InstanceManagerInterface $instanceManager;
 
   /**
    * The typed data manager.
    *
    * @var \Drupal\Core\TypedData\TypedDataManagerInterface
    */
-  protected $typeDataManager;
+  protected TypedDataManagerInterface $typeDataManager;
 
   /**
    * Constructs a new ViewEditForm object.
    *
-   * @param \Drupal\simplytest_projects\SimplytestProjectFetcher
+   * @param \Drupal\simplytest_projects\ProjectFetcher
    *   The simplytest fetcher service.
    * @param \Drupal\simplytest_tugboat\InstanceManagerInterface
    *   The simplytest tugboat instance manager service.
    * @param \Drupal\Core\TypedData\TypedDataManagerInterface $typed_data_manager
    *   The typed data manager.
    */
-  public function __construct(SimplytestProjectFetcher $simplytest_project_fetcher, InstanceManagerInterface $instance_manager, TypedDataManagerInterface $typed_data_manager) {
-    $this->simplytestProjectFetcher = $simplytest_project_fetcher;
+  public function __construct(ProjectFetcher $simplytest_project_fetcher, InstanceManagerInterface $instance_manager, TypedDataManagerInterface $typed_data_manager) {
+    $this->projectFetcher = $simplytest_project_fetcher;
     $this->instanceManager = $instance_manager;
     $this->typeDataManager = $typed_data_manager;
   }
@@ -118,8 +118,8 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
     if ($count === 0) {
       // @note on project insert, the release history is automatically fetched.
       // @see simplytest_projects_simplytest_project_insert
-      $fetched_project = $this->simplytestProjectFetcher->fetchProject($project);
-      if ($fetched_project === FALSE) {
+      $fetched_project = $this->projectFetcher->fetchProject($project);
+      if ($fetched_project === NULL) {
         // @todo how do we handle an invalid project.
       }
       else {
@@ -212,7 +212,7 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
     // Get available project versions.
     $versions = array_map(static function (\stdClass $release) {
       return $release->version;
-    }, $this->simplytestProjectFetcher->fetchVersions($project));
+    }, $this->projectFetcher->fetchVersions($project));
 
     // Check whether the submitted project exists.
     if ($versions === FALSE) {

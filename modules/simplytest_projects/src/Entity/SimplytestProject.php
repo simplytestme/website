@@ -282,6 +282,10 @@ class SimplytestProject extends ContentEntityBase implements SimplytestProjectIn
       ->setLabel(t('Timestamp Updated'))
       ->setDescription(t('Timestamp of the last time the version data was renewed.'));
 
+    $fields['usage'] = BaseFieldDefinition::create('integer')
+      ->setLabel('Usage')
+      ->setDefaultValue(0);
+
     return $fields;
   }
 

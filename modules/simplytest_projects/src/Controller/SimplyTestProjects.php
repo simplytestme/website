@@ -8,7 +8,7 @@ use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\ProjectVersionManager;
-use Drupal\simplytest_projects\SimplytestProjectFetcher;
+use Drupal\simplytest_projects\ProjectFetcher;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -36,9 +36,9 @@ class SimplyTestProjects extends ControllerBase implements ContainerInjectionInt
   /**
    * The simplytest project fetcher object.
    *
-   * @var \Drupal\simplytest_projects\SimplytestProjectFetcher
+   * @var \Drupal\simplytest_projects\ProjectFetcher
    */
-  protected $simplytestProjectFetcher;
+  protected $projectFetcher;
 
   /**
    * The core version manager.
@@ -61,17 +61,17 @@ class SimplyTestProjects extends ControllerBase implements ContainerInjectionInt
    *   The entity type manager.
    * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
    *   The request stack object.
-   * @param \Drupal\simplytest_projects\SimplytestProjectFetcher $simplytest_project_fetcher
+   * @param \Drupal\simplytest_projects\ProjectFetcher $simplytest_project_fetcher
    *   The project fetcher.
    * @param \Drupal\simplytest_projects\CoreVersionManager $core_version_manager
    *   The core version manager.
    * @param \Drupal\simplytest_projects\ProjectVersionManager $project_version_manager
    *   The project version manager.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, RequestStack $requestStack, SimplytestProjectFetcher $simplytest_project_fetcher, CoreVersionManager $core_version_manager, ProjectVersionManager $project_version_manager) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, RequestStack $requestStack, ProjectFetcher $simplytest_project_fetcher, CoreVersionManager $core_version_manager, ProjectVersionManager $project_version_manager) {
     $this->entityTypeManager = $entity_type_manager;
     $this->requestStack = $requestStack;
-    $this->simplytestProjectFetcher = $simplytest_project_fetcher;
+    $this->projectFetcher = $simplytest_project_fetcher;
     $this->coreVersionManager = $core_version_manager;
     $this->projectVersionManager = $project_version_manager;
   }
@@ -95,9 +95,9 @@ class SimplyTestProjects extends ControllerBase implements ContainerInjectionInt
   public function autocompleteProjects(Request $request) {
     $matches = [];
     if ($string = $request->query->get('string')) {
-      if (!$matches = $this->simplytestProjectFetcher->searchFromProjects($string)) {
+      if (!$matches = $this->projectFetcher->searchFromProjects($string)) {
         $string = str_replace(' ', '_', $string);
-        if ($project = $this->simplytestProjectFetcher->fetchProject($string)) {
+        if ($project = $this->projectFetcher->fetchProject($string)) {
           unset($project['creator']);
           $matches = [$project];
         }

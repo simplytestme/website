@@ -5,6 +5,7 @@
  * Install, update and uninstall functions for the simplyest_projects module.
  */
 
+use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\ProjectVersionManager;
 
@@ -133,4 +134,15 @@ function simplytest_projects_update_9002() {
   $db_schema = $database->schema();
   $our_schema = simplytest_projects_schema();
   $db_schema->createTable(ProjectVersionManager::TABLE_NAME, $our_schema[ProjectVersionManager::TABLE_NAME]);
+}
+
+/**
+ * Installs `usage` field on projects.
+ */
+function simplytest_projects_update_9003() {
+  $edum = \Drupal::entityDefinitionUpdateManager();
+  $definition = BaseFieldDefinition::create('integer')
+    ->setLabel('Usage')
+    ->setInitialValue(0);
+  $edum->installFieldStorageDefinition('usage', 'simplytest_project', 'simplytest_projects', $definition);
 }

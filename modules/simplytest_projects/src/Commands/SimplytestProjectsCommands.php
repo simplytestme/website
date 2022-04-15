@@ -6,7 +6,7 @@ use Drupal\Core\Entity\EntityStorageException;
 use Drupal\simplytest_projects\ProjectImporter;
 use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\ProjectVersionManager;
-use Drupal\simplytest_projects\SimplytestProjectFetcher;
+use Drupal\simplytest_projects\ProjectFetcher;
 use Drush\Commands\DrushCommands;
 
 /**
@@ -24,13 +24,13 @@ class SimplytestProjectsCommands extends DrushCommands {
 
   private CoreVersionManager $coreVersionManager;
   private ProjectVersionManager $projectVersionManager;
-  private SimplytestProjectFetcher $projectFetcher;
+  private ProjectFetcher $projectFetcher;
   private ProjectImporter $projectImporter;
 
   public function __construct(
     CoreVersionManager $core_version_manager,
     ProjectVersionManager $project_version_manager,
-    SimplytestProjectFetcher $project_fetcher,
+    ProjectFetcher $project_fetcher,
     ProjectImporter $project_importer
   ) {
     parent::__construct();

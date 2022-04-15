@@ -9,7 +9,7 @@ use Drupal\Core\Entity\EntityStorageException;
 use Drupal\simplytest_projects\DrupalUrls;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
 use Drupal\simplytest_projects\ProjectTypes;
-use Drupal\simplytest_projects\SimplytestProjectFetcher;
+use Drupal\simplytest_projects\ProjectFetcher;
 use GuzzleHttp\ClientInterface;
 use Psr\Log\LoggerInterface;
 
@@ -30,16 +30,16 @@ class ProjectImporter {
   /**
    * Simplytest Project Fetcher.
    *
-   * @var \Drupal\simplytest_projects\SimplytestProjectFetcher
+   * @var \Drupal\simplytest_projects\ProjectFetcher
    */
-  protected SimplytestProjectFetcher $projectFetcher;
+  protected ProjectFetcher $projectFetcher;
 
   private LoggerInterface $logger;
 
   /**
    * {@inheritdoc}
    */
-  public function __construct(ClientInterface $http_client, SimplytestProjectFetcher $simplytestProjectFetcher, LoggerInterface $logger) {
+  public function __construct(ClientInterface $http_client, ProjectFetcher $simplytestProjectFetcher, LoggerInterface $logger) {
     $this->httpClient = $http_client;
     $this->projectFetcher = $simplytestProjectFetcher;
     $this->logger = $logger;

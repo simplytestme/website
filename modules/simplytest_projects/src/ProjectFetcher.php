@@ -9,66 +9,61 @@ use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactory;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
+use Drupal\simplytest_projects\Exception\EntityValidationException;
 use GuzzleHttp\Client;
 use Drupal\Component\Serialization\Json;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class SimplytestProjectFetcher
  *
  * @package Drupal\simplytest_projects
  */
-class SimplytestProjectFetcher {
+class ProjectFetcher {
 
   /**
    * @var \Psr\Log\LoggerInterface
    */
-  public $log;
+  private LoggerInterface $logger;
 
   /**
    * @var \GuzzleHttp\Client
    */
-  public $httpClient;
-
-  /**
-   * @var \Drupal\Core\Config\ImmutableConfig
-   */
-  public $config;
+  private Client $httpClient;
 
   /**
    * @var \Drupal\Core\Entity\EntityTypeManager
    */
-  public $entityTypeManager;
+  private EntityTypeManagerInterface $entityTypeManager;
 
   /**
    * The database connection.
    *
    * @var \Drupal\Core\Database\Connection
    */
-  public $connection;
+  private Connection $connection;
 
-  private $projectVersionManager;
+  private ProjectVersionManager $projectVersionManager;
 
   /**
-   * SimplytestProjectFetcher constructor.
+   * Constructs a new ProjectFetcher object.
    *
    * @param \GuzzleHttp\Client $http_client
-   * @param \Drupal\Core\Logger\LoggerChannelFactory $logger_factory
-   * @param \Drupal\Core\Config\ConfigFactoryInterface
+   * @param \Psr\Log\LoggerInterface $logger
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface
    * @param \Drupal\Core\Database\Connection $connection
+   * @param \Drupal\simplytest_projects\ProjectVersionManager $project_version_manager
    */
   public function __construct(
     Client $http_client,
-    LoggerChannelFactory $logger_factory,
-    ConfigFactoryInterface $config_factory,
+    LoggerInterface $logger,
     EntityTypeManagerInterface $entity_type_manager,
     Connection $connection,
     ProjectVersionManager $project_version_manager
   )
   {
     $this->httpClient = $http_client;
-    $this->log = $logger_factory->get('simplytest_projects');
-    $this->config = $config_factory->get('simplytest_projects.settings');
+    $this->logger = $logger;
     $this->entityTypeManager = $entity_type_manager;
     $this->connection = $connection;
     $this->projectVersionManager = $project_version_manager;
@@ -77,73 +72,52 @@ class SimplytestProjectFetcher {
   /**
    * Try to fetch project data from drupal.org's JSON / RESTWS API.
    *
-   * @param $shortname
+   * @param string $shortname
    *
-   * @return array|bool
-   * @throws \Exception
+   * @return array|null
+   *
+   * @todo should not return null, but throw exceptions.
    */
-  public function fetchProject($shortname) {
-    // Ensure the shortname is always lowercase. The Drupal.org API is not case
-    // sensitive, but other APIs are.
+  public function fetchProject(string $shortname): ?array {
+    // Ensure the shortname is always lowercase. The Drupal.org API is not
+    // case-sensitive, but other APIs are.
     $shortname = strtolower($shortname);
     $result = $this->httpClient->get(DrupalUrls::ORG_API . 'node.json?field_project_machine_name=' . urlencode($shortname));
-    if ($result->getStatusCode() != 200 || empty($result->getBody())) {
-      $this->log->warning('Failed to fetch initial data for %project (Request).', [
-        '%project' => $shortname,
-      ]);
-      return FALSE;
-    }
 
     // Try to parse the received JSON.
     $data = Json::decode($result->getBody());
     if ($data === null) {
-      $this->log->warning('Failed to parse initial data for %project (json decode).', [
+      $this->logger->warning('Failed to parse initial data for %project (json decode).', [
         '%project' => $shortname,
       ]);
-      return FALSE;
+      return NULL;
     }
 
     // Did we find the project we searched for?
     if (count($data['list']) === 0 || !isset($data['list'][0])) {
-      return FALSE;
+      return NULL;
     }
     $project_data = $data['list'][0];
 
     // Determine the type of this project.
     $project_type = strtolower(trim($project_data['field_project_type']));
-    switch ($project_type) {
-
-      case 'full':
-        $sandbox = FALSE;
-        break;
-
-      case 'sandbox':
-        $sandbox = TRUE;
-        break;
-
-      default:
-        $this->log->warning('Failed to get initial data for %project (invalid project type "@type").',[
-          '%project' => $shortname,
-          '@type' => $project_type,
-        ]);
-        return FALSE;
-    }
+    $sandbox = $project_type !== 'full';
 
     // Determine project title.
     if (!isset($project_data['title'])) {
-      $this->log->warning('Failed to get initial data for %project (no project title).', [
+      $this->logger->warning('Failed to get initial data for %project (no project title).', [
         '%project' => $shortname,
       ]);
-      return FALSE;
+      return NULL;
     }
     $title = $project_data['title'];
 
     // Determine the project type term.
     if (!isset($project_data['type'])) {
-      $this->log->warning('Failed to get initial data for %project (no project type).', [
+      $this->logger->warning('Failed to get initial data for %project (no project type).', [
         '%project' => $shortname,
       ]);
-      return FALSE;
+      return NULL;
     }
     $type_term = $project_data['type'];
 
@@ -151,20 +125,20 @@ class SimplytestProjectFetcher {
     $type = ProjectTypes::getProjectType($type_term);
     if ($type === FALSE) {
       // Unknown type, error.
-      $this->log->warning('Failed to get initial data for %project (Determine type for term "@term").', [
+      $this->logger->warning('Failed to get initial data for %project (Determine type for term "@term").', [
         '%project' => $shortname,
         '@term' => $type_term,
       ]);
-      return FALSE;
+      return NULL;
     }
 
     // Get author name from project url.
     if ($sandbox) {
       if (!isset($project_data['url'])) {
-        $this->log->warning('Failed to scrap user name from "%url".', [
+        $this->logger->warning('Failed to scrap user name from "%url".', [
           '%url' => $project_data['url'],
         ]);
-        return FALSE;
+        return NULL;
       }
       $url_parts = explode('/', $project_data['url']);
       $creator = $url_parts[4];
@@ -175,15 +149,19 @@ class SimplytestProjectFetcher {
     }
 
     // Build an array of all the new project data.
-    $data = array(
+    $data = [
       'title' => $title,
       'shortname' => $shortname,
-      'sandbox' => ((int) $sandbox),
+      'sandbox' => $sandbox,
       'type' => $type,
       'creator' => $creator,
-    );
+      'usage' => array_reduce(
+        $project_data['project_usage'] ?? 0,
+        static fn (int $carry, $usage) => $carry + (int) $usage, 0
+      ),
+    ];
 
-    $this->log->notice('Fetch initial data for %project.', [
+    $this->logger->notice('Fetch initial data for %project.', [
       '%project' => $shortname,
     ]);
 
@@ -191,6 +169,9 @@ class SimplytestProjectFetcher {
     try {
       $project = SimplytestProject::create($data);
       $project->save();
+    }
+    catch (EntityValidationException $e) {
+      // @todo decide how to handle this error if we got a dupe save.
     }
     catch (EntityStorageException $e) {
       // @todo decide how to handle this error if we got a dupe save, somehow.
@@ -227,7 +208,7 @@ class SimplytestProjectFetcher {
       return FALSE;
     }
 
-    if ($project->getTimestamp() > strtotime('-4 hour')) {
+    if ($project->getTimestamp() > strtotime('-6 hour')) {
       return $this->projectVersionManager->getAllReleases($shortname);
     }
 
@@ -235,7 +216,7 @@ class SimplytestProjectFetcher {
     $project->set('timestamp', \Drupal::time()->getRequestTime());
     $project->save();
 
-    $this->log->notice('Fetched version data for %project.', [
+    $this->logger->notice('Fetched version data for %project.', [
       '%project' => $shortname,
     ]);
 
@@ -267,6 +248,7 @@ class SimplytestProjectFetcher {
         'type',
         'sandbox',
       ])
+      ->orderBy('usage', 'DESC')
       ->orderBy('sandbox', 'ASC')
       ->range(0, $range);
 

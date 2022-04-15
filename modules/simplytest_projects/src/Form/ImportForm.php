@@ -8,7 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\simplytest_projects\ProjectImporter;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
 use Drupal\simplytest_projects\ProjectTypes;
-use Drupal\simplytest_projects\SimplytestProjectFetcher;
+use Drupal\simplytest_projects\ProjectFetcher;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -19,9 +19,9 @@ class ImportForm extends FormBase {
   /**
    * Simplytest Project Fetcher Service.
    *
-   * @var \Drupal\simplytest_projects\SimplytestProjectFetcher
+   * @var \Drupal\simplytest_projects\ProjectFetcher
    */
-  protected SimplytestProjectFetcher $simplytestProjectFetcher;
+  protected ProjectFetcher $projectFetcher;
 
   /**
    * Simplytest Project Import Service.
@@ -33,8 +33,8 @@ class ImportForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function __construct(SimplytestProjectFetcher $simplytestProjectFetcher, ProjectImporter $projectImporter) {
-    $this->simplytestProjectFetcher = $simplytestProjectFetcher;
+  public function __construct(ProjectFetcher $projectFetcher, ProjectImporter $projectImporter) {
+    $this->projectFetcher = $projectFetcher;
     $this->projectImporter = $projectImporter;
   }
 
@@ -83,7 +83,7 @@ class ImportForm extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $types = array_filter($form_state->getValue('type'));
     // Import the Drupal core data.
-    if (empty($this->simplytestProjectFetcher->searchFromProjects('drupal'))) {
+    if (empty($this->projectFetcher->searchFromProjects('drupal'))) {
       try {
         $project = SimplytestProject::create([
           'title' => 'Drupal core',
