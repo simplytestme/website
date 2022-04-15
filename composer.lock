@@ -1370,16 +1370,16 @@
         },
         {
             "name": "drupal/core",
-            "version": "9.3.7",
+            "version": "9.3.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core.git",
-                "reference": "a768174b00fa088027d460a80a13550e624b9bf8"
+                "reference": "b8978dd6a4639bdc0930a6eb7791afffcd931a1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core/zipball/a768174b00fa088027d460a80a13550e624b9bf8",
-                "reference": "a768174b00fa088027d460a80a13550e624b9bf8",
+                "url": "https://api.github.com/repos/drupal/core/zipball/b8978dd6a4639bdc0930a6eb7791afffcd931a1b",
+                "reference": "b8978dd6a4639bdc0930a6eb7791afffcd931a1b",
                 "shasum": ""
             },
             "require": {
@@ -1621,13 +1621,13 @@
             ],
             "description": "Drupal is an open source content management platform powering millions of websites and applications.",
             "support": {
-                "source": "https://github.com/drupal/core/tree/9.3.7"
+                "source": "https://github.com/drupal/core/tree/9.3.11"
             },
-            "time": "2022-03-03T09:23:53+00:00"
+            "time": "2022-04-14T00:39:08+00:00"
         },
         {
             "name": "drupal/core-composer-scaffold",
-            "version": "9.3.7",
+            "version": "9.3.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core-composer-scaffold.git",
@@ -1671,13 +1671,13 @@
                 "drupal"
             ],
             "support": {
-                "source": "https://github.com/drupal/core-composer-scaffold/tree/9.3.7"
+                "source": "https://github.com/drupal/core-composer-scaffold/tree/9.3.11"
             },
             "time": "2022-02-24T17:40:56+00:00"
         },
         {
             "name": "drupal/core-project-message",
-            "version": "9.3.7",
+            "version": "9.3.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core-project-message.git",
@@ -1712,22 +1712,22 @@
                 "drupal"
             ],
             "support": {
-                "source": "https://github.com/drupal/core-project-message/tree/9.3.7"
+                "source": "https://github.com/drupal/core-project-message/tree/9.3.11"
             },
             "time": "2022-02-24T17:40:56+00:00"
         },
         {
             "name": "drupal/core-recommended",
-            "version": "9.3.7",
+            "version": "9.3.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core-recommended.git",
-                "reference": "29f6f29672861a5719701a59aae26aafbb4c9495"
+                "reference": "9454fd8bce0172964d132feea87123a70948b6ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core-recommended/zipball/29f6f29672861a5719701a59aae26aafbb4c9495",
-                "reference": "29f6f29672861a5719701a59aae26aafbb4c9495",
+                "url": "https://api.github.com/repos/drupal/core-recommended/zipball/9454fd8bce0172964d132feea87123a70948b6ee",
+                "reference": "9454fd8bce0172964d132feea87123a70948b6ee",
                 "shasum": ""
             },
             "require": {
@@ -1736,11 +1736,11 @@
                 "doctrine/annotations": "1.13.2",
                 "doctrine/lexer": "1.2.1",
                 "doctrine/reflection": "1.2.2",
-                "drupal/core": "9.3.7",
+                "drupal/core": "9.3.11",
                 "egulias/email-validator": "3.1.2",
                 "guzzlehttp/guzzle": "6.5.5",
                 "guzzlehttp/promises": "1.5.1",
-                "guzzlehttp/psr7": "1.8.3",
+                "guzzlehttp/psr7": "1.8.5",
                 "laminas/laminas-diactoros": "2.8.0",
                 "laminas/laminas-escaper": "2.9.0",
                 "laminas/laminas-feed": "2.15.0",
@@ -1798,9 +1798,9 @@
             ],
             "description": "Locked core dependencies; require this project INSTEAD OF drupal/core.",
             "support": {
-                "source": "https://github.com/drupal/core-recommended/tree/9.3.7"
+                "source": "https://github.com/drupal/core-recommended/tree/9.3.11"
             },
-            "time": "2022-03-03T09:23:53+00:00"
+            "time": "2022-04-14T00:39:08+00:00"
         },
         {
             "name": "drupal/fastly",
@@ -2663,16 +2663,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "1.8.3",
+            "version": "1.8.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "1afdd860a2566ed3c2b0b4a3de6e23434a79ec85"
+                "reference": "337e3ad8e5716c15f9657bd214d16cc5e69df268"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/1afdd860a2566ed3c2b0b4a3de6e23434a79ec85",
-                "reference": "1afdd860a2566ed3c2b0b4a3de6e23434a79ec85",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/337e3ad8e5716c15f9657bd214d16cc5e69df268",
+                "reference": "337e3ad8e5716c15f9657bd214d16cc5e69df268",
                 "shasum": ""
             },
             "require": {
@@ -2753,7 +2753,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/1.8.3"
+                "source": "https://github.com/guzzle/psr7/tree/1.8.5"
             },
             "funding": [
                 {
@@ -2769,7 +2769,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-05T13:56:00+00:00"
+            "time": "2022-03-20T21:51:18+00:00"
         },
         {
             "name": "laminas/laminas-diactoros",
@@ -5594,7 +5594,7 @@
         },
         {
             "name": "symfony/polyfill-php72",
-            "version": "v1.24.0",
+            "version": "v1.25.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php72.git",
@@ -5650,7 +5650,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php72/tree/v1.24.0"
+                "source": "https://github.com/symfony/polyfill-php72/tree/v1.25.0"
             },
             "funding": [
                 {
@@ -5670,7 +5670,7 @@
         },
         {
             "name": "symfony/polyfill-php73",
-            "version": "v1.24.0",
+            "version": "v1.25.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php73.git",
@@ -5729,7 +5729,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php73/tree/v1.24.0"
+                "source": "https://github.com/symfony/polyfill-php73/tree/v1.25.0"
             },
             "funding": [
                 {
@@ -7178,31 +7178,32 @@
         },
         {
             "name": "composer/composer",
-            "version": "2.1.12",
+            "version": "2.2.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "6e3c2b122e0ec41a7e885fcaf19fa15e2e0819a0"
+                "reference": "ba61e768b410736efe61df01b61f1ec44f51474f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/6e3c2b122e0ec41a7e885fcaf19fa15e2e0819a0",
-                "reference": "6e3c2b122e0ec41a7e885fcaf19fa15e2e0819a0",
+                "url": "https://api.github.com/repos/composer/composer/zipball/ba61e768b410736efe61df01b61f1ec44f51474f",
+                "reference": "ba61e768b410736efe61df01b61f1ec44f51474f",
                 "shasum": ""
             },
             "require": {
                 "composer/ca-bundle": "^1.0",
                 "composer/metadata-minifier": "^1.0",
+                "composer/pcre": "^1.0",
                 "composer/semver": "^3.0",
                 "composer/spdx-licenses": "^1.2",
-                "composer/xdebug-handler": "^2.0",
+                "composer/xdebug-handler": "^2.0 || ^3.0",
                 "justinrainbow/json-schema": "^5.2.11",
                 "php": "^5.3.2 || ^7.0 || ^8.0",
                 "psr/log": "^1.0 || ^2.0",
                 "react/promise": "^1.2 || ^2.7",
                 "seld/jsonlint": "^1.4",
                 "seld/phar-utils": "^1.0",
-                "symfony/console": "^2.8.52 || ^3.4.35 || ^4.4 || ^5.0 || ^6.0",
+                "symfony/console": "^2.8.52 || ^3.4.35 || ^4.4 || ^5.0",
                 "symfony/filesystem": "^2.8.52 || ^3.4.35 || ^4.4 || ^5.0 || ^6.0",
                 "symfony/finder": "^2.8.52 || ^3.4.35 || ^4.4 || ^5.0 || ^6.0",
                 "symfony/process": "^2.8.52 || ^3.4.35 || ^4.4 || ^5.0 || ^6.0"
@@ -7222,7 +7223,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "2.1-dev"
+                    "dev-main": "2.2-dev"
                 }
             },
             "autoload": {
@@ -7256,7 +7257,7 @@
             "support": {
                 "irc": "ircs://irc.libera.chat:6697/composer",
                 "issues": "https://github.com/composer/composer/issues",
-                "source": "https://github.com/composer/composer/tree/2.1.12"
+                "source": "https://github.com/composer/composer/tree/2.2.12"
             },
             "funding": [
                 {
@@ -7272,7 +7273,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-11-09T15:02:04+00:00"
+            "time": "2022-04-13T14:42:25+00:00"
         },
         {
             "name": "composer/metadata-minifier",
@@ -7342,6 +7343,77 @@
                 }
             ],
             "time": "2021-04-07T13:37:33+00:00"
+        },
+        {
+            "name": "composer/pcre",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/composer/pcre.git",
+                "reference": "67a32d7d6f9f560b726ab25a061b38ff3a80c560"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/composer/pcre/zipball/67a32d7d6f9f560b726ab25a061b38ff3a80c560",
+                "reference": "67a32d7d6f9f560b726ab25a061b38ff3a80c560",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3.2 || ^7.0 || ^8.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^1.3",
+                "phpstan/phpstan-strict-rules": "^1.1",
+                "symfony/phpunit-bridge": "^4.2 || ^5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Composer\\Pcre\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be",
+                    "homepage": "http://seld.be"
+                }
+            ],
+            "description": "PCRE wrapping library that offers type-safe preg_* replacements.",
+            "keywords": [
+                "PCRE",
+                "preg",
+                "regex",
+                "regular expression"
+            ],
+            "support": {
+                "issues": "https://github.com/composer/pcre/issues",
+                "source": "https://github.com/composer/pcre/tree/1.0.1"
+            },
+            "funding": [
+                {
+                    "url": "https://packagist.com",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/composer",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-01-21T20:24:37+00:00"
         },
         {
             "name": "composer/spdx-licenses",
@@ -7601,29 +7673,30 @@
         },
         {
             "name": "drupal/core-dev-pinned",
-            "version": "9.3.7",
+            "version": "9.3.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core-dev-pinned.git",
-                "reference": "3492ffea4d1d5c05d85edc01405fb664226eed92"
+                "reference": "438e0b4af8f76efb1b94c194d747427600f1f652"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core-dev-pinned/zipball/3492ffea4d1d5c05d85edc01405fb664226eed92",
-                "reference": "3492ffea4d1d5c05d85edc01405fb664226eed92",
+                "url": "https://api.github.com/repos/drupal/core-dev-pinned/zipball/438e0b4af8f76efb1b94c194d747427600f1f652",
+                "reference": "438e0b4af8f76efb1b94c194d747427600f1f652",
                 "shasum": ""
             },
             "require": {
                 "behat/mink": "v1.9.0",
                 "behat/mink-selenium2-driver": "v1.5.0",
                 "composer/ca-bundle": "1.3.1",
-                "composer/composer": "2.1.12",
+                "composer/composer": "2.2.12",
                 "composer/metadata-minifier": "1.0.0",
+                "composer/pcre": "1.0.1",
                 "composer/spdx-licenses": "1.5.6",
                 "composer/xdebug-handler": "2.0.2",
                 "doctrine/instantiator": "1.4.0",
                 "drupal/coder": "8.3.13",
-                "drupal/core": "9.3.7",
+                "drupal/core": "9.3.11",
                 "easyrdf/easyrdf": "1.1.1",
                 "friends-of-behat/mink-browserkit-driver": "v1.5.0",
                 "instaclick/php-webdriver": "1.4.10",
@@ -7679,9 +7752,9 @@
             ],
             "description": "Pinned require-dev dependencies from drupal/drupal; use in addition to drupal/core-recommended to run tests from drupal/core.",
             "support": {
-                "source": "https://github.com/drupal/core-dev-pinned/tree/9.3.7"
+                "source": "https://github.com/drupal/core-dev-pinned/tree/9.3.11"
             },
-            "time": "2022-03-03T09:23:53+00:00"
+            "time": "2022-04-14T00:39:08+00:00"
         },
         {
             "name": "easyrdf/easyrdf",
