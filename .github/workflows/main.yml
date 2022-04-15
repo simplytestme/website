@@ -19,7 +19,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        php: [7.4]
+        php: [8.0]
         os: [ubuntu-latest]
     name: site:install - ${{ matrix.php }}
     services:
@@ -65,7 +65,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        php: [7.4]
+        php: [8.0]
         os: [ubuntu-latest]
     name: phpunit - ${{ matrix.php }}
     services:
