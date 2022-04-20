@@ -34,6 +34,7 @@
         "drupal/core": "^9.3",
         "drupal/fastly": "^3.14",
         "drupal/http_cache_control": "^2.0",
+        "drupal/lagoon_logs": "^2.0",
         "drupal/purge": "^3.0",
         "drupal/tugboat": "^1.0@alpha",
         "php-http/guzzle6-adapter": "^1.1"

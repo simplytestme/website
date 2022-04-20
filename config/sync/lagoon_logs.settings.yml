@@ -1,0 +1,6 @@
+_core:
+  default_config_hash: 2vFUGgSwVm06QF3OfOLUwxfBHxOrBOhydXlHcJEpHuw
+host: application-logs.lagoon.svc
+port: 5140
+identifier: drupal
+disable: 0
