@@ -22,6 +22,7 @@
         "php": "^7.4",
         "amazeeio/drupal_integrations": "^0.3.4",
         "composer/installers": "^1.9",
+        "cweagans/composer-patches": "^1.7",
         "drupal/admin_toolbar": "^2.4",
         "drupal/core-composer-scaffold": "^9.1",
         "drupal/core-project-message": "^9.1",
@@ -45,7 +46,8 @@
         "allow-plugins": {
             "composer/installers": true,
             "drupal/core-composer-scaffold": true,
-            "drupal/core-project-message": true
+            "drupal/core-project-message": true,
+            "cweagans/composer-patches": true
         }
     },
     "scripts": {
@@ -57,6 +59,11 @@
         "compile": "cd web/profiles/contrib/simplytest/themes/simplytest_theme && npm run build"
     },
     "extra": {
+        "patches": {
+            "drupal/simplytest": {
+                "Issue #3276737": "https://git.drupalcode.org/project/simplytest/-/merge_requests/116.patch"
+            }
+        },
         "drupal-scaffold": {
             "locations": {
                 "web-root": "web/"
