@@ -9,7 +9,7 @@ function Patches({ patches, setPatches }) {
   }
 
   function addPatch() {
-    setPatches([...patches, []]);
+    setPatches([...patches, '']);
   }
 
   function removeExtraPatch(k) {
