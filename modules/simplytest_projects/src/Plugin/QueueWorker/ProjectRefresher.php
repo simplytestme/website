@@ -18,10 +18,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Defines 'simplytest_projects_project_refresher' queue worker.
  *
+ * The `cron` key is purposely ommitted so that the queue is not processed
+ * by cron. The queue should be processed on its own using the Drush command
+ * for processing queues, `queue:run`.
+ *
  * @QueueWorker(
  *   id = "simplytest_projects_project_refresher",
  *   title = @Translation("Project refresher"),
- *   cron = {"time" = 60}
  * )
  */
 class ProjectRefresher extends QueueWorkerBase implements ContainerFactoryPluginInterface {

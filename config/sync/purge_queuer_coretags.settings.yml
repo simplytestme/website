@@ -9,3 +9,5 @@ blacklist:
   - 'config:field.storage'
   - route_match
   - routes
+  - 'simplytest_project'
+  - 'simplytest_project_list'

@@ -25,7 +25,8 @@ function simplytest_projects_cron() {
   $project_storage = \Drupal::entityTypeManager()->getStorage('simplytest_project');
   $query = $project_storage->getQuery()
     ->accessCheck(FALSE)
-    ->condition('timestamp', strtotime('-4 hour'), '<');
+    ->condition('timestamp', strtotime('-4 hour'), '<')
+    ->range(0, 50);
   $project_ids = $query->execute();
 
   $queue = \Drupal::queue('simplytest_projects_project_refresher');
