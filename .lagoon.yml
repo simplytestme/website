@@ -42,7 +42,7 @@ environments:
         service: cli
       - name: simplytest_projects_project_refresher
         schedule: "*/5 * * * *"
-        command: drush queue:run simplytest_projects_project_refresher
+        command: drush queue:run simplytest_projects_project_refresher --items-limit 15
         service: cli
   main:
     routes:
@@ -60,5 +60,5 @@ environments:
         service: cli
       - name: simplytest_projects_project_refresher
         schedule: "*/5 * * * *"
-        command: drush queue:run simplytest_projects_project_refresher
+        command: drush queue:run simplytest_projects_project_refresher --items-limit 15
         service: cli
