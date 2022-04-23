@@ -59,11 +59,6 @@
         "compile": "cd web/profiles/contrib/simplytest/themes/simplytest_theme && npm run build"
     },
     "extra": {
-        "patches": {
-            "drupal/simplytest": {
-                "Issue #3276737": "https://git.drupalcode.org/project/simplytest/-/merge_requests/116.patch"
-            }
-        },
         "drupal-scaffold": {
             "locations": {
                 "web-root": "web/"

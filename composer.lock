@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "48ad9f865ff833fa105975bb1067e727",
+    "content-hash": "6e079bcf7f3c2729c70a9b1e6603032e",
     "packages": [
         {
             "name": "amazeeio/drupal_integrations",
@@ -2136,7 +2136,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/simplytest.git",
-                "reference": "e33db25ccbccffe494dd546f527709e18610f4cc"
+                "reference": "a435b34a8b9b9c45168bbdf835d40a7ee443b276"
             },
             "require": {
                 "composer/semver": "^3.0",
@@ -2185,7 +2185,7 @@
                 "issues": "https://www.drupal.org/project/issues/simplytest",
                 "source": "https://git.drupalcode.org/project/simplytest"
             },
-            "time": "2022-04-22T16:10:16+00:00"
+            "time": "2022-04-23T01:09:10+00:00"
         },
         {
             "name": "drupal/tugboat",
