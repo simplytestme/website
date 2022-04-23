@@ -40,13 +40,16 @@ final class PreviewConfigGenerator {
    *   The preview config.
    */
   public function generate(array $parameters): array {
-    // @todo Why is 9 only on 7.3 and not 8? Also should it be 7.4?
-    // @todo 7.2 is EOL; min should be 7.3.
-    if ($parameters['major_version'] === '9') {
-      $image_name = 'tugboatqa/php:7.3-apache';
+    // @todo make these configurable in #3236528
+    // @see https://www.drupal.org/project/simplytest/issues/
+    if ($parameters['major_version'] === '10') {
+      $image_name = 'tugboatqa/php:8.1-apache';
+    }
+    elseif ($parameters['major_version'] === '9') {
+      $image_name = 'tugboatqa/php:7.4-apache';
     }
     else {
-      $image_name = 'tugboatqa/php:7.2-apache';
+      $image_name = 'tugboatqa/php:7.4-apache';
     }
 
     // Rename drupal to core so that it becomes drupal/core as a package name.
@@ -149,7 +152,7 @@ final class PreviewConfigGenerator {
 
   private function getSetupCommands(array $parameters) {
     $commands = [];
-    if ($parameters['major_version'] === '9') {
+    if ($parameters['major_version'] === '10' || $parameters['major_version'] === '9') {
       $commands[] = 'rm -rf "${DOCROOT}"';
       $commands[] = sprintf('composer -n create-project drupal/recommended-project:%s stm --no-install', $parameters['drupal_core_version']);
       $commands[] = 'cd stm && composer config minimum-stability dev';
@@ -164,7 +167,7 @@ final class PreviewConfigGenerator {
       if (Semver::satisfies($parameters['drupal_core_version'], '>=9.1.6')) {
         $commands[] = 'cd stm && composer require --dev --no-update phpspec/prophecy-phpunit:^2';
       }
-      $commands[] = 'cd stm && composer require --no-update drush/drush:^10.0';
+      $commands[] = 'cd stm && composer require --no-update drush/drush';
       $commands[] = 'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"';
     }
     else if ($parameters['major_version'] === '7' || $parameters['major_version'] === '8') {
@@ -189,7 +192,7 @@ final class PreviewConfigGenerator {
     $is_core = $parameters['project_type'] === ProjectTypes::CORE;
     $is_distro = $parameters['project_type'] === ProjectTypes::DISTRO;
 
-    if ($parameters['major_version'] === '9') {
+    if ($parameters['major_version'] === '10' || $parameters['major_version'] === '9') {
       $commands[] = 'composer global require szeidler/composer-patches-cli:~1.0';
       $commands[] = 'cd stm && composer require cweagans/composer-patches:~1.0 --no-update';
       $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-update', $parameters['project'], $this->getComposerCompatibleVersionString($parameters['project_version']));
@@ -270,8 +273,8 @@ final class PreviewConfigGenerator {
   private function getPatchingCommands(array $parameters) {
     $commands = [];
 
-    if ($parameters['major_version'] === '8' || $parameters['major_version'] === '9') {
-      $composerWorkingDir = $parameters['major_version'] === '9' ? 'stm' : '"${DOCROOT}"';
+    if ($parameters['major_version'] === '8' || $parameters['major_version'] === '9' || $parameters['major_version'] === '10') {
+      $composerWorkingDir = $parameters['major_version'] !== '8' ? 'stm' : '"${DOCROOT}"';
       // @todo previous version had cd DOCROOT vs cd stm, normalize.
       if (count($parameters['patches']) > 0) {
         $commands[] = 'cd ' . $composerWorkingDir .  ' && composer patch-enable --file="patches.json"';
@@ -303,7 +306,7 @@ final class PreviewConfigGenerator {
     return $commands;
   }
 
-  private function getInstallingCommands(array $parameters) {
+  private function getInstallingCommands(array $parameters): array {
     $commands = [];
     if ($parameters['perform_install'] === FALSE) {
       $commands[] = 'cp ${DOCROOT}/sites/default/default.settings.php ${DOCROOT}/sites/default/settings.php';
@@ -317,9 +320,9 @@ final class PreviewConfigGenerator {
       $commands[] = 'echo "     \'prefix\' => \'\'," >> ${DOCROOT}/sites/default/settings.php';
       $commands[] = 'echo "];" >> ${DOCROOT}/sites/default/settings.php';
 
-      // Provide a hash salt so that install begins automatically.
+      // Provide a hash salt so that installation begins automatically.
       // @see install_begin_request
-      if ($parameters['major_version'] === '9' || $parameters['major_version'] === '8') {
+      if ($parameters['major_version'] === '10' || $parameters['major_version'] === '9' || $parameters['major_version'] === '8') {
         $commands[] = 'echo "\$settings[\'hash_salt\'] = \'JzbemMqk0y1ALpbGBWhz8N_p9mr7wyYm_AQIpkxH1y-uSIGNTb5EnDwhJygBCyRKJhAOkQ1d7Q\';" >> ${DOCROOT}/sites/default/settings.php';
         $commands[] = 'echo "\$settings[\'config_sync_directory\'] = \'sites/default/files/sync\';" >> ${DOCROOT}/sites/default/settings.php';
         $commands[] = 'echo \'$settings["file_private_path"] = "sites/default/files/private";\' >> ${DOCROOT}/sites/default/settings.php';
@@ -338,7 +341,7 @@ final class PreviewConfigGenerator {
       $install_profile = $parameters['project'];
     }
 
-    if ($parameters['major_version'] === '9') {
+    if ($parameters['major_version'] === '10' || $parameters['major_version'] === '9') {
       $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush si %s --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y', $install_profile);
       if (!$is_distro && !$is_core) {
         $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush en %s -y', $parameters['project']);

@@ -77,7 +77,7 @@ class InstanceManager implements InstanceManagerInterface {
     $repository_id = $this->tugboatSettings->get('repository_id');
     $response = $this->tugboatClient->requestWithApiKey('GET', "repos/{$repository_id}/previews");
     $previews = Json::decode((string) $response->getBody());
-    $max_id = NULL;
+    $max_id = 'none';
 
     // Find the most recent preview ID for the base.
     foreach ($previews as $preview) {
@@ -126,7 +126,7 @@ class InstanceManager implements InstanceManagerInterface {
 
 
       $project_version = $submission['project']['version'];
-      $major_version = $submission['drupalVersion'][0];
+      [$major_version, ,] = explode('.', $submission['drupalVersion']);
 
       // Send parameters.
       $parameters  = [

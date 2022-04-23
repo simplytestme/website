@@ -35,7 +35,7 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.3-apache',
+          'image' => 'tugboatqa/php:7.4-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [
@@ -49,7 +49,7 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'cd stm && composer config prefer-stable true',
               'cd stm && composer require --dev --no-update drupal/core:9.3.2 drupal/core-dev:9.3.2',
               'cd stm && composer require --dev --no-update phpspec/prophecy-phpunit:^2',
-              'cd stm && composer require --no-update drush/drush:^10.0',
+              'cd stm && composer require --no-update drush/drush',
               'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"',
               'echo "SIMPLYEST_STAGE_DOWNLOAD"',
               'composer global require szeidler/composer-patches-cli:~1.0',
@@ -92,7 +92,7 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.3-apache',
+          'image' => 'tugboatqa/php:7.4-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [
@@ -106,7 +106,7 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'cd stm && composer config prefer-stable true',
               'cd stm && composer require --dev --no-update drupal/core:9.3.2 drupal/core-dev:9.3.2',
               'cd stm && composer require --dev --no-update phpspec/prophecy-phpunit:^2',
-              'cd stm && composer require --no-update drush/drush:^10.0',
+              'cd stm && composer require --no-update drush/drush',
               'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"',
               'echo "SIMPLYEST_STAGE_DOWNLOAD"',
               'composer global require szeidler/composer-patches-cli:~1.0',
@@ -151,7 +151,7 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.3-apache',
+          'image' => 'tugboatqa/php:7.4-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [
@@ -165,7 +165,7 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'cd stm && composer config prefer-stable true',
               'cd stm && composer require --dev --no-update drupal/core:9.3.2 drupal/core-dev:9.3.2',
               'cd stm && composer require --dev --no-update phpspec/prophecy-phpunit:^2',
-              'cd stm && composer require --no-update drush/drush:^10.0',
+              'cd stm && composer require --no-update drush/drush',
               'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"',
               'echo "SIMPLYEST_STAGE_DOWNLOAD"',
               'composer global require szeidler/composer-patches-cli:~1.0',
@@ -206,7 +206,7 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.3-apache',
+          'image' => 'tugboatqa/php:7.4-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [
@@ -220,7 +220,7 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'cd stm && composer config prefer-stable true',
               'cd stm && composer require --dev --no-update drupal/core:9.3.2 drupal/core-dev:9.3.2',
               'cd stm && composer require --dev --no-update phpspec/prophecy-phpunit:^2',
-              'cd stm && composer require --no-update drush/drush:^10.0',
+              'cd stm && composer require --no-update drush/drush',
               'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"',
               'echo "SIMPLYEST_STAGE_DOWNLOAD"',
               'composer global require szeidler/composer-patches-cli:~1.0',
@@ -272,7 +272,7 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.3-apache',
+          'image' => 'tugboatqa/php:7.4-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [
@@ -286,7 +286,7 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'cd stm && composer config prefer-stable true',
               'cd stm && composer require --dev --no-update drupal/core:9.3.2 drupal/core-dev:9.3.2',
               'cd stm && composer require --dev --no-update phpspec/prophecy-phpunit:^2',
-              'cd stm && composer require --no-update drush/drush:^10.0',
+              'cd stm && composer require --no-update drush/drush',
               'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"',
               'echo "SIMPLYEST_STAGE_DOWNLOAD"',
               'composer global require szeidler/composer-patches-cli:~1.0',
@@ -331,7 +331,7 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.3-apache',
+          'image' => 'tugboatqa/php:7.4-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [
@@ -345,7 +345,7 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'cd stm && composer config prefer-stable true',
               'cd stm && composer require --dev --no-update drupal/core:9.3.2 drupal/core-dev:9.3.2',
               'cd stm && composer require --dev --no-update phpspec/prophecy-phpunit:^2',
-              'cd stm && composer require --no-update drush/drush:^10.0',
+              'cd stm && composer require --no-update drush/drush',
               'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"',
               'echo "SIMPLYEST_STAGE_DOWNLOAD"',
               'composer global require szeidler/composer-patches-cli:~1.0',
@@ -393,7 +393,7 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.3-apache',
+          'image' => 'tugboatqa/php:7.4-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [
@@ -407,7 +407,7 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'cd stm && composer config prefer-stable true',
               'cd stm && composer require --dev --no-update drupal/core:9.3.2 drupal/core-dev:9.3.2',
               'cd stm && composer require --dev --no-update phpspec/prophecy-phpunit:^2',
-              'cd stm && composer require --no-update drush/drush:^10.0',
+              'cd stm && composer require --no-update drush/drush',
               'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"',
               'echo "SIMPLYEST_STAGE_DOWNLOAD"',
               'composer global require szeidler/composer-patches-cli:~1.0',
@@ -450,7 +450,7 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.3-apache',
+          'image' => 'tugboatqa/php:7.4-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [
@@ -463,7 +463,7 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'cd stm && composer config minimum-stability dev',
               'cd stm && composer config prefer-stable true',
               'cd stm && composer require --dev --no-update drupal/core:9.1.5 drupal/core-dev:9.1.5',
-              'cd stm && composer require --no-update drush/drush:^10.0',
+              'cd stm && composer require --no-update drush/drush',
               'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"',
               'echo "SIMPLYEST_STAGE_DOWNLOAD"',
               'composer global require szeidler/composer-patches-cli:~1.0',
@@ -504,7 +504,7 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.3-apache',
+          'image' => 'tugboatqa/php:7.4-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [
@@ -518,7 +518,7 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'cd stm && composer config prefer-stable true',
               'cd stm && composer require --dev --no-update drupal/core:9.3.x-dev drupal/core-dev:9.3.x-dev',
               'cd stm && composer require --dev --no-update phpspec/prophecy-phpunit:^2',
-              'cd stm && composer require --no-update drush/drush:^10.0',
+              'cd stm && composer require --no-update drush/drush',
               'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"',
               'echo "SIMPLYEST_STAGE_DOWNLOAD"',
               'composer global require szeidler/composer-patches-cli:~1.0',
@@ -558,7 +558,7 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.3-apache',
+          'image' => 'tugboatqa/php:7.4-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [
@@ -572,7 +572,7 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'cd stm && composer config prefer-stable true',
               'cd stm && composer require --dev --no-update drupal/core:9.1.9 drupal/core-dev:9.1.9',
               'cd stm && composer require --dev --no-update phpspec/prophecy-phpunit:^2',
-              'cd stm && composer require --no-update drush/drush:^10.0',
+              'cd stm && composer require --no-update drush/drush',
               'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"',
               'echo "SIMPLYEST_STAGE_DOWNLOAD"',
               'composer global require szeidler/composer-patches-cli:~1.0',

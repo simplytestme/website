@@ -35,7 +35,7 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.2-apache',
+          'image' => 'tugboatqa/php:7.4-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [
@@ -83,7 +83,7 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.2-apache',
+          'image' => 'tugboatqa/php:7.4-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [
@@ -132,7 +132,7 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.2-apache',
+          'image' => 'tugboatqa/php:7.4-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [
@@ -177,7 +177,7 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.2-apache',
+          'image' => 'tugboatqa/php:7.4-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [
@@ -238,7 +238,7 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.2-apache',
+          'image' => 'tugboatqa/php:7.4-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [
@@ -283,7 +283,7 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.2-apache',
+          'image' => 'tugboatqa/php:7.4-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [

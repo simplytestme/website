@@ -5,6 +5,7 @@
  * Install, update and uninstall functions for the simplyest_projects module.
  */
 
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\ProjectVersionManager;
@@ -145,4 +146,21 @@ function simplytest_projects_update_9003() {
     ->setLabel('Usage')
     ->setInitialValue(0);
   $edum->installFieldStorageDefinition('usage', 'simplytest_project', 'simplytest_projects', $definition);
+}
+
+/**
+ * Refresh Drupal core release data.
+ */
+function simplytest_projects_update_9004() {
+  $state = \Drupal::state();
+  $state->delete('release_history_last_modified:drupal:10.x');
+
+  $core_version_manager = \Drupal::service('simplytest_projects.core_version_manager');
+  assert($core_version_manager instanceof CoreVersionManager);
+  $core_version_manager->updateData(10);
+
+  $project_version_manager = \Drupal::service('simplytest_projects.project_version_manager');
+  $project_version_manager->updateData('drupal');
+
+  Cache::invalidateTags(['project_versions:drupal', 'core_versions']);
 }

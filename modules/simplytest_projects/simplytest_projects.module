@@ -21,6 +21,7 @@ function simplytest_projects_cron() {
   $core_version_manager->updateData(7);
   $core_version_manager->updateData(8);
   $core_version_manager->updateData(9);
+  $core_version_manager->updateData(10);
 
   $project_storage = \Drupal::entityTypeManager()->getStorage('simplytest_project');
   $query = $project_storage->getQuery()

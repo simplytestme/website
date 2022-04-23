@@ -99,7 +99,7 @@ final class CoreVersionManagerTest extends KernelTestBase {
       'vcs_label' => '7.9',
       'insecure' => '1',
     ]];
-    yield [10, 1, [
+    yield [10, 3, [
       'version' => '10.0.x-dev',
       'major' => '10',
       'minor' => '0',

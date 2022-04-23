@@ -21,7 +21,8 @@ function DrupalCoreVersionSelector() {
       // @todo Prevent extra requests for core version if we're on the same major.
       let releaseUrl;
       if (selectedProject.shortname === "drupal") {
-        releaseUrl = `simplytest/core/versions/${selectedVersion[0]}`;
+        const [major] = selectedVersion.split('.')
+        releaseUrl = `simplytest/core/versions/${major}`;
       } else {
         releaseUrl = `simplytest/core/compatible/${
           selectedProject.shortname

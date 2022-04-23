@@ -64,7 +64,8 @@ final class Processor {
           $release_data['core_compatibility'] = $data['api_version'];
         }
         elseif ($data['short_name'] === 'drupal') {
-          $release_data['core_compatibility'] = $version[0] . '.x';
+          [$major, ,] = explode('.', $version);
+          $release_data['core_compatibility'] = $major . '.x';
         }
         // Some projects are missing this, somehow. Assume just 8.x if it is
         // not present, safest assumption.
