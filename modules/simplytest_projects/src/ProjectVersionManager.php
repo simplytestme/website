@@ -154,6 +154,7 @@ final class ProjectVersionManager {
     }
 
     $organized_releases['latest'] = [];
+    $organized_releases['core'] = [];
     $organized_releases['branches'] = $branches;
     foreach ($core_compatibilities as $core_data) {
       if (empty($core_data['versions'])) {
