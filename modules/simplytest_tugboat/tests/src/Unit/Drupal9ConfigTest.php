@@ -596,6 +596,134 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
         ],
       ]
     ];
+    yield 'theme:enable is used for themes' => [
+      [
+        'perform_install' => TRUE,
+        'install_profile' => 'standard',
+        'drupal_core_version' => '9.3.2',
+        'project_type' => 'Theme',
+        'project_version' => '8.x-3.24',
+        'project' => 'bootstrap',
+        'patches' => [],
+        'additionals' => [],
+        'instance_id' => $instance_id,
+        'hash' => $hash,
+        'major_version' => '9',
+      ],
+      [
+        'php' => [
+          'image' => 'tugboatqa/php:7.4-apache',
+          'default' => true,
+          'depends' => 'mysql',
+          'commands' => [
+            'build' => [
+              'docker-php-ext-install opcache',
+              'a2enmod headers rewrite',
+              'composer self-update',
+              'rm -rf "${DOCROOT}"',
+              'composer -n create-project drupal/recommended-project:9.3.2 stm --no-install',
+              'cd stm && composer config minimum-stability dev',
+              'cd stm && composer config prefer-stable true',
+              'cd stm && composer require --dev --no-update drupal/core:9.3.2 drupal/core-dev:9.3.2',
+              'cd stm && composer require --dev --no-update phpspec/prophecy-phpunit:^2',
+              'cd stm && composer require --no-update drush/drush',
+              'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"',
+              'echo "SIMPLYEST_STAGE_DOWNLOAD"',
+              'composer global require szeidler/composer-patches-cli:~1.0',
+              'cd stm && composer require cweagans/composer-patches:~1.0 --no-update',
+              'cd stm && composer require drupal/bootstrap:3.24 --no-update',
+              'cd stm && composer update --no-ansi',
+              'echo "SIMPLYEST_STAGE_PATCHING"',
+              'cd stm && composer update --no-ansi',
+              'echo "SIMPLYEST_STAGE_INSTALLING"',
+              'cd "${DOCROOT}" && ../vendor/bin/drush si standard --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y',
+              'cd "${DOCROOT}" && ../vendor/bin/drush theme:enable bootstrap -y',
+              'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.theme default bootstrap -y',
+              'cd "${DOCROOT}" && echo \'$settings["file_private_path"] = "sites/default/files/private";\' >> sites/default/settings.php',
+              'mkdir -p ${DOCROOT}/sites/default/files',
+              'mkdir -p ${DOCROOT}/sites/default/files/private',
+              'chown -R www-data:www-data ${DOCROOT}/sites/default',
+              'echo "SIMPLYEST_STAGE_FINALIZE"',
+            ],
+          ],
+        ],
+        'mysql' => [
+          'image' => 'tugboatqa/mysql:5',
+        ],
+      ]
+    ];
+    yield '9.3.x with additionals' => [
+      [
+        'perform_install' => TRUE,
+        'install_profile' => 'standard',
+        'drupal_core_version' => '9.3.x-dev',
+        'project_type' => 'Drupal core',
+        'project_version' => '9.3.x-dev',
+        'project' => 'drupal',
+        'patches' => [],
+        'additionals' => [
+          [
+            'version' => '8.x-1.9',
+            'shortname' => 'token',
+            'patches' => [],
+            'project_type' => 'Module',
+          ],
+          [
+            'version' => '8.x-2.4',
+            'shortname' => 'uswds',
+            'patches' => [],
+            'project_type' => 'Theme',
+          ],
+        ],
+        'instance_id' => $instance_id,
+        'hash' => $hash,
+        'major_version' => '9',
+      ],
+      [
+        'php' => [
+          'image' => 'tugboatqa/php:7.4-apache',
+          'default' => true,
+          'depends' => 'mysql',
+          'commands' => [
+            'build' => [
+              'docker-php-ext-install opcache',
+              'a2enmod headers rewrite',
+              'composer self-update',
+              'rm -rf "${DOCROOT}"',
+              'composer -n create-project drupal/recommended-project:9.3.x-dev stm --no-install',
+              'cd stm && composer config minimum-stability dev',
+              'cd stm && composer config prefer-stable true',
+              'cd stm && composer require --dev --no-update drupal/core:9.3.x-dev drupal/core-dev:9.3.x-dev',
+              'cd stm && composer require --dev --no-update phpspec/prophecy-phpunit:^2',
+              'cd stm && composer require --no-update drush/drush',
+              'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"',
+              'echo "SIMPLYEST_STAGE_DOWNLOAD"',
+              'composer global require szeidler/composer-patches-cli:~1.0',
+              'cd stm && composer require cweagans/composer-patches:~1.0 --no-update',
+              'cd stm && composer require drupal/core:9.3.x-dev --no-update',
+              'cd stm && composer require drupal/token:1.9 --no-update',
+              'cd stm && composer require drupal/uswds:2.4 --no-update',
+              'cd stm && composer update --no-ansi',
+              'echo "SIMPLYEST_STAGE_PATCHING"',
+              'cd stm && composer update --no-ansi',
+              'echo "SIMPLYEST_STAGE_INSTALLING"',
+              'cd "${DOCROOT}" && ../vendor/bin/drush si standard --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y',
+              'cd "${DOCROOT}" && ../vendor/bin/drush en token -y',
+              'cd "${DOCROOT}" && ../vendor/bin/drush theme:enable uswds -y',
+              'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.theme default uswds -y',
+              'cd "${DOCROOT}" && echo \'$settings["file_private_path"] = "sites/default/files/private";\' >> sites/default/settings.php',
+              'mkdir -p ${DOCROOT}/sites/default/files',
+              'mkdir -p ${DOCROOT}/sites/default/files/private',
+              'chown -R www-data:www-data ${DOCROOT}/sites/default',
+              'echo "SIMPLYEST_STAGE_FINALIZE"',
+            ],
+          ],
+        ],
+        'mysql' => [
+          'image' => 'tugboatqa/mysql:5',
+        ],
+      ]
+    ];
   }
 
 }

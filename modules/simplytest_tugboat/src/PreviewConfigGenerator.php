@@ -344,10 +344,27 @@ final class PreviewConfigGenerator {
     if ($parameters['major_version'] === '10' || $parameters['major_version'] === '9') {
       $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush si %s --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y', $install_profile);
       if (!$is_distro && !$is_core) {
-        $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush en %s -y', $parameters['project']);
+        $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush %s %s -y', $parameters['project_type'] === ProjectTypes::THEME ? 'theme:enable' : 'en', $parameters['project']);
+      }
+      // If this is a theme, and it is not the Gin admin theme, set it as the
+      // default theme.
+      if ($parameters['project_type'] === ProjectTypes::THEME) {
+        $commands[] = sprintf(
+          'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.theme %s %s -y',
+          $parameters['project'] === 'gin' ? 'admin' : 'default',
+          $parameters['project']
+        );
       }
       foreach ($parameters['additionals'] as $additional) {
-        $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush en %s -y', $additional['shortname']);
+        $additional_product_type = $additional['project_type'] ?? ProjectTypes::MODULE;
+        $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush %s %s -y', $additional_product_type === ProjectTypes::THEME ? 'theme:enable' : 'en', $additional['shortname']);
+        if ($additional_product_type === ProjectTypes::THEME) {
+          $commands[] = sprintf(
+            'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.theme %s %s -y',
+            $additional['shortname'] === 'gin' ? 'admin' : 'default',
+            $additional['shortname']
+          );
+        }
       }
     }
     else if ($parameters['major_version'] === '7' || $parameters['major_version'] === '8') {

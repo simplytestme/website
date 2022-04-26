@@ -128,6 +128,13 @@ class InstanceManager implements InstanceManagerInterface {
       $project_version = $submission['project']['version'];
       [$major_version, ,] = explode('.', $submission['drupalVersion']);
 
+      $additional_projects = array_map(static function(array $data) use ($project_storage) {
+        $project_result = $project_storage->loadByProperties(['shortname' => $data['shortname']]);
+        $project = reset($project_result);
+        $data['project_type'] = $project->type->value;
+        return $data;
+      }, $submission['additionalProjects'] ?? []);
+
       // Send parameters.
       $parameters  = [
         'perform_install' => !$submission['manualInstall'],
@@ -138,7 +145,7 @@ class InstanceManager implements InstanceManagerInterface {
         'project' => $project->shortname->value,
         'patches' => array_filter($submission['project']['patches'] ?? []),
         // @todo do we need to map the versions at all?
-        'additionals' => $submission['additionalProjects'] ?? [],
+        'additionals' => $additional_projects,
         'instance_id' => Crypt::randomBytesBase64(),
         'hash' => Crypt::randomBytesBase64(),
         'major_version' => $major_version,
