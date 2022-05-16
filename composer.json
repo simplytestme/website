@@ -59,6 +59,11 @@
         "compile": "cd web/profiles/contrib/simplytest/themes/simplytest_theme && npm run build"
     },
     "extra": {
+        "patches": {
+            "drupal/tugboat": {
+                "Tugboat domain #3280693": "patches/tugboat-domain.patch"
+            }
+        },
         "drupal-scaffold": {
             "locations": {
                 "web-root": "web/"
