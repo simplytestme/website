@@ -59,9 +59,13 @@
         "compile": "cd web/profiles/contrib/simplytest/themes/simplytest_theme && npm run build"
     },
     "extra": {
+        "composer-exit-on-patch-failure": true,
         "patches": {
             "drupal/tugboat": {
-                "Tugboat domain #3280693": "patches/tugboat-domain.patch"
+                "Tugboat domain #3280693": "https://git.drupalcode.org/project/tugboat/-/merge_requests/4.diff"
+            },
+            "drupal/simplytest": {
+                "5xx error handling": "https://git.drupalcode.org/project/simplytest/-/merge_requests/123.diff"
             }
         },
         "drupal-scaffold": {
