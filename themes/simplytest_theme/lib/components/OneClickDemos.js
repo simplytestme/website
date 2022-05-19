@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { fetchWithCallback } from '../utils'
 
-function doLaunch(demo, setProcessing) {
+function doLaunch(demo, setProcessing, setErrors) {
   setProcessing(demo.id);
   fetch(`/one-click-demos/${demo.id}`, {
     method: "POST",
@@ -17,14 +17,15 @@ function doLaunch(demo, setProcessing) {
           if (res.ok) {
             window.location.href = json.progress;
           } else {
-            console.log(json);
-            alert("There was an error, check the console.");
+            setProcessing("");
+            console.error(json);
+            setErrors([json.message])
           }
         })
         .catch(error => {
           setProcessing("");
           console.log(error);
-          alert("There was an error, check the console.");
+          setErrors([error.message])
         });
     })
     .catch(error => {
@@ -34,7 +35,7 @@ function doLaunch(demo, setProcessing) {
     });
 }
 
-function OneClickDemos() {
+function OneClickDemos({setErrors}) {
   const [demos, setDemos] = useState([]);
   const [processing, setProcessing] = useState("");
   useEffect(() => {
@@ -57,7 +58,7 @@ function OneClickDemos() {
             }`}
             onClick={event => {
               event.preventDefault();
-              doLaunch(demo, setProcessing);
+              doLaunch(demo, setProcessing, setErrors);
             }}
           >
             <span className="flex-grow">{demo.title}</span>

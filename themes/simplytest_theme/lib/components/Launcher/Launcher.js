@@ -73,7 +73,7 @@ function Launcher() {
           </button>
         </div>
         <AdvancedOptions />
-        <OneClickDemos />
+        <OneClickDemos setErrors={setErrors} />
       </form>
     </div>
   );

@@ -5,6 +5,10 @@ services:
     class: Drupal\simplytest_launch\EventSubscriber\UnprocessableHttpExceptionSubscriber
     tags:
       - { name: event_subscriber }
+  exception.server_exception_http_json:
+    class: Drupal\simplytest_launch\EventSubscriber\ServiceUnavailableHttpExceptionSubscriber
+    tags:
+      - { name: event_subscriber }
   simplytest_launch.config_subscriber:
     class: Drupal\simplytest_launch\EventSubscriber\ConfigSubscriber
     arguments: [ '@kernel' ]
