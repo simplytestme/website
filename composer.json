@@ -62,6 +62,9 @@
         "patches": {
             "drupal/tugboat": {
                 "Tugboat domain #3280693": "patches/tugboat-domain.patch"
+            },
+            "drupal/simplytest": {
+                "5xx error handling": "https://git.drupalcode.org/project/simplytest/-/merge_requests/123.diff"
             }
         },
         "drupal-scaffold": {
