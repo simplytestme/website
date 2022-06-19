@@ -4,6 +4,11 @@ environment_variables:
 project: simplytestme-website
 
 tasks:
+  pre-rollout:
+    - run:
+        command: env
+        name: env variables
+        service: cli
   post-rollout:
     - run:
         command: |
@@ -14,15 +19,11 @@ tasks:
         service: cli
     - run:
         name: drush updb
-        command: php vendor/bin/drush -y updb
+        command: php vendor/bin/drush deploy
         service: cli
     - run:
-        name: drush cim
-        command: php vendor/bin/drush -y cim
-        service: cli
-    - run:
-        name: drush cr
-        command: php vendor/bin/drush cr
+        command: php scripts/github/deployment.php
+        name: Push a deployment and success status
         service: cli
 environments:
   prod:
@@ -36,8 +37,12 @@ environments:
               tls-acme: "true"
     cronjobs:
       - name: drush cron
-        schedule: "*/15 * * * *"
+        schedule: "*/20 * * * *"
         command: drush cron
+        service: cli
+      - name: simplytest_projects_project_refresher
+        schedule: "*/5 * * * *"
+        command: drush queue:run simplytest_projects_project_refresher --items-limit 15
         service: cli
   main:
     routes:
@@ -50,6 +55,10 @@ environments:
               tls-acme: "true"
     cronjobs:
       - name: drush cron
-        schedule: "*/15 * * * *"
+        schedule: "*/20 * * * *"
         command: drush cron
+        service: cli
+      - name: simplytest_projects_project_refresher
+        schedule: "*/5 * * * *"
+        command: drush queue:run simplytest_projects_project_refresher --items-limit 15
         service: cli

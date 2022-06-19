@@ -22,6 +22,7 @@
         "php": "^7.4",
         "amazeeio/drupal_integrations": "^0.3.4",
         "composer/installers": "^1.9",
+        "cweagans/composer-patches": "^1.7",
         "drupal/admin_toolbar": "^2.4",
         "drupal/core-composer-scaffold": "^9.1",
         "drupal/core-project-message": "^9.1",
@@ -41,7 +42,13 @@
         "apcu-autoloader": true,
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/installers": true,
+            "drupal/core-composer-scaffold": true,
+            "drupal/core-project-message": true,
+            "cweagans/composer-patches": true
+        }
     },
     "scripts": {
         "post-install-cmd": [
@@ -52,6 +59,15 @@
         "compile": "cd web/profiles/contrib/simplytest/themes/simplytest_theme && npm run build"
     },
     "extra": {
+        "composer-exit-on-patch-failure": true,
+        "patches": {
+            "drupal/tugboat": {
+                "Tugboat domain #3280693": "https://git.drupalcode.org/project/tugboat/-/merge_requests/4.diff"
+            },
+            "drupal/simplytest": {
+                "5xx error handling": "https://git.drupalcode.org/project/simplytest/-/merge_requests/123.diff"
+            }
+        },
         "drupal-scaffold": {
             "locations": {
                 "web-root": "web/"
