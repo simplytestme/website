@@ -79,6 +79,9 @@ final class PreviewConfigGenerator {
         'mkdir -p ${DOCROOT}/sites/default/files/private',
         'chown -R www-data:www-data ${DOCROOT}/sites/default',
       ],
+      [
+        'echo "max_allowed_packet=33554432" >> /etc/my.cnf'
+      ],
       ['echo "SIMPLYEST_STAGE_FINALIZE"'],
     ];
 
