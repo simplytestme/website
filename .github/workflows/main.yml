@@ -59,6 +59,8 @@ jobs:
 
       - name: Enable composer plugins
         run: composer config --no-interaction allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+      - name: Show node version
+        run: node --version
       - name: Install dependencies
         run: composer install
       - name: Install Simplytest
