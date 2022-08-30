@@ -57,6 +57,8 @@ jobs:
         run: composer require drupal/simplytest:dev-${{ github.event.inputs.issue_branch }} --no-install
         if: ${{ github.event_name == 'workflow_dispatch' }}
 
+      - name: Enable composer plugins
+        run: composer config --no-interaction allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
       - name: Install dependencies
         run: composer install
       - name: Install Simplytest
