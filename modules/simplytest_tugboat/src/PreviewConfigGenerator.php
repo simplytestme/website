@@ -196,8 +196,6 @@ final class PreviewConfigGenerator {
     $is_distro = $parameters['project_type'] === ProjectTypes::DISTRO;
 
     if ($parameters['major_version'] === '10' || $parameters['major_version'] === '9') {
-      $commands[] = 'composer global require szeidler/composer-patches-cli:~1.0';
-      $commands[] = 'cd stm && composer require cweagans/composer-patches:~1.0 --no-update';
       $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-update', $parameters['project'], $this->getComposerCompatibleVersionString($parameters['project_version']));
       foreach ($parameters['additionals'] as $additional) {
         $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-update', $additional['shortname'], $this->getComposerCompatibleVersionString($additional['version']));
@@ -206,8 +204,6 @@ final class PreviewConfigGenerator {
       $commands[] = 'cd stm && composer update --no-ansi';
     }
     else if ($parameters['major_version'] === '8') {
-      $commands[] = 'composer global require szeidler/composer-patches-cli:~1.0';
-      $commands[] = 'cd "${DOCROOT}" && composer require cweagans/composer-patches:~1.0 --no-update';
       $commands[] = 'cd "${DOCROOT}" && composer require zaporylie/composer-drupal-optimizations:^1.0 --no-update';
       $commands[] = 'cd "${DOCROOT}" && composer install --no-ansi';
       if (!$is_core) {
@@ -275,37 +271,55 @@ final class PreviewConfigGenerator {
 
   private function getPatchingCommands(array $parameters) {
     $commands = [];
-
-    if ($parameters['major_version'] === '8' || $parameters['major_version'] === '9' || $parameters['major_version'] === '10') {
-      $composerWorkingDir = $parameters['major_version'] !== '8' ? 'stm' : '"${DOCROOT}"';
-      // @todo previous version had cd DOCROOT vs cd stm, normalize.
-      if (count($parameters['patches']) > 0) {
+    // check if we need patching.
+    $empty = TRUE;
+    if (!empty($parameters['patches'])) {
+      $empty = FALSE;
+    } else {
+      foreach ($parameters['additionals'] as $additional) {
+        if (!empty($additional['patches'])) {
+          $empty = FALSE;
+        }
+      }
+    }
+    // bail if empty.
+    if ($empty) {
+      return [];
+    }
+    // perform patching conditionally for major drupal version.
+    switch ($parameters['major_version']) {
+      case '7':
+        // Patch Drupal 7 to automatically redirect to the installer.
+        if ($parameters['perform_install'] === FALSE) {
+          $commands[] = $this->getLegacyPatchCommand(ProjectTypes::CORE, '', 'https://www.drupal.org/files/issues/2019-12-19/3077423-11.patch');
+        }
+        foreach ($parameters['patches'] as $patch) {
+          $commands[] = $this->getLegacyPatchCommand($parameters['project_type'], $parameters['project'], $patch);
+        }
+        foreach ($parameters['additionals'] as $additional) {
+          foreach ($additional['patches'] as $additional_patch) {
+            $commands[] = $this->getLegacyPatchCommand($additional['type'], $additional['shortname'], $additional_patch);
+          }
+        }
+        break;
+      default:
+        $composerWorkingDir = $parameters['major_version'] !== '8' ? 'stm' : '"${DOCROOT}"';
+        $commands[] = 'composer global require szeidler/composer-patches-cli:~1.0';
+        $commands[] = 'cd ' . $composerWorkingDir .  ' && composer require cweagans/composer-patches:~1.0 --no-update';
+        $commands[] = 'composer config --no-plugins allow-plugins.cweagans/composer-patches true';
         $commands[] = 'cd ' . $composerWorkingDir .  ' && composer patch-enable --file="patches.json"';
-      }
-      foreach ($parameters['patches'] as $patch) {
-        $commands[] = $this->getComposerPatchCommand($parameters['project'], $patch, $composerWorkingDir);
-      }
-      foreach ($parameters['additionals'] as $additional) {
-        foreach ($additional['patches'] as $additional_patch) {
-          $commands[] = $this->getComposerPatchCommand($additional['shortname'], $additional_patch, $composerWorkingDir);
+        foreach ($parameters['patches'] as $patch) {
+          $commands[] = $this->getComposerPatchCommand($parameters['project'], $patch, $composerWorkingDir);
         }
-      }
-      $commands[] = 'cd ' . $composerWorkingDir . ' && composer update --no-ansi';
-    }
-    else if ($parameters['major_version'] === '7') {
-      // Patch Drupal 7 to automatically redirect to the installer.
-      if ($parameters['perform_install'] === FALSE) {
-        $commands[] = $this->getLegacyPatchCommand(ProjectTypes::CORE, '', 'https://www.drupal.org/files/issues/2019-12-19/3077423-11.patch');
-      }
-      foreach ($parameters['patches'] as $patch) {
-        $commands[] = $this->getLegacyPatchCommand($parameters['project_type'], $parameters['project'], $patch);
-      }
-      foreach ($parameters['additionals'] as $additional) {
-        foreach ($additional['patches'] as $additional_patch) {
-          $commands[] = $this->getLegacyPatchCommand($additional['type'], $additional['shortname'], $additional_patch);
+        foreach ($parameters['additionals'] as $additional) {
+          foreach ($additional['patches'] as $additional_patch) {
+            $commands[] = $this->getComposerPatchCommand($additional['shortname'], $additional_patch, $composerWorkingDir);
+          }
         }
-      }
+        $commands[] = 'cd ' . $composerWorkingDir . ' && composer update --no-ansi';
+        break;
     }
+
     return $commands;
   }
 
