@@ -41,7 +41,10 @@
     "config": {
         "apcu-autoloader": true,
         "optimize-autoloader": true,
-        "preferred-install": "dist",
+        "preferred-install": {
+            "drupal/simplytest": "source",
+            "*": "dist"
+        },
         "sort-packages": true,
         "allow-plugins": {
             "composer/installers": true,
