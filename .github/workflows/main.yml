@@ -61,8 +61,10 @@ jobs:
         run: composer config --no-interaction allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
       - name: Show node version
         run: node --version
+      - name: Clear composer cache
+        run: composer clear-cache
       - name: Install dependencies
-        run: composer install --prefer-source
+        run: composer install
       - name: Install Simplytest
         run: php vendor/bin/drush site:install simplytest --account-pass=admin --db-url=mysql://root:@127.0.0.1:${{ job.services.mysql.ports[3306] }}/db --yes
   phpunit:
