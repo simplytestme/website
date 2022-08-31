@@ -37,12 +37,12 @@ jobs:
           - 9515
     steps:
       - uses: actions/checkout@v2
-      #- uses: actions/cache@v2
-      #  with:
-      #      path: |
-      #        ~/.composer/cache/files
-      #        ~/.composer/cache/repo
-      #      key: dependencies-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
+      - uses: actions/cache@v2
+        with:
+            path: |
+              ~/.composer/cache/files
+              ~/.composer/cache/repo
+            key: dependencies-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
       - uses: shivammathur/setup-php@v2
         with:
             php-version: ${{ matrix.php }}
@@ -50,17 +50,19 @@ jobs:
             coverage: none
             tools: composer:v2
 
-      #- name: Configure issue fork
-      #  run: composer config repositories.0 vcs https://git.drupalcode.org/issue/${{ github.event.inputs.issue_fork }}.git
-      #  if: ${{ github.event_name == 'workflow_dispatch' }}
-      #- name: Require issue fork branch
-      #  run: composer require drupal/simplytest:dev-${{ github.event.inputs.issue_branch }} --no-install
-      #  if: ${{ github.event_name == 'workflow_dispatch' }}
+      - name: Configure issue fork
+        run: composer config repositories.0 vcs https://git.drupalcode.org/issue/${{ github.event.inputs.issue_fork }}.git
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+      - name: Require issue fork branch
+        run: composer require drupal/simplytest:dev-${{ github.event.inputs.issue_branch }} --no-install
+        if: ${{ github.event_name == 'workflow_dispatch' }}
 
       - name: Enable composer plugins
         run: composer config --no-interaction allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
       - name: Show node version
         run: node --version
+      - name: Remove lock file (testing)
+        run: rm composer.lock
       - name: Clear composer cache
         run: composer clear-cache
       - name: Install dependencies
