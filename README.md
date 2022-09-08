@@ -2,7 +2,7 @@
 
 This is a Composer project for setting up and running Simplytest for develoment.
 
-It uses DDEV for local development, but is not a requirement.
+It uses DDEV or Lando for local development, but neither are a requirement.
 
 ## Installation
 
@@ -12,9 +12,15 @@ This will install all dependencies, including Drupal core and the Simplytest dis
 
 The run the following command to install the site locally:
 
+### DDEV install
+
 ```
 ddev si
 ```
+
+### Lando install
+
+TBD
 
 ## Tests
 

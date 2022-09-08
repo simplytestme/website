@@ -4,8 +4,7 @@
 
 set -e
 
-# @todo update simplytest.info.yml to `config_install: true` and commit config
-drush si simplytest --existing-config --account-pass=admin --yes
+drush si simplytest --account-pass=admin --yes
 
 URL=$(drush uli | tr -d '\r')
 echo "You may now login via $URL"
