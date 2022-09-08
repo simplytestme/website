@@ -37,7 +37,7 @@ final class MockedHttpMiddleware {
           );
         }
 
-        if ($uri === 'https://api.tugboat.qa/v3/repos/kerneltestrepo/previews') {
+        if ($uri === 'https://api.tugboatqa.com/v3/repos/kerneltestrepo/previews') {
           $this->state->set($uri, (string) $request->getBody());
           return new FulfilledPromise(
             new Response(200, [], Json::encode([
@@ -48,11 +48,11 @@ final class MockedHttpMiddleware {
             ]))
           );
         }
-        if ($uri === 'https://api.tugboat.qa/v3/previews' && $request->getMethod() === 'POST') {
+        if ($uri === 'https://api.tugboatqa.com/v3/previews' && $request->getMethod() === 'POST') {
           $this->state->set($uri, Json::decode((string) $request->getBody()));
           return new FulfilledPromise(
             new Response(200, [
-              'Content-Location' => 'https://api.tugboat.qa/v3/previews/abc123'
+              'Content-Location' => 'https://api.tugboatqa.com/v3/previews/abc123'
             ], Json::encode([
               'preview' => 'abc123',
               'job' => 'ac123',

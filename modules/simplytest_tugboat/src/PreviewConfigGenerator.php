@@ -132,7 +132,7 @@ final class PreviewConfigGenerator {
       $one_click_demo->getInstallingCommands($parameters),
       [
         'chown -R www-data:www-data "${DOCROOT}"/sites/default/files',
-        'echo "SIMPLYEST_STAGE_FINALIZE"'
+        'echo "SIMPLYEST_STAGE_FINALIZE"',
       ],
     ];
 

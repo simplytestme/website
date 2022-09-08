@@ -91,7 +91,7 @@ final class InstanceManagerTest extends KernelTestBase {
     ];
     $sut->launchInstance($data);
 
-    $payload = $this->container->get('state')->get('https://api.tugboat.qa/v3/previews');
+    $payload = $this->container->get('state')->get('https://api.tugboatqa.com/v3/previews');
 
     $expected = [
       'ref' => 'master',
@@ -115,14 +115,11 @@ final class InstanceManagerTest extends KernelTestBase {
                 'cd stm && composer require --no-update drush/drush',
                 'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"',
                 'echo "SIMPLYEST_STAGE_DOWNLOAD"',
-                'composer global require szeidler/composer-patches-cli:~1.0',
-                'cd stm && composer require cweagans/composer-patches:~1.0 --no-update',
                 'cd stm && composer require drupal/token:1.9 --no-update',
                 'cd stm && composer require drupal/pathauto:1.8 --no-update',
                 'cd stm && composer require drupal/bootstrap:3.24 --no-update',
                 'cd stm && composer update --no-ansi',
                 'echo "SIMPLYEST_STAGE_PATCHING"',
-                'cd stm && composer update --no-ansi',
                 'echo "SIMPLYEST_STAGE_INSTALLING"',
                 'cd "${DOCROOT}" && ../vendor/bin/drush si umami --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y',
                 'cd "${DOCROOT}" && ../vendor/bin/drush en token -y',
@@ -133,6 +130,7 @@ final class InstanceManagerTest extends KernelTestBase {
                 'mkdir -p ${DOCROOT}/sites/default/files',
                 'mkdir -p ${DOCROOT}/sites/default/files/private',
                 'chown -R www-data:www-data ${DOCROOT}/sites/default',
+                'echo "max_allowed_packet=33554432" >> /etc/my.cnf',
                 'echo "SIMPLYEST_STAGE_FINALIZE"',
               ],
             ],
