@@ -343,7 +343,7 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'echo "SIMPLYEST_STAGE_DOWNLOAD"',
               'cd stm && composer require drupal/core:9.3.2 --no-update',
               'echo "SIMPLYEST_STAGE_PATCHING"',
-              'composer global require szeidler/composer-patches-cli:~1.0',
+              'composer global require szeidler/composer-patches-cli:~1.0 --no-update',
               'cd stm && composer require cweagans/composer-patches:~1.0 --no-update',
               'composer config --no-interaction allow-plugins.cweagans/composer-patches true',
               'cd stm && composer patch-enable --file="patches.json"',
