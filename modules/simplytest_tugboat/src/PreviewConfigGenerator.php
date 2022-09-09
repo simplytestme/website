@@ -72,17 +72,20 @@ final class PreviewConfigGenerator {
       $this->getDownloadCommands($parameters),
       ['echo "SIMPLYEST_STAGE_PATCHING"'],
       $this->getPatchingCommands($parameters),
-      ['echo "SIMPLYEST_STAGE_INSTALLING"'],
-      $this->getInstallingCommands($parameters),
-      [
-        'mkdir -p ${DOCROOT}/sites/default/files',
-        'mkdir -p ${DOCROOT}/sites/default/files/private',
-        'chown -R www-data:www-data ${DOCROOT}/sites/default',
-      ],
-      [
-        'echo "max_allowed_packet=33554432" >> /etc/my.cnf'
-      ],
-      ['echo "SIMPLYEST_STAGE_FINALIZE"'],
+    ];
+
+    if(in_array($parameters['major_version'], ['10', '9', '8'])) {
+      $build_commands[] = ['cd "${DOCROOT}" && composer update --no-ansi'];
+    }
+
+    $build_commands[] = ['echo "SIMPLYEST_STAGE_INSTALLING"'];
+    $build_commands[] = $this->getInstallingCommands($parameters);
+    $build_commands[] = [
+      'mkdir -p ${DOCROOT}/sites/default/files',
+      'mkdir -p ${DOCROOT}/sites/default/files/private',
+      'chown -R www-data:www-data ${DOCROOT}/sites/default',
+      'echo "max_allowed_packet=33554432" >> /etc/my.cnf',
+      'echo "SIMPLYEST_STAGE_FINALIZE"'
     ];
 
     return [
@@ -126,6 +129,7 @@ final class PreviewConfigGenerator {
       ['echo "SIMPLYEST_STAGE_PATCHING"'],
       $one_click_demo->getPatchingCommands($parameters),
       [
+        'cd "${DOCROOT}" && composer update --no-ansi',
         'echo "SIMPLYEST_STAGE_INSTALLING"',
         'cd "${DOCROOT}" && chmod -R 777 sites/default',
       ],
@@ -200,8 +204,6 @@ final class PreviewConfigGenerator {
       foreach ($parameters['additionals'] as $additional) {
         $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-update', $additional['shortname'], $this->getComposerCompatibleVersionString($additional['version']));
       }
-      // @todo this can probably be removed, but all D9Config test needs update.
-      $commands[] = 'cd stm && composer update --no-ansi';
     }
     else if ($parameters['major_version'] === '8') {
       $commands[] = 'cd "${DOCROOT}" && composer require zaporylie/composer-drupal-optimizations:^1.0 --no-update';
@@ -316,7 +318,6 @@ final class PreviewConfigGenerator {
             $commands[] = $this->getComposerPatchCommand($additional['shortname'], $additional_patch, $composerWorkingDir);
           }
         }
-        $commands[] = 'cd ' . $composerWorkingDir . ' && composer update --no-ansi';
         break;
     }
 
