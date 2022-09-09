@@ -2008,7 +2008,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/simplytest.git",
-                "reference": "bcd7caeafe22caffbc057639013276ee61fd8b93"
+                "reference": "7ee702c932da45f3cdd660e15b4683db47d6e329"
             },
             "require": {
                 "composer/semver": "^3.0",
@@ -2057,7 +2057,7 @@
                 "issues": "https://www.drupal.org/project/issues/simplytest",
                 "source": "https://git.drupalcode.org/project/simplytest"
             },
-            "time": "2022-09-09T00:16:41+00:00"
+            "time": "2022-09-09T23:36:09+00:00"
         },
         {
             "name": "drupal/tugboat",
