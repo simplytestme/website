@@ -306,9 +306,8 @@ final class PreviewConfigGenerator {
         break;
       default:
         $composerWorkingDir = $parameters['major_version'] !== '8' ? 'stm' : '"${DOCROOT}"';
+        $commands[] = 'composer global config --no-interaction allow-plugins.cweagans/composer-patches true';
         $commands[] = 'composer global require szeidler/composer-patches-cli:~1.0';
-        $commands[] = 'cd ' . $composerWorkingDir .  ' && composer require cweagans/composer-patches:~1.0 --no-update';
-        $commands[] = 'cd ' . $composerWorkingDir .  ' && composer config --no-interaction allow-plugins.cweagans/composer-patches true';
         $commands[] = 'cd ' . $composerWorkingDir .  ' && composer patch-enable --file="patches.json"';
         foreach ($parameters['patches'] as $patch) {
           $commands[] = $this->getComposerPatchCommand($parameters['project'], $patch, $composerWorkingDir);
