@@ -54,7 +54,7 @@ final class Drupal10ConfigTest extends TugboatConfigTestBase {
               'echo "SIMPLYEST_STAGE_DOWNLOAD"',
               'cd stm && composer require drupal/token:1.x-dev --no-update',
               'echo "SIMPLYEST_STAGE_PATCHING"',
-              'cd "${DOCROOT}" && composer update --no-ansi',
+              'cd stm && composer update --no-ansi',
               'echo "SIMPLYEST_STAGE_INSTALLING"',
               'cd "${DOCROOT}" && ../vendor/bin/drush si standard --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y',
               'cd "${DOCROOT}" && ../vendor/bin/drush en token -y',

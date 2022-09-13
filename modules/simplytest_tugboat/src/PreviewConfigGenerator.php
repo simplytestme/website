@@ -74,7 +74,9 @@ final class PreviewConfigGenerator {
       $this->getPatchingCommands($parameters),
     ];
 
-    if(in_array($parameters['major_version'], ['10', '9', '8'])) {
+    if(in_array($parameters['major_version'], ['10', '9'])) {
+      $build_commands[] = ['cd stm && composer update --no-ansi'];
+    } else if ($parameters['major_version'] == '8') {
       $build_commands[] = ['cd "${DOCROOT}" && composer update --no-ansi'];
     }
 
@@ -129,7 +131,7 @@ final class PreviewConfigGenerator {
       ['echo "SIMPLYEST_STAGE_PATCHING"'],
       $one_click_demo->getPatchingCommands($parameters),
       [
-        'cd "${DOCROOT}" && composer update --no-ansi',
+        'cd stm && composer update --no-ansi',
         'echo "SIMPLYEST_STAGE_INSTALLING"',
         'cd "${DOCROOT}" && chmod -R 777 sites/default',
       ],
@@ -232,7 +234,7 @@ final class PreviewConfigGenerator {
 
   private function getComposerPatchCommand(string $project_name, string $patch, string $dir = 'stm') {
     return sprintf(
-      'cd %s && composer patch-add drupal/%s "STM patch %s" "%s"',
+      'cd %s && composer patch-add drupal/%s "STM patch %s" "%s" --no-update',
       $dir,
       $project_name,
       basename($patch),

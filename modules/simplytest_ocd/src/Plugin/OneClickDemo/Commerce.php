@@ -28,8 +28,8 @@ class Commerce extends OneClickDemoBase {
   public function getDownloadCommands($parameters): array {
     $commands = [
       // @todo the base preview doesn't have the `commerce` dir?
-      'cd "${TUGBOAT_ROOT}" && composer create-project drupalcommerce/demo-project commerce --stability dev --no-interaction',
-      'ln -snf "${TUGBOAT_ROOT}/commerce/web" "${DOCROOT}"'
+      'cd "${TUGBOAT_ROOT}" && composer create-project drupalcommerce/demo-project stm --stability dev --no-interaction',
+      'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"'
     ];
     // $commands[] = 'cd "${TUGBOAT_ROOT}"/commerce && composer update --no-ansi';
     return $commands;
@@ -41,7 +41,7 @@ class Commerce extends OneClickDemoBase {
 
   public function getInstallingCommands($parameters): array {
     $commands = [];
-    $commands[] = 'php -d memory_limit=-1 commerce/bin/drush si --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y';
+    $commands[] = 'php -d memory_limit=-1 stm/bin/drush si --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y';
     return $commands;
   }
 

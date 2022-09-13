@@ -119,7 +119,7 @@ final class InstanceManagerTest extends KernelTestBase {
                 'cd stm && composer require drupal/pathauto:1.8 --no-update',
                 'cd stm && composer require drupal/bootstrap:3.24 --no-update',
                 'echo "SIMPLYEST_STAGE_PATCHING"',
-                'cd "${DOCROOT}" && composer update --no-ansi',
+                'cd stm && composer update --no-ansi',
                 'echo "SIMPLYEST_STAGE_INSTALLING"',
                 'cd "${DOCROOT}" && ../vendor/bin/drush si umami --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y',
                 'cd "${DOCROOT}" && ../vendor/bin/drush en token -y',

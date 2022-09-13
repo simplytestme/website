@@ -29,7 +29,7 @@ final class UmamiConfigTest extends OneClickDemoConfigTestBase {
             'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"',
             'echo "SIMPLYEST_STAGE_DOWNLOAD"',
             'echo "SIMPLYEST_STAGE_PATCHING"',
-            'cd "${DOCROOT}" && composer update --no-ansi',
+            'cd stm && composer update --no-ansi',
             'echo "SIMPLYEST_STAGE_INSTALLING"',
             'cd "${DOCROOT}" && chmod -R 777 sites/default',
             'php -d memory_limit=-1 ${DOCROOT}/vendor/bin/drush si demo_umami --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y',
