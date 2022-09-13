@@ -24,8 +24,8 @@ TBD
 
 ## Tests
 
-To run the tests for Simplytests, you can run the following command:
+To run the tests for Simplytest, you can run the following command:
 
 ```
-composer run tests
+ddev composer run tests
 ```
