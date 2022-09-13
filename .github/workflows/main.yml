@@ -61,8 +61,6 @@ jobs:
         run: composer config --no-interaction allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
       - name: Show node version
         run: node --version
-      - name: Remove lock file (testing)
-        run: rm composer.lock
       - name: Clear composer cache
         run: composer clear-cache
       - name: Install dependencies
