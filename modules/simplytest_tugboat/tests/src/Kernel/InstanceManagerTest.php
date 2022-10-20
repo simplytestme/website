@@ -130,6 +130,7 @@ final class InstanceManagerTest extends KernelTestBase {
                 'mkdir -p ${DOCROOT}/sites/default/files',
                 'mkdir -p ${DOCROOT}/sites/default/files/private',
                 'chown -R www-data:www-data ${DOCROOT}/sites/default',
+                'chown -R www-data:www-data ${DOCROOT}/modules',
                 'echo "max_allowed_packet=33554432" >> /etc/my.cnf',
                 'echo "SIMPLYEST_STAGE_FINALIZE"',
               ],
