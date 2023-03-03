@@ -1872,26 +1872,26 @@
         },
         {
             "name": "drupal/http_cache_control",
-            "version": "2.0.0",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/http_cache_control.git",
-                "reference": "8.x-2.0"
+                "reference": "8.x-2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/http_cache_control-8.x-2.0.zip",
-                "reference": "8.x-2.0",
-                "shasum": "7c528eedf27be54943c84e61474b3d6ff855a767"
+                "url": "https://ftp.drupal.org/files/projects/http_cache_control-8.x-2.1.zip",
+                "reference": "8.x-2.1",
+                "shasum": "6a6864ab39fc2110cc8705e51f5106aa90362df5"
             },
             "require": {
-                "drupal/core": "^8 || ^9"
+                "drupal/core": "^9 || ^10"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-2.0",
-                    "datestamp": "1591254259",
+                    "version": "8.x-2.1",
+                    "datestamp": "1666053697",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -1916,27 +1916,27 @@
         },
         {
             "name": "drupal/lagoon_logs",
-            "version": "2.0.1",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/lagoon_logs.git",
-                "reference": "2.0.1"
+                "reference": "2.1.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/lagoon_logs-2.0.1.zip",
-                "reference": "2.0.1",
-                "shasum": "c948df7eee43206a5dcd5e58e0ac6cf929f1e24f"
+                "url": "https://ftp.drupal.org/files/projects/lagoon_logs-2.1.1.zip",
+                "reference": "2.1.1",
+                "shasum": "272d5db455de168c4db2a77735796499cccc8127"
             },
             "require": {
-                "drupal/core": "^8 || ^9",
-                "monolog/monolog": "^1.24.0 || ^2.0"
+                "drupal/core": "^8 || ^9 || ^10",
+                "monolog/monolog": "^2.3"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.0.1",
-                    "datestamp": "1643805127",
+                    "version": "2.1.1",
+                    "datestamp": "1666752514",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -1954,19 +1954,19 @@
                     "role": "Maintainer"
                 },
                 {
-                    "name": "bryangruneberg",
-                    "homepage": "https://www.drupal.org/user/2600012"
-                },
-                {
                     "name": "fjgarlin",
                     "homepage": "https://www.drupal.org/user/2495842"
                 },
                 {
                     "name": "tim.clifford",
                     "homepage": "https://www.drupal.org/user/3460013"
+                },
+                {
+                    "name": "tobybellwood",
+                    "homepage": "https://www.drupal.org/user/3529537"
                 }
             ],
-            "description": "Lagoon_logs D8 is a convenience wrapper for monolog.",
+            "description": "Simple monolog wrapper for Lagoon",
             "homepage": "https://www.drupal.org/project/lagoon_logs",
             "support": {
                 "source": "https://git.drupalcode.org/project/lagoon_logs"
@@ -1974,17 +1974,17 @@
         },
         {
             "name": "drupal/purge",
-            "version": "3.3.0",
+            "version": "3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/purge.git",
-                "reference": "8.x-3.3"
+                "reference": "8.x-3.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/purge-8.x-3.3.zip",
-                "reference": "8.x-3.3",
-                "shasum": "f4714b97f9ef440f0c5e2620a532f5d0174c9116"
+                "url": "https://ftp.drupal.org/files/projects/purge-8.x-3.4.zip",
+                "reference": "8.x-3.4",
+                "shasum": "deb4eccfe88af35445e8064a9a4a8a056bfb917f"
             },
             "require": {
                 "drupal/core": "^9.2 || ^10"
@@ -1992,8 +1992,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-3.3",
-                    "datestamp": "1661877851",
+                    "version": "8.x-3.4",
+                    "datestamp": "1663189449",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -2037,7 +2037,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/simplytest.git",
-                "reference": "0757b82aca6d8f6cd92a080442cf75114b5265b6"
+                "reference": "837deeacda19bf2e123788a670b49c19997c5a16"
             },
             "require": {
                 "composer/semver": "^3.0",
@@ -2050,6 +2050,7 @@
                 "php": "^7.4",
                 "php-http/guzzle6-adapter": "^1.1"
             },
+            "default-branch": true,
             "type": "drupal-profile",
             "autoload": {
                 "psr-4": {
@@ -2086,7 +2087,7 @@
                 "issues": "https://www.drupal.org/project/issues/simplytest",
                 "source": "https://git.drupalcode.org/project/simplytest"
             },
-            "time": "2022-09-13T21:32:03+00:00"
+            "time": "2022-10-20T13:55:49+00:00"
         },
         {
             "name": "drupal/tugboat",
@@ -2114,9 +2115,6 @@
                         "status": "not-covered",
                         "message": "Project has not opted into security advisory coverage!"
                     }
-                },
-                "patches_applied": {
-                    "Tugboat domain #3280693": "https://git.drupalcode.org/project/tugboat/-/merge_requests/4.diff"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -3272,16 +3270,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "2.8.0",
+            "version": "2.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "720488632c590286b88b80e62aa3d3d551ad4a50"
+                "reference": "f259e2b15fb95494c83f52d3caad003bbf5ffaa1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/720488632c590286b88b80e62aa3d3d551ad4a50",
-                "reference": "720488632c590286b88b80e62aa3d3d551ad4a50",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/f259e2b15fb95494c83f52d3caad003bbf5ffaa1",
+                "reference": "f259e2b15fb95494c83f52d3caad003bbf5ffaa1",
                 "shasum": ""
             },
             "require": {
@@ -3296,7 +3294,7 @@
                 "doctrine/couchdb": "~1.0@dev",
                 "elasticsearch/elasticsearch": "^7 || ^8",
                 "ext-json": "*",
-                "graylog2/gelf-php": "^1.4.2",
+                "graylog2/gelf-php": "^1.4.2 || ^2@dev",
                 "guzzlehttp/guzzle": "^7.4",
                 "guzzlehttp/psr7": "^2.2",
                 "mongodb/mongodb": "^1.8",
@@ -3356,6 +3354,10 @@
                 "logging",
                 "psr-3"
             ],
+            "support": {
+                "issues": "https://github.com/Seldaek/monolog/issues",
+                "source": "https://github.com/Seldaek/monolog/tree/2.9.1"
+            },
             "funding": [
                 {
                     "url": "https://github.com/Seldaek",
@@ -3366,7 +3368,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-07-24T11:55:47+00:00"
+            "time": "2023-02-06T13:44:46+00:00"
         },
         {
             "name": "nikic/php-parser",
