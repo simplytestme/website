@@ -27,7 +27,6 @@
         "drupal/core-composer-scaffold": "^9.1",
         "drupal/core-project-message": "^9.1",
         "drupal/core-recommended": "^9.1",
-        "drupal/simplytest": "dev-8.x-4.x",
         "drush/drush": "^10.3"
     },
     "require-dev": {
