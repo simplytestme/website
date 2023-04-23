@@ -38,7 +38,7 @@ final class ProjectPreSaveValidationTest extends KernelTestBase {
     $project->save();
 
     $this->expectException(EntityValidationException::class);
-    $this->expectExceptionMessage('[simplytest_project]: shortname=A simplytest project with shortname <em class="placeholder">pathauto</em> already exists.');
+    $this->expectExceptionMessage('[simplytest_project]: shortname=A simplytest project with Shortname <em class="placeholder">pathauto</em> already exists.');
 
     try {
       $project = SimplytestProject::create([
