@@ -1,0 +1,28 @@
+.tabs {
+  &__primary {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: space-between;
+    padding: 0;
+    border-bottom: 1px solid var(--light-gray);
+
+    li {
+      flex: 0 1 auto;
+      align-self: auto;
+      list-style: none;
+      padding: rem(5px) rem(15px);
+      border: solid var(--light-gray);
+      border-width: 1px 0 0 1px;
+
+      &:last-child {
+        border-right-width: 1px;
+      }
+
+      &:hover {
+        background-color: var(--light-gray);
+      }
+    }
+  }
+}

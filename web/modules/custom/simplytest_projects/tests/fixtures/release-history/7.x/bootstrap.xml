@@ -1,0 +1,1584 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <title>Bootstrap</title>
+  <short_name>bootstrap</short_name>
+  <dc:creator>wundo</dc:creator>
+  <type>project_theme</type>
+  <api_version>7.x</api_version>
+  <recommended_major>3</recommended_major>
+  <supported_majors>3</supported_majors>
+  <default_major>3</default_major>
+  <project_status>published</project_status>
+  <link>https://www.drupal.org/project/bootstrap</link>
+  <terms>
+    <term>
+      <name>Projects</name>
+      <value>Themes</value>
+    </term>
+    <term>
+      <name>Maintenance status</name>
+      <value>Minimally maintained</value>
+    </term>
+    <term>
+      <name>Development status</name>
+      <value>Under active development</value>
+    </term>
+  </terms>
+  <releases>
+    <release>
+      <name>bootstrap 7.x-3.26</name>
+      <version>7.x-3.26</version>
+      <tag>7.x-3.26</tag>
+      <version_major>3</version_major>
+      <version_patch>26</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.26</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.26.tar.gz</download_link>
+      <date>1561051685</date>
+      <mdhash>b188ffc44b146ccb048b162b19cdafbc</mdhash>
+      <filesize>139718</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.26.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>b188ffc44b146ccb048b162b19cdafbc</md5>
+          <size>139718</size>
+          <filedate>1561051685</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.26.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>6ef3c6f0f45a5f848954ab166e100649</md5>
+          <size>221111</size>
+          <filedate>1561051685</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.25</name>
+      <version>7.x-3.25</version>
+      <tag>7.x-3.25</tag>
+      <version_major>3</version_major>
+      <version_patch>25</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.25</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.25.tar.gz</download_link>
+      <date>1557525782</date>
+      <mdhash>ea548c0f3213166439795a7c9f94704c</mdhash>
+      <filesize>139598</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.25.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>ea548c0f3213166439795a7c9f94704c</md5>
+          <size>139598</size>
+          <filedate>1557525782</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.25.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>31f6e67579876632ea4a3e0e155c24fb</md5>
+          <size>220997</size>
+          <filedate>1557525782</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.23</name>
+      <version>7.x-3.23</version>
+      <tag>7.x-3.23</tag>
+      <version_major>3</version_major>
+      <version_patch>23</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.23</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.23.tar.gz</download_link>
+      <date>1548102180</date>
+      <mdhash>a836936a1850286db7d3484519f842bd</mdhash>
+      <filesize>260029</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.23.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>a836936a1850286db7d3484519f842bd</md5>
+          <size>260029</size>
+          <filedate>1548102180</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.23.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>a7b10620ed46d2699b5775abdfa15b3a</md5>
+          <size>864601</size>
+          <filedate>1548102180</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.22</name>
+      <version>7.x-3.22</version>
+      <tag>7.x-3.22</tag>
+      <version_major>3</version_major>
+      <version_patch>22</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.22</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.22.tar.gz</download_link>
+      <date>1542005884</date>
+      <mdhash>b078236f0c427c44f287030e1c598c95</mdhash>
+      <filesize>266813</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.22.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>b078236f0c427c44f287030e1c598c95</md5>
+          <size>266813</size>
+          <filedate>1542005884</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.22.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>c5c3cd35bb41db324098b85ab8824e7a</md5>
+          <size>1042883</size>
+          <filedate>1542005884</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Security update</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.21</name>
+      <version>7.x-3.21</version>
+      <tag>7.x-3.21</tag>
+      <version_major>3</version_major>
+      <version_patch>21</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.21</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.21.tar.gz</download_link>
+      <date>1532095085</date>
+      <mdhash>0883e464be686db32bcb96cc4b83bd29</mdhash>
+      <filesize>266723</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.21.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>0883e464be686db32bcb96cc4b83bd29</md5>
+          <size>266723</size>
+          <filedate>1532095085</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.21.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>09871162e9c1aa198a73932268b6a5ef</md5>
+          <size>1042851</size>
+          <filedate>1532095085</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.20</name>
+      <version>7.x-3.20</version>
+      <tag>7.x-3.20</tag>
+      <version_major>3</version_major>
+      <version_patch>20</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.20</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.20.tar.gz</download_link>
+      <date>1524091084</date>
+      <mdhash>c63dfd6189074fed3ab9af33f0e4a0cb</mdhash>
+      <filesize>266629</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.20.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>c63dfd6189074fed3ab9af33f0e4a0cb</md5>
+          <size>266629</size>
+          <filedate>1524091084</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.20.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>f409921e52897ba500e953cedf6bd0b6</md5>
+          <size>1042279</size>
+          <filedate>1524091084</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.19</name>
+      <version>7.x-3.19</version>
+      <tag>7.x-3.19</tag>
+      <version_major>3</version_major>
+      <version_patch>19</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.19</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.19.tar.gz</download_link>
+      <date>1516989486</date>
+      <mdhash>815d3dcd5993e5923678361f53f31e71</mdhash>
+      <filesize>266438</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.19.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>815d3dcd5993e5923678361f53f31e71</md5>
+          <size>266438</size>
+          <filedate>1516989486</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.19.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>db2eea99962f0baf87dcbfb0ba9a2754</md5>
+          <size>1042081</size>
+          <filedate>1516989486</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.18</name>
+      <version>7.x-3.18</version>
+      <tag>7.x-3.18</tag>
+      <version_major>3</version_major>
+      <version_patch>18</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.18</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.18.tar.gz</download_link>
+      <date>1516429985</date>
+      <mdhash>17109dde388243e19aca8f0ab5c66145</mdhash>
+      <filesize>266385</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.18.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>17109dde388243e19aca8f0ab5c66145</md5>
+          <size>266385</size>
+          <filedate>1516429985</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.18.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>bfe10f34a465c3e84c2a406ed8d4b202</md5>
+          <size>1042333</size>
+          <filedate>1516429985</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.17</name>
+      <version>7.x-3.17</version>
+      <tag>7.x-3.17</tag>
+      <version_major>3</version_major>
+      <version_patch>17</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.17</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.17.tar.gz</download_link>
+      <date>1516145884</date>
+      <mdhash>ab2420da153632cbaa53729f508b2f10</mdhash>
+      <filesize>265810</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.17.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>ab2420da153632cbaa53729f508b2f10</md5>
+          <size>265810</size>
+          <filedate>1516145884</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.17.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>beab65d55795ac459ee2b9e1630c3d61</md5>
+          <size>1041132</size>
+          <filedate>1516145884</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.16</name>
+      <version>7.x-3.16</version>
+      <tag>7.x-3.16</tag>
+      <version_major>3</version_major>
+      <version_patch>16</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.16</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.16.tar.gz</download_link>
+      <date>1512079384</date>
+      <mdhash>e91231e8c11ce73663c02365633cc53e</mdhash>
+      <filesize>265132</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.16.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>e91231e8c11ce73663c02365633cc53e</md5>
+          <size>265132</size>
+          <filedate>1512079384</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.16.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>fbc1b26b871a8dfe6fed6220dde5850c</md5>
+          <size>1036010</size>
+          <filedate>1512079384</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.15</name>
+      <version>7.x-3.15</version>
+      <tag>7.x-3.15</tag>
+      <version_major>3</version_major>
+      <version_patch>15</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.15</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.15.tar.gz</download_link>
+      <date>1506357844</date>
+      <mdhash>bfa988385b238ec7bec01daf04d61b69</mdhash>
+      <filesize>248100</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.15.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>bfa988385b238ec7bec01daf04d61b69</md5>
+          <size>248100</size>
+          <filedate>1506357844</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.15.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>6630e736f973f59e5afa722cfa0e09f8</md5>
+          <size>1019705</size>
+          <filedate>1506357844</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.14</name>
+      <version>7.x-3.14</version>
+      <tag>7.x-3.14</tag>
+      <version_major>3</version_major>
+      <version_patch>14</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.14</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.14.tar.gz</download_link>
+      <date>1495748283</date>
+      <mdhash>9f4147d7d5d3368ac751f9ddccf4ca7e</mdhash>
+      <filesize>248177</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.14.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>9f4147d7d5d3368ac751f9ddccf4ca7e</md5>
+          <size>248177</size>
+          <filedate>1495748283</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.14.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>24521075d02d86453045e8c36aca51a8</md5>
+          <size>1019685</size>
+          <filedate>1495748283</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.13</name>
+      <version>7.x-3.13</version>
+      <tag>7.x-3.13</tag>
+      <version_major>3</version_major>
+      <version_patch>13</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.13</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.13.tar.gz</download_link>
+      <date>1491858543</date>
+      <mdhash>e4512a01910d3f3c13bb9d04e6b1e0f1</mdhash>
+      <filesize>247356</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.13.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>e4512a01910d3f3c13bb9d04e6b1e0f1</md5>
+          <size>247356</size>
+          <filedate>1491858543</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.13.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>970a2057b186591c3db986ada351decd</md5>
+          <size>1018587</size>
+          <filedate>1491858543</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.12</name>
+      <version>7.x-3.12</version>
+      <tag>7.x-3.12</tag>
+      <version_major>3</version_major>
+      <version_patch>12</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.12</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.12.tar.gz</download_link>
+      <date>1488215884</date>
+      <mdhash>055c1e6c0db1a957d9cec364c587de4c</mdhash>
+      <filesize>246152</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.12.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>055c1e6c0db1a957d9cec364c587de4c</md5>
+          <size>246152</size>
+          <filedate>1488215884</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.12.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>9f4433f6468770b783fd6d9875a6f72e</md5>
+          <size>1018352</size>
+          <filedate>1488215884</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.11</name>
+      <version>7.x-3.11</version>
+      <tag>7.x-3.11</tag>
+      <version_major>3</version_major>
+      <version_patch>11</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.11</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.11.tar.gz</download_link>
+      <date>1487641384</date>
+      <mdhash>ab791af4a3ea774e166dd5f2409bb0cf</mdhash>
+      <filesize>245989</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.11.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>ab791af4a3ea774e166dd5f2409bb0cf</md5>
+          <size>245989</size>
+          <filedate>1487641384</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.11.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>6ae6a46d6822d40fc00c9fe0a0774303</md5>
+          <size>1018175</size>
+          <filedate>1487641384</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.10</name>
+      <version>7.x-3.10</version>
+      <tag>7.x-3.10</tag>
+      <version_major>3</version_major>
+      <version_patch>10</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.10</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.10.tar.gz</download_link>
+      <date>1480458180</date>
+      <mdhash>a746ea63e5eeceb393f33fe88169cace</mdhash>
+      <filesize>239937</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.10.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>a746ea63e5eeceb393f33fe88169cace</md5>
+          <size>239937</size>
+          <filedate>1480458180</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.10.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>9797bb7103b86df91d9d9cfc8db7c568</md5>
+          <size>950296</size>
+          <filedate>1480458180</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.9</name>
+      <version>7.x-3.9</version>
+      <tag>7.x-3.9</tag>
+      <version_major>3</version_major>
+      <version_patch>9</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.9</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.9.tar.gz</download_link>
+      <date>1480431486</date>
+      <mdhash>115cf88a1a83e99e7925f704b10c523b</mdhash>
+      <filesize>239932</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.9.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>115cf88a1a83e99e7925f704b10c523b</md5>
+          <size>239932</size>
+          <filedate>1480431486</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.9.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>a1d98dbb24b321ee821c81f367e757b5</md5>
+          <size>951480</size>
+          <filedate>1480431486</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.8</name>
+      <version>7.x-3.8</version>
+      <tag>7.x-3.8</tag>
+      <version_major>3</version_major>
+      <version_patch>8</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.8</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.8.tar.gz</download_link>
+      <date>1478114639</date>
+      <mdhash>6b8acfcb8fa8e63ee53185f1ec0170f5</mdhash>
+      <filesize>239111</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.8.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>6b8acfcb8fa8e63ee53185f1ec0170f5</md5>
+          <size>239111</size>
+          <filedate>1478114639</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.8.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>f12554461226a23789c980c5f56ef82c</md5>
+          <size>950194</size>
+          <filedate>1478114639</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Security update</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.7</name>
+      <version>7.x-3.7</version>
+      <tag>7.x-3.7</tag>
+      <version_major>3</version_major>
+      <version_patch>7</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.7</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.7.tar.gz</download_link>
+      <date>1477677839</date>
+      <mdhash>eb69a0ec732a47405a4ec23e7d8b7232</mdhash>
+      <filesize>238509</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.7.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>eb69a0ec732a47405a4ec23e7d8b7232</md5>
+          <size>238509</size>
+          <filedate>1477677839</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.7.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>6402d728bd1d0670db6dcb71f8382086</md5>
+          <size>948993</size>
+          <filedate>1477677839</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>Insecure</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.6</name>
+      <version>7.x-3.6</version>
+      <tag>7.x-3.6</tag>
+      <version_major>3</version_major>
+      <version_patch>6</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.6</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.6.tar.gz</download_link>
+      <date>1470203939</date>
+      <mdhash>c502bde959920040cbec29c7001a5c14</mdhash>
+      <filesize>238475</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.6.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>c502bde959920040cbec29c7001a5c14</md5>
+          <size>238475</size>
+          <filedate>1470203939</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.6.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>0a80bdcde478828dfa0bfd9be28b6df6</md5>
+          <size>947772</size>
+          <filedate>1470203939</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>Insecure</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.5</name>
+      <version>7.x-3.5</version>
+      <tag>7.x-3.5</tag>
+      <version_major>3</version_major>
+      <version_patch>5</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.5</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.5.tar.gz</download_link>
+      <date>1456870739</date>
+      <mdhash>839a0a15ae376f6b798e44e88fdb54fc</mdhash>
+      <filesize>208435</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.5.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>839a0a15ae376f6b798e44e88fdb54fc</md5>
+          <size>208435</size>
+          <filedate>1456870739</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.5.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>788929e18d436f58cec407d2fbe4d440</md5>
+          <size>904068</size>
+          <filedate>1456870739</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>Insecure</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.4</name>
+      <version>7.x-3.4</version>
+      <tag>7.x-3.4</tag>
+      <version_major>3</version_major>
+      <version_patch>4</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.4</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.4.tar.gz</download_link>
+      <date>1450532339</date>
+      <mdhash>8b08ab8df8463d2e29cad19bddce5e42</mdhash>
+      <filesize>204341</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.4.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>8b08ab8df8463d2e29cad19bddce5e42</md5>
+          <size>204341</size>
+          <filedate>1450532339</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.4.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>59f946bcd7c8b6e97b3a7ad91cbc16d2</md5>
+          <size>848219</size>
+          <filedate>1450532339</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>Insecure</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.3</name>
+      <version>7.x-3.3</version>
+      <tag>7.x-3.3</tag>
+      <version_major>3</version_major>
+      <version_patch>3</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.3</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.3.tar.gz</download_link>
+      <date>1449933539</date>
+      <mdhash>2afca89c404a9d30988897759d6cf908</mdhash>
+      <filesize>204329</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.3.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>2afca89c404a9d30988897759d6cf908</md5>
+          <size>204329</size>
+          <filedate>1449933539</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.3.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>05fdfbcf15d645912fd56427efd48a5c</md5>
+          <size>848196</size>
+          <filedate>1449933539</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>Insecure</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.2</name>
+      <version>7.x-3.2</version>
+      <tag>7.x-3.2</tag>
+      <version_major>3</version_major>
+      <version_patch>2</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.2</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.2.tar.gz</download_link>
+      <date>1449918840</date>
+      <mdhash>b7066abb3e5f74cf8f7148fb5c958237</mdhash>
+      <filesize>204349</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.2.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>b7066abb3e5f74cf8f7148fb5c958237</md5>
+          <size>204349</size>
+          <filedate>1449918840</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.2.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>b080319c3a817925959d191160dc0d85</md5>
+          <size>848201</size>
+          <filedate>1449918840</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>Insecure</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.1</name>
+      <version>7.x-3.1</version>
+      <tag>7.x-3.1</tag>
+      <version_major>3</version_major>
+      <version_patch>1</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.1</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.1.tar.gz</download_link>
+      <date>1447089539</date>
+      <mdhash>2c29a0fc1a0b5e29a7a50a62b0dac5bf</mdhash>
+      <filesize>204802</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.1.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>2c29a0fc1a0b5e29a7a50a62b0dac5bf</md5>
+          <size>204802</size>
+          <filedate>1447089539</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.1.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>4707595475cae60c799bfb4f18573b70</md5>
+          <size>847558</size>
+          <filedate>1447089539</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>Insecure</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.1-beta3</name>
+      <version>7.x-3.1-beta3</version>
+      <tag>7.x-3.1-beta3</tag>
+      <version_major>3</version_major>
+      <version_patch>1</version_patch>
+      <version_extra>beta3</version_extra>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.1-beta3</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.1-beta3.tar.gz</download_link>
+      <date>1440081239</date>
+      <mdhash>08dc2cd968ffb94f47d0961654023691</mdhash>
+      <filesize>204964</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.1-beta3.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>08dc2cd968ffb94f47d0961654023691</md5>
+          <size>204964</size>
+          <filedate>1440081239</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.1-beta3.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>88ef9adf422580c357c4b844335e323b</md5>
+          <size>816670</size>
+          <filedate>1440081239</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>Insecure</value>
+        </term>
+      </terms>
+      <security>Beta releases are not covered by Drupal security advisories.</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.1-beta2</name>
+      <version>7.x-3.1-beta2</version>
+      <tag>7.x-3.1-beta2</tag>
+      <version_major>3</version_major>
+      <version_patch>1</version_patch>
+      <version_extra>beta2</version_extra>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.1-beta2</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.1-beta2.tar.gz</download_link>
+      <date>1406740727</date>
+      <mdhash>ab0fcffcc6fed814f1003c5425f05a34</mdhash>
+      <filesize>139334</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.1-beta2.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>ab0fcffcc6fed814f1003c5425f05a34</md5>
+          <size>139334</size>
+          <filedate>1406740727</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.1-beta2.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>c8046216c6586587b0c70c5d9a035950</md5>
+          <size>219600</size>
+          <filedate>1406740727</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>Insecure</value>
+        </term>
+      </terms>
+      <security>Beta releases are not covered by Drupal security advisories.</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.1-beta1</name>
+      <version>7.x-3.1-beta1</version>
+      <tag>7.x-3.1-beta1</tag>
+      <version_major>3</version_major>
+      <version_patch>1</version_patch>
+      <version_extra>beta1</version_extra>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.1-beta1</release_link>
+      <download_link></download_link>
+      <date></date>
+      <mdhash></mdhash>
+      <filesize></filesize>
+      <files>
+        <file>
+          <url></url>
+          <archive_type></archive_type>
+          <md5></md5>
+          <size></size>
+          <filedate></filedate>
+        </file>
+        <file>
+          <url></url>
+          <archive_type></archive_type>
+          <md5></md5>
+          <size></size>
+          <filedate></filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Insecure</value>
+        </term>
+      </terms>
+      <security>Beta releases are not covered by Drupal security advisories.</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.0</name>
+      <version>7.x-3.0</version>
+      <tag>7.x-3.0</tag>
+      <version_major>3</version_major>
+      <version_patch>0</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.0</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.0.tar.gz</download_link>
+      <date>1384678104</date>
+      <mdhash>633ba721e7d0f52627bc665d27cea002</mdhash>
+      <filesize>105744</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.0.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>633ba721e7d0f52627bc665d27cea002</md5>
+          <size>105744</size>
+          <filedate>1384678104</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.0.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>c41f4cd35d61d589f391137d86137b26</md5>
+          <size>132487</size>
+          <filedate>1384678104</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>Insecure</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.0-rc2</name>
+      <version>7.x-3.0-rc2</version>
+      <tag>7.x-3.0-rc2</tag>
+      <version_major>3</version_major>
+      <version_patch>0</version_patch>
+      <version_extra>rc2</version_extra>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.0-rc2</release_link>
+      <download_link></download_link>
+      <date>1381965727</date>
+      <mdhash>0eed25a854cbbe76ed62a2c39029b441</mdhash>
+      <filesize>132350</filesize>
+      <files>
+        <file>
+          <url></url>
+          <archive_type>tar.gz</archive_type>
+          <md5>0eed25a854cbbe76ed62a2c39029b441</md5>
+          <size>132350</size>
+          <filedate>1381965727</filedate>
+        </file>
+        <file>
+          <url></url>
+          <archive_type>zip</archive_type>
+          <md5>f1f8c092c0bde9ace99ca5404a810f22</md5>
+          <size>153706</size>
+          <filedate>1381965727</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>Insecure</value>
+        </term>
+      </terms>
+      <security>RC releases are not covered by Drupal security advisories.</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.0-rc1</name>
+      <version>7.x-3.0-rc1</version>
+      <tag>7.x-3.0-rc1</tag>
+      <version_major>3</version_major>
+      <version_patch>0</version_patch>
+      <version_extra>rc1</version_extra>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.0-rc1</release_link>
+      <download_link></download_link>
+      <date>1380586270</date>
+      <mdhash>fc1e8772163758fcbcf6807e559df987</mdhash>
+      <filesize>130368</filesize>
+      <files>
+        <file>
+          <url></url>
+          <archive_type>tar.gz</archive_type>
+          <md5>fc1e8772163758fcbcf6807e559df987</md5>
+          <size>130368</size>
+          <filedate>1380586270</filedate>
+        </file>
+        <file>
+          <url></url>
+          <archive_type>zip</archive_type>
+          <md5>367000fdd70931a29a8e327b7afda8eb</md5>
+          <size>150401</size>
+          <filedate>1380586271</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>Insecure</value>
+        </term>
+      </terms>
+      <security>RC releases are not covered by Drupal security advisories.</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.0-beta1</name>
+      <version>7.x-3.0-beta1</version>
+      <tag>7.x-3.0-beta1</tag>
+      <version_major>3</version_major>
+      <version_patch>0</version_patch>
+      <version_extra>beta1</version_extra>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.0-beta1</release_link>
+      <download_link></download_link>
+      <date>1379735212</date>
+      <mdhash>f5715f19b4fc4e40766f5f193d08775d</mdhash>
+      <filesize>117424</filesize>
+      <files>
+        <file>
+          <url></url>
+          <archive_type>tar.gz</archive_type>
+          <md5>f5715f19b4fc4e40766f5f193d08775d</md5>
+          <size>117424</size>
+          <filedate>1379735212</filedate>
+        </file>
+        <file>
+          <url></url>
+          <archive_type>zip</archive_type>
+          <md5>24e1925ee8a1e08f5a360a316a92f8ac</md5>
+          <size>125092</size>
+          <filedate>1379735212</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>Insecure</value>
+        </term>
+      </terms>
+      <security>Beta releases are not covered by Drupal security advisories.</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-2.2</name>
+      <version>7.x-2.2</version>
+      <tag>7.x-2.2</tag>
+      <version_major>2</version_major>
+      <version_patch>2</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-2.2</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-2.2.tar.gz</download_link>
+      <date>1379796670</date>
+      <mdhash>d0716efe615c85904c0621e4c38c7286</mdhash>
+      <filesize>152826</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-2.2.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>d0716efe615c85904c0621e4c38c7286</md5>
+          <size>152826</size>
+          <filedate>1379796670</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-2.2.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>f8fad9c3a0340c37988ae1a8adc1b82d</md5>
+          <size>162583</size>
+          <filedate>1379796670</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-2.1</name>
+      <version>7.x-2.1</version>
+      <tag>7.x-2.1</tag>
+      <version_major>2</version_major>
+      <version_patch>1</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-2.1</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-2.1.tar.gz</download_link>
+      <date>1372204551</date>
+      <mdhash>d5c976f39edd7613b0119cec15414cb7</mdhash>
+      <filesize>152877</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-2.1.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>d5c976f39edd7613b0119cec15414cb7</md5>
+          <size>152877</size>
+          <filedate>1372204551</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-2.1.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>54d58d3273741dba29fef79897048628</md5>
+          <size>162603</size>
+          <filedate>1372204551</filedate>
+        </file>
+      </files>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-2.0</name>
+      <version>7.x-2.0</version>
+      <tag>7.x-2.0</tag>
+      <version_major>2</version_major>
+      <version_patch>0</version_patch>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-2.0</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-2.0.tar.gz</download_link>
+      <date>1368973512</date>
+      <mdhash>fce3d64659ab243b7585cb86a8f55fe5</mdhash>
+      <filesize>154263</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-2.0.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>fce3d64659ab243b7585cb86a8f55fe5</md5>
+          <size>154263</size>
+          <filedate>1368973512</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-2.0.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>a26f72acc578f54b182e21623962a488</md5>
+          <size>164398</size>
+          <filedate>1368973512</filedate>
+        </file>
+      </files>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-2.0-beta3</name>
+      <version>7.x-2.0-beta3</version>
+      <tag>7.x-2.0-beta3</tag>
+      <version_major>2</version_major>
+      <version_patch>0</version_patch>
+      <version_extra>beta3</version_extra>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-2.0-beta3</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-2.0-beta3.tar.gz</download_link>
+      <date>1363201813</date>
+      <mdhash>e18b147cf74d3354f7f5836f8e7a73e8</mdhash>
+      <filesize>82087</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-2.0-beta3.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>e18b147cf74d3354f7f5836f8e7a73e8</md5>
+          <size>82087</size>
+          <filedate>1363201813</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-2.0-beta3.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>e5f1586b048615fd266fa6d7f316d74b</md5>
+          <size>88088</size>
+          <filedate>1363201813</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security>Beta releases are not covered by Drupal security advisories.</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-2.0-beta2</name>
+      <version>7.x-2.0-beta2</version>
+      <tag>7.x-2.0-beta2</tag>
+      <version_major>2</version_major>
+      <version_patch>0</version_patch>
+      <version_extra>beta2</version_extra>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-2.0-beta2</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-2.0-beta2.tar.gz</download_link>
+      <date>1355215564</date>
+      <mdhash>04ce90a06494b85374aec1976e408ce2</mdhash>
+      <filesize>81606</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-2.0-beta2.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>04ce90a06494b85374aec1976e408ce2</md5>
+          <size>81606</size>
+          <filedate>1355215564</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-2.0-beta2.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>57dcfaebf09628f3e449c0712c6cae59</md5>
+          <size>87664</size>
+          <filedate>1355215564</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security>Beta releases are not covered by Drupal security advisories.</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-2.0-beta1</name>
+      <version>7.x-2.0-beta1</version>
+      <tag>7.x-2.0-beta1</tag>
+      <version_major>2</version_major>
+      <version_patch>0</version_patch>
+      <version_extra>beta1</version_extra>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-2.0-beta1</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-2.0-beta1.tar.gz</download_link>
+      <date>1352715956</date>
+      <mdhash>7e00c5f9b8c2e96f94671f4bf75cd6bd</mdhash>
+      <filesize>75793</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-2.0-beta1.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>7e00c5f9b8c2e96f94671f4bf75cd6bd</md5>
+          <size>75793</size>
+          <filedate>1352715956</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-2.0-beta1.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>32c582286fbdc330019381ce6b2869e9</md5>
+          <size>81899</size>
+          <filedate>1352715956</filedate>
+        </file>
+      </files>
+      <security>Beta releases are not covered by Drupal security advisories.</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-3.x-dev</name>
+      <version>7.x-3.x-dev</version>
+      <tag>7.x-3.x</tag>
+      <version_major>3</version_major>
+      <version_extra>dev</version_extra>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-3.x-dev</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.x-dev.tar.gz</download_link>
+      <date>1631636358</date>
+      <mdhash>5a2422f8ce545d9847e5e6e5ba11a9d4</mdhash>
+      <filesize>140032</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.x-dev.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>5a2422f8ce545d9847e5e6e5ba11a9d4</md5>
+          <size>140032</size>
+          <filedate>1631636358</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-3.x-dev.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>cdebff2895cc47a86bbca78ba3d44294</md5>
+          <size>221377</size>
+          <filedate>1631636358</filedate>
+        </file>
+      </files>
+      <security>Dev releases are not covered by Drupal security advisories.</security>
+    </release>
+    <release>
+      <name>bootstrap 7.x-2.x-dev</name>
+      <version>7.x-2.x-dev</version>
+      <tag>7.x-2.x</tag>
+      <version_major>2</version_major>
+      <version_extra>dev</version_extra>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/7.x-2.x-dev</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-7.x-2.x-dev.tar.gz</download_link>
+      <date>1380847184</date>
+      <mdhash>c57bc41e3b4eebe00e4bea862b1f8e20</mdhash>
+      <filesize>153012</filesize>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-2.x-dev.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>c57bc41e3b4eebe00e4bea862b1f8e20</md5>
+          <size>153012</size>
+          <filedate>1380847184</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-7.x-2.x-dev.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>88fca33a4dd2750c69b0927394c17d16</md5>
+          <size>162796</size>
+          <filedate>1380847185</filedate>
+        </file>
+      </files>
+      <security>Dev releases are not covered by Drupal security advisories.</security>
+    </release>
+  </releases>
+</project>

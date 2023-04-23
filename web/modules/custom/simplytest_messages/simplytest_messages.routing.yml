@@ -1,0 +1,7 @@
+simplytest_messages.settings_form:
+  path: '/admin/config/system/simplytest-messages'
+  defaults:
+    _title: 'Simplytest Messages settings'
+    _form: 'Drupal\simplytest_messages\Form\SettingsForm'
+  requirements:
+    _permission: 'administer simplytest_messages configuration'

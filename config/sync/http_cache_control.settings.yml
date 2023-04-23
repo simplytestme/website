@@ -1,0 +1,15 @@
+_core:
+  default_config_hash: 7J75jee6uT-qT16hDiNTHOtRFPgAz_ppCBdl7GTo-As
+cache:
+  http:
+    s_maxage: 600
+    404_max_age: 900
+    302_max_age: 3600
+    301_max_age: 3600
+    5xx_max_age: 0
+    stale_while_revalidate: 0
+    stale_if_error: 0
+    vary: ''
+  surrogate:
+    maxage: 0
+    nostore: null

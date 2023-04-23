@@ -1,0 +1,23 @@
+services:
+  logger.channel.simplytest_projects:
+    parent: logger.channel_base
+    arguments: ['simplytest_projects']
+    public: false
+
+  simplytest_projects.fetcher:
+    class: Drupal\simplytest_projects\ProjectFetcher
+    arguments: ['@http_client', '@logger.channel.simplytest_projects', '@entity_type.manager', '@database', '@simplytest_projects.project_version_manager']
+  simplytest_projects.core_version_manager:
+    class: Drupal\simplytest_projects\CoreVersionManager
+    arguments: [ '@database', '@http_client', '@state' ]
+
+  simpleyest_projects.release_history_fetcher:
+    class: Drupal\simplytest_projects\ReleaseHistory\Fetcher
+    arguments: [ '@http_client', '@state' ]
+  simplytest_projects.project_version_manager:
+    class: Drupal\simplytest_projects\ProjectVersionManager
+    arguments: [ '@database', '@simpleyest_projects.release_history_fetcher' ]
+
+  simplytest_projects.importer:
+    class: Drupal\simplytest_projects\ProjectImporter
+    arguments: ['@http_client', '@simplytest_projects.fetcher', '@logger.channel.default']

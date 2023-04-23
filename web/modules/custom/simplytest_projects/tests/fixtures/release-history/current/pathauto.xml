@@ -1,0 +1,642 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <title>Pathauto</title>
+  <short_name>pathauto</short_name>
+  <dc:creator>Dave Reid</dc:creator>
+  <type>project_module</type>
+  <supported_branches>8.x-1.</supported_branches>
+  <project_status>published</project_status>
+  <link>https://www.drupal.org/project/pathauto</link>
+  <terms>
+    <term>
+      <name>Projects</name>
+      <value>Modules</value>
+    </term>
+    <term>
+      <name>Maintenance status</name>
+      <value>Actively maintained</value>
+    </term>
+    <term>
+      <name>Development status</name>
+      <value>Under active development</value>
+    </term>
+  </terms>
+  <releases>
+    <release>
+      <name>pathauto 8.x-1.8</name>
+      <version>8.x-1.8</version>
+      <tag>8.x-1.8</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/pathauto/releases/8.x-1.8</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/pathauto-8.x-1.8.tar.gz</download_link>
+      <date>1588103046</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.8.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>78c3ccfa90fcb9ef23a436c64cc12757</md5>
+          <size>74252</size>
+          <filedate>1588103046</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.8.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>e568ed378a72b4d8f30085d6321f58f2</md5>
+          <size>120347</size>
+          <filedate>1588103046</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+      <core_compatibility>^8.8 || ^9</core_compatibility>
+    </release>
+    <release>
+      <name>pathauto 8.x-1.7</name>
+      <version>8.x-1.7</version>
+      <tag>8.x-1.7</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/pathauto/releases/8.x-1.7</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/pathauto-8.x-1.7.tar.gz</download_link>
+      <date>1587898105</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.7.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>ffed56e2933c7e1a74a38649a43c1c38</md5>
+          <size>74059</size>
+          <filedate>1587898105</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.7.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>c9fa734f164256e9cddd2883596f64d3</md5>
+          <size>119787</size>
+          <filedate>1587898105</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+      <core_compatibility>^8.8 || ^9</core_compatibility>
+    </release>
+    <release>
+      <name>pathauto 8.x-1.6</name>
+      <version>8.x-1.6</version>
+      <tag>8.x-1.6</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/pathauto/releases/8.x-1.6</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/pathauto-8.x-1.6.tar.gz</download_link>
+      <date>1575467285</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.6.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>30b64ae5c7cc2dcf09bd38dccdc1f697</md5>
+          <size>74722</size>
+          <filedate>1575467285</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.6.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>296311c2a3786e69f683489b15f8324b</md5>
+          <size>120084</size>
+          <filedate>1575467285</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+      <core_compatibility>8.x</core_compatibility>
+    </release>
+    <release>
+      <name>pathauto 8.x-1.6-beta1</name>
+      <version>8.x-1.6-beta1</version>
+      <tag>8.x-1.6-beta1</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/pathauto/releases/8.x-1.6-beta1</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/pathauto-8.x-1.6-beta1.tar.gz</download_link>
+      <date>1573505285</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.6-beta1.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>35a4acd54def001b81339f64591829a4</md5>
+          <size>74727</size>
+          <filedate>1573505285</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.6-beta1.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>a2950856e5568a0498799338f5fbf1f5</md5>
+          <size>120085</size>
+          <filedate>1573505285</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security>Beta releases are not covered by Drupal security advisories.</security>
+      <core_compatibility>8.x</core_compatibility>
+    </release>
+    <release>
+      <name>pathauto 8.x-1.6-alpha1</name>
+      <version>8.x-1.6-alpha1</version>
+      <tag>8.x-1.6-alpha1</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/pathauto/releases/8.x-1.6-alpha1</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/pathauto-8.x-1.6-alpha1.tar.gz</download_link>
+      <date>1571587984</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.6-alpha1.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>b7e0b4a427cd4b404b173c8774470444</md5>
+          <size>74618</size>
+          <filedate>1571587984</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.6-alpha1.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>f60568dd3e7be1214f33dd1c29e16ef0</md5>
+          <size>120021</size>
+          <filedate>1571587984</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security>Alpha releases are not covered by Drupal security advisories.</security>
+      <core_compatibility>8.x</core_compatibility>
+    </release>
+    <release>
+      <name>pathauto 8.x-1.5</name>
+      <version>8.x-1.5</version>
+      <tag>8.x-1.5</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/pathauto/releases/8.x-1.5</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/pathauto-8.x-1.5.tar.gz</download_link>
+      <date>1570828084</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.5.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>b782ac3aead58b688b6ce2ac9702f8c8</md5>
+          <size>72836</size>
+          <filedate>1570828084</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.5.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>31911a4e3ae30fecc8fd31794f0afde6</md5>
+          <size>117010</size>
+          <filedate>1570828084</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+      <core_compatibility>8.x</core_compatibility>
+    </release>
+    <release>
+      <name>pathauto 8.x-1.4</name>
+      <version>8.x-1.4</version>
+      <tag>8.x-1.4</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/pathauto/releases/8.x-1.4</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/pathauto-8.x-1.4.tar.gz</download_link>
+      <date>1554239887</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.4.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>55dd10c9e281601b8107bd338afaf983</md5>
+          <size>72061</size>
+          <filedate>1554239887</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.4.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>8b39be4b4a9b00556a175bdcf8ce122b</md5>
+          <size>115341</size>
+          <filedate>1554239887</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+      <core_compatibility>8.x</core_compatibility>
+    </release>
+    <release>
+      <name>pathauto 8.x-1.3</name>
+      <version>8.x-1.3</version>
+      <tag>8.x-1.3</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/pathauto/releases/8.x-1.3</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/pathauto-8.x-1.3.tar.gz</download_link>
+      <date>1536407884</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.3.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>8594bc8a835a4cacc1950a77340937ba</md5>
+          <size>67818</size>
+          <filedate>1536407884</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.3.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>aa6de000c3082167c12c4c42c6d17079</md5>
+          <size>107343</size>
+          <filedate>1536407884</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+      <core_compatibility>8.x</core_compatibility>
+    </release>
+    <release>
+      <name>pathauto 8.x-1.2</name>
+      <version>8.x-1.2</version>
+      <tag>8.x-1.2</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/pathauto/releases/8.x-1.2</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/pathauto-8.x-1.2.tar.gz</download_link>
+      <date>1524421084</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.2.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>04b2d6a9ddf5d860b38b7acf545458b6</md5>
+          <size>67104</size>
+          <filedate>1524421084</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.2.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>15a541e279101ce1182458eb3348526b</md5>
+          <size>106469</size>
+          <filedate>1524421084</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+      <core_compatibility>8.x</core_compatibility>
+    </release>
+    <release>
+      <name>pathauto 8.x-1.1</name>
+      <version>8.x-1.1</version>
+      <tag>8.x-1.1</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/pathauto/releases/8.x-1.1</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/pathauto-8.x-1.1.tar.gz</download_link>
+      <date>1520092685</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.1.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>ab98fb9d69cc9cc7a90a05902877701f</md5>
+          <size>66990</size>
+          <filedate>1520092685</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.1.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>de6663a684a786e24d13a44ac6ccea0c</md5>
+          <size>106436</size>
+          <filedate>1520092685</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+      <core_compatibility>8.x</core_compatibility>
+    </release>
+    <release>
+      <name>pathauto 8.x-1.0</name>
+      <version>8.x-1.0</version>
+      <tag>8.x-1.0</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/pathauto/releases/8.x-1.0</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/pathauto-8.x-1.0.tar.gz</download_link>
+      <date>1493468044</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.0.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>b4ba0ca14f5812cb2f5bfba8ae0a7729</md5>
+          <size>64185</size>
+          <filedate>1493468044</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.0.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>e2ded324478cae93db9c12897d927d3e</md5>
+          <size>101006</size>
+          <filedate>1493468044</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+      <core_compatibility>8.x</core_compatibility>
+    </release>
+    <release>
+      <name>pathauto 8.x-1.0-rc1</name>
+      <version>8.x-1.0-rc1</version>
+      <tag>8.x-1.0-rc1</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/pathauto/releases/8.x-1.0-rc1</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/pathauto-8.x-1.0-rc1.tar.gz</download_link>
+      <date>1485702484</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.0-rc1.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>09cfb45706be9c3e0dabfd7094c96c62</md5>
+          <size>64195</size>
+          <filedate>1485702484</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.0-rc1.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>d1ebf6c784a1073e1cec074aed798a74</md5>
+          <size>101011</size>
+          <filedate>1485702484</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+      </terms>
+      <security>RC releases are not covered by Drupal security advisories.</security>
+      <core_compatibility>8.x</core_compatibility>
+    </release>
+    <release>
+      <name>pathauto 8.x-1.0-beta2</name>
+      <version>8.x-1.0-beta2</version>
+      <tag>8.x-1.0-beta2</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/pathauto/releases/8.x-1.0-beta2</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/pathauto-8.x-1.0-beta2.tar.gz</download_link>
+      <date>1484781483</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.0-beta2.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>08828ca7871b53ec82f795fcec178612</md5>
+          <size>63183</size>
+          <filedate>1484781483</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.0-beta2.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>76e6d1f11b24414602681d8528cfe404</md5>
+          <size>99490</size>
+          <filedate>1484781483</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+      </terms>
+      <security>Beta releases are not covered by Drupal security advisories.</security>
+      <core_compatibility>8.x</core_compatibility>
+    </release>
+    <release>
+      <name>pathauto 8.x-1.0-beta1</name>
+      <version>8.x-1.0-beta1</version>
+      <tag>8.x-1.0-beta1</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/pathauto/releases/8.x-1.0-beta1</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/pathauto-8.x-1.0-beta1.tar.gz</download_link>
+      <date>1474313339</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.0-beta1.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>85259b46446e4b61f05ca166cf0b43e1</md5>
+          <size>62163</size>
+          <filedate>1474313339</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.0-beta1.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>e0e724829431d0c9d6bb862c8bc751a5</md5>
+          <size>96667</size>
+          <filedate>1474313339</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+      </terms>
+      <security>Beta releases are not covered by Drupal security advisories.</security>
+      <core_compatibility>8.x</core_compatibility>
+    </release>
+    <release>
+      <name>pathauto 8.x-1.0-alpha3</name>
+      <version>8.x-1.0-alpha3</version>
+      <tag>8.x-1.0-alpha3</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/pathauto/releases/8.x-1.0-alpha3</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/pathauto-8.x-1.0-alpha3.tar.gz</download_link>
+      <date>1461007694</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.0-alpha3.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>90e44d8612ce516b9d4199bc31b8e9b1</md5>
+          <size>60627</size>
+          <filedate>1461007694</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.0-alpha3.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>9d763a871c9fc31e218754919452b824</md5>
+          <size>94570</size>
+          <filedate>1461007694</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security>Alpha releases are not covered by Drupal security advisories.</security>
+      <core_compatibility>8.x</core_compatibility>
+    </release>
+    <release>
+      <name>pathauto 8.x-1.0-alpha2</name>
+      <version>8.x-1.0-alpha2</version>
+      <tag>8.x-1.0-alpha2</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/pathauto/releases/8.x-1.0-alpha2</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/pathauto-8.x-1.0-alpha2.tar.gz</download_link>
+      <date>1456529339</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.0-alpha2.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>b05b1ed1a1ca215da12945549544150d</md5>
+          <size>54396</size>
+          <filedate>1456529339</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.0-alpha2.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>427fff130dd4c46b438c12b6ec39cf60</md5>
+          <size>84433</size>
+          <filedate>1456529339</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+      </terms>
+      <security>Alpha releases are not covered by Drupal security advisories.</security>
+      <core_compatibility>8.x</core_compatibility>
+    </release>
+    <release>
+      <name>pathauto 8.x-1.0-alpha1</name>
+      <version>8.x-1.0-alpha1</version>
+      <tag>8.x-1.0-alpha1</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/pathauto/releases/8.x-1.0-alpha1</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/pathauto-8.x-1.0-alpha1.tar.gz</download_link>
+      <date>1453413539</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.0-alpha1.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>4f36c1116e5d7612da66100323447770</md5>
+          <size>53687</size>
+          <filedate>1453413539</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.0-alpha1.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>5f4374286ccda202abfa33c59af98008</md5>
+          <size>83500</size>
+          <filedate>1453413539</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+      </terms>
+      <security>Alpha releases are not covered by Drupal security advisories.</security>
+      <core_compatibility>8.x</core_compatibility>
+    </release>
+    <release>
+      <name>pathauto 8.x-1.x-dev</name>
+      <version>8.x-1.x-dev</version>
+      <tag>8.x-1.x</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/pathauto/releases/8.x-1.x-dev</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/pathauto-8.x-1.x-dev.tar.gz</download_link>
+      <date>1609831832</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.x-dev.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>a561de92a4a7c22e3656cbed4d721b0f</md5>
+          <size>74363</size>
+          <filedate>1609831832</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/pathauto-8.x-1.x-dev.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>5d02eebc27f0917d1e6e035175290e91</md5>
+          <size>120490</size>
+          <filedate>1609831832</filedate>
+        </file>
+      </files>
+      <security>Dev releases are not covered by Drupal security advisories.</security>
+      <core_compatibility>^8.8 || ^9</core_compatibility>
+    </release>
+  </releases>
+</project>

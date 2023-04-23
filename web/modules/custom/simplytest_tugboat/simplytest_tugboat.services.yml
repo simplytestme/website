@@ -1,0 +1,15 @@
+services:
+  logger.channel.simplytest_tugboat:
+    parent: logger.channel_base
+    arguments: ['simplytest_tugboat']
+  simplytest_tugboat.instance_manager:
+    class: Drupal\simplytest_tugboat\InstanceManager
+    arguments:
+      - '@config.factory'
+      - '@logger.channel.simplytest_tugboat'
+      - '@module_handler'
+      - '@tugboat.client'
+      - '@simplytest_tugboat.preview_config_generator'
+  simplytest_tugboat.preview_config_generator:
+    class: Drupal\simplytest_tugboat\PreviewConfigGenerator
+    arguments: ['@plugin.manager.oneclickdemo']

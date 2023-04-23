@@ -1,0 +1,16 @@
+simplytest_projects_entity_task_view:
+  route_name: entity.simplytest_project.canonical
+  base_route: entity.simplytest_project.canonical
+  title: 'View'
+
+simplytest_projects_entity_task_edit:
+  route_name: entity.simplytest_project.edit_form
+  base_route: entity.simplytest_project.canonical
+  title: 'Edit'
+
+simplytest_projects_entity_task_delete:
+  route_name:  entity.simplytest_project.delete_form
+  base_route:  entity.simplytest_project.canonical
+  title: Delete
+  weight: 10
+

@@ -1,0 +1,7 @@
+simplytest_theme.settings:
+  type: theme_settings
+  label: 'Simplytest theme settings'
+  mapping:
+    header_bg_file:
+      type: string
+      label: 'Header File URI'
