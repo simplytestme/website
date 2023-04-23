@@ -57,6 +57,12 @@ jobs:
         run: composer require drupal/simplytest:dev-${{ github.event.inputs.issue_branch }} --no-install
         if: ${{ github.event_name == 'workflow_dispatch' }}
 
+      - name: Enable composer plugins
+        run: composer config --no-interaction allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+      - name: Show node version
+        run: node --version
+      - name: Clear composer cache
+        run: composer clear-cache
       - name: Install dependencies
         run: composer install
       - name: Install Simplytest
@@ -101,6 +107,14 @@ jobs:
         run: composer require drupal/simplytest:dev-${{ github.event.inputs.issue_branch }} --no-install
         if: ${{ github.event_name == 'workflow_dispatch' }}
 
+      - name: Enable composer plugins
+        run: composer config --no-interaction allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+      - name: Show node version
+        run: node --version
+      - name: Remove lock file (testing)
+        run: rm composer.lock
+      - name: Clear composer cache
+        run: composer clear-cache
       - name: Install dependencies
         run: composer install
       - name: Run php built-in server
