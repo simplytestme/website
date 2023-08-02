@@ -55,6 +55,9 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
+        "platform": {
+            "php": "7.4"
+        },
         "apcu-autoloader": true,
         "optimize-autoloader": true,
         "preferred-install": "dist",
@@ -149,12 +152,18 @@
             "bundled_packages": {
                 "drupal/core-recommended": [
                     "drupal/core-composer-scaffold",
-                    "drupal/core-project-message"
+                    "drupal/core-project-message",
+                    "drupal/core-dev-pinned",
+                    "drupal/core-dev",
+                    "drupal/core"
                 ]
             },
             "blacklist": [
                 "drupal/core-composer-scaffold",
-                "drupal/core-project-message"
+                "drupal/core-project-message",
+                "drupal/core-dev-pinned",
+                "drupal/core-dev",
+                "drupal/core"
             ]
         }
     }
