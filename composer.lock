@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "03a8a98e91821c5b3b3fa928cbab0ad0",
+    "content-hash": "425dbca11ad26c8f7225343919779d3c",
     "packages": [
         {
             "name": "amazeeio/drupal_integrations",
@@ -1621,47 +1621,6 @@
                 "source": "https://github.com/drupal/core-composer-scaffold/tree/9.5.10"
             },
             "time": "2023-04-30T16:17:33+00:00"
-        },
-        {
-            "name": "drupal/core-project-message",
-            "version": "9.5.10",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/drupal/core-project-message.git",
-                "reference": "5dfa0b75a057caf6542be67f61e7531c737db48c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core-project-message/zipball/5dfa0b75a057caf6542be67f61e7531c737db48c",
-                "reference": "5dfa0b75a057caf6542be67f61e7531c737db48c",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^1.1 || ^2",
-                "php": ">=7.3.0"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "Drupal\\Composer\\Plugin\\ProjectMessage\\MessagePlugin"
-            },
-            "autoload": {
-                "psr-4": {
-                    "Drupal\\Composer\\Plugin\\ProjectMessage\\": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "description": "Adds a message after Composer installation.",
-            "homepage": "https://www.drupal.org/project/drupal",
-            "keywords": [
-                "drupal"
-            ],
-            "support": {
-                "source": "https://github.com/drupal/core-project-message/tree/9.5.10"
-            },
-            "time": "2022-02-24T17:40:53+00:00"
         },
         {
             "name": "drupal/core-recommended",
