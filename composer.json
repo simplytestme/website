@@ -38,7 +38,7 @@
         "drupal/core-project-message": "^9.1",
         "drupal/core-recommended": "^9.1",
         "drupal/core": "^9.3",
-        "drupal/fastly": "^3.14",
+        "drupal/fastly": "^4.0",
         "drupal/http_cache_control": "^2.0",
         "drupal/lagoon_logs": "^2.0",
         "drupal/purge": "^3.0",
