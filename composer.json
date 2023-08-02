@@ -35,7 +35,7 @@
         "cweagans/composer-patches": "^1.7",
         "drupal/admin_toolbar": "^2.4",
         "drupal/core-composer-scaffold": "^9.1",
-        "drupal/core-project-message": "^9.1",
+        "drupal/core-project-message": "^10.1",
         "drupal/core-recommended": "^9.1",
         "drupal/core": "^9.3",
         "drupal/fastly": "^4.0",
