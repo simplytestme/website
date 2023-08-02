@@ -24,10 +24,6 @@ jobs:
           - 9515
     steps:
       - uses: actions/checkout@v3
-      - name: "Install Node"
-        uses: actions/setup-node@v3
-        with:
-          node-version: "18"
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -66,10 +62,6 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - uses: actions/checkout@v3
-      - name: "Install Node"
-        uses: actions/setup-node@v3
-        with:
-          node-version: "18"
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -158,7 +150,9 @@ jobs:
       - name: Install Composer dependencies
         run: composer install
       - name: Install NPM dependencies
-        run: npm ci
+        run: npm ci && cd web/themes/simplytest_theme && npm ci
+      - name: Build frontend
+        run: cd web/themes/simplytest_theme && npm run build
       - name: Install Simplytest
         run: php vendor/bin/drush site:install simplytest --account-pass=admin --db-url=mysql://root:@127.0.0.1:${{ job.services.mysql.ports[3306] }}/db --yes
       - name: Run php built-in server
