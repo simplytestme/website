@@ -1,0 +1,13 @@
+cache_tag_hash_length: 4
+site_id: dsampga1
+purge_logging: false
+purge_method: soft
+stale_while_revalidate: true
+stale_while_revalidate_value: 14440
+stale_if_error: true
+stale_if_error_value: 604800
+webhook_notifications:
+  purge_keys: purge_keys
+  purge_all: purge_all
+webhook_enabled: false
+webhook_url: ''

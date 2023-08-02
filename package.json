@@ -1,0 +1,25 @@
+{
+  "name": "simplytest",
+  "version": "1.0.0",
+  "description": "## Managing configuration",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.drupalcode.org/project/simplytest.git"
+  },
+  "author": "",
+  "license": "GPL-2.0-or-later",
+  "devDependencies": {
+    "cypress": "^12.17.3",
+    "cypress-dotenv": "^2",
+    "dotenv": "^10.0.0"
+  }
+}

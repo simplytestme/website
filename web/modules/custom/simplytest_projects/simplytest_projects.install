@@ -1,0 +1,166 @@
+<?php declare(strict_types=1);
+
+/**
+ * @file
+ * Install, update and uninstall functions for the simplyest_projects module.
+ */
+
+use Drupal\Core\Cache\Cache;
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\simplytest_projects\CoreVersionManager;
+use Drupal\simplytest_projects\ProjectVersionManager;
+
+/**
+ * Implements hook_schema().
+ */
+function simplytest_projects_schema() {
+  $schema = [];
+  $schema[CoreVersionManager::TABLE_NAME] = [
+    'description' => 'Cache of Drupal core releases',
+    'fields' => [
+      'version' => [
+        'description' => 'Display label of the release',
+        'type' => 'varchar_ascii',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+      // @todo convert to int for proper sorting.
+      'major' => [
+        'description' => 'Major version',
+        'type' => 'varchar_ascii',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+      // @todo convert to int for proper sorting.
+      'minor' => [
+        'description' => 'Minor versions',
+        'type' => 'varchar_ascii',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+      // @todo convert to int for proper sorting.
+      'patch' => [
+        'description' => 'Patch version',
+        'type' => 'varchar_ascii',
+        'length' => 255,
+        'not null' => FALSE,
+      ],
+      'extra' => [
+        'description' => 'Extra version identifier',
+        'type' => 'varchar_ascii',
+        'length' => 255,
+        'not null' => FALSE,
+      ],
+      'vcs_label' => [
+        'description' => 'Git branch or tag',
+        'type' => 'varchar_ascii',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+      'insecure' => [
+        'description' => 'Boolean indicating whether release is insecure.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'size' => 'tiny',
+      ],
+    ],
+    'primary key' => ['version'],
+    'indexes' => [
+      'major_version' => ['major', 'insecure'],
+    ],
+  ];
+  $schema[ProjectVersionManager::TABLE_NAME] = [
+    'description' => 'Project version data',
+    'fields' => [
+      'short_name' => [
+        'description' => 'The project short name',
+        'type' => 'varchar_ascii',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+      'version' => [
+        'description' => 'The version name',
+        'type' => 'varchar_ascii',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+      'tag' => [
+        'description' => 'The release VCS tag',
+        'type' => 'varchar_ascii',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+      'date' => [
+        'description' => 'The Unix timestamp when the release was created',
+        'type' => 'int',
+        'not null' => TRUE,
+      ],
+      'status' => [
+        'description' => 'Boolean indicating whether the release is published.',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => 0,
+        'size' => 'tiny',
+      ],
+      'core_compatibility' => [
+        'description' => 'Core compatibility constraint',
+        'type' => 'varchar_ascii',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+    ],
+    'primary key' => ['short_name', 'version'],
+  ];
+
+  return $schema;
+}
+
+/**
+ * Installs the `simplytest_core_versions` table.
+ */
+function simplytest_projects_update_9001() {
+  $database = \Drupal::database();
+  $db_schema = $database->schema();
+  $our_schema = simplytest_projects_schema();
+  $db_schema->createTable(CoreVersionManager::TABLE_NAME, $our_schema[CoreVersionManager::TABLE_NAME]);
+}
+
+/**
+ * Installs the `simplytest_project_versions` table.
+ */
+function simplytest_projects_update_9002() {
+  $database = \Drupal::database();
+  $db_schema = $database->schema();
+  $our_schema = simplytest_projects_schema();
+  $db_schema->createTable(ProjectVersionManager::TABLE_NAME, $our_schema[ProjectVersionManager::TABLE_NAME]);
+}
+
+/**
+ * Installs `usage` field on projects.
+ */
+function simplytest_projects_update_9003() {
+  $edum = \Drupal::entityDefinitionUpdateManager();
+  $definition = BaseFieldDefinition::create('integer')
+    ->setLabel('Usage')
+    ->setInitialValue(0);
+  $edum->installFieldStorageDefinition('usage', 'simplytest_project', 'simplytest_projects', $definition);
+}
+
+/**
+ * Refresh Drupal core release data.
+ */
+function simplytest_projects_update_9004() {
+  $state = \Drupal::state();
+  $state->delete('release_history_last_modified:drupal:10.x');
+
+  $core_version_manager = \Drupal::service('simplytest_projects.core_version_manager');
+  assert($core_version_manager instanceof CoreVersionManager);
+  $core_version_manager->updateData(10);
+
+  $project_version_manager = \Drupal::service('simplytest_projects.project_version_manager');
+  $project_version_manager->updateData('drupal');
+
+  Cache::invalidateTags(['project_versions:drupal', 'core_versions']);
+}

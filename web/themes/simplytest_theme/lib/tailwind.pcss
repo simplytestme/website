@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+progress::-webkit-progress-bar {
+  @apply rounded-md
+}
+progress::-webkit-progress-value {
+  @apply rounded-md bg-gradient-to-r from-flat-blue to-sky-blue
+}
+progress::-moz-progress-bar {
+  @apply rounded-md bg-gradient-to-r from-flat-blue to-sky-blue
+}
+
+.cta-link .btn {
+  @apply bg-dark-sky-blue font-bold px-2 py-1 no-underline rounded text-white;
+}
+
+.cta-link .btn:hover {
+  @apply bg-title-blue transform transition duration-500 scale-110;
+}

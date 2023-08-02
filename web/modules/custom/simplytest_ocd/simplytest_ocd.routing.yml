@@ -1,0 +1,16 @@
+simplytest_ocd.ocd:
+  path: '/one-click-demos'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\simplytest_ocd\Controller\Resources::info'
+  requirements:
+    _access: 'TRUE'
+    _format: 'json'
+simplytest_ocd.launch:
+  path: '/one-click-demos/{oneclickdemo_id}'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\simplytest_ocd\Controller\Resources::launch'
+  requirements:
+    _access: 'TRUE'
+    _format: 'json'

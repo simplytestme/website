@@ -1,0 +1,9 @@
+simplytest_launch.settings:
+  type: config_entity
+  label: Simplytest Launch Settings
+  mapping:
+    allowed_hosts:
+      type: sequence
+      label: Hosts
+      sequence:
+        type: string

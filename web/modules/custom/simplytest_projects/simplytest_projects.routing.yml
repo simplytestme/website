@@ -1,0 +1,47 @@
+simplytest_projects.settings:
+  path: 'admin/content/simplytest_projects/settings'
+  defaults:
+    _form: '\Drupal\simplytest_projects\Form\Settings'
+    _title: 'Simplytest Project Settings'
+  requirements:
+    _permission: 'administer simplytest projects'
+simplytest_projects.projects:
+  path: 'simplytest/projects/autocomplete'
+  defaults:
+    _controller: '\Drupal\simplytest_projects\Controller\SimplyTestProjects::autocompleteProjects'
+  requirements:
+    _access: 'TRUE'
+simplytest_projects.versions:
+  path: 'simplytest/project/{project}/versions'
+  defaults:
+    _controller: '\Drupal\simplytest_projects\Controller\SimplyTestProjects::projectVersions'
+  requirements:
+    _access: 'TRUE'
+simplytest_projects.compatible_versions:
+  path: 'simplytest/project/{project}/compatibility/{core_version}'
+  defaults:
+    _controller: '\Drupal\simplytest_projects\Controller\SimplyTestProjects::compatibleProjectVersions'
+  requirements:
+    _access: 'TRUE'
+simplytest_projects.core_versions:
+  path: 'simplytest/core/versions/{major_version}'
+  defaults:
+    _controller: '\Drupal\simplytest_projects\Controller\SimplyTestProjects::coreVersions'
+  requirements:
+    _access: 'TRUE'
+    _format: 'json'
+# @todo notes for test simplytest/core/compatible/pathatuo/7.x-1.8
+simplytest_projects.compatible_core_versions:
+  path: 'simplytest/core/compatible/{project}/{version}'
+  defaults:
+    _controller: '\Drupal\simplytest_projects\Controller\SimplyTestProjects::compatibleCoreVersions'
+  requirements:
+    _access: 'TRUE'
+    _format: 'json'
+simplytest_projects.import_form:
+  path: '/admin/config/simplytest/import'
+  defaults:
+    _form: '\Drupal\simplytest_projects\Form\ImportForm'
+    _title: 'Import Form'
+  requirements:
+    _permission: 'access administration pages'

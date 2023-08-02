@@ -1,0 +1,6 @@
+{
+  "phpunit.docker.container": "ddev-simplytestme-web",
+  "phpunit.paths": {
+    "${workspaceFolder}": "/var/www/html"
+  }
+}

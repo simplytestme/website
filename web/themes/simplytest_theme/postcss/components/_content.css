@@ -1,0 +1,4 @@
+main .region__content {
+  max-width: var(--content-width);
+  margin: 2em auto;
+}
