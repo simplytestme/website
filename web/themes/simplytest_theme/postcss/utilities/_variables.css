@@ -1,0 +1,69 @@
+
+/* //------- Typography ------- */
+/* @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap'); */
+
+:root {
+  --gutter: rem(20px);/* Layout helpers */
+
+  --browser-context: 16;
+  
+  --mainBlue: #34aad9;
+  --secondaryBlue: #5bbbe0;
+  --mainRed: #fb4d41;
+  --mainGreen: #4cd762;
+
+  --yellow-tan: #ffde65;
+  --yellow-dark: #f5b723;
+  --sky-blue: #5ccdff;
+  --dark-sky-blue: #2da8df;
+  --flat-blue: #3877af;
+  --heading-blue: #16426d;
+  --warning-bg: #fffaf0;
+  --dark-blue: #18222c;
+  --light-blue: #ecf6fd;
+
+// Monochrome
+  --greyish-brown: #4a4a4a;
+  --medium-gray: #9b9b9b;
+  --light-gray: #d4d4d4;
+  --off-white: #f2f2f2;
+  --white: #fff;
+
+ --color--primary: var(--sky-blue);
+ --color--highlight: var(--yellow-tan);
+
+ /* //--------- Layout ------- */
+--sm: 480px;
+--md: 640px;
+--lg: 760px;
+--xl: 980px;
+
+
+--body-container-width: var(--xl);
+--content-width: var(--lg);
+--gutter: rem(20px);
+--section-margin: rem(30px);
+
+--font-family: 'Open Sans', sans-serif;
+--base-font-size: rem(16px);
+
+--h1: 48px;
+--h2: 30px;
+--h3: 20px;
+--h4: var(--base-font-size);
+--h5: 14px;
+--h6: 12px;
+
+
+
+
+--section-margin: rem(30px);
+
+
+/* //Forms */
+--input-margin: 10px;
+
+
+
+}
+

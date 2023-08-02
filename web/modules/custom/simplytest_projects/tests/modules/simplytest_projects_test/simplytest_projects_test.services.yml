@@ -1,0 +1,6 @@
+services:
+  simplytest_projects_test.http_middleware:
+    class: Drupal\simplytest_projects_test\MockedHttpMiddleware
+    arguments: ['@state']
+    tags:
+      - { name: http_client_middleware }

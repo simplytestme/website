@@ -1,0 +1,64 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+
+body {
+  font-size: 100%;
+}
+
+.layout-container {
+  font-family: $font-family;
+  font-size: $base-font-size;
+  line-height: $base-font-size * 1.5;
+  color: $greyish-brown;
+}
+
+/* Links */
+a {
+  color: $color--primary;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:visited {
+    text-decoration: none;
+  }
+}
+
+//------- Headers ---------
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.125;
+  margin-top: 0;
+}
+
+
+h1 { font-size: $h1; }
+h2 { font-size: $h2; }
+h3 { font-size: $h3; }
+h4 { font-size: $h4; }
+h5 { font-size: $h5; }
+h6 { font-size: $h6; }
+
+.toolbar-tray-open:not(.toolbar-vertical),
+body:not(.toolbar-tray-open) {
+  .layout-container {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}

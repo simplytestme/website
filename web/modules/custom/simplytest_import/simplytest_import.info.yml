@@ -1,0 +1,10 @@
+name: 'SimplyTest Import'
+description: 'Fetching data from drupal.org and importing the project automatically.'
+type: module
+package: Simplytest
+core_version_requirement: ^9
+dependencies:
+  - simplytest_projects
+lifecycle: deprecated
+lifecycle_link: 'https://www.drupal.org/project/simplytest/issues/3267033'
+hidden: true

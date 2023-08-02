@@ -1,0 +1,12 @@
+global:
+  css:
+    theme:
+      dist/css/styles.css: {}
+      dist/tailwind.css: { minified: true, preprocess: false }
+
+# @todo rename to just app.
+launcher:
+  js:
+    dist/app.js: { minified: true, preprocess: false }
+  dependencies:
+    - core/drupalSettings

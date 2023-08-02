@@ -1,0 +1,144 @@
+.header {
+  width: calc(100% - 40px);
+  margin: 0 auto;
+  padding-bottom: 0;
+  @media (--small-min-viewport) {
+      max-width: 980px;
+  }
+  &__wrapper {
+    background: no-repeat top center;
+    background-size: cover;
+
+    .bg-gradient-to-r {
+      background-image: linear-gradient(to right,  rgba(4, 20, 33, .7), rgba(4, 20, 33, .7));
+    }
+
+  }
+
+  &__overlay {
+    background: linear-gradient(145deg, rgba(2, 0, 36, 1) 0%, rgba(9, 70, 121, .7) 32%, rgba(4, 182, 246, .3) 96%);
+  }
+
+  button,
+  .button {
+    font-weight: bold;
+    border: 0;
+    padding: 0.625rem 1.25rem;
+    background: #ffde65;
+    border-radius: 3px;
+    font-size: 1rem;
+    color: #4a4a4a;
+  }
+}
+
+.region__banner {
+  max-width: var(--content-width);
+  margin: 0 auto;
+}
+
+
+.pl-130 {
+  padding-left: 130px;
+  @media (--x-large-viewport) {
+    padding-left: 0;
+  }
+}
+
+.bg-yellow-tan {
+  background-color: var(--yellow-tan);
+  border: 1px solid var(--yellow-dark);
+  color: var(--greyish-brown);
+}
+
+.version-list {
+  min-width: 170px;
+  height: 38px;
+  background-color: var(--off-white);
+}
+
+.demo-btn {
+  width: 100%;
+  background-color: var(--off-white);
+}
+
+.simplytest-react-component {
+  summary {
+    &::marker {
+      color: transparent;
+    }
+  }
+  .bg-gradient-to-r {
+    @media (--x-large-viewport) {
+      padding: 10px 15px;
+    }
+  }
+  .mobile-column-flex {
+    @media (--x-large-viewport){
+      flex-direction: column;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+    & > .relative {
+      @media (--x-large-viewport) {
+        margin-bottom: 15px;
+      }
+    }
+  }
+  .evaluate-project {
+    &.label {
+      font-size: 21px;
+      color: var(--white);
+      margin-bottom: 15px;
+      display: inline-block;
+    }
+  }
+  .desktop-align-item-end {
+    @media (--x-min-large-viewport) {
+      align-items: flex-end;
+    }
+  }
+  details {
+    .arrow-circle {
+      &:after {
+        content: url('../../images/icons/down_arrow.svg');
+        display: inline-block;
+        width: 33px;
+        top: 10px;
+        position: relative;
+      }
+    }
+    &[open] {
+      .arrow-circle {
+        &:after {
+          content: url('../../images/icons/up_arrow.svg');
+          display: inline-block;
+          width: 33px;
+          top: 10px;
+          position: relative;
+        }
+      }
+    }
+  }
+}
+
+details > summary {
+  list-style: none;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.advance-summary {
+  color: var(--sky-blue);
+  cursor: pointer;
+  margin-bottom: 30px;
+  &::marker {
+    content: '';
+  }
+}
+
+.btn-blue {
+  background: var(--dark-sky-blue);
+  border: 1px solid #1983c4;
+  color: var(--white);
+}
