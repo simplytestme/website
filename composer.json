@@ -44,7 +44,7 @@
         "drupal/purge": "^3.0",
         "drupal/tugboat": "^1.0@alpha",
         "drush/drush": "^10.3",
-        "php-http/guzzle6-adapter": "^1.1"
+        "php-http/guzzle6-adapter": "^2.0"
     },
     "require-dev": {
         "drupal/core-dev-pinned": "^9.1"
