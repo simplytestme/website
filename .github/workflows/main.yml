@@ -135,6 +135,19 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
+
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        shell: bash
+        run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
+      - uses: actions/cache@v3
+        id: npm-cache
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - uses: shivammathur/setup-php@v2
         with:
           php-version: 7.4
@@ -154,3 +167,11 @@ jobs:
         run: cp .env.ci .env
       - name: cypress
         run: npm run cypress:run
+      - uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
+        with:
+          name: cypress
+          path: |
+            cypress/screenshots
+            cypress/results
+            cypress/videos
