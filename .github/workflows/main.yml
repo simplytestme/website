@@ -103,12 +103,8 @@ jobs:
           SIMPLETEST_BASE_URL: http://127.0.0.1:8080
           MINK_DRIVER_ARGS_WEBDRIVER: '["chrome", {"browserName":"chrome","chromeOptions":{"args":["--disable-gpu","--headless", "--no-sandbox"]}}, "http://127.0.0.1:${{ job.services.chromedriver.ports[9515] }}"]'
   cypress:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        php: [7.4]
-        os: [ubuntu-latest]
-    name: site:install - ${{ matrix.php }}
+    runs-on: ubuntu-latest
+    name: cypress
     services:
       mysql:
         image: mysql:5.7
@@ -123,26 +119,23 @@ jobs:
         ports:
           - 9515
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/cache@v2
+      - uses: actions/checkout@v3
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v3
         with:
-          path: |
-            ~/.composer/cache/files
-            ~/.composer/cache/repo
-          key: dependencies-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php }}
+          php-version: 7.4
           extensions: dom, curl, libxml, mbstring, zip, pdo, mysql, pdo_mysql, bcmath, soap, intl, gd, exif, iconv
           coverage: none
           tools: composer:v2
-
-      - name: Configure issue fork
-        run: composer config repositories.0 vcs https://git.drupalcode.org/issue/${{ github.event.inputs.issue_fork }}.git
-        if: ${{ github.event_name == 'workflow_dispatch' }}
-      - name: Require issue fork branch
-        run: composer require drupal/simplytest:dev-${{ github.event.inputs.issue_branch }} --no-install
-        if: ${{ github.event_name == 'workflow_dispatch' }}
 
       - name: Install dependencies
         run: composer install
@@ -150,3 +143,7 @@ jobs:
         run: php vendor/bin/drush site:install simplytest --account-pass=admin --db-url=mysql://root:@127.0.0.1:${{ job.services.mysql.ports[3306] }}/db --yes
       - name: Run php built-in server
         run: php -S 127.0.0.1:8080 -t web &
+      - name: env
+        run: cp .env.ci .env
+      - name: cypress
+        run: npm run cypress:run
