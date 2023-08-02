@@ -19,7 +19,7 @@
   "license": "GPL-2.0-or-later",
   "devDependencies": {
     "cypress": "^7.1.0",
-    "cypress-dotenv": "^1.2.2",
+    "cypress-dotenv": "^1.2.3",
     "dotenv": "^8.2.0"
   }
 }
