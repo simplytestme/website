@@ -24,6 +24,11 @@ jobs:
           - 9515
     steps:
       - uses: actions/checkout@v3
+      - name: "Install Node"
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
@@ -41,11 +46,6 @@ jobs:
             extensions: dom, curl, libxml, mbstring, zip, pdo, mysql, pdo_mysql, bcmath, soap, intl, gd, exif, iconv
             coverage: none
             tools: composer:v2
-
-      - name: Show node version
-        run: node --version
-      - name: Clear composer cache
-        run: composer clear-cache
       - name: Install dependencies
         run: composer install
       - name: Install Simplytest
@@ -66,6 +66,11 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - uses: actions/checkout@v3
+      - name: "Install Node"
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
@@ -82,11 +87,6 @@ jobs:
             extensions: dom, curl, libxml, mbstring, zip, pdo, mysql, pdo_mysql, bcmath, soap, intl, gd, exif, iconv
             coverage: none
             tools: composer:v2
-
-      - name: Show node version
-        run: node --version
-      - name: Clear composer cache
-        run: composer clear-cache
       - name: Install dependencies
         run: composer install
       - name: Run php built-in server
@@ -102,3 +102,76 @@ jobs:
           SIMPLETEST_DB: mysql://root:@127.0.0.1:${{ job.services.mysql.ports[3306] }}/db
           SIMPLETEST_BASE_URL: http://127.0.0.1:8080
           MINK_DRIVER_ARGS_WEBDRIVER: '["chrome", {"browserName":"chrome","chromeOptions":{"args":["--disable-gpu","--headless", "--no-sandbox"]}}, "http://127.0.0.1:${{ job.services.chromedriver.ports[9515] }}"]'
+  cypress:
+    runs-on: ubuntu-latest
+    name: cypress
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: db
+        ports:
+          - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      chromedriver:
+        image: drupalci/webdriver-chromedriver:production
+        ports:
+          - 9515
+    steps:
+      - uses: actions/checkout@v3
+      - name: "Install Node"
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        shell: bash
+        run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
+      - uses: actions/cache@v3
+        id: npm-cache
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+          extensions: dom, curl, libxml, mbstring, zip, pdo, mysql, pdo_mysql, bcmath, soap, intl, gd, exif, iconv
+          coverage: none
+          tools: composer:v2
+
+      - name: Install Composer dependencies
+        run: composer install
+      - name: Install NPM dependencies
+        run: npm ci
+      - name: Install Simplytest
+        run: php vendor/bin/drush site:install simplytest --account-pass=admin --db-url=mysql://root:@127.0.0.1:${{ job.services.mysql.ports[3306] }}/db --yes
+      - name: Run php built-in server
+        run: php -S 127.0.0.1:8080 -t web &
+      - name: env
+        run: cp .env.ci .env
+      - name: cypress
+        run: npm run cypress:run
+      - uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
+        with:
+          name: cypress
+          path: |
+            cypress/screenshots
+            cypress/results
+            cypress/videos
