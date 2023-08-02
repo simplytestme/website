@@ -4,7 +4,7 @@
  * Loaded on all environments.
  */
 
-$settings['config_sync_directory'] = 'profiles/contrib/simplytest/config/sync';
+$settings['config_sync_directory'] = '../config/sync';
 $settings['class_loader_auto_detect'] = FALSE;
 $settings['file_chmod_directory'] = 0775;
 $settings['file_chmod_file'] = 0664;

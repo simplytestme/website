@@ -1,0 +1,20 @@
+name: SimpyTest
+type: theme
+description: 'SimplyTest Custom Theme'
+core_version_requirement: ^9
+base theme: claro
+
+regions:
+  banner: Banner
+  content: Main Content
+  messages: Messages
+  sponsors: Sponsors
+  footer: Footer
+
+libraries:
+  - simplytest_theme/global
+libraries-override:
+  core/normalize:
+    css:
+      base:
+        assets/vendor/normalize-css/normalize.css: false

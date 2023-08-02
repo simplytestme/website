@@ -1,0 +1,30 @@
+.explanation__wrapper {
+  .explanation-container {
+    p {
+      font-size: 14px;
+    }
+    ol {
+      counter-reset: item;
+      margin-left: 0;
+      padding-left: 0;
+    }
+    li {
+      display: block;
+      margin-bottom: .5em;
+      margin-left: 2em;
+      &::before {
+        display: inline-block;
+        content: counter(item);
+        counter-increment: item;
+        width: 2em;
+        margin-left: -2em;
+        margin-right: 4px;
+        background-color: var(--heading-blue);
+        color: var(--white);
+        font-weight: bold;
+        padding: 3px 11px;
+        border-radius: 20px;
+      }
+    }
+  }
+}

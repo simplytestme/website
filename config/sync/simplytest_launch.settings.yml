@@ -1,0 +1,3 @@
+allowed_hosts:
+  - www.drupal.org
+  - git.drupalcode.org

@@ -1,0 +1,13 @@
+uuid: 314744fe-68ec-4df0-a112-4289c0ef6b27
+langcode: en
+status: true
+dependencies: {  }
+id: sponsor
+label: Sponsor
+description: 'The media type for Sponsor icons with links.'
+source: image
+queue_thumbnail_downloads: false
+new_revision: false
+source_configuration:
+  source_field: field_media_image
+field_map: {  }

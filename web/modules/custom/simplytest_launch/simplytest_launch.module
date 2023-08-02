@@ -1,0 +1,12 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function simplytest_launch_theme() {
+  return [
+    'simplytest_react_component' => [
+      'variables' => ['component_id' => 'root'],
+    ],
+  ];
+}

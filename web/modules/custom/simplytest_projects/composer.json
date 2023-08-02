@@ -1,0 +1,11 @@
+{
+    "name": "simplytest/simplytest_projects",
+    "type": "drupal-drush",
+    "extra": {
+        "drush": {
+            "services": {
+                "drush.services.yml": "^10"
+            }
+        }
+    }
+}

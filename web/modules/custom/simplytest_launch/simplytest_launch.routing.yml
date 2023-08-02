@@ -1,0 +1,22 @@
+simplytest_launch.configure:
+  path: '/configure'
+  defaults:
+    _controller: 'Drupal\simplytest_launch\Controller\SimplyTestLaunch::configure'
+  requirements:
+    _access: 'TRUE'
+simplytest_launch.project_selector:
+  path: '/project/{project}/{version}'
+  defaults:
+    _controller: '\Drupal\simplytest_launch\Controller\SimplyTestLaunch::projectSelector'
+    version: ''
+  requirements:
+    _access: 'TRUE'
+
+simplytest_launch.project_launcher:
+  path: '/launch-project'
+  defaults:
+    _controller: '\Drupal\simplytest_launch\Controller\SimplyTestLaunch::launchProject'
+  methods: [POST]
+  requirements:
+    _access: 'TRUE'
+    _format: 'json'

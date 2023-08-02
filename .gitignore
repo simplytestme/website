@@ -31,3 +31,9 @@
 /phpunit.xml
 .phpunit.result.cache
 /.drush-lock-update
+.DS_Store
+.idea
+
+themes/simplytest/react/src/config/const.js
+/node_modules
+/.env

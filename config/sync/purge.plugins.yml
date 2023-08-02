@@ -1,0 +1,5 @@
+purgers:
+  -
+    instance_id: 6999b38303
+    plugin_id: fastly
+    order_index: 2

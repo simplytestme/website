@@ -1,0 +1,16 @@
+simplytest_tugboat.progress:
+  path: '/tugboat/progress/{instance_id}/{job_id}'
+  defaults:
+    _title: 'Progress indicator page for a specific submission'
+    _controller: '\Drupal\simplytest_tugboat\Controller\SimplytestTugboatController::progress'
+  requirements:
+    _access: 'TRUE'
+
+simplytest_tugboat.state:
+  path: '/tugboat/status/{instance_id}/{job_id}'
+  defaults:
+    _title: 'New JSON output callback for current instance status'
+    _controller: '\Drupal\simplytest_tugboat\Controller\SimplytestTugboatController::instanceState'
+  requirements:
+    _access: 'TRUE'
+    _format: 'json'
