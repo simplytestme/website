@@ -69,11 +69,7 @@
         }
     },
     "scripts": {
-        "post-install-cmd": [
-            "cd web/themes/simplytest_theme && npm install",
-            "composer compile"
-        ],
-        "tests": "php vendor/bin/phpunit web/profiles/contrib/simplytest",
+        "tests": "php vendor/bin/phpunit web/modules/custom",
         "compile": "cd web/themes/simplytest_theme && npm run build"
     },
     "extra": {
