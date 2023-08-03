@@ -6,7 +6,7 @@ describe('Project autocomplete imports missing projects', () => {
     {
       'query': 'Pathauto',
       'result': {
-        'sandbox' : 0,
+        'sandbox' : false,
         'shortname' : 'pathauto',
         'title' : 'Pathauto',
         'type' : 'Module',
@@ -15,7 +15,7 @@ describe('Project autocomplete imports missing projects', () => {
     {
       'query': 'Password Policy',
       'result': {
-        'sandbox' : 0,
+        'sandbox' : false,
         'shortname' : 'password_policy',
         'title' : 'Password Policy',
         'type' : 'Module',
@@ -24,7 +24,7 @@ describe('Project autocomplete imports missing projects', () => {
     {
       'query': 'token',
       'result': {
-        'sandbox' : 0,
+        'sandbox' : false,
         'shortname' : 'token',
         'title' : 'Token',
         'type' : 'Module',
@@ -33,7 +33,7 @@ describe('Project autocomplete imports missing projects', () => {
     {
       'query': 'Bootstrap',
       'result': {
-        'sandbox' : 0,
+        'sandbox' : false,
         'shortname' : 'bootstrap',
         'title' : 'Bootstrap',
         'type' : 'Theme',
@@ -42,7 +42,7 @@ describe('Project autocomplete imports missing projects', () => {
     {
       'query': 'Password Pol',
       'result': {
-        'sandbox' : 0,
+        'sandbox' : false,
         'shortname' : 'password_policy',
         'title' : 'Password Policy',
         'type' : 'Module',

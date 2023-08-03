@@ -5,12 +5,12 @@ describe('Test the launch form', function () {
   it('allows autocompleting of a project with a version selected', () => {
     cy.pickProject('Password Policy')
     cy.getByLabel('Project version')
-      .should('have.value', '8.x-3.0')
+      .should('have.value', '4.0.0')
   })
   it('with a project and modify the drupal core version', () => {
     cy.pickProject('Password Policy')
     cy.getByLabel('Project version')
-      .should('have.value', '8.x-3.0')
+      .should('have.value', '4.0.0')
     cy.toggleDetailsElement('Advanced options')
     cy.getByLabel('Drupal Core')
       .select('9.2.5')
@@ -29,7 +29,7 @@ describe('Test the launch form', function () {
   it('should adjust available core versions based on compatibility', function () {
     cy.pickProject('Pathauto')
     cy.getByLabel('Project version')
-      .should('have.value', '8.x-1.8')
+      .should('have.value', '8.x-1.11')
     cy.toggleDetailsElement('Advanced options')
     cy.getByLabel('Drupal Core')
       .should('have.value', '9.2.6')
@@ -38,7 +38,7 @@ describe('Test the launch form', function () {
     cy.getByLabel('Drupal Core')
       .should('have.value', '8.9.8')
     cy.getByLabel('Project version')
-      .select('8.x-1.8')
+      .select('8.x-1.11')
     cy.getByLabel('Drupal Core')
       .select('9.2.0')
   })
