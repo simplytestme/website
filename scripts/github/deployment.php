@@ -51,6 +51,7 @@ $createDeploymentStatusBody = [
   'environment' => $lagoonEnvironment,
   'log_url' => 'https://dashboard.amazeeio.cloud/projects/simplytest/simplytest-' . $lagoonEnvironment . '/deployments/',
   'environment_url' => getenv('LAGOON_ROUTE'),
+  'required_contexts' => [],
 ];
 print "Create deployment body: " . PHP_EOL;
 var_export($createDeploymentStatusBody);
