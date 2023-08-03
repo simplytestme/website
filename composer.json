@@ -30,7 +30,7 @@
     "require": {
         "php": "^7.4",
         "amazeeio/drupal_integrations": "^0.3.4",
-        "composer/installers": "^1.9",
+        "composer/installers": "^2.2",
         "composer/semver": "^3.0",
         "cweagans/composer-patches": "^1.7",
         "drupal/admin_toolbar": "^3.4",
