@@ -152,7 +152,7 @@ class ProjectFetcher {
     $data = [
       'title' => $title,
       'shortname' => $shortname,
-      'sandbox' => $sandbox,
+      'sandbox' => (bool) $sandbox,
       'type' => $type,
       'creator' => $creator,
       'usage' => array_reduce(
