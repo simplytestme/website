@@ -12,7 +12,7 @@ describe('Tests additional projects and version constraints', () => {
       .type('Password Policy')
       .wait(100)
       .type (' Pwned')
-      .wait(1000)
+      .wait(2000)
       .type('{downArrow}{enter}')
 
     cy.wait(400)
