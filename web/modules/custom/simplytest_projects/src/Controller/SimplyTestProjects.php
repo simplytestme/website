@@ -99,6 +99,7 @@ class SimplyTestProjects extends ControllerBase implements ContainerInjectionInt
         $string = str_replace(' ', '_', $string);
         if ($project = $this->projectFetcher->fetchProject($string)) {
           unset($project['creator']);
+          unset($project['usage']);
           $matches = [$project];
         }
       }
