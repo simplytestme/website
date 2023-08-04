@@ -5,11 +5,15 @@ use GuzzleHttp\RequestOptions;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-$lagoonGitSha = getenv('LAGOON_GIT_SHA') ?: '';
+$lagoonGitSha = getenv('LAGOON_PR_HEAD_BRANCH') ?: '';
 if ($lagoonGitSha === '') {
-  print 'Cannot detect LAGOON_GIT_SHA';
+  $lagoonGitSha = getenv('LAGOON_GIT_SHA') ?: '';
+}
+if ($lagoonGitSha === '') {
+  print 'Cannot detect LAGOON_GIT_SHA or LAGOON_PR_HEAD_BRANCH';
   exit(1);
 }
+
 $githubToken = getenv('GITHUB_TOKEN') ?: '';
 if ($githubToken === '') {
   print 'Cannot detect GITHUB_TOKEN';
@@ -31,6 +35,7 @@ $createDeploymentBody = [
   'transient_environment' => !empty(getenv('LAGOON_PR_NUMBER')),
   'production_environment' => getenv('LAGOON_ENVIRONMENT_TYPE') === 'production',
   'description' => $lagoonEnvironment,
+  'required_contexts' => [],
 ];
 print "Create deployment body: " . PHP_EOL;
 var_export($createDeploymentBody);
