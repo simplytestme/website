@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- For how to customize PHPUnit configuration, see core/tests/README.md. -->
 <!-- TODO set checkForUnintentionallyCoveredCode="true" once https://www.drupal.org/node/2626832 is resolved. -->
 <!-- PHPUnit expects functional tests to be run with either a privileged user
  or your current system user. See core/tests/README.md and
@@ -9,7 +10,9 @@
          beStrictAboutTestsThatDoNotTestAnything="true"
          beStrictAboutOutputDuringTests="true"
          beStrictAboutChangesToGlobalState="true"
-         printerClass="\Drupal\Tests\Listeners\HtmlOutputPrinter">
+         failOnWarning="true"
+         printerClass="\Drupal\Tests\Listeners\HtmlOutputPrinter"
+         cacheResult="false">
   <php>
     <!-- Set error reporting to E_ALL. -->
     <ini name="error_reporting" value="32767"/>
@@ -21,16 +24,22 @@
     <env name="SIMPLETEST_DB" value="sqlite://localhost/sites/default/files/.ht.sqlite"/>
     <!-- Example BROWSERTEST_OUTPUT_DIRECTORY value: /path/to/webroot/sites/simpletest/browser_output -->
     <env name="BROWSERTEST_OUTPUT_DIRECTORY" value="private/browser_output"/>
+    <!-- By default, browser tests will output links that use the base URL set
+     in SIMPLETEST_BASE_URL. However, if your SIMPLETEST_BASE_URL is an internal
+     path (such as may be the case in a virtual or Docker-based environment),
+     you can set the base URL used in the browser test output links to something
+     reachable from your host machine here. This will allow you to follow them
+     directly and view the output. -->
+    <env name="BROWSERTEST_OUTPUT_BASE_URL" value=""/>
     <!-- To disable deprecation testing completely uncomment the next line. -->
-    <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
+    <!-- <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/> -->
     <!-- Example for changing the driver class for mink tests MINK_DRIVER_CLASS value: 'Drupal\FunctionalJavascriptTests\DrupalSelenium2Driver' -->
     <env name="MINK_DRIVER_CLASS" value=''/>
     <!-- Example for changing the driver args to mink tests MINK_DRIVER_ARGS value: '["http://127.0.0.1:8510"]' -->
     <env name="MINK_DRIVER_ARGS" value=''/>
-    <!-- Example for changing the driver args to phantomjs tests MINK_DRIVER_ARGS_PHANTOMJS value: '["http://127.0.0.1:8510"]' -->
-    <env name="MINK_DRIVER_ARGS_PHANTOMJS" value=''/>
     <!-- Example for changing the driver args to webdriver tests MINK_DRIVER_ARGS_WEBDRIVER value: '["chrome", { "chromeOptions": { "w3c": false } }, "http://localhost:4444/wd/hub"]' For using the Firefox browser, replace "chrome" with "firefox" -->
     <env name="MINK_DRIVER_ARGS_WEBDRIVER" value='["chrome", {"browserName":"chrome","chromeOptions":{"args":["--disable-gpu", "--no-sandbox", "--headless"]}}, "http://127.0.0.1:9515"]'/>
+
     <env name="TUGBOAT_API_KEY" value=''/>
     <env name="TUGBOAT_REPOSITORY_ID" value=''/>
   </php>
@@ -48,35 +57,22 @@
       <file>./web/core/tests/TestSuites/FunctionalJavascriptTestSuite.php</file>
     </testsuite>
     <testsuite name="build">
-      <file>./web/core//tests/TestSuites/BuildTestSuite.php</file>
+      <file>./web/core/tests/TestSuites/BuildTestSuite.php</file>
     </testsuite>
   </testsuites>
   <listeners>
     <listener class="\Drupal\Tests\Listeners\DrupalListener">
     </listener>
-    <!-- The Symfony deprecation listener has to come after the Drupal listener -->
-    <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener">
-    </listener>
   </listeners>
-  <!-- Filter for coverage reports. -->
-  <filter>
-    <whitelist>
-      <directory>./web/core/includes</directory>
-      <directory>./web/core/lib</directory>
-      <!-- Extensions can have their own test directories, so exclude those. -->
-      <directory>./web/core/modules</directory>
-      <exclude>
-        <directory>./web/core/modules/*/src/Tests</directory>
-        <directory>./web/core/modules/*/tests</directory>
-      </exclude>
-      <directory>./web/modules</directory>
-      <exclude>
-        <directory>./web/modules/*/src/Tests</directory>
-        <directory>./web/modules/*/tests</directory>
-        <directory>./web/modules/*/*/src/Tests</directory>
-        <directory>./web/modules/*/*/tests</directory>
-      </exclude>
-      <directory>./web/sites</directory>
-     </whitelist>
-  </filter>
+  <coverage>
+    <include>
+      <directory suffix=".php">./web/modules/custom</directory>
+      <directory suffix=".inc">./web/modules/custom</directory>
+      <directory suffix=".install">./web/modules/custom</directory>
+      <directory suffix=".module">./web/modules/custom</directory>
+    </include>
+    <exclude>
+      <directory>./web/modules/custom/*/tests</directory>
+    </exclude>
+  </coverage>
 </phpunit>
