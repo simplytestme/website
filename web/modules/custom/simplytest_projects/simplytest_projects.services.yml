@@ -1,8 +1,8 @@
 services:
   logger.channel.simplytest_projects:
+    class: Drupal\Core\Logger\LoggerChannel
     parent: logger.channel_base
     arguments: ['simplytest_projects']
-    public: false
 
   simplytest_projects.fetcher:
     class: Drupal\simplytest_projects\ProjectFetcher

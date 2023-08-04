@@ -33,20 +33,20 @@ final class ProjectVersionManager {
     $this->fetcher = $fetcher;
   }
 
-  public function updateData(string $project) {
+  public function updateData(string $project): void {
     $invalidate_caches = FALSE;
     foreach (['current', '7.x'] as $channel) {
       try {
         $release_xml = $this->fetcher->getProjectData($project, $channel);
       }
-      catch (ReleaseHistoryNotModifiedException $e) {
+      catch (ReleaseHistoryNotModifiedException) {
         // The release history has not been modified, so skip processing.
         continue;
       }
       try {
         $release_data = Processor::getData($release_xml);
       }
-      catch (NoReleaseHistoryFoundException $e) {
+      catch (NoReleaseHistoryFoundException) {
         continue;
       }
       $invalidate_caches = TRUE;
