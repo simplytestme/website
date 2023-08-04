@@ -44,7 +44,7 @@ Cypress.Commands.add('toggleDetailsElement', (label) => {
 Cypress.Commands.add('pickProject', input => {
   cy.getByLabel('Evaluate Drupal projects')
     .type(input)
-    .wait(1000)
+    .wait(2000)
     // @todo: strengthen this to make sure select item matches input.
     .type('{downArrow}{enter}')
 })
