@@ -37,12 +37,12 @@ environments:
               tls-acme: "true"
     cronjobs:
       - name: drush cron
-        schedule: "*/20 * * * *"
+        schedule: "*/30 * * * *"
         command: drush cron
         service: cli
       - name: simplytest_projects_project_refresher
-        schedule: "*/5 * * * *"
-        command: drush queue:run simplytest_projects_project_refresher --items-limit 15
+        schedule: "* * * * *"
+        command: drush queue:run simplytest_projects_project_refresher --items-limit 50
         service: cli
   main:
     routes:
@@ -55,10 +55,10 @@ environments:
               tls-acme: "true"
     cronjobs:
       - name: drush cron
-        schedule: "*/20 * * * *"
+        schedule: "*/30 * * * *"
         command: drush cron
         service: cli
       - name: simplytest_projects_project_refresher
-        schedule: "*/5 * * * *"
-        command: drush queue:run simplytest_projects_project_refresher --items-limit 15
+        schedule: "* * * * *"
+        command: drush queue:run simplytest_projects_project_refresher --items-limit 50
         service: cli
