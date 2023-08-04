@@ -38,7 +38,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-            php-version: 7.4
+            php-version: 8.1
             extensions: dom, curl, libxml, mbstring, zip, pdo, mysql, pdo_mysql, bcmath, soap, intl, gd, exif, iconv
             coverage: none
             tools: composer:v2
@@ -75,7 +75,7 @@ jobs:
             ${{ runner.os }}-composer-
       - uses: shivammathur/setup-php@v2
         with:
-            php-version: 7.4
+            php-version: 8.1
             extensions: dom, curl, libxml, mbstring, zip, pdo, mysql, pdo_mysql, bcmath, soap, intl, gd, exif, iconv
             coverage: none
             tools: composer:v2
@@ -142,7 +142,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.4
+          php-version: 8.1
           extensions: dom, curl, libxml, mbstring, zip, pdo, mysql, pdo_mysql, bcmath, soap, intl, gd, exif, iconv
           coverage: none
           tools: composer:v2
