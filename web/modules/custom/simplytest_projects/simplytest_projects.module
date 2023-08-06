@@ -28,7 +28,7 @@ function simplytest_projects_cron() {
     ->accessCheck(FALSE)
     ->condition('timestamp', strtotime('-4 hour'), '<')
     ->sort('timestamp', 'ASC')
-    ->range(0, 100);
+    ->range(0, 1250);
   $project_ids = $query->execute();
 
   $queue = \Drupal::queue('simplytest_projects_project_refresher');
