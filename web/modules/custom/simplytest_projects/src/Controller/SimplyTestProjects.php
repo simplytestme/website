@@ -116,6 +116,7 @@ class SimplyTestProjects extends ControllerBase implements ContainerInjectionInt
     $response = new CacheableJsonResponse([
       'list' => $versions
     ]);
+    $response->setMaxAge(300);
     $response->getCacheableMetadata()->addCacheTags(["project_versions:{$project}"]);
     return $response;
   }
@@ -138,6 +139,7 @@ class SimplyTestProjects extends ControllerBase implements ContainerInjectionInt
     $response = new CacheableJsonResponse([
       'list' => $results
     ]);
+    $response->setMaxAge(300);
     $response->getCacheableMetadata()->addCacheTags(['core_versions', "core_versions:$major_version"]);
     return $response;
   }
@@ -151,6 +153,7 @@ class SimplyTestProjects extends ControllerBase implements ContainerInjectionInt
     $response = new CacheableJsonResponse([
       'list' => $results
     ]);
+    $response->setMaxAge(300);
     $cid = implode(':', ['core_compatibility', $project, $version]);
     // @todo loop over results to find core version tabs to attach here.
     $cache_tags = ['core_versions', $cid];
