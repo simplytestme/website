@@ -6,46 +6,46 @@ describe('Project autocomplete imports missing projects', () => {
     {
       'query': 'Pathauto',
       'result': {
-        'sandbox' : 0,
-        'shortname' : 'pathauto',
         'title' : 'Pathauto',
+        'shortname' : 'pathauto',
+        'sandbox' : false,
         'type' : 'Module',
       }
     },
     {
       'query': 'Password Policy',
       'result': {
-        'sandbox' : 0,
-        'shortname' : 'password_policy',
         'title' : 'Password Policy',
+        'shortname' : 'password_policy',
         'type' : 'Module',
+        'sandbox' : false,
       }
     },
     {
       'query': 'token',
       'result': {
-        'sandbox' : 0,
-        'shortname' : 'token',
         'title' : 'Token',
+        'shortname' : 'token',
+        'sandbox' : false,
         'type' : 'Module',
       }
     },
     {
       'query': 'Bootstrap',
       'result': {
-        'sandbox' : 0,
-        'shortname' : 'bootstrap',
         'title' : 'Bootstrap',
+        'shortname' : 'bootstrap',
+        'sandbox' : false,
         'type' : 'Theme',
       }
     },
     {
       'query': 'Password Pol',
       'result': {
-        'sandbox' : 0,
-        'shortname' : 'password_policy',
         'title' : 'Password Policy',
+        'shortname' : 'password_policy',
         'type' : 'Module',
+        'sandbox' : 0,
       }
     },
   ]
@@ -55,7 +55,7 @@ describe('Project autocomplete imports missing projects', () => {
       cy.request('/simplytest/projects/autocomplete?string=' + example.query)
         .should(response => {
           expect(response.status).to.eq(200)
-          expect(response.body[0]).to.deep.equal(example.result)
+          expect(response.body[0]).to.eql(example.result)
         })
     })
   })

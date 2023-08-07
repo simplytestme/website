@@ -28,25 +28,25 @@
         }
     ],
     "require": {
-        "php": "^7.4",
+        "php": "^8.1",
         "amazeeio/drupal_integrations": "^0.3.4",
         "composer/installers": "^2.2",
         "composer/semver": "^3.0",
         "cweagans/composer-patches": "^1.7",
         "drupal/admin_toolbar": "^3.4",
-        "drupal/core-composer-scaffold": "^9.1",
-        "drupal/core-recommended": "^9.1",
+        "drupal/core-composer-scaffold": "^9.5",
+        "drupal/core-recommended": "^9.5",
         "drupal/core": "^9.3",
         "drupal/fastly": "^4.0",
         "drupal/http_cache_control": "^2.0",
         "drupal/lagoon_logs": "^2.0",
         "drupal/purge": "^3.0",
         "drupal/tugboat": "^1.0@alpha",
-        "drush/drush": "^10.3",
-        "php-http/guzzle6-adapter": "^2.0"
+        "drush/drush": "^10.3"
     },
     "require-dev": {
-        "drupal/core-dev-pinned": "^9.1"
+        "drupal/core-dev": "^9.5",
+        "phpspec/prophecy-phpunit": "^2"
     },
     "conflict": {
         "drupal/drupal": "*"
@@ -54,9 +54,6 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
-        "platform": {
-            "php": "7.4"
-        },
         "apcu-autoloader": true,
         "optimize-autoloader": true,
         "preferred-install": "dist",
