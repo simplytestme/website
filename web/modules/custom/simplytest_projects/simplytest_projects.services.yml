@@ -21,3 +21,8 @@ services:
   simplytest_projects.importer:
     class: Drupal\simplytest_projects\ProjectImporter
     arguments: ['@http_client', '@simplytest_projects.fetcher', '@logger.channel.default']
+
+  Drupal\simplytest_projects\EventSubscriber\ModifyMaxAgeResponseSubscriber:
+    class: Drupal\simplytest_projects\EventSubscriber\ModifyMaxAgeResponseSubscriber
+    tags:
+      - { name: event_subscriber }
