@@ -36,7 +36,7 @@
     "babel-core": "^6.26.3",
     "babel-plugin-add-header-comment": "^1.0.3",
     "babel-preset-env": "^1.7.0",
-    "browser-sync": "^2.26.13",
+    "browser-sync": "^2.29.3",
     "browser-sync-webpack-plugin": "^2.2.2",
     "cross-env": "^6.0.3",
     "eslint": "^5.0.0",
