@@ -1,7 +1,5 @@
-var path = require('path'),
-  gulp = require('gulp'),
+var gulp = require('gulp'),
   using = require('gulp-using'),
-  babel = require('gulp-babel'),
   postcss = require('gulp-postcss'),
   sourcemaps = require('gulp-sourcemaps'),
   postcssCustomProperties = require('postcss-custom-properties'),
@@ -9,16 +7,10 @@ var path = require('path'),
   partials = require("postcss-partial-import"),
   cssImport = require('postcss-import'),
   postcssCustomMedia = require('postcss-custom-media'),
-  pixelstorem = require('postcss-pixels-to-rem'),
   autoprefixer = require('autoprefixer'),
   cleanCSS = require('gulp-clean-css'),
   plumber = require('gulp-plumber'),
   gulpStylelint = require('gulp-stylelint'),
-  gulpEslint = require('gulp-eslint'),
-  eslintIfFixed = require('gulp-eslint-if-fixed'),
-  prettier = require('gulp-prettier'),
-  debug = require('gulp-debug'), // Debug Vinyl file streams to see what files are run through your Gulp pipeline
-  imagemin = require('gulp-imagemin'),
   mixin = require('postcss-mixins')
 
 // Variables for folder path.

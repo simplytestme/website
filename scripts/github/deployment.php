@@ -36,6 +36,7 @@ $createDeploymentBody = [
   'production_environment' => getenv('LAGOON_ENVIRONMENT_TYPE') === 'production',
   'description' => $lagoonEnvironment,
   'required_contexts' => [],
+  'auto_merge' => FALSE,
 ];
 print "Create deployment body: " . PHP_EOL;
 var_export($createDeploymentBody);
