@@ -148,7 +148,7 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
   private function validateSubmission($data) {
     // @todo Flood protection preflight check (IP based, possibly a problem.)
     try {
-      $definition = $this->typeDataManager->create(InstanceLaunchDefinition::create(), $data);
+      $definition = $this->typedDataManager->create(InstanceLaunchDefinition::create(), $data);
     }
     catch (\Throwable $e) {
       throw new ServiceUnavailableHttpException(null, $e->getMessage());
