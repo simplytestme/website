@@ -106,7 +106,7 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
 
     $cacheable_metadata = new CacheableMetadata();
     $cacheable_metadata->addCacheContexts(['url.query_args']);
-    $cacheable_metadata->addCacheContexts(["project_versions:$project"]);
+    $cacheable_metadata->addCacheTags(["project_versions:$project"]);
     $response->addCacheableDependency($cacheable_metadata);
     return $response;
   }
