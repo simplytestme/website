@@ -4,6 +4,7 @@ namespace Drupal\simplytest_launch\Controller;
 
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Database\Connection;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Routing\LocalRedirectResponse;
@@ -13,6 +14,7 @@ use Drupal\Core\Url;
 use Drupal\simplytest_launch\Exception\UnprocessableHttpEntityException;
 use Drupal\simplytest_launch\TypedData\InstanceLaunchDefinition;
 use Drupal\simplytest_projects\ProjectFetcher;
+use Drupal\simplytest_projects\ProjectVersionManager;
 use Drupal\simplytest_tugboat\InstanceManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,41 +28,13 @@ use Symfony\Component\Validator\ConstraintViolationInterface;
  */
 class SimplyTestLaunch implements ContainerInjectionInterface {
 
-  /**
-   * Simplytest Project Fetcher Service.
-   *
-   * @var \Drupal\simplytest_projects\ProjectFetcher
-   */
-  protected ProjectFetcher $projectFetcher;
-
-  /**
-   * Simplytest Project Fetcher Service.
-   *
-   * @var \Drupal\simplytest_tugboat\InstanceManagerInterface
-   */
-  protected InstanceManagerInterface $instanceManager;
-
-  /**
-   * The typed data manager.
-   *
-   * @var \Drupal\Core\TypedData\TypedDataManagerInterface
-   */
-  protected TypedDataManagerInterface $typeDataManager;
-
-  /**
-   * Constructs a new ViewEditForm object.
-   *
-   * @param \Drupal\simplytest_projects\ProjectFetcher
-   *   The simplytest fetcher service.
-   * @param \Drupal\simplytest_tugboat\InstanceManagerInterface
-   *   The simplytest tugboat instance manager service.
-   * @param \Drupal\Core\TypedData\TypedDataManagerInterface $typed_data_manager
-   *   The typed data manager.
-   */
-  public function __construct(ProjectFetcher $simplytest_project_fetcher, InstanceManagerInterface $instance_manager, TypedDataManagerInterface $typed_data_manager) {
-    $this->projectFetcher = $simplytest_project_fetcher;
-    $this->instanceManager = $instance_manager;
-    $this->typeDataManager = $typed_data_manager;
+  public function __construct(
+    private readonly ProjectFetcher $projectFetcher,
+    private readonly InstanceManagerInterface $instanceManager,
+    private readonly TypedDataManagerInterface $typedDataManager,
+    private readonly Connection $database,
+    private readonly ProjectVersionManager $projectVersionManager
+  ) {
   }
 
   /**
@@ -70,12 +44,14 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
     return new static(
       $container->get('simplytest_projects.fetcher'),
       $container->get('simplytest_tugboat.instance_manager'),
-      $container->get('typed_data_manager')
+      $container->get('typed_data_manager'),
+      $container->get('database'),
+      $container->get('simplytest_projects.project_version_manager')
     );
   }
 
-  public function configure(Request $request) {
-    $build = [
+  public function configure(Request $request): array {
+    return [
       'mount' => [
         '#markup' => Markup::create('<div class="simplytest-react-component" id="launcher_mount"></div>'),
         '#attached' => [
@@ -89,14 +65,13 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
         ],
       ],
     ];
-    return $build;
   }
 
   /**
    * Return response for the controller.
    */
-  public function projectSelector(string $project, string $version, Request $request) {
-    if (substr($version, -1) === 'x') {
+  public function projectSelector(string $project, string $version, Request $request): LocalRedirectResponse {
+    if (str_ends_with($version, 'x')) {
       $version .= '-dev';
     }
     $query = [
@@ -104,13 +79,7 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
         'version' => $version
     ] + $request->query->all();
 
-    // @todo inject the database services.
-    $database = \Drupal::database();
-    $project_version_manager = \Drupal::getContainer()->get('simplytest_projects.project_version_manager');
-    assert($project_version_manager !== NULL);
-
-
-    $count = $database->select('simplytest_project', 'p')
+    $count = (int) $this->database->select('simplytest_project', 'p')
       ->condition('shortname', $project)
       ->countQuery()
       ->execute()
@@ -118,27 +87,12 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
     if ($count === 0) {
       // @note on project insert, the release history is automatically fetched.
       // @see simplytest_projects_simplytest_project_insert
-      $fetched_project = $this->projectFetcher->fetchProject($project);
-      if ($fetched_project === NULL) {
-        // @todo how do we handle an invalid project.
-      }
-      else {
-        $release = $project_version_manager->getRelease($project, $version);
-        if ($release === NULL) {
-          // @todo display a message letting them know invalid version?
-          unset($query['version']);
-        }
-      }
+      $this->projectFetcher->fetchProject($project);
     }
-    else {
-      $release = $project_version_manager->getRelease($project, $version);
+    else if ($version !== '') {
+      $release = $this->projectVersionManager->getRelease($project, $version);
       if ($release === NULL) {
-        $project_version_manager->updateData($project);
-        $release = $project_version_manager->getRelease($project, $version);
-        if ($release === NULL) {
-          // @todo display a message letting them know invalid version?
-          unset($query['version']);
-        }
+        $this->projectVersionManager->updateData($project);
       }
     }
 
@@ -147,11 +101,12 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
     ]);
 
     $configure_url_generated = $configure_url->toString(TRUE);
-    $response = LocalRedirectResponse::create($configure_url_generated->getGeneratedUrl());
+    $response = new LocalRedirectResponse($configure_url_generated->getGeneratedUrl());
     $response->addCacheableDependency($configure_url_generated);
 
     $cacheable_metadata = new CacheableMetadata();
     $cacheable_metadata->addCacheContexts(['url.query_args']);
+    $cacheable_metadata->addCacheContexts(["project_versions:$project"]);
     $response->addCacheableDependency($cacheable_metadata);
     return $response;
   }
@@ -161,7 +116,7 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
   /**
    * Project launcher service for react.
    */
-  public function launchProject(Request $request) {
+  public function launchProject(Request $request): JsonResponse {
     $content = $request->getContent();
     $submission = Json::decode($content);
     $this->validateSubmission($submission);
