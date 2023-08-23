@@ -56,11 +56,6 @@
   background-color: var(--off-white);
 }
 
-.demo-btn {
-  width: 100%;
-  background-color: var(--off-white);
-}
-
 .simplytest-react-component {
   summary {
     &::marker {

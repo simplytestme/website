@@ -53,7 +53,7 @@ function OneClickDemos({setErrors}) {
             key={demo.id}
             type="button"
             disabled={processing !== ""}
-            className={`p-3 hover:bg-flat-blue hover:text-white rounded-sm my-1 shadow-sm flex flex-row items-center demo-btn ${
+            className={`w-full p-3 bg-off-white hover:bg-flat-blue hover:text-white rounded-sm my-1 shadow-sm flex flex-row items-center ${
               processing === demo.id ? "bg-flat-blue text-white" : ""
             }`}
             onClick={event => {
