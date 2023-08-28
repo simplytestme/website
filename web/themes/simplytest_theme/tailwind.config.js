@@ -1,11 +1,8 @@
 module.exports = {
-  purge: {
-    content: ["templates/**/*.twig", "lib/**/*.js"],
-    options: {
-      keyframes: true
-    }
-  },
-  darkMode: false, // or 'media' or 'class'
+  content: [
+    "templates/**/*.twig",
+    "lib/**/*.js"
+  ],
   theme: {
     extend: {
       colors: {
@@ -15,13 +12,9 @@ module.exports = {
         "flat-blue": "#3877af",
         "light-blue": "#ecf6fd",
         "title-blue": "#16426d",
-        "dark-blue": "#18222c"
+        "dark-blue": "#18222c",
+        "off-white": "#f2f2f2"
       }
-    }
-  },
-  variants: {
-    extend: {
-      cursor: ["disabled"]
     }
   }
 };
