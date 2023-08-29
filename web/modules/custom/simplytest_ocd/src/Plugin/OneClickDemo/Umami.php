@@ -26,7 +26,7 @@ class Umami extends Drupal9Base {
 
   public function getInstallingCommands($parameters): array {
     $commands = [];
-    $commands[] = 'php -d memory_limit=-1 ${DOCROOT}/vendor/bin/drush si demo_umami --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y';
+    $commands[] = 'cd ${DOCROOT} && php -d memory_limit=-1 ../vendor/bin/drush si demo_umami --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y';
     return $commands;
   }
 
