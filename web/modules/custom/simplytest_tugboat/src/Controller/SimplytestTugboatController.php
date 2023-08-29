@@ -63,7 +63,7 @@ class SimplytestTugboatController extends ControllerBase {
   public function progress(Request $request, $instance_id, $job_id) {
     return [
       'mount' => [
-        '#markup' => Markup::create('<div class="simplytest-react-component bg-gradient-to-r from-flat-blue text-white" id="progress_mount"></div>'),
+        '#markup' => Markup::create('<div class="simplytest-react-component bg-gradient-to-r" id="progress_mount"></div>'),
         '#attached' => [
           'library' => [
             'simplytest_theme/launcher',
