@@ -25,7 +25,7 @@
     "prop-types": "^15.8.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "stylelint": "^13.12.0"
+    "stylelint": "^13.13.1"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.22.5",
@@ -42,7 +42,7 @@
     "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-prefer-arrow": "^1.1.5",
-    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-prettier": "^3.4.1",
     "eslint-plugin-react": "^7.33.2",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^8.0.0",
@@ -53,7 +53,7 @@
     "gulp-load-plugins": "^2.0.8",
     "gulp-plumber": "^1.2.1",
     "gulp-postcss": "^9.0.1",
-    "gulp-rename": "^1.4.0",
+    "gulp-rename": "^2.0.0",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify": "^3.0.2",
     "laravel-mix": "^6.0.31",
@@ -61,7 +61,7 @@
     "postcss-clean": "^1.1.0",
     "postcss-cli": "^10.1.0",
     "postcss-custom-media": "^7.0.8",
-    "postcss-custom-properties": "^9.1.1",
+    "postcss-custom-properties": "^13.3.0",
     "postcss-discard-comments": "^4.0.2",
     "postcss-partial-import": "^4.1.0",
     "postcss-reporter": "^6.0.1",
