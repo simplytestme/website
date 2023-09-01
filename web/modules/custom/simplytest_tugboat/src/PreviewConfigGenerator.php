@@ -132,7 +132,7 @@ final class PreviewConfigGenerator {
       ['echo "SIMPLYEST_STAGE_PATCHING"'],
       $one_click_demo->getPatchingCommands($parameters),
       [
-        'cd stm && composer config allow-plugins true && composer update --no-ansi',
+        'cd stm && composer update --no-ansi',
         'echo "SIMPLYEST_STAGE_INSTALLING"',
         'cd "${DOCROOT}" && chmod -R 777 sites/default',
       ],
