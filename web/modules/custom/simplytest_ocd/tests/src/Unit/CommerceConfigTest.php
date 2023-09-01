@@ -23,7 +23,7 @@ final class CommerceConfigTest extends OneClickDemoConfigTestBase {
             'a2enmod headers rewrite',
             'rm -rf "${DOCROOT}"',
             'echo "SIMPLYEST_STAGE_DOWNLOAD"',
-            'cd "${TUGBOAT_ROOT}" && composer create-project drupalcommerce/demo-project stm --not-install --stability dev --no-interaction',
+            'cd "${TUGBOAT_ROOT}" && composer create-project drupalcommerce/demo-project stm --no-install --stability dev --no-interaction',
             'composer config allow-plugins true && composer install',
             'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"',
             'echo "SIMPLYEST_STAGE_PATCHING"',
