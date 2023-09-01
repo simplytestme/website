@@ -43,4 +43,5 @@ function simplytest_fetch_drupal_core_versions() {
   $core_version_manager->updateData(7);
   $core_version_manager->updateData(8);
   $core_version_manager->updateData(9);
+  $core_version_manager->updateData(10);
 }
