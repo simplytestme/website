@@ -29,7 +29,7 @@ class Commerce extends OneClickDemoBase {
     $commands = [
       // @todo the base preview doesn't have the `commerce` dir?
       'cd "${TUGBOAT_ROOT}" && composer create-project drupalcommerce/demo-project stm --no-install --stability dev --no-interaction',
-      'composer config --global allow-plugins true && composer install',
+      'cd "${TUGBOAT_ROOT}" && composer config --global allow-plugins true && composer install',
       'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"'
     ];
     // $commands[] = 'cd "${TUGBOAT_ROOT}"/commerce && composer update --no-ansi';
