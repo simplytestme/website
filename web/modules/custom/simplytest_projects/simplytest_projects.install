@@ -27,26 +27,26 @@ function simplytest_projects_schema() {
         'length' => 255,
         'not null' => TRUE,
       ],
-      // @todo convert to int for proper sorting.
       'major' => [
         'description' => 'Major version',
-        'type' => 'varchar_ascii',
-        'length' => 255,
+        'type' => 'int',
         'not null' => TRUE,
+        'size' => 'small',
+        'default' => 0,
       ],
-      // @todo convert to int for proper sorting.
       'minor' => [
         'description' => 'Minor versions',
-        'type' => 'varchar_ascii',
-        'length' => 255,
+        'type' => 'int',
         'not null' => TRUE,
+        'size' => 'small',
+        'default' => 0,
       ],
-      // @todo convert to int for proper sorting.
       'patch' => [
         'description' => 'Patch version',
-        'type' => 'varchar_ascii',
-        'length' => 255,
+        'type' => 'int',
         'not null' => FALSE,
+        'size' => 'small',
+        'default' => 0,
       ],
       'extra' => [
         'description' => 'Extra version identifier',
