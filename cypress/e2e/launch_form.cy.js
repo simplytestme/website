@@ -62,7 +62,7 @@ describe('Test the launch form', function () {
     cy.getByLabel('Project version')
       .select('8.x-1.6')
     cy.getByLabel('Drupal Core')
-      .should('have.value', '8.9.8')
+      .should('have.value', '8.9.19')
     cy.wait(100);
     cy.getByLabel('Install profile')
       .contains('Minimal')
