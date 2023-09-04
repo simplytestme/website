@@ -23,7 +23,7 @@ jobs:
         ports:
           - 9515
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -61,7 +61,7 @@ jobs:
           - 3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -111,7 +111,7 @@ jobs:
         ports:
           - 9515
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: "Install Node"
         uses: actions/setup-node@v3
         with:
