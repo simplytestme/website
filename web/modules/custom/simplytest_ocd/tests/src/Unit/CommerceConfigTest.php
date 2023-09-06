@@ -4,11 +4,17 @@ namespace Drupal\Tests\simplytest_ocd\Unit;
 
 use Drupal\simplytest_ocd\Plugin\OneClickDemo\Commerce;
 
+/**
+ *
+ */
 final class CommerceConfigTest extends OneClickDemoConfigTestBase {
 
   protected static $pluginId = 'oneclickdemo_commerce';
   protected static $pluginClass = Commerce::class;
 
+  /**
+   *
+   */
   protected function getExpectedConfig(): array {
     return [
       'php' => [
@@ -24,9 +30,10 @@ final class CommerceConfigTest extends OneClickDemoConfigTestBase {
             'rm -rf "${DOCROOT}"',
             'echo "SIMPLYEST_STAGE_DOWNLOAD"',
             'cd "${TUGBOAT_ROOT}" && composer create-project drupalcommerce/demo-project stm --no-install --stability dev --no-interaction',
-            'cd "${TUGBOAT_ROOT}/stm" composer config --global allow-plugins true && composer install',
+            'cd "${TUGBOAT_ROOT}/stm" && composer config --global allow-plugins true && composer install',
             'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"',
             'echo "SIMPLYEST_STAGE_PATCHING"',
+            'cd stm && composer update --no-ansi',
             'echo "SIMPLYEST_STAGE_INSTALLING"',
             'cd "${DOCROOT}" && chmod -R 777 sites/default',
             'cd "${DOCROOT}" && php -d memory_limit=-1 ../bin/drush si --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y',
