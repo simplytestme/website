@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@babel/preset-react": "^7.22.5",
-    "autoprefixer": "^10.3.6",
+    "autoprefixer": "^10.4.16",
     "babel-core": "^6.26.3",
     "babel-plugin-add-header-comment": "^1.0.3",
     "babel-preset-env": "^1.7.0",
