@@ -1,11 +1,14 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * @file
  * Install, update and uninstall functions for the simplyest_projects module.
  */
 
+declare(strict_types=1);
+
 use Drupal\Core\Cache\Cache;
+use Drupal\Core\Database\Database;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\ProjectVersionManager;
@@ -24,26 +27,26 @@ function simplytest_projects_schema() {
         'length' => 255,
         'not null' => TRUE,
       ],
-      // @todo convert to int for proper sorting.
       'major' => [
         'description' => 'Major version',
-        'type' => 'varchar_ascii',
-        'length' => 255,
+        'type' => 'int',
         'not null' => TRUE,
+        'size' => 'small',
+        'default' => 0,
       ],
-      // @todo convert to int for proper sorting.
       'minor' => [
         'description' => 'Minor versions',
-        'type' => 'varchar_ascii',
-        'length' => 255,
+        'type' => 'int',
         'not null' => TRUE,
+        'size' => 'small',
+        'default' => 0,
       ],
-      // @todo convert to int for proper sorting.
       'patch' => [
         'description' => 'Patch version',
-        'type' => 'varchar_ascii',
-        'length' => 255,
+        'type' => 'int',
         'not null' => FALSE,
+        'size' => 'small',
+        'default' => 0,
       ],
       'extra' => [
         'description' => 'Extra version identifier',
@@ -163,4 +166,35 @@ function simplytest_projects_update_9004() {
   $project_version_manager->updateData('drupal');
 
   Cache::invalidateTags(['project_versions:drupal', 'core_versions']);
+}
+
+/**
+ * Change simplytest_core_versions field types to int for better sorting.
+ */
+function simplytest_projects_update_9005() {
+  $connection = Database::getConnection();
+  $schema = $connection->schema();
+  $schema->changeField('simplytest_core_versions', 'major', 'major', [
+    'description' => 'Major version',
+    'type' => 'int',
+    'not null' => TRUE,
+    'size' => 'small',
+    'default' => 0,
+  ]);
+
+  $schema->changeField('simplytest_core_versions', 'minor', 'minor', [
+    'description' => 'Minor version',
+    'type' => 'int',
+    'not null' => TRUE,
+    'size' => 'small',
+    'default' => 0,
+  ]);
+
+  $schema->changeField('simplytest_core_versions', 'patch', 'patch', [
+    'description' => 'Patch version',
+    'type' => 'int',
+    'not null' => FALSE,
+    'size' => 'small',
+    'default' => 0,
+  ]);
 }
