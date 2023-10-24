@@ -32,7 +32,7 @@ describe('Test the launch form', function () {
       .should('have.value', '8.x-1.12')
     cy.toggleDetailsElement('Advanced options')
     cy.getByLabel('Drupal Core')
-      .should('have.value', '10.1.1')
+      .should('have.value', '10.1.5')
     cy.getByLabel('Project version')
       .select('8.x-1.6')
     cy.getByLabel('Drupal Core')
