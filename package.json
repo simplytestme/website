@@ -18,7 +18,7 @@
   "author": "",
   "license": "GPL-2.0-or-later",
   "devDependencies": {
-    "cypress": "^12.17.4",
+    "cypress": "^13.5.0",
     "cypress-dotenv": "^2",
     "dotenv": "^16.3.1"
   }
