@@ -2,7 +2,7 @@ name: SimplyTest Launch
 description: Basic submission form of simplytest.me.
 type: module
 package: Simplytest
-core_version_requirement: ^9
+core_version_requirement: ^9 || ^10
 dependencies:
   - simplytest:simplytest_projects
   - simplytest:simplytest_tugboat

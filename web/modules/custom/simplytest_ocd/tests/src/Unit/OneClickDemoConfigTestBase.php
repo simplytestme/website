@@ -5,11 +5,14 @@ namespace Drupal\Tests\simplytest_ocd\Unit;
 use Drupal\simplytest_ocd\OneClickDemoPluginManager;
 use Drupal\simplytest_tugboat\PreviewConfigGenerator;
 use Drupal\Tests\UnitTestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
  * Base test class for testing Tugboat configuration generation.
  */
 abstract class OneClickDemoConfigTestBase extends UnitTestCase {
+
+  use ProphecyTrait;
 
   protected static $pluginId;
   protected static $pluginClass;

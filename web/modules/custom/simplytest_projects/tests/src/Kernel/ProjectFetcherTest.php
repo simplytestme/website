@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Drupal\Tests\simplytesyt_projects\Kernel;
+namespace Drupal\Tests\simplytest_projects\Kernel;
 
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_projects\CoreVersionManager;
@@ -21,7 +21,7 @@ final class ProjectFetcherTest extends KernelTestBase {
     'simplytest_projects_test',
   ];
 
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     $this->installEntitySchema('simplytest_project');
     $this->installSchema('simplytest_projects', CoreVersionManager::TABLE_NAME);

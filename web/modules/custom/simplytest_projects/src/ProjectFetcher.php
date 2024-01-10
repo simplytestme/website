@@ -199,6 +199,7 @@ class ProjectFetcher {
     $project_ids = $this->entityTypeManager
       ->getStorage('simplytest_project')
       ->getQuery('AND')
+      ->accessCheck(FALSE)
       ->condition('shortname', $shortname)
       ->execute();
 

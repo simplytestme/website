@@ -1,7 +1,7 @@
 name: SimpyTest
 type: theme
 description: 'SimplyTest Custom Theme'
-core_version_requirement: ^9
+core_version_requirement: ^9 || ^10
 base theme: claro
 
 regions:
