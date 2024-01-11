@@ -4,8 +4,12 @@ namespace Drupal\Tests\simplytest_projects\Traits;
 
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
+use Prophecy\PhpUnit\ProphecyTrait;
+
 
 trait MockedReleaseHttpClientTrait {
+
+  use ProphecyTrait;
 
   protected function getMockedHttpClient(): Client {
     $client = $this->prophesize(Client::class);

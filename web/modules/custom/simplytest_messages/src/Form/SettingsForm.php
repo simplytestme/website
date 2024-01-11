@@ -56,7 +56,7 @@ class SettingsForm extends ConfigFormBase {
     $form['message']['body'] = [
       '#type' => 'text_format',
       '#title' => $this->t('Body'),
-      '#default_value' => $messageConfig->get('body')['value'],
+      '#default_value' => $messageConfig->get('body')['value'] ?? '',
     ];
     return parent::buildForm($form, $form_state);
   }
