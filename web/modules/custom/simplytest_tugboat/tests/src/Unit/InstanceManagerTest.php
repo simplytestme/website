@@ -16,8 +16,11 @@ use Drupal\Tests\UnitTestCase;
 use Drupal\tugboat\TugboatClient;
 use GuzzleHttp\HandlerStack;
 use Psr\Log\NullLogger;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 final class InstanceManagerTest extends UnitTestCase {
+
+  use ProphecyTrait;
 
   private InstanceManager $instanceManager;
   private TugboatClient $tugboatClient;

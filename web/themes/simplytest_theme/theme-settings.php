@@ -46,7 +46,7 @@ function _simplytest_theme_header_bg_validate($element, FormStateInterface $form
     $file = $files[0];
     $file->setPermanent();
     $file->save();
-    $file_url = file_create_url($file->getFileUri());
+    $file_url = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
     $file_url = str_ireplace($base_url, '', $file_url);
     $form_state->setValue('header_bg_file', $file_url);
   }
