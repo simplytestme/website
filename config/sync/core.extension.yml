@@ -55,7 +55,5 @@ module:
   simplytest: 1000
 theme:
   claro: 0
-  stable: 0
-  classy: 0
   simplytest_theme: 0
 profile: simplytest
