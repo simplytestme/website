@@ -60,7 +60,7 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
           ],
           'drupalSettings' => [
             // Pass custom launcher values to drupalSettings.
-            'launcher' => $request->query->get('launcher', []),
+            'launcher' => $request->query->get('launcher'),
           ],
         ],
       ],
