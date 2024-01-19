@@ -3,6 +3,7 @@
 namespace Drupal\Tests\simplytest_projects\Traits;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7;
 use Psr\Http\Message\ResponseInterface;
 use Prophecy\PhpUnit\ProphecyTrait;
 
@@ -21,7 +22,9 @@ trait MockedReleaseHttpClientTrait {
     $pathauto_current_response->getHeaderLine('Last-Modified')->willReturn('Wed, 21 Apr 2021 00:36:14 GMT');
     $pathauto_current_response->getStatusCode()->willReturn(200);
     $pathauto_current_response->getBody()->willReturn(
-      file_get_contents(__DIR__ . '/../../fixtures/release-history/current/pathauto.xml')
+      Psr7\Utils::streamFor(
+        file_get_contents(__DIR__ . '/../../fixtures/release-history/current/pathauto.xml')
+      )
     );
     $client->get(
       'https://updates.drupal.org/release-history/pathauto/current',
@@ -37,7 +40,9 @@ trait MockedReleaseHttpClientTrait {
     $pathauto_7x_response->getHeaderLine('Last-Modified')->willReturn('Wed, 21 Apr 2021 00:36:14 GMT');
     $pathauto_7x_response->getStatusCode()->willReturn(200);
     $pathauto_7x_response->getBody()->willReturn(
-      file_get_contents(__DIR__ . '/../../fixtures/release-history/7.x/pathauto.xml')
+      Psr7\Utils::streamFor(
+        file_get_contents(__DIR__ . '/../../fixtures/release-history/7.x/pathauto.xml')
+      )
     );
     $client->get(
       'https://updates.drupal.org/release-history/pathauto/7.x',
@@ -53,7 +58,9 @@ trait MockedReleaseHttpClientTrait {
     $drupalbin_7x_response->getHeaderLine('Last-Modified')->willReturn('Wed, 21 Apr 2021 00:36:14 GMT');
     $drupalbin_7x_response->getStatusCode()->willReturn(200);
     $drupalbin_7x_response->getBody()->willReturn(
-      file_get_contents(__DIR__ . '/../../fixtures/release-history/7.x/drupalbin.xml')
+      Psr7\Utils::streamFor(
+        file_get_contents(__DIR__ . '/../../fixtures/release-history/7.x/drupalbin.xml')
+      )
     );
     $client->get(
       'https://updates.drupal.org/release-history/drupalbin/7.x',
@@ -64,7 +71,9 @@ trait MockedReleaseHttpClientTrait {
     $drupalbin_current_response->getHeaderLine('Last-Modified')->willReturn('Wed, 21 Apr 2021 00:36:14 GMT');
     $drupalbin_current_response->getStatusCode()->willReturn(200);
     $drupalbin_current_response->getBody()->willReturn(
-      file_get_contents(__DIR__ . '/../../fixtures/release-history/current/drupalbin.xml')
+      Psr7\Utils::streamFor(
+        file_get_contents(__DIR__ . '/../../fixtures/release-history/current/drupalbin.xml')
+      )
     );
     $client->get(
       'https://updates.drupal.org/release-history/drupalbin/current',
