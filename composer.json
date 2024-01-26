@@ -29,23 +29,22 @@
     ],
     "require": {
         "php": "^8.1",
-        "amazeeio/drupal_integrations": "^0.3.4",
+        "amazeeio/drupal_integrations": "^0.4.0",
         "composer/installers": "^2.2",
         "composer/semver": "^3.0",
         "cweagans/composer-patches": "^1.7",
         "drupal/admin_toolbar": "^3.4",
-        "drupal/core-composer-scaffold": "^9.5",
-        "drupal/core-recommended": "^9.5",
-        "drupal/core": "^9.3",
+        "drupal/core-composer-scaffold": "^10",
+        "drupal/core-recommended": "^10",
         "drupal/fastly": "^4.0",
         "drupal/http_cache_control": "^2.0",
         "drupal/lagoon_logs": "^2.0",
         "drupal/purge": "^3.0",
         "drupal/tugboat": "^1.0@alpha",
-        "drush/drush": "^11.6"
+        "drush/drush": "^12"
     },
     "require-dev": {
-        "drupal/core-dev": "^9.5",
+        "drupal/core-dev": "^10",
         "phpspec/prophecy-phpunit": "^2"
     },
     "conflict": {
@@ -62,7 +61,9 @@
             "composer/installers": true,
             "drupal/core-composer-scaffold": true,
             "cweagans/composer-patches": true,
-            "dealerdirect/phpcodesniffer-composer-installer": true
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true
         }
     },
     "scripts": {
@@ -72,9 +73,6 @@
     "extra": {
         "composer-exit-on-patch-failure": true,
         "patches": {
-            "drupal/tugboat": {
-                "Tugboat domain #3280693": "https://git.drupalcode.org/project/tugboat/-/merge_requests/4.diff"
-            }
         },
         "drupal-scaffold": {
             "locations": {

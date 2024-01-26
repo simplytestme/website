@@ -1,13 +1,20 @@
 uuid: 95c302e7-5e37-45c5-b8c2-dd439b37d75d
 langcode: en
 status: true
-dependencies:
-  module:
-    - media
+dependencies: {  }
 name: Content
 format: content
 weight: 0
 filters:
+  filter_html:
+    id: filter_html
+    provider: filter
+    status: false
+    weight: -10
+    settings:
+      allowed_html: '<a href hreflang> <em> <strong> <cite> <blockquote cite> <code> <ul type> <ol start type> <li> <dl> <dt> <dd> <h2 id> <h3 id> <h4 id> <h5 id> <h6 id>'
+      filter_html_help: true
+      filter_html_nofollow: false
   filter_url:
     id: filter_url
     provider: filter
@@ -15,12 +22,3 @@ filters:
     weight: 0
     settings:
       filter_url_length: 72
-  media_embed:
-    id: media_embed
-    provider: media
-    status: false
-    weight: 100
-    settings:
-      default_view_mode: default
-      allowed_view_modes: {  }
-      allowed_media_types: {  }
