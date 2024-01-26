@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
+    - file
     - system
 _core:
   default_config_hash: btW6TFHajhy7Eo6YUvdFiPh4TcPggo8GBXYctjV6zag
@@ -12,3 +13,4 @@ weight: 1
 is_admin: false
 permissions:
   - 'access content'
+  - 'delete own files'
