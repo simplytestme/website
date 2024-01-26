@@ -54,7 +54,7 @@
     "gulp-plumber": "^1.2.1",
     "gulp-postcss": "^9.0.1",
     "gulp-rename": "^2.0.0",
-    "gulp-sourcemaps": "^2.6.4",
+    "gulp-sourcemaps": "^3.0.0",
     "gulp-uglify": "^3.0.2",
     "laravel-mix": "^6.0.31",
     "postcss": "^8.3.8",
