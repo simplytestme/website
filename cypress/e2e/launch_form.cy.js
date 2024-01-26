@@ -32,7 +32,7 @@ describe('Test the launch form', function () {
       .should('have.value', '8.x-1.12')
     cy.toggleDetailsElement('Advanced options')
     cy.getByLabel('Drupal Core')
-      .should('have.value', '10.1.5')
+      .should('have.value', '10.2.1')
     cy.getByLabel('Project version')
       .select('8.x-1.6')
     cy.getByLabel('Drupal Core')
@@ -52,7 +52,7 @@ describe('Test the launch form', function () {
 
     // Drupal 7 has no Umami.
     cy.getByLabel('Drupal Core')
-      .should('have.value', '7.97')
+      .should('have.value', '7.98')
     cy.getByLabel('Install profile')
       .contains('Minimal')
     cy.getByLabel('Install profile')
