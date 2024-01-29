@@ -20,7 +20,7 @@
     "gulp-using": "^0.1.1",
     "postcss-import": "^15.1.0",
     "postcss-include": "^0.3.1",
-    "postcss-mixins": "^7.0.3",
+    "postcss-mixins": "^9.0.4",
     "postcss-nested": "^6.0.1",
     "prop-types": "^15.8.1",
     "react": "^17.0.1",
