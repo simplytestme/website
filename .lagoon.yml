@@ -41,8 +41,8 @@ environments:
         command: drush cron
         service: cli
       - name: simplytest_projects_project_refresher
-        schedule: "* * * * *"
-        command: drush queue:run simplytest_projects_project_refresher --items-limit 50
+        schedule: "*/10 * * * *"
+        command: drush queue:run simplytest_projects_project_refresher --items-limit 250
         service: cli
   main:
     routes:
@@ -59,6 +59,6 @@ environments:
         command: drush cron
         service: cli
       - name: simplytest_projects_project_refresher
-        schedule: "* * * * *"
-        command: drush queue:run simplytest_projects_project_refresher --items-limit 50
+        schedule: "*/10 * * * *"
+        command: drush queue:run simplytest_projects_project_refresher --items-limit 250
         service: cli
