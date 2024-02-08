@@ -138,6 +138,7 @@ final class PreviewConfigGenerator {
       ],
       $one_click_demo->getInstallingCommands($parameters),
       [
+        'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.logging error_level verbose -y',
         'chown -R www-data:www-data "${DOCROOT}"/sites/default/files',
         'echo "SIMPLYEST_STAGE_FINALIZE"',
       ],
@@ -364,6 +365,8 @@ final class PreviewConfigGenerator {
 
     if ($parameters['major_version'] === '10' || $parameters['major_version'] === '9') {
       $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush si %s --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y', $install_profile);
+      // Enable verbose error reporting.
+      $commands[] = 'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.logging error_level verbose -y';
       if (!$is_distro && !$is_core) {
         $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush %s %s -y', $parameters['project_type'] === ProjectTypes::THEME ? 'theme:enable' : 'en', $parameters['project']);
       }
@@ -390,6 +393,9 @@ final class PreviewConfigGenerator {
     }
     else if ($parameters['major_version'] === '7' || $parameters['major_version'] === '8') {
       $commands[] = sprintf('drush -r "${DOCROOT}" si %s --account-name=admin --account-pass=admin -y', $install_profile);
+      if ($parameters['major_version'] === '8') {
+        $commands[] = 'drush -r "${DOCROOT}" config-set system.logging error_level verbose -y';
+      }
       if (!$is_distro && !$is_core) {
         $commands[] = sprintf('drush -r "${DOCROOT}" en %s -y', $parameters['project']);
       }

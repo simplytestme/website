@@ -122,6 +122,7 @@ final class InstanceManagerTest extends KernelTestBase {
                 'cd stm && composer update --no-ansi',
                 'echo "SIMPLYEST_STAGE_INSTALLING"',
                 'cd "${DOCROOT}" && ../vendor/bin/drush si umami --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y',
+                'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.logging error_level verbose -y',
                 'cd "${DOCROOT}" && ../vendor/bin/drush en token -y',
                 'cd "${DOCROOT}" && ../vendor/bin/drush en pathauto -y',
                 'cd "${DOCROOT}" && ../vendor/bin/drush theme:enable bootstrap -y',
