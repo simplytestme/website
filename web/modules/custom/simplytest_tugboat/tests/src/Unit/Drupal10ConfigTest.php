@@ -57,6 +57,7 @@ final class Drupal10ConfigTest extends TugboatConfigTestBase {
               'cd stm && composer update --no-ansi',
               'echo "SIMPLYEST_STAGE_INSTALLING"',
               'cd "${DOCROOT}" && ../vendor/bin/drush si standard --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y',
+              'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.logging error_level verbose -y',
               'cd "${DOCROOT}" && ../vendor/bin/drush en token -y',
               'cd "${DOCROOT}" && echo \'$settings["file_private_path"] = "sites/default/files/private";\' >> sites/default/settings.php',
               'mkdir -p ${DOCROOT}/sites/default/files',
