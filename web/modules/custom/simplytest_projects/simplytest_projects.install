@@ -205,6 +205,6 @@ function simplytest_projects_update_9005() {
 function simplytest_projects_update_9006(): void {
   $database = \Drupal::database();
   $database->delete('queue')
-    ->where('name', 'simplytest_projects_project_refresher')
+    ->condition('name', 'simplytest_projects_project_refresher')
     ->execute();
 }
