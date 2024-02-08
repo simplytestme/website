@@ -1,9 +1,8 @@
 # Tugboat
 
-In order to test sandboxes locally, you need to have access to the Tugboat instance. These are held by the maintainers
-and select contributors.
+In order to test sandboxes locally, you need to have access to the Tugboat instance. These are managed by the maintainers.
 
-Use configuration overrides in `web/sites/default/settings.local.php` to configure Tugboat
+Use configuration overrides in `web/sites/default/settings.local.php` to configure Tugboat.
 
 ```php
 $config['tugboat.settings']['repository_id'] = '5c7aab3c14b2a10001a46d81';
