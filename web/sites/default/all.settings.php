@@ -33,3 +33,6 @@ if (getenv('LAGOON_ENVIRONMENT_TYPE') !== 'production') {
 $config['tugboat.settings']['token'] = getenv('TUGBOAT_TOKEN');
 $config['tugboat.settings']['repository_id'] = getenv('TUGBOAT_REPOSITORY_ID');
 $config['tugboat.settings']['repository_base'] = getenv('TUGBOAT_REPOSITORY_BASE');
+
+// Ensure the project refresher leverages a unique queue.
+$settings['queue_service_simplytest_projects_project_refresher'] = 'queue_unique.database';

@@ -40,6 +40,7 @@
         "drupal/http_cache_control": "^2.0",
         "drupal/lagoon_logs": "^3.0",
         "drupal/purge": "^3.0",
+        "drupal/queue_unique": "^3.0",
         "drupal/tugboat": "^1.0@alpha",
         "drush/drush": "^12"
     },

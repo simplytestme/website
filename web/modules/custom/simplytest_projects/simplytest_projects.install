@@ -198,3 +198,13 @@ function simplytest_projects_update_9005() {
     'default' => 0,
   ]);
 }
+
+/**
+ * Delete old queue items not in queue_unique.
+ */
+function simplytest_projects_update_9006(): void {
+  $database = \Drupal::database();
+  $database->delete('queue')
+    ->condition('name', 'simplytest_projects_project_refresher')
+    ->execute();
+}
