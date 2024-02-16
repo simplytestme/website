@@ -1,0 +1,14 @@
+parameters:
+	level: 6
+	paths:
+		- web/modules/custom
+		- web/themes/simplytest_theme
+	excludePaths:
+		- web/themes/simplytest_theme/node_modules
+	drupal:
+		entityMapping:
+			simplytest_project:
+				class: Drupal\simplytest_projects\Entity\SimplytestProject
+includes:
+	- phpstan-baseline.neon
+	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
