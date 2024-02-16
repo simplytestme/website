@@ -1,0 +1,1574 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Function simplytest_launch_theme\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_launch/simplytest_launch.module
+
+		-
+			message: "#^Method Drupal\\\\simplytest_launch\\\\Controller\\\\SimplyTestLaunch\\:\\:configure\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_launch/src/Controller/SimplyTestLaunch.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_launch\\\\Controller\\\\SimplyTestLaunch\\:\\:create\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_launch/src/Controller/SimplyTestLaunch.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_launch\\\\Controller\\\\SimplyTestLaunch\\:\\:validateSubmission\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_launch/src/Controller/SimplyTestLaunch.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_launch\\\\Controller\\\\SimplyTestLaunch\\:\\:validateSubmission\\(\\) has parameter \\$data with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_launch/src/Controller/SimplyTestLaunch.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between array and false will always evaluate to false\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_launch/src/Controller/SimplyTestLaunch.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_launch/src/Controller/SimplyTestLaunch.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_launch\\\\EventSubscriber\\\\ConfigSubscriber\\:\\:onSave\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_launch/src/EventSubscriber/ConfigSubscriber.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_launch\\\\EventSubscriber\\\\ServiceUnavailableHttpExceptionSubscriber\\:\\:getHandledFormats\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_launch/src/EventSubscriber/ServiceUnavailableHttpExceptionSubscriber.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_launch\\\\EventSubscriber\\\\ServiceUnavailableHttpExceptionSubscriber\\:\\:on5xx\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_launch/src/EventSubscriber/ServiceUnavailableHttpExceptionSubscriber.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_launch\\\\EventSubscriber\\\\UnprocessableHttpExceptionSubscriber\\:\\:getHandledFormats\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_launch/src/EventSubscriber/UnprocessableHttpExceptionSubscriber.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_launch\\\\EventSubscriber\\\\UnprocessableHttpExceptionSubscriber\\:\\:on4xx\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_launch/src/EventSubscriber/UnprocessableHttpExceptionSubscriber.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_launch\\\\Exception\\\\UnprocessableHttpEntityException\\:\\:__construct\\(\\) has parameter \\$headers with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_launch/src/Exception/UnprocessableHttpEntityException.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_launch\\\\Exception\\\\UnprocessableHttpEntityException\\:\\:setViolations\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_launch/src/Exception/UnprocessableHttpEntityException.php
+
+		-
+			message: "#^Property Drupal\\\\simplytest_launch\\\\Plugin\\\\DataType\\\\InstanceLaunch\\:\\:\\$value type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_launch/src/Plugin/DataType/InstanceLaunch.php
+
+		-
+			message: "#^Property Drupal\\\\simplytest_launch\\\\Plugin\\\\DataType\\\\ProjectInfo\\:\\:\\$value type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_launch/src/Plugin/DataType/ProjectInfo.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_launch\\\\Plugin\\\\Validation\\\\Constraint\\\\PatchesUrlConstraintValidator\\:\\:__construct\\(\\) has parameter \\$allowed_hosts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_launch/src/Plugin/Validation/Constraint/PatchesUrlConstraintValidator.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_launch\\\\Plugin\\\\Validation\\\\Constraint\\\\PatchesUrlConstraintValidator\\:\\:create\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_launch/src/Plugin/Validation/Constraint/PatchesUrlConstraintValidator.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_launch\\\\Plugin\\\\Validation\\\\Constraint\\\\PatchesUrlConstraintValidator\\:\\:validate\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_launch/src/Plugin/Validation/Constraint/PatchesUrlConstraintValidator.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_launch\\\\SimplytestLaunchServiceProvider\\:\\:alter\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_launch/src/SimplytestLaunchServiceProvider.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_launch\\\\Kernel\\\\TypedData\\\\InstanceLaunchDefinitionTest\\:\\:testValidation\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_launch/tests/src/Kernel/TypedData/InstanceLaunchDefinitionTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_launch\\\\Kernel\\\\TypedData\\\\InstanceLaunchDefinitionTest\\:\\:testValidation\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_launch/tests/src/Kernel/TypedData/InstanceLaunchDefinitionTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_launch\\\\Kernel\\\\TypedData\\\\InstanceLaunchDefinitionTest\\:\\:testValidation\\(\\) has parameter \\$expected_violations with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_launch/tests/src/Kernel/TypedData/InstanceLaunchDefinitionTest.php
+
+		-
+			message: "#^Function simplytest_messages_preprocess_region\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_messages/simplytest_messages.module
+
+		-
+			message: "#^Function simplytest_messages_preprocess_region\\(\\) has parameter \\$variables with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_messages/simplytest_messages.module
+
+		-
+			message: "#^Method Drupal\\\\simplytest_messages\\\\Form\\\\SettingsForm\\:\\:buildForm\\(\\) has parameter \\$form with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_messages/src/Form/SettingsForm.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_messages\\\\Form\\\\SettingsForm\\:\\:buildForm\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_messages/src/Form/SettingsForm.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_messages\\\\Form\\\\SettingsForm\\:\\:getEditableConfigNames\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_messages/src/Form/SettingsForm.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_messages\\\\Form\\\\SettingsForm\\:\\:submitForm\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_messages/src/Form/SettingsForm.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_messages\\\\Form\\\\SettingsForm\\:\\:submitForm\\(\\) has parameter \\$form with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_messages/src/Form/SettingsForm.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_messages\\\\Plugin\\\\Block\\\\MessageBlock\\:\\:__construct\\(\\) has parameter \\$configuration with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_messages/src/Plugin/Block/MessageBlock.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_messages\\\\Plugin\\\\Block\\\\MessageBlock\\:\\:build\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_messages/src/Plugin/Block/MessageBlock.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_messages\\\\Plugin\\\\Block\\\\MessageBlock\\:\\:create\\(\\) has parameter \\$configuration with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_messages/src/Plugin/Block/MessageBlock.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_messages/src/Plugin/Block/MessageBlock.php
+
+		-
+			message: "#^Class Drupal\\\\simplytest_ocd\\\\OneClickDemoPluginManager referenced with incorrect case\\: Drupal\\\\simplytest_ocd\\\\OneCLickDemoPluginManager\\.$#"
+			count: 2
+			path: web/modules/custom/simplytest_ocd/src/Controller/Resources.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\Controller\\\\Resources\\:\\:create\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/Controller/Resources.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\Controller\\\\Resources\\:\\:info\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/Controller/Resources.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\Controller\\\\Resources\\:\\:launch\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/Controller/Resources.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\Controller\\\\Resources\\:\\:launch\\(\\) has parameter \\$oneclickdemo_id with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/Controller/Resources.php
+
+		-
+			message: """
+				#^PHPDoc tag @param has invalid value \\(\\\\Drupal\\\\simplytest_tugboat\\\\InstanceManagerInterface
+				  The simplytest tugboat instance manager service\\.\\)\\: Unexpected token "\\\\n   \\* ", expected variable at offset 228 on line 6$#
+			"""
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/Controller/Resources.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/Controller/Resources.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\OneClickDemoInterface\\:\\:getDownloadCommands\\(\\) has parameter \\$parameters with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/OneClickDemoInterface.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\OneClickDemoInterface\\:\\:getDownloadCommands\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/OneClickDemoInterface.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\OneClickDemoInterface\\:\\:getInstallingCommands\\(\\) has parameter \\$parameters with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/OneClickDemoInterface.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\OneClickDemoInterface\\:\\:getInstallingCommands\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/OneClickDemoInterface.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\OneClickDemoInterface\\:\\:getPatchingCommands\\(\\) has parameter \\$parameters with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/OneClickDemoInterface.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\OneClickDemoInterface\\:\\:getPatchingCommands\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/OneClickDemoInterface.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\OneClickDemoInterface\\:\\:getSetupCommands\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/OneClickDemoInterface.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\OneClickDemoInterface\\:\\:getSetupCommands\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/OneClickDemoInterface.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\OneClickDemoPluginManager\\:\\:__construct\\(\\) has parameter \\$namespaces with no value type specified in iterable type Traversable\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/OneClickDemoPluginManager.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\Plugin\\\\OneClickDemo\\\\Commerce\\:\\:getDownloadCommands\\(\\) has parameter \\$parameters with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/Plugin/OneClickDemo/Commerce.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\Plugin\\\\OneClickDemo\\\\Commerce\\:\\:getDownloadCommands\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/Plugin/OneClickDemo/Commerce.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\Plugin\\\\OneClickDemo\\\\Commerce\\:\\:getInstallingCommands\\(\\) has parameter \\$parameters with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/Plugin/OneClickDemo/Commerce.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\Plugin\\\\OneClickDemo\\\\Commerce\\:\\:getInstallingCommands\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/Plugin/OneClickDemo/Commerce.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\Plugin\\\\OneClickDemo\\\\Commerce\\:\\:getPatchingCommands\\(\\) has parameter \\$parameters with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/Plugin/OneClickDemo/Commerce.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\Plugin\\\\OneClickDemo\\\\Commerce\\:\\:getPatchingCommands\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/Plugin/OneClickDemo/Commerce.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\Plugin\\\\OneClickDemo\\\\Commerce\\:\\:getSetupCommands\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/Plugin/OneClickDemo/Commerce.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\Plugin\\\\OneClickDemo\\\\Commerce\\:\\:getSetupCommands\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/Plugin/OneClickDemo/Commerce.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\Plugin\\\\OneClickDemo\\\\Drupal8Base\\:\\:getSetupCommands\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/Plugin/OneClickDemo/Drupal8Base.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\Plugin\\\\OneClickDemo\\\\Drupal8Base\\:\\:getSetupCommands\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/Plugin/OneClickDemo/Drupal8Base.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\Plugin\\\\OneClickDemo\\\\Drupal9Base\\:\\:getSetupCommands\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/Plugin/OneClickDemo/Drupal9Base.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\Plugin\\\\OneClickDemo\\\\Drupal9Base\\:\\:getSetupCommands\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/Plugin/OneClickDemo/Drupal9Base.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\Plugin\\\\OneClickDemo\\\\Umami\\:\\:getDownloadCommands\\(\\) has parameter \\$parameters with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/Plugin/OneClickDemo/Umami.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\Plugin\\\\OneClickDemo\\\\Umami\\:\\:getDownloadCommands\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/Plugin/OneClickDemo/Umami.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\Plugin\\\\OneClickDemo\\\\Umami\\:\\:getInstallingCommands\\(\\) has parameter \\$parameters with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/Plugin/OneClickDemo/Umami.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\Plugin\\\\OneClickDemo\\\\Umami\\:\\:getInstallingCommands\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/Plugin/OneClickDemo/Umami.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\Plugin\\\\OneClickDemo\\\\Umami\\:\\:getPatchingCommands\\(\\) has parameter \\$parameters with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/Plugin/OneClickDemo/Umami.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_ocd\\\\Plugin\\\\OneClickDemo\\\\Umami\\:\\:getPatchingCommands\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/src/Plugin/OneClickDemo/Umami.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_ocd\\\\Unit\\\\CommerceConfigTest\\:\\:getExpectedConfig\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/tests/src/Unit/CommerceConfigTest.php
+
+		-
+			message: "#^Property Drupal\\\\Tests\\\\simplytest_ocd\\\\Unit\\\\CommerceConfigTest\\:\\:\\$pluginClass has no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/tests/src/Unit/CommerceConfigTest.php
+
+		-
+			message: "#^Property Drupal\\\\Tests\\\\simplytest_ocd\\\\Unit\\\\CommerceConfigTest\\:\\:\\$pluginId has no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/tests/src/Unit/CommerceConfigTest.php
+
+		-
+			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:createInstance\\(\\)\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/tests/src/Unit/OneClickDemoConfigTestBase.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_ocd\\\\Unit\\\\OneClickDemoConfigTestBase\\:\\:getExpectedConfig\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/tests/src/Unit/OneClickDemoConfigTestBase.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_ocd\\\\Unit\\\\OneClickDemoConfigTestBase\\:\\:testConfigData\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/tests/src/Unit/OneClickDemoConfigTestBase.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$demo_id$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/tests/src/Unit/OneClickDemoConfigTestBase.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$expected_config$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/tests/src/Unit/OneClickDemoConfigTestBase.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$parameters$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/tests/src/Unit/OneClickDemoConfigTestBase.php
+
+		-
+			message: "#^Property Drupal\\\\Tests\\\\simplytest_ocd\\\\Unit\\\\OneClickDemoConfigTestBase\\:\\:\\$pluginClass has no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/tests/src/Unit/OneClickDemoConfigTestBase.php
+
+		-
+			message: "#^Property Drupal\\\\Tests\\\\simplytest_ocd\\\\Unit\\\\OneClickDemoConfigTestBase\\:\\:\\$pluginId has no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/tests/src/Unit/OneClickDemoConfigTestBase.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_ocd\\\\Unit\\\\UmamiConfigTest\\:\\:getExpectedConfig\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/tests/src/Unit/UmamiConfigTest.php
+
+		-
+			message: "#^Property Drupal\\\\Tests\\\\simplytest_ocd\\\\Unit\\\\UmamiConfigTest\\:\\:\\$pluginClass has no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/tests/src/Unit/UmamiConfigTest.php
+
+		-
+			message: "#^Property Drupal\\\\Tests\\\\simplytest_ocd\\\\Unit\\\\UmamiConfigTest\\:\\:\\$pluginId has no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_ocd/tests/src/Unit/UmamiConfigTest.php
+
+		-
+			message: "#^Call to function assert\\(\\) with true will always evaluate to true\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/simplytest_projects.install
+
+		-
+			message: "#^Function simplytest_projects_schema\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/simplytest_projects.install
+
+		-
+			message: "#^Function simplytest_projects_update_9001\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/simplytest_projects.install
+
+		-
+			message: "#^Function simplytest_projects_update_9002\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/simplytest_projects.install
+
+		-
+			message: "#^Function simplytest_projects_update_9003\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/simplytest_projects.install
+
+		-
+			message: "#^Function simplytest_projects_update_9004\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/simplytest_projects.install
+
+		-
+			message: "#^Function simplytest_projects_update_9005\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/simplytest_projects.install
+
+		-
+			message: "#^Instanceof between Drupal\\\\simplytest_projects\\\\CoreVersionManager and Drupal\\\\simplytest_projects\\\\CoreVersionManager will always evaluate to true\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/simplytest_projects.install
+
+		-
+			message: "#^Call to function assert\\(\\) with true will always evaluate to true\\.$#"
+			count: 2
+			path: web/modules/custom/simplytest_projects/simplytest_projects.module
+
+		-
+			message: "#^Function simplytest_projects_cron\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/simplytest_projects.module
+
+		-
+			message: "#^Function simplytest_projects_simplytest_project_insert\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/simplytest_projects.module
+
+		-
+			message: "#^Instanceof between Drupal\\\\simplytest_projects\\\\CoreVersionManager and Drupal\\\\simplytest_projects\\\\CoreVersionManager will always evaluate to true\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/simplytest_projects.module
+
+		-
+			message: "#^Strict comparison using \\!\\=\\= between Drupal\\\\simplytest_projects\\\\ProjectVersionManager and null will always evaluate to true\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/simplytest_projects.module
+
+		-
+			message: "#^Using nullsafe method call on non\\-nullable type Drupal\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\. Use \\-\\> instead\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/simplytest_projects.module
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Commands\\\\SimplytestProjectsCommands\\:\\:coreVersionsUpdate\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Commands/SimplytestProjectsCommands.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Commands\\\\SimplytestProjectsCommands\\:\\:getReleaseData\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Commands/SimplytestProjectsCommands.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Commands\\\\SimplytestProjectsCommands\\:\\:importProject\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Commands/SimplytestProjectsCommands.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Commands\\\\SimplytestProjectsCommands\\:\\:importType\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Commands/SimplytestProjectsCommands.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Controller\\\\SimplyTestProjects\\:\\:autocompleteProjects\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Controller/SimplyTestProjects.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Controller\\\\SimplyTestProjects\\:\\:compatibleCoreVersions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Controller/SimplyTestProjects.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Controller\\\\SimplyTestProjects\\:\\:compatibleProjectVersions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Controller/SimplyTestProjects.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Controller\\\\SimplyTestProjects\\:\\:compatibleProjectVersions\\(\\) has parameter \\$core_version with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Controller/SimplyTestProjects.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Controller\\\\SimplyTestProjects\\:\\:compatibleProjectVersions\\(\\) has parameter \\$project with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Controller/SimplyTestProjects.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Controller\\\\SimplyTestProjects\\:\\:coreVersions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Controller/SimplyTestProjects.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Controller\\\\SimplyTestProjects\\:\\:create\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Controller/SimplyTestProjects.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Controller\\\\SimplyTestProjects\\:\\:projectVersions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Controller/SimplyTestProjects.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Controller\\\\SimplyTestProjects\\:\\:projectVersions\\(\\) has parameter \\$project with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Controller/SimplyTestProjects.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Controller/SimplyTestProjects.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\CoreVersionManager\\:\\:getWithCompatibility\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/CoreVersionManager.php
+
+		-
+			message: "#^Property Drupal\\\\simplytest_projects\\\\CoreVersionManager\\:\\:\\$client \\(GuzzleHttp\\\\Client\\) does not accept GuzzleHttp\\\\ClientInterface\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/CoreVersionManager.php
+
+		-
+			message: "#^Property Drupal\\\\simplytest_projects\\\\CoreVersionManager\\:\\:\\$state has no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/CoreVersionManager.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Entity\\\\SimplytestProject\\:\\:getVersions\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Entity/SimplytestProject.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Entity\\\\SimplytestProject\\:\\:preSave\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Entity/SimplytestProject.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Entity\\\\SimplytestProject\\:\\:setVersions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Entity/SimplytestProject.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Entity\\\\SimplytestProject\\:\\:setVersions\\(\\) has parameter \\$heads with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Entity/SimplytestProject.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Entity\\\\SimplytestProject\\:\\:setVersions\\(\\) has parameter \\$tags with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Entity/SimplytestProject.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Entity\\\\SimplytestProjectInterface\\:\\:getVersions\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Entity/SimplytestProjectInterface.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Entity\\\\SimplytestProjectInterface\\:\\:setVersions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Entity/SimplytestProjectInterface.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Entity\\\\SimplytestProjectInterface\\:\\:setVersions\\(\\) has parameter \\$heads with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Entity/SimplytestProjectInterface.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Entity\\\\SimplytestProjectInterface\\:\\:setVersions\\(\\) has parameter \\$tags with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Entity/SimplytestProjectInterface.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\EventSubscriber\\\\ModifyMaxAgeResponseSubscriber\\:\\:onResponse\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/EventSubscriber/ModifyMaxAgeResponseSubscriber.php
+
+		-
+			message: "#^Call to function assert\\(\\) with true will always evaluate to true\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Exception/EntityValidationException.php
+
+		-
+			message: "#^Instanceof between Symfony\\\\Component\\\\Validator\\\\ConstraintViolationInterface and Symfony\\\\Component\\\\Validator\\\\ConstraintViolationInterface will always evaluate to true\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Exception/EntityValidationException.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Form\\\\ImportForm\\:\\:buildForm\\(\\) has parameter \\$form with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Form/ImportForm.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Form\\\\ImportForm\\:\\:buildForm\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Form/ImportForm.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Form\\\\ImportForm\\:\\:create\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Form/ImportForm.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Form\\\\ImportForm\\:\\:submitForm\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Form/ImportForm.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Form\\\\ImportForm\\:\\:submitForm\\(\\) has parameter \\$form with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Form/ImportForm.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Form/ImportForm.php
+
+		-
+			message: "#^Method Drupal\\\\Core\\\\Config\\\\Config\\:\\:get\\(\\) invoked with 2 parameters, 0\\-1 required\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Form/Settings.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Form\\\\Settings\\:\\:buildForm\\(\\) has parameter \\$form with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Form/Settings.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Form\\\\Settings\\:\\:buildForm\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Form/Settings.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Form\\\\Settings\\:\\:getEditableConfigNames\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Form/Settings.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Form\\\\Settings\\:\\:submitForm\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Form/Settings.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Form\\\\Settings\\:\\:submitForm\\(\\) has parameter \\$form with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Form/Settings.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Form\\\\Settings\\:\\:validateForm\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Form/Settings.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Form\\\\Settings\\:\\:validateForm\\(\\) has parameter \\$form with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Form/Settings.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Form\\\\SimplytestProjectEntityForm\\:\\:save\\(\\) has parameter \\$form with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Form/SimplytestProjectEntityForm.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Form\\\\SimplytestProjectEntityForm\\:\\:save\\(\\) should return int but return statement is missing\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Form/SimplytestProjectEntityForm.php
+
+		-
+			message: "#^Dead catch \\- Drupal\\\\simplytest_projects\\\\Exception\\\\EntityValidationException is never thrown in the try block\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Plugin/QueueWorker/ProjectRefresher.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Plugin\\\\QueueWorker\\\\ProjectRefresher\\:\\:__construct\\(\\) has parameter \\$configuration with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Plugin/QueueWorker/ProjectRefresher.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\Plugin\\\\QueueWorker\\\\ProjectRefresher\\:\\:create\\(\\) has parameter \\$configuration with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Plugin/QueueWorker/ProjectRefresher.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/Plugin/QueueWorker/ProjectRefresher.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectFetcher\\:\\:fetchProject\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectFetcher\\:\\:fetchProjectVersions\\(\\) has parameter \\$project with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectFetcher\\:\\:fetchProjectVersions\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectFetcher\\:\\:fetchVersions\\(\\) has parameter \\$force with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectFetcher\\:\\:fetchVersions\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectFetcher\\:\\:searchFromProjects\\(\\) has parameter \\$string with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectFetcher\\:\\:searchFromProjects\\(\\) has parameter \\$types with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectFetcher\\:\\:searchFromProjects\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\\\Drupal\\\\Core\\\\Entity\\\\EntityTypeManagerInterface\\)\\: Unexpected token \"\\\\n   \\* \", expected variable at offset 201 on line 6$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
+
+		-
+			message: "#^Property Drupal\\\\simplytest_projects\\\\ProjectFetcher\\:\\:\\$entityTypeManager \\(Drupal\\\\Core\\\\Entity\\\\EntityTypeManager\\) does not accept Drupal\\\\Core\\\\Entity\\\\EntityTypeManagerInterface\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
+
+		-
+			message: "#^Strict comparison using \\!\\=\\= between non\\-empty\\-array and false will always evaluate to true\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between string and false will always evaluate to false\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
+
+		-
+			message: "#^\\\\Drupal calls should be avoided in classes, use dependency injection instead$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
+
+		-
+			message: "#^Call to an undefined method GuzzleHttp\\\\ClientInterface\\:\\:get\\(\\)\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectImporter.php
+
+		-
+			message: "#^Call to function assert\\(\\) with true will always evaluate to true\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectImporter.php
+
+		-
+			message: "#^Instanceof between Drupal\\\\simplytest_projects\\\\ProjectImporter and Drupal\\\\simplytest_projects\\\\ProjectImporter will always evaluate to true\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectImporter.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectImporter\\:\\:batchFinished\\(\\) has parameter \\$operations with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectImporter.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectImporter\\:\\:batchFinished\\(\\) has parameter \\$results with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectImporter.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectImporter\\:\\:batchFinished\\(\\) has parameter \\$success with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectImporter.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectImporter\\:\\:batchProcess\\(\\) has parameter \\$context with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectImporter.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectImporter\\:\\:batchProcess\\(\\) has parameter \\$index with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectImporter.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectImporter\\:\\:batchProcess\\(\\) has parameter \\$type with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectImporter.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectImporter\\:\\:filterExistingProjects\\(\\) has parameter \\$items with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectImporter.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectImporter\\:\\:filterExistingProjects\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectImporter.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectTypes\\:\\:getProjectType\\(\\) should return string but returns false\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectTypes.php
+
+		-
+			message: "#^Access to an undefined property Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:\\$core_compatibility\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectVersionManager.php
+
+		-
+			message: "#^Access to an undefined property Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:\\$date\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectVersionManager.php
+
+		-
+			message: "#^Access to an undefined property Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:\\$status\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectVersionManager.php
+
+		-
+			message: "#^Access to an undefined property Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:\\$tag\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectVersionManager.php
+
+		-
+			message: "#^Access to an undefined property Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:\\$version\\.$#"
+			count: 2
+			path: web/modules/custom/simplytest_projects/src/ProjectVersionManager.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectVersionManager\\:\\:getAllReleases\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectVersionManager.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectVersionManager\\:\\:getCompatibleReleases\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectVersionManager.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectVersionManager\\:\\:getRelease\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectVersionManager.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectVersionManager\\:\\:organizeAndSortReleases\\(\\) has parameter \\$releases with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectVersionManager.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectVersionManager\\:\\:organizeAndSortReleases\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ProjectVersionManager.php
+
+		-
+			message: "#^Call to an undefined method GuzzleHttp\\\\ClientInterface\\:\\:get\\(\\)\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/Fetcher.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\Processor\\:\\:getData\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/Processor.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:__construct\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:__get\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:__get\\(\\) has parameter \\$name with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
+
+		-
+			message: "#^PHPDoc tag @property has invalid value \\(string core_compatibility\\)\\: Unexpected token \"core_compatibility\", expected variable at offset 49 on line 3$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
+
+		-
+			message: "#^PHPDoc tag @property has invalid value \\(string date\\)\\: Unexpected token \"date\", expected variable at offset 140 on line 6$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
+
+		-
+			message: "#^PHPDoc tag @property has invalid value \\(string name\\)\\: Unexpected token \"name\", expected variable at offset 24 on line 2$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
+
+		-
+			message: "#^PHPDoc tag @property has invalid value \\(string status\\)\\: Unexpected token \"status\", expected variable at offset 165 on line 7$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
+
+		-
+			message: "#^PHPDoc tag @property has invalid value \\(string tag\\)\\: Unexpected token \"tag\", expected variable at offset 116 on line 5$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
+
+		-
+			message: "#^PHPDoc tag @property has invalid value \\(string version\\)\\: Unexpected token \"version\", expected variable at offset 88 on line 4$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
+
+		-
+			message: "#^Property Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:\\$data has no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
+
+		-
+			message: "#^Call to an undefined method Drupal\\\\simplytest_projects\\\\Entity\\\\SimplytestProjectInterface\\:\\:label\\(\\)\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/SimplytestProjectListBuilder.php
+
+		-
+			message: "#^Call to an undefined method Drupal\\\\simplytest_projects\\\\Entity\\\\SimplytestProjectInterface\\:\\:toLink\\(\\)\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/SimplytestProjectListBuilder.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\SimplytestProjectListBuilder\\:\\:buildHeader\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/SimplytestProjectListBuilder.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects\\\\SimplytestProjectListBuilder\\:\\:buildRow\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/SimplytestProjectListBuilder.php
+
+		-
+			message: "#^PHPDoc tag @var with type Drupal\\\\simplytest_projects\\\\Entity\\\\SimplytestProjectInterface is not subtype of native type Drupal\\\\Core\\\\Entity\\\\EntityInterface\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/SimplytestProjectListBuilder.php
+
+		-
+			message: "#^Parameter \\#1 \\$entity of method Drupal\\\\Core\\\\Entity\\\\EntityListBuilder\\:\\:buildRow\\(\\) expects Drupal\\\\Core\\\\Entity\\\\EntityInterface, Drupal\\\\simplytest_projects\\\\Entity\\\\SimplytestProjectInterface given\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/SimplytestProjectListBuilder.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/src/SimplytestProjectListBuilder.php
+
+		-
+			message: "#^Anonymous function has an unused use \\$handler\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/tests/modules/simplytest_projects_test/src/MockedHttpMiddleware.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_projects_test\\\\MockedHttpMiddleware\\:\\:__invoke\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/tests/modules/simplytest_projects_test/src/MockedHttpMiddleware.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Functional\\\\ProjectsAutocompleteTest\\:\\:testAutoImport\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/tests/src/Functional/ProjectsAutocompleteTest.php
+
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/tests/src/Functional/ProjectsAutocompleteTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Kernel\\\\ControllerTest\\:\\:alter\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/tests/src/Kernel/ControllerTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Kernel\\\\CoreVersionManagerTest\\:\\:testGetWithCompatibility\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/tests/src/Kernel/CoreVersionManagerTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Kernel\\\\CoreVersionManagerTest\\:\\:testPreflightCheck\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/tests/src/Kernel/CoreVersionManagerTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Kernel\\\\CoreVersionManagerTest\\:\\:testReleaseData\\(\\) has parameter \\$expected_result_sample with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/tests/src/Kernel/CoreVersionManagerTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Kernel\\\\ProjectInsertVersionsUpdatedTest\\:\\:testVersionsExistAfterInsert\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/tests/src/Kernel/ProjectInsertVersionsUpdatedTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Kernel\\\\ProjectPreSaveValidationTest\\:\\:testValidationExceptionOnPreSave\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/tests/src/Kernel/ProjectPreSaveValidationTest.php
+
+		-
+			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:get\\(\\)\\.$#"
+			count: 6
+			path: web/modules/custom/simplytest_projects/tests/src/Kernel/ProjectVersionManagerTest.php
+
+		-
+			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:getBody\\(\\)\\.$#"
+			count: 4
+			path: web/modules/custom/simplytest_projects/tests/src/Kernel/ProjectVersionManagerTest.php
+
+		-
+			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:getHeaderLine\\(\\)\\.$#"
+			count: 4
+			path: web/modules/custom/simplytest_projects/tests/src/Kernel/ProjectVersionManagerTest.php
+
+		-
+			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:getStatusCode\\(\\)\\.$#"
+			count: 5
+			path: web/modules/custom/simplytest_projects/tests/src/Kernel/ProjectVersionManagerTest.php
+
+		-
+			message: "#^Call to function assert\\(\\) with true will always evaluate to true\\.$#"
+			count: 2
+			path: web/modules/custom/simplytest_projects/tests/src/Kernel/ProjectVersionManagerTest.php
+
+		-
+			message: "#^Instanceof between Drupal\\\\Core\\\\Database\\\\Query\\\\SelectInterface and Drupal\\\\Core\\\\Database\\\\Query\\\\SelectInterface will always evaluate to true\\.$#"
+			count: 2
+			path: web/modules/custom/simplytest_projects/tests/src/Kernel/ProjectVersionManagerTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Unit\\\\ReleaseHistory\\\\FetcherTest\\:\\:testLastModified\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/tests/src/Unit/ReleaseHistory/FetcherTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Unit\\\\ReleaseHistory\\\\FetcherTest\\:\\:testValidReleaseChannels\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/tests/src/Unit/ReleaseHistory/FetcherTest.php
+
+		-
+			message: "#^Access to an undefined property Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:\\$core_compatibility\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/tests/src/Unit/ReleaseHistory/ProcessorTest.php
+
+		-
+			message: "#^Access to an undefined property Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:\\$name\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/tests/src/Unit/ReleaseHistory/ProcessorTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Unit\\\\ReleaseHistory\\\\ProcessorTest\\:\\:testCoreCompatibility\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/tests/src/Unit/ReleaseHistory/ProcessorTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Unit\\\\ReleaseHistory\\\\ProcessorTest\\:\\:testGetData\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_projects/tests/src/Unit/ReleaseHistory/ProcessorTest.php
+
+		-
+			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:get\\(\\)\\.$#"
+			count: 6
+			path: web/modules/custom/simplytest_projects/tests/src/Unit/ReleaseHistory/ReleaseHistoryUnitTestBase.php
+
+		-
+			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:getBody\\(\\)\\.$#"
+			count: 4
+			path: web/modules/custom/simplytest_projects/tests/src/Unit/ReleaseHistory/ReleaseHistoryUnitTestBase.php
+
+		-
+			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:getHeaderLine\\(\\)\\.$#"
+			count: 4
+			path: web/modules/custom/simplytest_projects/tests/src/Unit/ReleaseHistory/ReleaseHistoryUnitTestBase.php
+
+		-
+			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:getStatusCode\\(\\)\\.$#"
+			count: 5
+			path: web/modules/custom/simplytest_projects/tests/src/Unit/ReleaseHistory/ReleaseHistoryUnitTestBase.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_tugboat\\\\Controller\\\\SimplytestTugboatController\\:\\:instanceState\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/Controller/SimplytestTugboatController.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_tugboat\\\\Controller\\\\SimplytestTugboatController\\:\\:instanceState\\(\\) has parameter \\$instance_id with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/Controller/SimplytestTugboatController.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_tugboat\\\\Controller\\\\SimplytestTugboatController\\:\\:instanceState\\(\\) has parameter \\$job_id with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/Controller/SimplytestTugboatController.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_tugboat\\\\Controller\\\\SimplytestTugboatController\\:\\:progress\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/Controller/SimplytestTugboatController.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_tugboat\\\\Controller\\\\SimplytestTugboatController\\:\\:progress\\(\\) has parameter \\$instance_id with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/Controller/SimplytestTugboatController.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_tugboat\\\\Controller\\\\SimplytestTugboatController\\:\\:progress\\(\\) has parameter \\$job_id with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/Controller/SimplytestTugboatController.php
+
+		-
+			message: "#^Property Drupal\\\\simplytest_tugboat\\\\Controller\\\\SimplytestTugboatController\\:\\:\\$logger \\(Drupal\\\\Core\\\\Logger\\\\LoggerChannelInterface\\) does not accept Psr\\\\Log\\\\LoggerInterface\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/Controller/SimplytestTugboatController.php
+
+		-
+			message: "#^Property Drupal\\\\simplytest_tugboat\\\\Controller\\\\SimplytestTugboatController\\:\\:\\$settings \\(Drupal\\\\Core\\\\Config\\\\ImmutableConfig\\) does not accept Drupal\\\\Core\\\\Config\\\\Config\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/Controller/SimplytestTugboatController.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/Controller/SimplytestTugboatController.php
+
+		-
+			message: "#^Call to function assert\\(\\) with true will always evaluate to true\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/InstanceManager.php
+
+		-
+			message: "#^Instanceof between Drupal\\\\simplytest_ocd\\\\OneClickDemoPluginManager and Drupal\\\\simplytest_ocd\\\\OneClickDemoPluginManager will always evaluate to true\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/InstanceManager.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_tugboat\\\\InstanceManager\\:\\:launchInstance\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/InstanceManager.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_tugboat\\\\InstanceManager\\:\\:launchInstance\\(\\) has parameter \\$submission with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/InstanceManager.php
+
+		-
+			message: "#^PHPDoc tag @var has invalid value \\(\\\\Drupal\\\\Core\\\\Logger\\\\LoggerChannelInterface;\\)\\: Unexpected token \";\", expected TOKEN_HORIZONTAL_WS at offset 102 on line 4$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/InstanceManager.php
+
+		-
+			message: "#^Property Drupal\\\\simplytest_tugboat\\\\InstanceManager\\:\\:\\$logger has no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/InstanceManager.php
+
+		-
+			message: "#^\\\\Drupal calls should be avoided in classes, use dependency injection instead$#"
+			count: 2
+			path: web/modules/custom/simplytest_tugboat/src/InstanceManager.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_tugboat\\\\InstanceManagerInterface\\:\\:launchInstance\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/InstanceManagerInterface.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_tugboat\\\\InstanceManagerInterface\\:\\:launchInstance\\(\\) has parameter \\$submission with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/InstanceManagerInterface.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_tugboat\\\\PreviewConfigGenerator\\:\\:generate\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/PreviewConfigGenerator.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_tugboat\\\\PreviewConfigGenerator\\:\\:generate\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/PreviewConfigGenerator.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_tugboat\\\\PreviewConfigGenerator\\:\\:getComposerPatchCommand\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/PreviewConfigGenerator.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_tugboat\\\\PreviewConfigGenerator\\:\\:getDownloadCommands\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/PreviewConfigGenerator.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_tugboat\\\\PreviewConfigGenerator\\:\\:getDownloadCommands\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/PreviewConfigGenerator.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_tugboat\\\\PreviewConfigGenerator\\:\\:getInstallingCommands\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/PreviewConfigGenerator.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_tugboat\\\\PreviewConfigGenerator\\:\\:getInstallingCommands\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/PreviewConfigGenerator.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_tugboat\\\\PreviewConfigGenerator\\:\\:getLegacyPatchCommand\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/PreviewConfigGenerator.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_tugboat\\\\PreviewConfigGenerator\\:\\:getLegacyPatchCommand\\(\\) has parameter \\$patch with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/PreviewConfigGenerator.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_tugboat\\\\PreviewConfigGenerator\\:\\:getLegacyPatchCommand\\(\\) has parameter \\$project_name with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/PreviewConfigGenerator.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_tugboat\\\\PreviewConfigGenerator\\:\\:getLegacyPatchCommand\\(\\) has parameter \\$project_type with no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/PreviewConfigGenerator.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_tugboat\\\\PreviewConfigGenerator\\:\\:getPatchingCommands\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/PreviewConfigGenerator.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_tugboat\\\\PreviewConfigGenerator\\:\\:getPatchingCommands\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/PreviewConfigGenerator.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_tugboat\\\\PreviewConfigGenerator\\:\\:getSetupCommands\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/PreviewConfigGenerator.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_tugboat\\\\PreviewConfigGenerator\\:\\:getSetupCommands\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/PreviewConfigGenerator.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_tugboat\\\\PreviewConfigGenerator\\:\\:oneClickDemo\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/PreviewConfigGenerator.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_tugboat\\\\PreviewConfigGenerator\\:\\:oneClickDemo\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/src/PreviewConfigGenerator.php
+
+		-
+			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:get\\(\\)\\.$#"
+			count: 4
+			path: web/modules/custom/simplytest_tugboat/tests/src/Unit/InstanceManagerTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_tugboat\\\\Unit\\\\InstanceManagerTest\\:\\:doTest\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/tests/src/Unit/InstanceManagerTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_tugboat\\\\Unit\\\\InstanceManagerTest\\:\\:doTest\\(\\) has parameter \\$submission with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/tests/src/Unit/InstanceManagerTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_tugboat\\\\Unit\\\\InstanceManagerTest\\:\\:testDrupal7\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/tests/src/Unit/InstanceManagerTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_tugboat\\\\Unit\\\\InstanceManagerTest\\:\\:testDrupal7Core\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/tests/src/Unit/InstanceManagerTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_tugboat\\\\Unit\\\\InstanceManagerTest\\:\\:testDrupal7ManualInstall\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/tests/src/Unit/InstanceManagerTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_tugboat\\\\Unit\\\\InstanceManagerTest\\:\\:testDrupal7WithPatches\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/tests/src/Unit/InstanceManagerTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_tugboat\\\\Unit\\\\InstanceManagerTest\\:\\:testDrupal8\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/tests/src/Unit/InstanceManagerTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_tugboat\\\\Unit\\\\InstanceManagerTest\\:\\:testDrupal8WithAdditionals\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/tests/src/Unit/InstanceManagerTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_tugboat\\\\Unit\\\\InstanceManagerTest\\:\\:testDrupal9\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/tests/src/Unit/InstanceManagerTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_tugboat\\\\Unit\\\\InstanceManagerTest\\:\\:testDrupal9Core\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/tests/src/Unit/InstanceManagerTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_tugboat\\\\Unit\\\\InstanceManagerTest\\:\\:testDrupal9CoreLowerVersion\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/tests/src/Unit/InstanceManagerTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_tugboat\\\\Unit\\\\InstanceManagerTest\\:\\:testDrupal9WithAdditionals\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/tests/src/Unit/InstanceManagerTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_tugboat\\\\Unit\\\\InstanceManagerTest\\:\\:testPanopoly\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/tests/src/Unit/InstanceManagerTest.php
+
+		-
+			message: "#^Property Drupal\\\\Tests\\\\simplytest_tugboat\\\\Unit\\\\InstanceManagerTest\\:\\:\\$previewIds is never read, only written\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/tests/src/Unit/InstanceManagerTest.php
+
+		-
+			message: "#^Property Drupal\\\\Tests\\\\simplytest_tugboat\\\\Unit\\\\InstanceManagerTest\\:\\:\\$previewIds type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/tests/src/Unit/InstanceManagerTest.php
+
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/tests/src/Unit/InstanceManagerTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_tugboat\\\\Unit\\\\TugboatConfigTestBase\\:\\:testConfigData\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/tests/src/Unit/TugboatConfigTestBase.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_tugboat\\\\Unit\\\\TugboatConfigTestBase\\:\\:testConfigData\\(\\) has parameter \\$expected_config with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/tests/src/Unit/TugboatConfigTestBase.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\simplytest_tugboat\\\\Unit\\\\TugboatConfigTestBase\\:\\:testConfigData\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/tests/src/Unit/TugboatConfigTestBase.php
+
+		-
+			message: "#^Property Drupal\\\\Tests\\\\simplytest_tugboat\\\\Unit\\\\TugboatConfigTestBase\\:\\:\\$modules has no type specified\\.$#"
+			count: 1
+			path: web/modules/custom/simplytest_tugboat/tests/src/Unit/TugboatConfigTestBase.php
+
+		-
+			message: "#^Call to an undefined method Drupal\\\\file\\\\Entity\\\\File\\:\\:url\\(\\)\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
+
+		-
+			message: "#^Function _simplytest_theme_images\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
+
+		-
+			message: "#^Function _simplytest_theme_images\\(\\) has parameter \\$variables with no type specified\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
+
+		-
+			message: "#^Function _simplytest_theme_settings\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
+
+		-
+			message: "#^Function _simplytest_theme_settings\\(\\) has parameter \\$form with no type specified\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
+
+		-
+			message: "#^Function _simplytest_theme_settings\\(\\) has parameter \\$form_state with no type specified\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
+
+		-
+			message: "#^Function file_default_scheme not found\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
+
+		-
+			message: "#^Function file_load not found\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
+
+		-
+			message: "#^Function kint not found\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
+
+		-
+			message: "#^Function simplytest_theme_form_system_theme_settings_alter\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
+
+		-
+			message: "#^Function simplytest_theme_form_system_theme_settings_alter\\(\\) has parameter \\$form with no type specified\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
+
+		-
+			message: "#^Function simplytest_theme_form_system_theme_settings_alter\\(\\) has parameter \\$form_state with no type specified\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
+
+		-
+			message: "#^Function simplytest_theme_preprocess_node\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
+
+		-
+			message: "#^Function simplytest_theme_preprocess_node\\(\\) has parameter \\$variables with no type specified\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
+
+		-
+			message: "#^Function simplytest_theme_preprocess_page\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
+
+		-
+			message: "#^Function simplytest_theme_preprocess_page\\(\\) has parameter \\$node with no type specified\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
+
+		-
+			message: "#^Function simplytest_theme_preprocess_page\\(\\) has parameter \\$variables with no type specified\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
+
+		-
+			message: "#^Function simplytest_theme_preprocess_page\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/simplytest_theme.theme
+
+		-
+			message: "#^Function simplytest_theme_preprocess_page\\(\\) has parameter \\$variables with no type specified\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/simplytest_theme.theme
+
+		-
+			message: "#^Function file_load not found\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/src/Form/SimplyTestCallbacks.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_theme\\\\Form\\\\SimplyTestCallbacks\\:\\:addSimplyTestFile\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/src/Form/SimplyTestCallbacks.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_theme\\\\Form\\\\SimplyTestCallbacks\\:\\:addSimplyTestFile\\(\\) has parameter \\$file with no type specified\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/src/Form/SimplyTestCallbacks.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_theme\\\\Form\\\\SimplyTestCallbacks\\:\\:addSimplyTestFile\\(\\) has parameter \\$type with no type specified\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/src/Form/SimplyTestCallbacks.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_theme\\\\Form\\\\SimplyTestCallbacks\\:\\:saveConfig\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/src/Form/SimplyTestCallbacks.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_theme\\\\Form\\\\SimplyTestCallbacks\\:\\:saveConfig\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/src/Form/SimplyTestCallbacks.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_theme\\\\Form\\\\SimplyTestCallbacks\\:\\:submitSettings\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/src/Form/SimplyTestCallbacks.php
+
+		-
+			message: "#^Method Drupal\\\\simplytest_theme\\\\Form\\\\SimplyTestCallbacks\\:\\:submitSettings\\(\\) has parameter \\$form with no type specified\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/src/Form/SimplyTestCallbacks.php
+
+		-
+			message: "#^Parameter \\#4 \\$id of method Drupal\\\\file\\\\FileUsage\\\\DatabaseFileUsageBackend\\:\\:add\\(\\) expects string, int given\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/src/Form/SimplyTestCallbacks.php
+
+		-
+			message: "#^Function _simplytest_theme_header_bg_validate\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/theme-settings.php
+
+		-
+			message: "#^Function _simplytest_theme_header_bg_validate\\(\\) has parameter \\$element with no type specified\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/theme-settings.php
+
+		-
+			message: "#^Function simplytest_theme_form_system_theme_settings_alter\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/theme-settings.php
+
+		-
+			message: "#^Function simplytest_theme_form_system_theme_settings_alter\\(\\) has parameter \\$form with no type specified\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/theme-settings.php
+
+		-
+			message: "#^Function simplytest_theme_form_system_theme_settings_alter\\(\\) has parameter \\$form_id with no type specified\\.$#"
+			count: 1
+			path: web/themes/simplytest_theme/theme-settings.php
