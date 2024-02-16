@@ -26,7 +26,7 @@ tasks:
         name: Push a deployment and success status
         service: cli
 environments:
-  prod:
+  main:
     routes:
       - nginx:
           - simplytest.me:
@@ -44,7 +44,8 @@ environments:
         schedule: "*/10 * * * *"
         command: drush queue:run simplytest_projects_project_refresher --items-limit 250
         service: cli
-  main:
+  # todo remove
+  prod:
     routes:
       - nginx:
           - beta.simplytest.me:
