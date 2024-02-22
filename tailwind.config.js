@@ -1,7 +1,7 @@
 module.exports = {
   content: [
-    "templates/**/*.twig",
-    "lib/**/*.js"
+    "web/themes/simplytest_theme/templates/**/*.twig",
+    "web/themes/simplytest_theme/lib/**/*.js"
   ],
   theme: {
     extend: {
