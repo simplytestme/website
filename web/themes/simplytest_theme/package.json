@@ -36,7 +36,7 @@
     "browser-sync": "^2.29.3",
     "browser-sync-webpack-plugin": "^2.2.2",
     "cross-env": "^6.0.3",
-    "eslint": "^5.0.0",
+    "eslint": "^8.56.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-import": "^2.29.1",
