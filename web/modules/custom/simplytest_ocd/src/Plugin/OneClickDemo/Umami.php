@@ -13,15 +13,24 @@ use Drupal\simplytest_ocd\OneClickDemoInterface;
  *   base_preview_name = "umami",
  * )
  */
-class Umami extends Drupal9Base {
+class Umami extends OneClickDemoBase {
 
   public function getDownloadCommands($parameters): array {
-    $commands = [];
-    return $commands;
+    return [];
   }
 
   public function getPatchingCommands($parameters): array {
     return [];
+  }
+
+  public function getSetupCommands(array $parameters): array {
+    $commands[] = 'docker-php-ext-install opcache';
+    $commands[] = 'a2enmod headers rewrite';
+    $commands[] = 'rm -rf "${DOCROOT}"';
+    $commands[] = 'composer -n create-project drupal/recommended-project stm --no-install';
+    $commands[] = 'cd stm && composer require --no-update drush/drush';
+    $commands[] = 'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"';
+    return $commands;
   }
 
   public function getInstallingCommands($parameters): array {
