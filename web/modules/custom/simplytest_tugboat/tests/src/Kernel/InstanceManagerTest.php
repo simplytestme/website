@@ -98,7 +98,7 @@ final class InstanceManagerTest extends KernelTestBase {
       'config' => [
         'services' => [
           'php' => [
-            'image' => 'tugboatqa/php:7.4-apache',
+            'image' => 'tugboatqa/php:8.1-apache',
             'default' => true,
             'depends' => 'mysql',
             'commands' => [
