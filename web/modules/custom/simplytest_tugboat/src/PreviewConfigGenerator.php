@@ -34,7 +34,8 @@ final class PreviewConfigGenerator {
     $image_name = match($parameters['major_version']) {
       7, 8 => 'tugboatqa/php:7.4-apache',
       9 => 'tugboatqa/php:8.1-apache',
-      default => 'tugboatqa/php:8.2-apache'
+      10 => 'tugboatqa/php:8.2-apache',
+      default => 'tugboatqa/php:apache'
     };
 
     // Rename drupal to core so that it becomes drupal/core as a package name.
