@@ -69,7 +69,7 @@
     },
     "scripts": {
         "tests": "php vendor/bin/phpunit web/modules/custom",
-        "compile": "cd web/themes/simplytest_theme && npm run build"
+        "compile": "npm run build"
     },
     "extra": {
         "composer-exit-on-patch-failure": true,

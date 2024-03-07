@@ -176,9 +176,9 @@ jobs:
       - name: Install Composer dependencies
         run: composer install
       - name: Install NPM dependencies
-        run: npm ci && cd web/themes/simplytest_theme && npm ci
+        run: npm ci
       - name: Build frontend
-        run: cd web/themes/simplytest_theme && npm run build
+        run: npm run build
       - name: Install Simplytest
         run: php vendor/bin/drush site:install simplytest --account-pass=admin --db-url=mysql://root:@127.0.0.1:${{ job.services.mysql.ports[3306] }}/db --yes
       - name: Run php built-in server
