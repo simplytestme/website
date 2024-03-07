@@ -124,9 +124,8 @@ class InstanceManager implements InstanceManagerInterface {
       $project_result = $project_storage->loadByProperties(['shortname' => $submission['project']['shortname']]);
       $project = reset($project_result);
 
-
       $project_version = $submission['project']['version'];
-      [$major_version, ,] = explode('.', $submission['drupalVersion']);
+      [$major_version, ] = explode('.', $submission['drupalVersion'], 2);
 
       $additional_projects = array_map(static function(array $data) use ($project_storage) {
         $project_result = $project_storage->loadByProperties(['shortname' => $data['shortname']]);
@@ -148,7 +147,7 @@ class InstanceManager implements InstanceManagerInterface {
         'additionals' => $additional_projects,
         'instance_id' => Crypt::randomBytesBase64(),
         'hash' => Crypt::randomBytesBase64(),
-        'major_version' => $major_version,
+        'major_version' => (int) $major_version,
       ];
 
       // Make the context and write the record.
