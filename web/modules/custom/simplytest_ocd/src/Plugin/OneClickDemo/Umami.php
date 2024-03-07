@@ -15,11 +15,11 @@ use Drupal\simplytest_ocd\OneClickDemoInterface;
  */
 class Umami extends OneClickDemoBase {
 
-  public function getDownloadCommands($parameters): array {
+  public function getDownloadCommands(array $parameters): array {
     return [];
   }
 
-  public function getPatchingCommands($parameters): array {
+  public function getPatchingCommands(array $parameters): array {
     return [];
   }
 
@@ -33,7 +33,7 @@ class Umami extends OneClickDemoBase {
     return $commands;
   }
 
-  public function getInstallingCommands($parameters): array {
+  public function getInstallingCommands(array $parameters): array {
     $commands = [];
     $commands[] = 'cd ${DOCROOT} && php -d memory_limit=-1 ../vendor/bin/drush si demo_umami --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y';
     return $commands;

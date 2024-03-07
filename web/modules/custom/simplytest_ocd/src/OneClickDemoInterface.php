@@ -9,9 +9,32 @@ use Drupal\Component\Plugin\PluginInspectionInterface;
  */
 interface OneClickDemoInterface extends PluginInspectionInterface {
 
+  /**
+   * @param array<string, mixed> $parameters
+   *
+   * @return string[]
+   */
   public function getSetupCommands(array $parameters): array;
-  public function getDownloadCommands($parameters): array;
-  public function getPatchingCommands($parameters): array;
-  public function getInstallingCommands($parameters): array;
+
+  /**
+   * @param array<string, mixed> $parameters
+   *
+   * @return string[]
+   */
+  public function getDownloadCommands(array $parameters): array;
+
+  /**
+   * @param array<string, mixed> $parameters
+   *
+   * @return string[]
+   */
+  public function getPatchingCommands(array $parameters): array;
+
+  /**
+   * @param array<string, mixed> $parameters
+   *
+   * @return string[]
+   */
+  public function getInstallingCommands(array $parameters): array;
 
 }
