@@ -87,7 +87,6 @@ final class PreviewConfigGenerator {
       'mkdir -p ${DOCROOT}/sites/default/files/private',
       'chown -R www-data:www-data ${DOCROOT}/sites/default',
       'chown -R www-data:www-data ${DOCROOT}/modules',
-      'echo "max_allowed_packet=33554432" >> /etc/my.cnf',
       'echo "SIMPLYEST_STAGE_FINALIZE"'
     ];
 
@@ -102,7 +101,10 @@ final class PreviewConfigGenerator {
           ],
         ],
         'mysql' => [
-          'image' => 'tugboatqa/mysql:5',
+          'image' => 'tugboatqa/mysql:5.7',
+          'commands' => [
+              'update' => 'mysql -e "SET GLOBAL max_allowed_packet=536870912;"'
+          ]
         ],
       ],
     ];
@@ -193,6 +195,7 @@ final class PreviewConfigGenerator {
       }
     }
 
+    $commands[] = 'echo "memory_limit = 512M" >> /usr/local/etc/php/conf.d/my-php.ini';
     return $commands;
   }
 

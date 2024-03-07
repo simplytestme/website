@@ -64,13 +64,15 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'mkdir -p ${DOCROOT}/sites/default/files/private',
               'chown -R www-data:www-data ${DOCROOT}/sites/default',
               'chown -R www-data:www-data ${DOCROOT}/modules',
-              'echo "max_allowed_packet=33554432" >> /etc/my.cnf',
               'echo "SIMPLYEST_STAGE_FINALIZE"',
             ],
           ],
         ],
         'mysql' => [
-          'image' => 'tugboatqa/mysql:5',
+          'image' => 'tugboatqa/mysql:5.7',
+          'commands' => [
+              'update' => 'mysql -e "SET GLOBAL max_allowed_packet=536870912;"'
+          ]
         ],
       ]
     ];
@@ -126,13 +128,15 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'mkdir -p ${DOCROOT}/sites/default/files/private',
               'chown -R www-data:www-data ${DOCROOT}/sites/default',
               'chown -R www-data:www-data ${DOCROOT}/modules',
-              'echo "max_allowed_packet=33554432" >> /etc/my.cnf',
-              'echo "SIMPLYEST_STAGE_FINALIZE"',
+              'echo "SIMPLYEST_STAGE_FINALIZE"'
             ],
           ],
         ],
         'mysql' => [
-          'image' => 'tugboatqa/mysql:5',
+          'image' => 'tugboatqa/mysql:5.7',
+          'commands' => [
+              'update' => 'mysql -e "SET GLOBAL max_allowed_packet=536870912;"'
+          ]
         ],
       ]
     ];
@@ -182,13 +186,15 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'mkdir -p ${DOCROOT}/sites/default/files/private',
               'chown -R www-data:www-data ${DOCROOT}/sites/default',
               'chown -R www-data:www-data ${DOCROOT}/modules',
-              'echo "max_allowed_packet=33554432" >> /etc/my.cnf',
               'echo "SIMPLYEST_STAGE_FINALIZE"',
             ],
           ],
         ],
         'mysql' => [
-          'image' => 'tugboatqa/mysql:5',
+          'image' => 'tugboatqa/mysql:5.7',
+          'commands' => [
+              'update' => 'mysql -e "SET GLOBAL max_allowed_packet=536870912;"'
+          ]
         ],
       ]
     ];
@@ -247,13 +253,15 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'mkdir -p ${DOCROOT}/sites/default/files/private',
               'chown -R www-data:www-data ${DOCROOT}/sites/default',
               'chown -R www-data:www-data ${DOCROOT}/modules',
-              'echo "max_allowed_packet=33554432" >> /etc/my.cnf',
               'echo "SIMPLYEST_STAGE_FINALIZE"',
             ],
           ],
         ],
         'mysql' => [
-          'image' => 'tugboatqa/mysql:5',
+          'image' => 'tugboatqa/mysql:5.7',
+          'commands' => [
+              'update' => 'mysql -e "SET GLOBAL max_allowed_packet=536870912;"'
+          ]
         ],
       ]
     ];
@@ -303,13 +311,15 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'mkdir -p ${DOCROOT}/sites/default/files/private',
               'chown -R www-data:www-data ${DOCROOT}/sites/default',
               'chown -R www-data:www-data ${DOCROOT}/modules',
-              'echo "max_allowed_packet=33554432" >> /etc/my.cnf',
               'echo "SIMPLYEST_STAGE_FINALIZE"',
             ],
           ],
         ],
         'mysql' => [
-          'image' => 'tugboatqa/mysql:5',
+          'image' => 'tugboatqa/mysql:5.7',
+          'commands' => [
+              'update' => 'mysql -e "SET GLOBAL max_allowed_packet=536870912;"'
+          ]
         ],
       ]
     ];
@@ -366,13 +376,15 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'mkdir -p ${DOCROOT}/sites/default/files/private',
               'chown -R www-data:www-data ${DOCROOT}/sites/default',
               'chown -R www-data:www-data ${DOCROOT}/modules',
-              'echo "max_allowed_packet=33554432" >> /etc/my.cnf',
               'echo "SIMPLYEST_STAGE_FINALIZE"',
             ],
           ],
         ],
         'mysql' => [
-          'image' => 'tugboatqa/mysql:5',
+          'image' => 'tugboatqa/mysql:5.7',
+          'commands' => [
+              'update' => 'mysql -e "SET GLOBAL max_allowed_packet=536870912;"'
+          ]
         ],
       ]
     ];
@@ -429,13 +441,15 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'mkdir -p ${DOCROOT}/sites/default/files/private',
               'chown -R www-data:www-data ${DOCROOT}/sites/default',
               'chown -R www-data:www-data ${DOCROOT}/modules',
-              'echo "max_allowed_packet=33554432" >> /etc/my.cnf',
               'echo "SIMPLYEST_STAGE_FINALIZE"',
             ],
           ],
         ],
         'mysql' => [
-          'image' => 'tugboatqa/mysql:5',
+          'image' => 'tugboatqa/mysql:5.7',
+          'commands' => [
+              'update' => 'mysql -e "SET GLOBAL max_allowed_packet=536870912;"'
+          ]
         ],
       ]
     ];
@@ -483,13 +497,15 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'mkdir -p ${DOCROOT}/sites/default/files/private',
               'chown -R www-data:www-data ${DOCROOT}/sites/default',
               'chown -R www-data:www-data ${DOCROOT}/modules',
-              'echo "max_allowed_packet=33554432" >> /etc/my.cnf',
               'echo "SIMPLYEST_STAGE_FINALIZE"',
             ],
           ],
         ],
         'mysql' => [
-          'image' => 'tugboatqa/mysql:5',
+          'image' => 'tugboatqa/mysql:5.7',
+          'commands' => [
+              'update' => 'mysql -e "SET GLOBAL max_allowed_packet=536870912;"'
+          ]
         ],
       ]
     ];
@@ -537,13 +553,15 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'mkdir -p ${DOCROOT}/sites/default/files/private',
               'chown -R www-data:www-data ${DOCROOT}/sites/default',
               'chown -R www-data:www-data ${DOCROOT}/modules',
-              'echo "max_allowed_packet=33554432" >> /etc/my.cnf',
               'echo "SIMPLYEST_STAGE_FINALIZE"',
             ],
           ],
         ],
         'mysql' => [
-          'image' => 'tugboatqa/mysql:5',
+          'image' => 'tugboatqa/mysql:5.7',
+          'commands' => [
+              'update' => 'mysql -e "SET GLOBAL max_allowed_packet=536870912;"'
+          ]
         ],
       ]
     ];
@@ -591,13 +609,15 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'mkdir -p ${DOCROOT}/sites/default/files/private',
               'chown -R www-data:www-data ${DOCROOT}/sites/default',
               'chown -R www-data:www-data ${DOCROOT}/modules',
-              'echo "max_allowed_packet=33554432" >> /etc/my.cnf',
               'echo "SIMPLYEST_STAGE_FINALIZE"',
             ],
           ],
         ],
         'mysql' => [
-          'image' => 'tugboatqa/mysql:5',
+          'image' => 'tugboatqa/mysql:5.7',
+          'commands' => [
+              'update' => 'mysql -e "SET GLOBAL max_allowed_packet=536870912;"'
+          ]
         ],
       ]
     ];
@@ -647,13 +667,15 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'mkdir -p ${DOCROOT}/sites/default/files/private',
               'chown -R www-data:www-data ${DOCROOT}/sites/default',
               'chown -R www-data:www-data ${DOCROOT}/modules',
-              'echo "max_allowed_packet=33554432" >> /etc/my.cnf',
               'echo "SIMPLYEST_STAGE_FINALIZE"',
             ],
           ],
         ],
         'mysql' => [
-          'image' => 'tugboatqa/mysql:5',
+          'image' => 'tugboatqa/mysql:5.7',
+          'commands' => [
+              'update' => 'mysql -e "SET GLOBAL max_allowed_packet=536870912;"'
+          ]
         ],
       ]
     ];
@@ -719,13 +741,15 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'mkdir -p ${DOCROOT}/sites/default/files/private',
               'chown -R www-data:www-data ${DOCROOT}/sites/default',
               'chown -R www-data:www-data ${DOCROOT}/modules',
-              'echo "max_allowed_packet=33554432" >> /etc/my.cnf',
               'echo "SIMPLYEST_STAGE_FINALIZE"',
             ],
           ],
         ],
         'mysql' => [
-          'image' => 'tugboatqa/mysql:5',
+          'image' => 'tugboatqa/mysql:5.7',
+          'commands' => [
+              'update' => 'mysql -e "SET GLOBAL max_allowed_packet=536870912;"'
+          ]
         ],
       ]
     ];
