@@ -46,6 +46,32 @@ jobs:
         run: composer install
       - name: Install Simplytest
         run: php vendor/bin/drush site:install simplytest --account-pass=admin --db-url=mysql://root:@127.0.0.1:${{ job.services.mysql.ports[3306] }}/db --yes
+  phpstan:
+    runs-on: ubuntu-latest
+    name: phpstan
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+      - uses: shivammathur/setup-php@v2
+        with:
+            php-version: 8.1
+            extensions: dom, curl, libxml, mbstring, zip, pdo, mysql, pdo_mysql, bcmath, soap, intl, gd, exif, iconv
+            coverage: none
+            tools: composer:v2
+      - name: Install dependencies
+        run: composer install
+      - name: PHPStan
+        run: php vendor/bin/phpstan.phar
   phpunit:
     runs-on: ubuntu-latest
     name: phpunit
@@ -150,9 +176,9 @@ jobs:
       - name: Install Composer dependencies
         run: composer install
       - name: Install NPM dependencies
-        run: npm ci && cd web/themes/simplytest_theme && npm ci
+        run: npm ci
       - name: Build frontend
-        run: cd web/themes/simplytest_theme && npm run build
+        run: npm run build
       - name: Install Simplytest
         run: php vendor/bin/drush site:install simplytest --account-pass=admin --db-url=mysql://root:@127.0.0.1:${{ job.services.mysql.ports[3306] }}/db --yes
       - name: Run php built-in server

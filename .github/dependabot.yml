@@ -7,12 +7,15 @@ updates:
     ignore:
       - dependency-name: "drupal/core*"
         update-types: ["version-update:semver-major"]
+    groups:
+      drupal-core:
+        patterns:
+          - "drupal/core"
+          - "drupal/core-composer-scaffold"
+          - "drupal/core-recommended"
+          - "drupal/core-dev"
   - package-ecosystem: "npm"
     directory: "/"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "npm"
-    directory: "/web/themes/simplytest_theme"
     schedule:
       interval: "weekly"
   - package-ecosystem: "github-actions"

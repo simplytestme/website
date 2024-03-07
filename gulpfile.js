@@ -16,8 +16,8 @@ var gulp = require('gulp'),
 // Variables for folder path.
 var paths = {
   styles: {
-    source: 'postcss/',
-    destination: 'dist/css/'
+    source: 'web/themes/simplytest_theme/postcss/',
+    destination: 'web/themes/simplytest_theme/dist/css/'
   }
 };
 
