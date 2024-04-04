@@ -47,7 +47,7 @@ class Commerce extends OneClickDemoBase {
     $commands = [];
     $commands[] = 'echo \'$settings["file_private_path"] = "sites/default/files/private";\' >> ${DOCROOT}/sites/default/settings.php';
     $commands[] = 'cd "${DOCROOT}" && php -d memory_limit=-1 ../vendor/bin/drush si --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y';
-    $commands[] = 'cd "${DOCROOT}" && php ../vendor/bin/drush en commerce_demo -y';
+    $commands[] = 'cd "${DOCROOT}" && php -d memory_limit=-1 ../vendor/bin/drush en commerce_demo -y';
     return $commands;
   }
 
