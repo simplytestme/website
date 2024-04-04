@@ -28,8 +28,11 @@ class Commerce extends OneClickDemoBase {
   public function getDownloadCommands(array $parameters): array {
     $commands = [
       // @todo the base preview doesn't have the `commerce` dir?
-      'cd "${TUGBOAT_ROOT}" && composer create-project drupalcommerce/demo-project stm --no-install --stability dev --no-interaction',
-      'cd "${TUGBOAT_ROOT}/stm" && composer config --global allow-plugins true && composer install',
+      'cd "${TUGBOAT_ROOT}" && composer create-project centarro/commerce-kickstart-project stm --no-install --stability dev --no-interaction',
+      'cd "${TUGBOAT_ROOT}/stm" && composer require --no-update drupal/commerce_demo:^3.0',
+      // Remove bin-dir customization,
+      'cd "${TUGBOAT_ROOT}/stm" && composer config bin-dir --unset',
+      'cd "${TUGBOAT_ROOT}/stm" && composer install',
       'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"'
     ];
     // $commands[] = 'cd "${TUGBOAT_ROOT}"/commerce && composer update --no-ansi';
@@ -42,7 +45,9 @@ class Commerce extends OneClickDemoBase {
 
   public function getInstallingCommands(array $parameters): array {
     $commands = [];
-    $commands[] = 'cd "${DOCROOT}" && php -d memory_limit=-1 ../bin/drush si --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y';
+    $commands[] = 'echo \'$settings["file_private_path"] = "sites/default/files/private";\' >> ${DOCROOT}/sites/default/settings.php';
+    $commands[] = 'cd "${DOCROOT}" && php -d memory_limit=-1 ../vendor/bin/drush si --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y';
+    $commands[] = 'cd "${DOCROOT}" && php -d memory_limit=-1 ../vendor/bin/drush en commerce_demo -y';
     return $commands;
   }
 
