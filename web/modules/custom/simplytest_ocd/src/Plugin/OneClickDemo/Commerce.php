@@ -28,8 +28,9 @@ class Commerce extends OneClickDemoBase {
   public function getDownloadCommands(array $parameters): array {
     $commands = [
       // @todo the base preview doesn't have the `commerce` dir?
-      'cd "${TUGBOAT_ROOT}" && composer create-project drupalcommerce/demo-project stm --no-install --stability dev --no-interaction',
-      'cd "${TUGBOAT_ROOT}/stm" && composer config --global allow-plugins true && composer install',
+      'cd "${TUGBOAT_ROOT}" && composer create-project centarro/commerce-kickstart-project stm --no-install --stability dev --no-interaction',
+      'cd "${TUGBOAT_ROOT}/stm" && composer require  --no-update drupal/commerce_demo:^3.0',
+      'cd "${TUGBOAT_ROOT}/stm" && composer install',
       'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"'
     ];
     // $commands[] = 'cd "${TUGBOAT_ROOT}"/commerce && composer update --no-ansi';
