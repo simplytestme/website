@@ -31,11 +31,11 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
         'additionals' => [],
         'instance_id' => $instance_id,
         'hash' => $hash,
-        'major_version' => '9',
+        'major_version' => 9,
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.4-apache',
+          'image' => 'tugboatqa/php:8.1-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [
@@ -88,11 +88,11 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
         'additionals' => [],
         'instance_id' => $instance_id,
         'hash' => $hash,
-        'major_version' => '9',
+        'major_version' => 9,
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.4-apache',
+          'image' => 'tugboatqa/php:8.1-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [
@@ -150,11 +150,11 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
         'additionals' => [],
         'instance_id' => $instance_id,
         'hash' => $hash,
-        'major_version' => '9',
+        'major_version' => 9,
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.4-apache',
+          'image' => 'tugboatqa/php:8.1-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [
@@ -205,11 +205,11 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
         'additionals' => [],
         'instance_id' => $instance_id,
         'hash' => $hash,
-        'major_version' => '9',
+        'major_version' => 9,
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.4-apache',
+          'image' => 'tugboatqa/php:8.1-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [
@@ -270,11 +270,11 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
         'additionals' => [],
         'instance_id' => $instance_id,
         'hash' => $hash,
-        'major_version' => '9',
+        'major_version' => 9,
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.4-apache',
+          'image' => 'tugboatqa/php:8.1-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [
@@ -329,11 +329,11 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
         'additionals' => [],
         'instance_id' => $instance_id,
         'hash' => $hash,
-        'major_version' => '9',
+        'major_version' => 9,
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.4-apache',
+          'image' => 'tugboatqa/php:8.1-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [
@@ -394,11 +394,11 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
         ],
         'instance_id' => $instance_id,
         'hash' => $hash,
-        'major_version' => '9',
+        'major_version' => 9,
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.4-apache',
+          'image' => 'tugboatqa/php:8.1-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [
@@ -451,11 +451,11 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
         'additionals' => [],
         'instance_id' => $instance_id,
         'hash' => $hash,
-        'major_version' => '9',
+        'major_version' => 9,
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.4-apache',
+          'image' => 'tugboatqa/php:8.1-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [
@@ -505,11 +505,11 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
         'additionals' => [],
         'instance_id' => $instance_id,
         'hash' => $hash,
-        'major_version' => '9',
+        'major_version' => 9,
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.4-apache',
+          'image' => 'tugboatqa/php:8.1-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [
@@ -559,11 +559,11 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
         'additionals' => [],
         'instance_id' => $instance_id,
         'hash' => $hash,
-        'major_version' => '9',
+        'major_version' => 9,
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.4-apache',
+          'image' => 'tugboatqa/php:8.1-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [
@@ -613,11 +613,11 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
         'additionals' => [],
         'instance_id' => $instance_id,
         'hash' => $hash,
-        'major_version' => '9',
+        'major_version' => 9,
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.4-apache',
+          'image' => 'tugboatqa/php:8.1-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [
@@ -682,11 +682,11 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
         ],
         'instance_id' => $instance_id,
         'hash' => $hash,
-        'major_version' => '9',
+        'major_version' => 9,
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:7.4-apache',
+          'image' => 'tugboatqa/php:8.1-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [
