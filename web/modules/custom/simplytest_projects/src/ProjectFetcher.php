@@ -156,7 +156,7 @@ class ProjectFetcher {
       'type' => $type,
       'creator' => $creator,
       'usage' => array_reduce(
-        $project_data['project_usage'] ?? 0,
+        $project_data['project_usage'] ?? [],
         static fn (int $carry, $usage) => $carry + (int) $usage, 0
       ),
     ];
