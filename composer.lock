@@ -1702,26 +1702,26 @@
         },
         {
             "name": "drupal/http_cache_control",
-            "version": "2.1.0",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/http_cache_control.git",
-                "reference": "8.x-2.1"
+                "reference": "8.x-2.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/http_cache_control-8.x-2.1.zip",
-                "reference": "8.x-2.1",
-                "shasum": "6a6864ab39fc2110cc8705e51f5106aa90362df5"
+                "url": "https://ftp.drupal.org/files/projects/http_cache_control-8.x-2.2.zip",
+                "reference": "8.x-2.2",
+                "shasum": "e4be55d9eaa156206e87da5911e600149cffdb94"
             },
             "require": {
-                "drupal/core": "^9 || ^10"
+                "drupal/core": "^9 || ^10 || ^11"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-2.1",
-                    "datestamp": "1666053697",
+                    "version": "8.x-2.2",
+                    "datestamp": "1723471034",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -1734,7 +1734,11 @@
             ],
             "authors": [
                 {
-                    "name": "Josh Waihi",
+                    "name": "DieterHolvoet",
+                    "homepage": "https://www.drupal.org/user/3567222"
+                },
+                {
+                    "name": "josh waihi",
                     "homepage": "https://www.drupal.org/user/188162"
                 }
             ],
