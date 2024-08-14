@@ -171,14 +171,14 @@ final class PreviewConfigGenerator {
       // We need to require drupal/core and drupal/core-dev at the requested
       // Drupal core version, otherwise `composer update` could bump the
       // versions to the latest available one.
-      $commands[] = sprintf('cd stm && composer require --dev --no-update drupal/core:%1$s drupal/core-dev:%1$s', $parameters['drupal_core_version']);
+      $commands[] = sprintf('cd stm && composer require --dev --no-install drupal/core:%1$s drupal/core-dev:%1$s', $parameters['drupal_core_version']);
       // The phpspec/prophecy-phpunit check was added in 9.1.6
       // @see https://www.drupal.org/i/3182653
       // @see https://git.drupalcode.org/project/drupal/-/commit/94d0c1f
       if (Semver::satisfies($parameters['drupal_core_version'], '>=9.1.6')) {
-        $commands[] = 'cd stm && composer require --dev --no-update phpspec/prophecy-phpunit:^2';
+        $commands[] = 'cd stm && composer require --dev --no-install phpspec/prophecy-phpunit:^2';
       }
-      $commands[] = 'cd stm && composer require --no-update drush/drush';
+      $commands[] = 'cd stm && composer require --no-install drush/drush';
       $commands[] = 'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"';
     }
     else if ($parameters['major_version'] === '7' || $parameters['major_version'] === '8') {
@@ -204,19 +204,19 @@ final class PreviewConfigGenerator {
     $is_distro = $parameters['project_type'] === ProjectTypes::DISTRO;
 
     if ($parameters['major_version'] === '10' || $parameters['major_version'] === '9') {
-      $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-update', $parameters['project'], $this->getComposerCompatibleVersionString($parameters['project_version']));
+      $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-install', $parameters['project'], $this->getComposerCompatibleVersionString($parameters['project_version']));
       foreach ($parameters['additionals'] as $additional) {
-        $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-update', $additional['shortname'], $this->getComposerCompatibleVersionString($additional['version']));
+        $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-install', $additional['shortname'], $this->getComposerCompatibleVersionString($additional['version']));
       }
     }
     else if ($parameters['major_version'] === '8') {
-      $commands[] = 'cd "${DOCROOT}" && composer require zaporylie/composer-drupal-optimizations:^1.0 --no-update';
+      $commands[] = 'cd "${DOCROOT}" && composer require zaporylie/composer-drupal-optimizations:^1.0 --no-install';
       $commands[] = 'cd "${DOCROOT}" && composer install --no-ansi';
       if (!$is_core) {
-        $commands[] = sprintf('cd "${DOCROOT}" && composer require drupal/%s:%s --no-update', $parameters['project'], $this->getComposerCompatibleVersionString($parameters['project_version']));
+        $commands[] = sprintf('cd "${DOCROOT}" && composer require drupal/%s:%s --no-install', $parameters['project'], $this->getComposerCompatibleVersionString($parameters['project_version']));
       }
       foreach ($parameters['additionals'] as $additional) {
-        $commands[] = sprintf('cd "${DOCROOT}" && composer require drupal/%s:%s --no-update', $additional['shortname'], $this->getComposerCompatibleVersionString($additional['version']));
+        $commands[] = sprintf('cd "${DOCROOT}" && composer require drupal/%s:%s --no-install', $additional['shortname'], $this->getComposerCompatibleVersionString($additional['version']));
       }
     }
     else if ($parameters['major_version'] === '7') {
