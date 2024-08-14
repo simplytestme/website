@@ -21,7 +21,7 @@ final class UmamiConfigTest extends OneClickDemoConfigTestBase {
             'docker-php-ext-install opcache',
             'a2enmod headers rewrite',
             'rm -rf "${DOCROOT}"',
-            'composer -n create-project drupal/recommended-project stm --no-install',
+            'composer -n create-project drupal/recommended-project:^10 stm --no-install',
             'cd stm && composer require --no-update drush/drush',
             'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"',
             'echo "SIMPLYEST_STAGE_DOWNLOAD"',
