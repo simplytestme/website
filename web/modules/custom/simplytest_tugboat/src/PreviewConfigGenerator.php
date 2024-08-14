@@ -39,6 +39,13 @@ final class PreviewConfigGenerator {
       default => 'tugboatqa/php:apache'
     };
 
+    if ($parameters['major_version'] > 10) {
+      $mysql_version = '8';
+    }
+    else {
+      $mysql_version = '5';
+    }
+
     // Rename drupal to core so that it becomes drupal/core as a package name.
     // Have core version match the selected project version, as they user may
     // not have opened advanced options.
@@ -90,7 +97,7 @@ final class PreviewConfigGenerator {
           ],
         ],
         'mysql' => [
-          'image' => 'tugboatqa/mysql:5',
+          'image' => "tugboatqa/mysql:$mysql_version",
         ],
       ],
     ];
