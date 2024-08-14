@@ -9,8 +9,7 @@ var gulp = require('gulp'),
   postcssCustomMedia = require('postcss-custom-media'),
   autoprefixer = require('autoprefixer'),
   cleanCSS = require('gulp-clean-css'),
-  plumber = require('gulp-plumber'),
-  mixin = require('postcss-mixins')
+  plumber = require('gulp-plumber')
 
 // Variables for folder path.
 var paths = {
@@ -34,7 +33,6 @@ gulp.task('build:css', function () {
       preserve: false
     }),
     nested(),
-    mixin(),
     autoprefixer({
       overrideBrowserslist: ['last 2 version']
     })
