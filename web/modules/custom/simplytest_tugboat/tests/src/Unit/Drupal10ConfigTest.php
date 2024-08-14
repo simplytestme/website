@@ -31,11 +31,11 @@ final class Drupal10ConfigTest extends TugboatConfigTestBase {
         'additionals' => [],
         'instance_id' => $instance_id,
         'hash' => $hash,
-        'major_version' => '10',
+        'major_version' => 10,
       ],
       [
         'php' => [
-          'image' => 'tugboatqa/php:8.1-apache',
+          'image' => 'tugboatqa/php:8.2-apache',
           'default' => true,
           'depends' => 'mysql',
           'commands' => [

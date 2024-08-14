@@ -31,7 +31,7 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
         'additionals' => [],
         'instance_id' => $instance_id,
         'hash' => $hash,
-        'major_version' => '7',
+        'major_version' => 7,
       ],
       [
         'php' => [
@@ -81,7 +81,7 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
         'additionals' => [],
         'instance_id' => $instance_id,
         'hash' => $hash,
-        'major_version' => '7',
+        'major_version' => 7,
       ],
       [
         'php' => [
@@ -132,7 +132,7 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
         'additionals' => [],
         'instance_id' => $instance_id,
         'hash' => $hash,
-        'major_version' => '7',
+        'major_version' => 7,
       ],
       [
         'php' => [
@@ -179,7 +179,7 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
         'additionals' => [],
         'instance_id' => $instance_id,
         'hash' => $hash,
-        'major_version' => '7',
+        'major_version' => 7,
       ],
       [
         'php' => [
@@ -241,7 +241,7 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
         'additionals' => [],
         'instance_id' => $instance_id,
         'hash' => $hash,
-        'major_version' => '7',
+        'major_version' => 7,
       ],
       [
         'php' => [
@@ -288,7 +288,7 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
         'additionals' => [],
         'instance_id' => $instance_id,
         'hash' => $hash,
-        'major_version' => '7',
+        'major_version' => 7,
       ],
       [
         'php' => [
