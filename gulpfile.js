@@ -8,8 +8,7 @@ var gulp = require('gulp'),
   cssImport = require('postcss-import'),
   postcssCustomMedia = require('postcss-custom-media'),
   autoprefixer = require('autoprefixer'),
-  cleanCSS = require('gulp-clean-css'),
-  plumber = require('gulp-plumber')
+  cleanCSS = require('gulp-clean-css')
 
 // Variables for folder path.
 var paths = {
