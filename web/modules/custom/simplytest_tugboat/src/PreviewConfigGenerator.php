@@ -333,7 +333,7 @@ final class PreviewConfigGenerator {
 
       // Provide a hash salt so that installation begins automatically.
       // @see install_begin_request
-      if ($parameters['major_version'] >= 8) {
+      if ($parameters['major_version'] > 7) {
         $commands[] = 'echo "\$settings[\'hash_salt\'] = \'JzbemMqk0y1ALpbGBWhz8N_p9mr7wyYm_AQIpkxH1y-uSIGNTb5EnDwhJygBCyRKJhAOkQ1d7Q\';" >> ${DOCROOT}/sites/default/settings.php';
         $commands[] = 'echo "\$settings[\'config_sync_directory\'] = \'sites/default/files/sync\';" >> ${DOCROOT}/sites/default/settings.php';
         $commands[] = 'echo \'$settings["file_private_path"] = "sites/default/files/private";\' >> ${DOCROOT}/sites/default/settings.php';
