@@ -27,7 +27,8 @@ class Umami extends OneClickDemoBase {
     $commands[] = 'docker-php-ext-install opcache';
     $commands[] = 'a2enmod headers rewrite';
     $commands[] = 'rm -rf "${DOCROOT}"';
-    $commands[] = 'composer -n create-project drupal/recommended-project stm --no-install';
+    // Pin to Drupal ^10 for now, until ^11 is supported.
+    $commands[] = 'composer -n create-project drupal/recommended-project:^10 stm --no-install';
     $commands[] = 'cd stm && composer require --no-update drush/drush';
     $commands[] = 'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"';
     return $commands;
