@@ -8,10 +8,7 @@ var gulp = require('gulp'),
   cssImport = require('postcss-import'),
   postcssCustomMedia = require('postcss-custom-media'),
   autoprefixer = require('autoprefixer'),
-  cleanCSS = require('gulp-clean-css'),
-  plumber = require('gulp-plumber'),
-  gulpStylelint = require('gulp-stylelint'),
-  mixin = require('postcss-mixins')
+  cleanCSS = require('gulp-clean-css')
 
 // Variables for folder path.
 var paths = {
@@ -21,39 +18,6 @@ var paths = {
   }
 };
 
-// Lint CSS files.
-gulp.task('lint:css', function () {
-  return gulp.src(paths.styles.source + '/*.css')
-    .pipe(plumber())
-    .pipe(gulpStylelint({
-      reporters: [{
-        formatter: 'string',
-        console: true
-      }]
-    }))
-    .pipe(plumber.stop());
-});
-
-// Lint CSS files and throw an error for a CI to catch.
-gulp.task('lint:css-with-fail', function () {
-  return gulp.src(paths.styles.source + '/*.css')
-    .pipe(plugins.gulpStylelint({
-      reporters: [{
-        formatter: 'string',
-        console: true,
-        failAfterError: true
-      }]
-    }));
-});
-
-// Fix CSS linting errors.
-gulp.task('lint:css-fix', function () {
-  return gulp.src(paths.styles.source + '/*.css')
-    .pipe(gulpStylelint({
-      fix: true
-    }))
-    .pipe(gulp.dest(paths.styles.source));
-});
 
 // Build CSS files.
 gulp.task('build:css', function () {
@@ -68,7 +32,6 @@ gulp.task('build:css', function () {
       preserve: false
     }),
     nested(),
-    mixin(),
     autoprefixer({
       overrideBrowserslist: ['last 2 version']
     })
@@ -87,9 +50,4 @@ gulp.task('build:css', function () {
     }))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(paths.styles.destination))
-});
-
-// Watch CSS.
-gulp.task('watch:css', function () {
-  gulp.watch(paths.styles.source, gulp.series('build:css'));
 });
