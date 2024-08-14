@@ -35,6 +35,7 @@ final class PreviewConfigGenerator {
       7, 8 => 'tugboatqa/php:7.4-apache',
       9 => 'tugboatqa/php:8.1-apache',
       10 => 'tugboatqa/php:8.2-apache',
+      // Defaults to the latest PHP version.
       default => 'tugboatqa/php:apache'
     };
 
@@ -150,7 +151,7 @@ final class PreviewConfigGenerator {
 
   private function getSetupCommands(array $parameters) {
     $commands = [];
-    if ($parameters['major_version'] >= 9) {
+    if ($parameters['major_version'] > 8) {
       $commands[] = 'rm -rf "${DOCROOT}"';
       $commands[] = sprintf('composer -n create-project drupal/recommended-project:%s stm --no-install', $parameters['drupal_core_version']);
       $commands[] = 'cd stm && composer config minimum-stability dev';
@@ -168,7 +169,8 @@ final class PreviewConfigGenerator {
       $commands[] = 'cd stm && composer require --no-install drush/drush';
       $commands[] = 'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"';
     }
-    else if ($parameters['major_version'] === 7 || $parameters['major_version'] === 8) {
+    // Legacy non-composer build.
+    else {
       $commands[] = 'cd "${DOCROOT}" && git config core.fileMode false';
       $commands[] = 'cd "${DOCROOT}" && git fetch --all';
 
@@ -178,9 +180,6 @@ final class PreviewConfigGenerator {
       else {
         $commands[] = sprintf('cd "${DOCROOT}" && git reset --hard %s', $parameters['drupal_core_version']);
       }
-    }
-    else {
-      // @todo log something if unknown.
     }
 
     return $commands;
@@ -193,7 +192,7 @@ final class PreviewConfigGenerator {
     $is_core = $parameters['project_type'] === ProjectTypes::CORE;
     $is_distro = $parameters['project_type'] === ProjectTypes::DISTRO;
 
-    if ($parameters['major_version'] >= 9) {
+    if ($parameters['major_version'] > 8) {
       $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-install', $parameters['project'], $this->getComposerCompatibleVersionString($parameters['project_version']));
       foreach ($parameters['additionals'] as $additional) {
         $commands[] = sprintf('cd stm && composer require drupal/%s:%s --no-install', $additional['shortname'], $this->getComposerCompatibleVersionString($additional['version']));
@@ -353,7 +352,7 @@ final class PreviewConfigGenerator {
       $install_profile = $parameters['project'];
     }
 
-    if ($parameters['major_version'] >= 9) {
+    if ($parameters['major_version'] > 8) {
       $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush si %s --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y', $install_profile);
       // Enable verbose error reporting.
       $commands[] = 'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.logging error_level verbose -y';
@@ -381,7 +380,7 @@ final class PreviewConfigGenerator {
         }
       }
     }
-    else if ($parameters['major_version'] === 7 || $parameters['major_version'] === 8) {
+    else {
       $commands[] = sprintf('drush -r "${DOCROOT}" si %s --account-name=admin --account-pass=admin -y', $install_profile);
       if ($parameters['major_version'] === 8) {
         $commands[] = 'drush -r "${DOCROOT}" config-set system.logging error_level verbose -y';
@@ -392,9 +391,6 @@ final class PreviewConfigGenerator {
       foreach ($parameters['additionals'] as $additional) {
         $commands[] = sprintf('drush -r "${DOCROOT}" en %s -y', $additional['shortname']);
       }
-    }
-    else {
-      // @todo do something to note unrecognized core version.
     }
 
     if ($parameters['major_version'] === 7) {
