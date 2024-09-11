@@ -18,7 +18,7 @@ final class CommerceConfigTest extends OneClickDemoConfigTestBase {
   protected function getExpectedConfig(): array {
     return [
       'php' => [
-        'image' => 'tugboatqa/php:8.1-apache',
+        'image' => 'tugboatqa/php:8.2-apache',
         'default' => TRUE,
         'depends' => 'mysql',
         'commands' => [
@@ -48,7 +48,7 @@ final class CommerceConfigTest extends OneClickDemoConfigTestBase {
         ],
       ],
       'mysql' => [
-        'image' => 'tugboatqa/mysql:5',
+        'image' => 'tugboatqa/mysql:8',
       ],
     ];
   }
