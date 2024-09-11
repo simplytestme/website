@@ -14,8 +14,8 @@ abstract class OneClickDemoConfigTestBase extends UnitTestCase {
 
   use ProphecyTrait;
 
-  protected static $pluginId;
-  protected static $pluginClass;
+  protected static string $pluginId;
+  protected static string $pluginClass;
 
   /**
    * The preview config generator.

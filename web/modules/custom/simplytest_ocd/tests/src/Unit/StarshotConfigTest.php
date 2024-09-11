@@ -9,11 +9,11 @@ use Drupal\simplytest_ocd\Plugin\OneClickDemo\Starshot;
  */
 final class StarshotConfigTest extends OneClickDemoConfigTestBase {
 
-  protected static $pluginId = 'starshot';
-  protected static $pluginClass = Starshot::class;
+  protected static string $pluginId = 'starshot';
+  protected static string $pluginClass = Starshot::class;
 
   /**
-   *
+   * @return array<string, mixed>
    */
   protected function getExpectedConfig(): array {
     return [

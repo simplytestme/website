@@ -219,16 +219,6 @@ parameters:
 			path: web/modules/custom/simplytest_ocd/tests/src/Unit/CommerceConfigTest.php
 
 		-
-			message: "#^Property Drupal\\\\Tests\\\\simplytest_ocd\\\\Unit\\\\CommerceConfigTest\\:\\:\\$pluginClass has no type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_ocd/tests/src/Unit/CommerceConfigTest.php
-
-		-
-			message: "#^Property Drupal\\\\Tests\\\\simplytest_ocd\\\\Unit\\\\CommerceConfigTest\\:\\:\\$pluginId has no type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_ocd/tests/src/Unit/CommerceConfigTest.php
-
-		-
 			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:createInstance\\(\\)\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_ocd/tests/src/Unit/OneClickDemoConfigTestBase.php
@@ -259,27 +249,7 @@ parameters:
 			path: web/modules/custom/simplytest_ocd/tests/src/Unit/OneClickDemoConfigTestBase.php
 
 		-
-			message: "#^Property Drupal\\\\Tests\\\\simplytest_ocd\\\\Unit\\\\OneClickDemoConfigTestBase\\:\\:\\$pluginClass has no type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_ocd/tests/src/Unit/OneClickDemoConfigTestBase.php
-
-		-
-			message: "#^Property Drupal\\\\Tests\\\\simplytest_ocd\\\\Unit\\\\OneClickDemoConfigTestBase\\:\\:\\$pluginId has no type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_ocd/tests/src/Unit/OneClickDemoConfigTestBase.php
-
-		-
 			message: "#^Method Drupal\\\\Tests\\\\simplytest_ocd\\\\Unit\\\\UmamiConfigTest\\:\\:getExpectedConfig\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_ocd/tests/src/Unit/UmamiConfigTest.php
-
-		-
-			message: "#^Property Drupal\\\\Tests\\\\simplytest_ocd\\\\Unit\\\\UmamiConfigTest\\:\\:\\$pluginClass has no type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_ocd/tests/src/Unit/UmamiConfigTest.php
-
-		-
-			message: "#^Property Drupal\\\\Tests\\\\simplytest_ocd\\\\Unit\\\\UmamiConfigTest\\:\\:\\$pluginId has no type specified\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_ocd/tests/src/Unit/UmamiConfigTest.php
 

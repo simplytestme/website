@@ -9,8 +9,8 @@ use Drupal\simplytest_ocd\Plugin\OneClickDemo\Commerce;
  */
 final class CommerceConfigTest extends OneClickDemoConfigTestBase {
 
-  protected static $pluginId = 'oneclickdemo_commerce';
-  protected static $pluginClass = Commerce::class;
+  protected static string $pluginId = 'oneclickdemo_commerce';
+  protected static string $pluginClass = Commerce::class;
 
   /**
    *

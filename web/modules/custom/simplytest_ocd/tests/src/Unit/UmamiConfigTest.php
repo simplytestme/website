@@ -6,8 +6,8 @@ use Drupal\simplytest_ocd\Plugin\OneClickDemo\Umami;
 
 final class UmamiConfigTest extends OneClickDemoConfigTestBase {
 
-  protected static $pluginId = 'oneclickdemo_umami';
-  protected static $pluginClass = Umami::class;
+  protected static string $pluginId = 'oneclickdemo_umami';
+  protected static string $pluginClass = Umami::class;
 
   protected function getExpectedConfig(): array {
     return [
