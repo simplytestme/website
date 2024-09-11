@@ -28,7 +28,7 @@ final class StarshotConfigTest extends OneClickDemoConfigTestBase {
             'a2enmod headers rewrite',
             'rm -rf "${DOCROOT}"',
             'echo "SIMPLYEST_STAGE_DOWNLOAD"',
-            'git clone git@git.drupal.org:project/drupal_cms.git',
+            'git clone https://git.drupalcode.org/project/drupal_cms.git',
             "find \$TUGBOAT_ROOT/drupal_cms -type d -maxdepth 1 -name 'drupal_cms*' -exec composer config --global repositories.{} path {} ';'",
             'composer config --global repositories.template path $TUGBOAT_ROOT/drupal_cms/project_template',
             'composer create-project drupal/drupal-cms-project $TUGBOAT_ROOT/project --stability=dev',
