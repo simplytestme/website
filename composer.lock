@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5595a5eec7f925099b1b6a3a9e24a5a6",
+    "content-hash": "9538af73151cd8949d56b52964a5dc2a",
     "packages": [
         {
             "name": "amazeeio/drupal_integrations",
-            "version": "0.4.0",
+            "version": "0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amazeeio/drupal-integrations.git",
-                "reference": "4166cbcce9429e7e1cfaa9ffba4d44c1c267f083"
+                "reference": "5ff908d941551ae985f8eff5c2cbd7d5f4643bc9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amazeeio/drupal-integrations/zipball/4166cbcce9429e7e1cfaa9ffba4d44c1c267f083",
-                "reference": "4166cbcce9429e7e1cfaa9ffba4d44c1c267f083",
+                "url": "https://api.github.com/repos/amazeeio/drupal-integrations/zipball/5ff908d941551ae985f8eff5c2cbd7d5f4643bc9",
+                "reference": "5ff908d941551ae985f8eff5c2cbd7d5f4643bc9",
                 "shasum": ""
             },
             "require": {
@@ -56,9 +56,9 @@
             "description": "Add this project to any Drupal 9+ distribution based on drupal/core-composer-scaffold to enable it for use on Lagoon.",
             "support": {
                 "issues": "https://github.com/amazeeio/drupal-integrations/issues",
-                "source": "https://github.com/amazeeio/drupal-integrations/tree/0.4.0"
+                "source": "https://github.com/amazeeio/drupal-integrations/tree/0.5.0"
             },
-            "time": "2023-11-13T00:29:04+00:00"
+            "time": "2024-09-04T03:50:30+00:00"
         },
         {
             "name": "asm89/stack-cors",
@@ -1493,16 +1493,16 @@
         },
         {
             "name": "drupal/core-composer-scaffold",
-            "version": "10.2.4",
+            "version": "10.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core-composer-scaffold.git",
-                "reference": "63effa1bc644e80a269e8b4415e627491d26fd3f"
+                "reference": "f58ab5c0d02d275c5aa226c4505b457e41b161cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core-composer-scaffold/zipball/63effa1bc644e80a269e8b4415e627491d26fd3f",
-                "reference": "63effa1bc644e80a269e8b4415e627491d26fd3f",
+                "url": "https://api.github.com/repos/drupal/core-composer-scaffold/zipball/f58ab5c0d02d275c5aa226c4505b457e41b161cc",
+                "reference": "f58ab5c0d02d275c5aa226c4505b457e41b161cc",
                 "shasum": ""
             },
             "require": {
@@ -1537,9 +1537,9 @@
                 "drupal"
             ],
             "support": {
-                "source": "https://github.com/drupal/core-composer-scaffold/tree/10.2.4"
+                "source": "https://github.com/drupal/core-composer-scaffold/tree/10.3.3"
             },
-            "time": "2024-01-26T14:59:30+00:00"
+            "time": "2024-08-22T14:31:34+00:00"
         },
         {
             "name": "drupal/core-recommended",
