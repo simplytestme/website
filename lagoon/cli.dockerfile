@@ -21,7 +21,7 @@ RUN cd web/themes/simplytest_theme \
   && rm -rf node_modules
 
 
-FROM uselagoon/php-8.2-cli-drupal:latest
+FROM uselagoon/php-8.3-cli-drupal:latest
 
 COPY --from=composer /app /app
 COPY --from=node /app/web/themes/simplytest_theme /app/web/themes/simplytest_theme
