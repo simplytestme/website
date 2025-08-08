@@ -145,19 +145,18 @@ final class ProjectVersionManager {
         $branches[] = $release;
         continue;
       }
-
+      try {
       $compatibility = $release->core_compatibility;
       foreach ($core_compatibilities as $key => $major_version) {
-        try {
           if (Semver::satisfies($major_version['constraint'], $compatibility)) {
             $core_compatibilities[$key]['versions'][] = $release;
           }
         }
-        catch (UnexpectedValueException) {
-          // If the core compatibility is not a valid semantic version, we skip
-          // it.
-          continue;
-        }
+      }
+      catch (UnexpectedValueException) {
+        // If the core compatibility is not a valid semantic version, we skip
+        // it.
+        continue;
       }
     }
 
