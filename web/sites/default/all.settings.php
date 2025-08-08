@@ -4,6 +4,8 @@
  * Loaded on all environments.
  */
 
+use GuzzleHttp\Utils;
+
 $settings['config_sync_directory'] = '../config/sync';
 $settings['class_loader_auto_detect'] = FALSE;
 $settings['file_chmod_directory'] = 0775;
@@ -36,3 +38,9 @@ $config['tugboat.settings']['repository_base'] = getenv('TUGBOAT_REPOSITORY_BASE
 
 // Ensure the project refresher leverages a unique queue.
 $settings['queue_service_simplytest_projects_project_refresher'] = 'queue_unique.database';
+
+$settings['http_client_config'] = [
+  'headers' => [
+    'User-Agent' => 'Simplytest/1.0 (+https://simplytest.me/)',
+  ],
+];
