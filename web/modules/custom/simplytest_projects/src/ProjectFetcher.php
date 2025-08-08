@@ -2,12 +2,11 @@
 
 namespace Drupal\simplytest_projects;
 
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Query\Condition;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Logger\LoggerChannelFactory;
+use Drupal\Core\Lock\LockBackendInterface;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
 use Drupal\simplytest_projects\Exception\EntityValidationException;
 use GuzzleHttp\Client;
@@ -45,6 +44,8 @@ class ProjectFetcher {
 
   private ProjectVersionManager $projectVersionManager;
 
+  private LockBackendInterface $lock;
+
   /**
    * Constructs a new ProjectFetcher object.
    *
@@ -59,7 +60,8 @@ class ProjectFetcher {
     LoggerInterface $logger,
     EntityTypeManagerInterface $entity_type_manager,
     Connection $connection,
-    ProjectVersionManager $project_version_manager
+    ProjectVersionManager $project_version_manager,
+    LockBackendInterface $lock
   )
   {
     $this->httpClient = $http_client;
@@ -67,6 +69,7 @@ class ProjectFetcher {
     $this->entityTypeManager = $entity_type_manager;
     $this->connection = $connection;
     $this->projectVersionManager = $project_version_manager;
+    $this->lock = $lock;
   }
 
   /**
@@ -79,6 +82,11 @@ class ProjectFetcher {
    * @todo should not return null, but throw exceptions.
    */
   public function fetchProject(string $shortname): ?array {
+    if (!$this->lock->acquire("fetch_project_$shortname")) {
+      // Could not acquire lock, another process is already fetching this project.
+      // @todo use `wait` and see if it exists seems caller should implement?
+      return NULL;
+    }
     // Ensure the shortname is always lowercase. The Drupal.org API is not
     // case-sensitive, but other APIs are.
     $shortname = strtolower($shortname);
