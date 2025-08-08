@@ -83,10 +83,11 @@ class ProjectFetcher {
    */
   public function fetchProject(string $shortname): ?array {
     // Sanitize shortname for use in lock key: allow only lowercase letters, numbers, and underscores.
-    $sanitized_shortname = preg_replace('/[^a-z0-9_]/i', '', $shortname);
+    $sanitized_shortname = preg_replace('/[^a-z0-9_]/', '', $shortname);
     if (!$this->lock->acquire("fetch_project_$sanitized_shortname")) {
       // Could not acquire lock, another process is already fetching this project.
-      // @todo use `wait` and see if it exists seems caller should implement?
+      // @todo Use `wait` and check if it exists. This seems like something
+      //   the caller should implement?
       return NULL;
     }
     // Ensure the shortname is always lowercase. The Drupal.org API is not
@@ -192,7 +193,9 @@ class ProjectFetcher {
     catch (EntityStorageException $e) {
       // @todo decide how to handle this error if we got a dupe save, somehow.
     }
-    $this->lock->release("fetch_project_$sanitized_shortname");
+    finally {
+      $this->lock->release("fetch_project_$sanitized_shortname");
+    }
     return $data;
   }
 
