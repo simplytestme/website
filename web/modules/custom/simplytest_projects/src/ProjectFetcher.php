@@ -82,7 +82,9 @@ class ProjectFetcher {
    * @todo should not return null, but throw exceptions.
    */
   public function fetchProject(string $shortname): ?array {
-    if (!$this->lock->acquire("fetch_project_$shortname")) {
+    // Sanitize shortname for use in lock key: allow only lowercase letters, numbers, and underscores.
+    $sanitized_shortname = preg_replace('/[^a-z0-9_]/i', '', $shortname);
+    if (!$this->lock->acquire("fetch_project_$sanitized_shortname")) {
       // Could not acquire lock, another process is already fetching this project.
       // @todo use `wait` and see if it exists seems caller should implement?
       return NULL;
