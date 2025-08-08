@@ -4,8 +4,6 @@
  * Loaded on all environments.
  */
 
-use GuzzleHttp\Utils;
-
 $settings['config_sync_directory'] = '../config/sync';
 $settings['class_loader_auto_detect'] = FALSE;
 $settings['file_chmod_directory'] = 0775;
