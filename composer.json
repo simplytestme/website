@@ -28,7 +28,7 @@
         }
     ],
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "amazeeio/drupal_integrations": "^0.5.0",
         "composer/installers": "^2.2",
         "composer/semver": "^3.0",
