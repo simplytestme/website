@@ -100,11 +100,13 @@ class ProjectFetcher {
       $this->logger->warning('Failed to parse initial data for %project (json decode).', [
         '%project' => $shortname,
       ]);
+      $this->lock->release("fetch_project_$sanitized_shortname");
       return NULL;
     }
 
     // Did we find the project we searched for?
     if (count($data['list']) === 0 || !isset($data['list'][0])) {
+      $this->lock->release("fetch_project_$sanitized_shortname");
       return NULL;
     }
     $project_data = $data['list'][0];
@@ -118,6 +120,7 @@ class ProjectFetcher {
       $this->logger->warning('Failed to get initial data for %project (no project title).', [
         '%project' => $shortname,
       ]);
+      $this->lock->release("fetch_project_$sanitized_shortname");
       return NULL;
     }
     $title = $project_data['title'];
@@ -127,6 +130,7 @@ class ProjectFetcher {
       $this->logger->warning('Failed to get initial data for %project (no project type).', [
         '%project' => $shortname,
       ]);
+      $this->lock->release("fetch_project_$sanitized_shortname");
       return NULL;
     }
     $type_term = $project_data['type'];
@@ -139,6 +143,7 @@ class ProjectFetcher {
         '%project' => $shortname,
         '@term' => $type_term,
       ]);
+      $this->lock->release("fetch_project_$sanitized_shortname");
       return NULL;
     }
 
@@ -148,6 +153,7 @@ class ProjectFetcher {
         $this->logger->warning('Failed to scrap user name from "%url".', [
           '%url' => $project_data['url'],
         ]);
+        $this->lock->release("fetch_project_$sanitized_shortname");
         return NULL;
       }
       $url_parts = explode('/', $project_data['url']);
@@ -186,6 +192,7 @@ class ProjectFetcher {
     catch (EntityStorageException $e) {
       // @todo decide how to handle this error if we got a dupe save, somehow.
     }
+    $this->lock->release("fetch_project_$sanitized_shortname");
     return $data;
   }
 
