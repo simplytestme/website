@@ -2,7 +2,9 @@
 
 namespace Drupal\Tests\simplytest_projects\Unit\ReleaseHistory;
 
+use Drupal\Core\Cache\NullBackend;
 use Drupal\Core\KeyValueStore\KeyValueMemoryFactory;
+use Drupal\Core\Lock\NullLockBackend;
 use Drupal\Core\State\State;
 use Drupal\simplytest_projects\Exception\ReleaseHistoryNotModifiedException;
 use Drupal\simplytest_projects\ReleaseHistory\Fetcher;
@@ -16,7 +18,7 @@ use GuzzleHttp\Client;
 final class FetcherTest extends ReleaseHistoryUnitTestBase {
 
   public function testLastModified() {
-    $sut = new Fetcher(new Client(), new State(new KeyValueMemoryFactory()));
+    $sut = new Fetcher(new Client(), new State(new KeyValueMemoryFactory(), new NullBackend('bootstrap'), new NullLockBackend()));
     $sut->getProjectData('token', 'current');
     $sut->getProjectData('token', '7.x');
     $this->expectException(ReleaseHistoryNotModifiedException::class);
@@ -30,7 +32,7 @@ final class FetcherTest extends ReleaseHistoryUnitTestBase {
    * @dataProvider releaseChannelData
    */
   public function testValidReleaseChannels(string $channel, bool $expected_exception) {
-    $state = new State(new KeyValueMemoryFactory());
+    $state = new State(new KeyValueMemoryFactory(), new NullBackend('bootstrap'), new NullLockBackend());
     $sut = new Fetcher($this->getMockedHttpClient(), $state);
 
     if ($expected_exception) {
