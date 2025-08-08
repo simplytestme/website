@@ -3,8 +3,6 @@ parameters:
 	paths:
 		- web/modules/custom
 		- web/themes/simplytest_theme
-	excludePaths:
-		- web/themes/simplytest_theme/node_modules
 	scanDirectories:
 		- vendor/drush/drush/src-symfony-compatibility/v6
 	drupal:
