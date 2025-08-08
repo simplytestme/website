@@ -11,6 +11,7 @@ use Drupal\simplytest_projects\Exception\ReleaseHistoryNotModifiedException;
 use Drupal\simplytest_projects\ReleaseHistory\Fetcher;
 use Drupal\simplytest_projects\ReleaseHistory\Processor;
 use Drupal\simplytest_projects\ReleaseHistory\ProjectRelease;
+use UnexpectedValueException;
 
 final class ProjectVersionManager {
 
@@ -144,12 +145,18 @@ final class ProjectVersionManager {
         $branches[] = $release;
         continue;
       }
-
+      try {
       $compatibility = $release->core_compatibility;
       foreach ($core_compatibilities as $key => $major_version) {
-        if (Semver::satisfies($major_version['constraint'], $compatibility)) {
-          $core_compatibilities[$key]['versions'][] = $release;
+          if (Semver::satisfies($major_version['constraint'], $compatibility)) {
+            $core_compatibilities[$key]['versions'][] = $release;
+          }
         }
+      }
+      catch (UnexpectedValueException) {
+        // If the core compatibility is not a valid semantic version, we skip
+        // it.
+        continue;
       }
     }
 
