@@ -1,6 +1,6 @@
 <?php
 
-use Drupal\Core\File\FileSystemInterface;
+use Drupal\Core\File\FileExists;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\file\Entity\File;
 
@@ -38,7 +38,7 @@ function _simplytest_theme_header_bg_validate($element, FormStateInterface $form
   global $base_url;
 
   $validators = array('file_validate_extensions' => array('jpg jpeg svg webp'));
-  $files = file_save_upload('header_bg', $validators, "public://", NULL, FileSystemInterface::EXISTS_REPLACE);
+  $files = file_save_upload('header_bg', $validators, "public://", NULL, FileExists::Replace);
 
   if (!empty($files)) {
     // change file's status from temporary to permanent and update file database

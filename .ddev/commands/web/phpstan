@@ -1,0 +1,8 @@
+#!/bin/bash
+
+## Description: Run PHPStan
+## Usage: phpstan [flags]
+## Example: "ddev phpstan" or "ddev phpstan --generate-baseline"
+## Flags: [{"Name":"generate-baseline","Usage":"Updates the baseline"}]
+
+php vendor/bin/phpstan $@

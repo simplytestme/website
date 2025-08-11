@@ -46,6 +46,7 @@
     },
     "require-dev": {
         "drupal/core-dev": "^10",
+        "jangregor/phpstan-prophecy": "^1.0",
         "phpspec/prophecy-phpunit": "^2"
     },
     "conflict": {
@@ -60,11 +61,12 @@
         "sort-packages": true,
         "allow-plugins": {
             "composer/installers": true,
-            "drupal/core-composer-scaffold": true,
             "cweagans/composer-patches": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
+            "drupal/core-composer-scaffold": true,
             "php-http/discovery": true,
-            "phpstan/extension-installer": true
+            "phpstan/extension-installer": true,
+            "tbachert/spi": true
         }
     },
     "scripts": {
