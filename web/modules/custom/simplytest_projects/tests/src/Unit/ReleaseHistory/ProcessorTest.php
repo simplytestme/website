@@ -2,7 +2,9 @@
 
 namespace Drupal\Tests\simplytest_projects\Unit\ReleaseHistory;
 
+use Drupal\Core\Cache\NullBackend;
 use Drupal\Core\KeyValueStore\KeyValueMemoryFactory;
+use Drupal\Core\Lock\NullLockBackend;
 use Drupal\Core\State\State;
 use Drupal\simplytest_projects\ReleaseHistory\Fetcher;
 use Drupal\simplytest_projects\ReleaseHistory\Processor;
@@ -19,7 +21,7 @@ final class ProcessorTest extends ReleaseHistoryUnitTestBase {
    * @covers ::getData
    */
   public function testGetData() {
-    $state = new State(new KeyValueMemoryFactory());
+    $state = new State(new KeyValueMemoryFactory(), new NullBackend('bootstrap'), new NullLockBackend());
     $client = $this->getMockedHttpClient();
     $fetcher = new Fetcher($client, $state);
     $data = $fetcher->getProjectData('pathauto', 'current');
@@ -41,7 +43,7 @@ final class ProcessorTest extends ReleaseHistoryUnitTestBase {
   }
 
   public function testCoreCompatibility() {
-    $state = new State(new KeyValueMemoryFactory());
+    $state = new State(new KeyValueMemoryFactory(), new NullBackend('bootstrap'), new NullLockBackend());
     $client = $this->getMockedHttpClient();
     $fetcher = new Fetcher($client, $state);
     $data = $fetcher->getProjectData('pathauto', '7.x');
