@@ -120,6 +120,11 @@ final class ProjectVersionManager {
     $branches = [];
     $core_compatibilities = [
       [
+        'label' => 'Drupal 11',
+        'constraint' => '11',
+        'versions' => [],
+      ],
+      [
         'label' => 'Drupal 10',
         'constraint' => '10',
         'versions' => [],
