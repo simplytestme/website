@@ -1,14 +1,10 @@
 describe('Project autocomplete imports missing projects', () => {
-  beforeEach(() => {
-    cy.installDrupal();
-  })
   const autocompleteQueries = [
     {
       'query': 'Pathauto',
       'result': {
         'title' : 'Pathauto',
         'shortname' : 'pathauto',
-        'sandbox' : false,
         'type' : 'Module',
       }
     },
@@ -18,7 +14,6 @@ describe('Project autocomplete imports missing projects', () => {
         'title' : 'Password Policy',
         'shortname' : 'password_policy',
         'type' : 'Module',
-        'sandbox' : false,
       }
     },
     {
@@ -26,7 +21,6 @@ describe('Project autocomplete imports missing projects', () => {
       'result': {
         'title' : 'Token',
         'shortname' : 'token',
-        'sandbox' : false,
         'type' : 'Module',
       }
     },
@@ -35,7 +29,6 @@ describe('Project autocomplete imports missing projects', () => {
       'result': {
         'title' : 'Bootstrap',
         'shortname' : 'bootstrap',
-        'sandbox' : false,
         'type' : 'Theme',
       }
     },
@@ -45,7 +38,6 @@ describe('Project autocomplete imports missing projects', () => {
         'title' : 'Password Policy',
         'shortname' : 'password_policy',
         'type' : 'Module',
-        'sandbox' : 0,
       }
     },
   ]

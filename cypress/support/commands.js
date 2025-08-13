@@ -24,27 +24,25 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('installDrupal', () => {
-  cy.exec(Cypress.env('SIMPLYTEST_INSTALL_COMMAND'), {
-    timeout: 120000
-  })
-})
 // Copied from https://glebbahmutov.com/cypress-examples/6.8.0/recipes/form-input-by-label.html#simple-custom-command
 Cypress.Commands.add('getByLabel', (label) => {
-  cy.contains('label', label)
+  return cy.contains('label', label)
     .invoke('attr', 'for')
-    .then((id) => {
-      cy.get('#' + id)
-    })
+    .then((id) => cy.get('#' + id));
 })
 Cypress.Commands.add('toggleDetailsElement', (label) => {
-  cy.contains('summary', label).click()
+  return cy.contains('summary', label).click()
 })
 
 Cypress.Commands.add('pickProject', input => {
+  cy.intercept('GET', '**/simplytest/projects/autocomplete**').as('autocomplete');
+
   cy.getByLabel('Evaluate Drupal projects')
-    .type(input)
-    .wait(2000)
-    // @todo: strengthen this to make sure select item matches input.
-    .type('{downArrow}{enter}')
+    .type(input);
+  cy.wait('@autocomplete');
+
+  cy.get('[role="option"]')
+    .contains(input)
+    .should('be.visible')
+    .click();
 })
