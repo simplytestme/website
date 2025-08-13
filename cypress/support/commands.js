@@ -35,8 +35,11 @@ Cypress.Commands.add('toggleDetailsElement', (label) => {
 })
 
 Cypress.Commands.add('pickProject', input => {
+  cy.intercept('GET', '**/simplytest/projects/autocomplete**').as('autocomplete');
+
   cy.getByLabel('Evaluate Drupal projects')
     .type(input);
+  cy.wait('@autocomplete');
 
   cy.get('[role="option"]')
     .contains(input)
