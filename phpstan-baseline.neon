@@ -834,16 +834,6 @@ parameters:
 			path: web/modules/custom/simplytest_projects/tests/modules/simplytest_projects_test/src/MockedHttpMiddleware.php
 
 		-
-			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Functional\\\\ProjectsAutocompleteTest\\:\\:testAutoImport\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/tests/src/Functional/ProjectsAutocompleteTest.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/tests/src/Functional/ProjectsAutocompleteTest.php
-
-		-
 			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Kernel\\\\ControllerTest\\:\\:alter\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/tests/src/Kernel/ControllerTest.php

@@ -4,5 +4,5 @@ status: true
 dependencies: {  }
 id: cta_block
 label: 'CTA Block'
-revision: 0
+revision: false
 description: 'Block with a title, some text, and a link button'

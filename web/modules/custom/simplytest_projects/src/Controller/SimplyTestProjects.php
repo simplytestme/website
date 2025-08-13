@@ -53,7 +53,7 @@ class SimplyTestProjects implements ContainerInjectionInterface {
       if (!$matches = $this->projectFetcher->searchFromProjects($string)) {
         $string = str_replace(' ', '_', $string);
         if ($project = $this->projectFetcher->fetchProject($string)) {
-          unset($project['creator'], $project['usage']);
+          unset($project['creator'], $project['usage'], $project['sandbox']);
           $matches = [$project];
         }
       }

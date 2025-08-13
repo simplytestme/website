@@ -250,8 +250,7 @@ class ProjectFetcher {
 
     $projects = [];
     foreach ($results as $result) {
-      // Cast sandbox to int.
-      $result->sandbox = (int) $result->sandbox;
+      unset($result->sandbox);
       $projects[] = (array) $result;
     }
 

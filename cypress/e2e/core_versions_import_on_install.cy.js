@@ -1,7 +1,4 @@
 describe('Core versions install when Simplytest is installed', function () {
-  beforeEach(() => {
-    cy.installDrupal();
-  })
   it('has core versions available after install', () => {
     ;[7, 8, 9].forEach((version) => {
       cy.request('simplytest/core/versions/' + version)
