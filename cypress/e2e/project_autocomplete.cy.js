@@ -1,7 +1,4 @@
 describe('Project autocomplete imports missing projects', () => {
-  beforeEach(() => {
-    cy.installDrupal();
-  })
   const autocompleteQueries = [
     {
       'query': 'Pathauto',

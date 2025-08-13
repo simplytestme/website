@@ -24,11 +24,6 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('installDrupal', () => {
-  cy.exec(Cypress.env('SIMPLYTEST_INSTALL_COMMAND'), {
-    timeout: 120000
-  })
-})
 // Copied from https://glebbahmutov.com/cypress-examples/6.8.0/recipes/form-input-by-label.html#simple-custom-command
 Cypress.Commands.add('getByLabel', (label) => {
   cy.contains('label', label)
