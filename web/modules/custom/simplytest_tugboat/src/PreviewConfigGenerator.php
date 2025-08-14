@@ -425,7 +425,7 @@ final class PreviewConfigGenerator {
     // versioning.
     $legacy_matches = [];
     $result = preg_match('/^[7|8].x-(.*)$/', $version, $legacy_matches);
-    if ($result === 1 && count($legacy_matches) === 2) {
+    if ($result === 1) {
       return $legacy_matches[1];
     }
     return $version;

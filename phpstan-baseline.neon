@@ -219,11 +219,6 @@ parameters:
 			path: web/modules/custom/simplytest_ocd/tests/src/Unit/CommerceConfigTest.php
 
 		-
-			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:createInstance\\(\\)\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_ocd/tests/src/Unit/OneClickDemoConfigTestBase.php
-
-		-
 			message: "#^Method Drupal\\\\Tests\\\\simplytest_ocd\\\\Unit\\\\OneClickDemoConfigTestBase\\:\\:getExpectedConfig\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_ocd/tests/src/Unit/OneClickDemoConfigTestBase.php
@@ -849,16 +844,6 @@ parameters:
 			path: web/modules/custom/simplytest_projects/tests/modules/simplytest_projects_test/src/MockedHttpMiddleware.php
 
 		-
-			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Functional\\\\ProjectsAutocompleteTest\\:\\:testAutoImport\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/tests/src/Functional/ProjectsAutocompleteTest.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/tests/src/Functional/ProjectsAutocompleteTest.php
-
-		-
 			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Kernel\\\\ControllerTest\\:\\:alter\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/tests/src/Kernel/ControllerTest.php
@@ -887,26 +872,6 @@ parameters:
 			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Kernel\\\\ProjectPreSaveValidationTest\\:\\:testValidationExceptionOnPreSave\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/tests/src/Kernel/ProjectPreSaveValidationTest.php
-
-		-
-			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:get\\(\\)\\.$#"
-			count: 6
-			path: web/modules/custom/simplytest_projects/tests/src/Kernel/ProjectVersionManagerTest.php
-
-		-
-			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:getBody\\(\\)\\.$#"
-			count: 4
-			path: web/modules/custom/simplytest_projects/tests/src/Kernel/ProjectVersionManagerTest.php
-
-		-
-			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:getHeaderLine\\(\\)\\.$#"
-			count: 4
-			path: web/modules/custom/simplytest_projects/tests/src/Kernel/ProjectVersionManagerTest.php
-
-		-
-			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:getStatusCode\\(\\)\\.$#"
-			count: 5
-			path: web/modules/custom/simplytest_projects/tests/src/Kernel/ProjectVersionManagerTest.php
 
 		-
 			message: "#^Call to function assert\\(\\) with true will always evaluate to true\\.$#"
@@ -947,26 +912,6 @@ parameters:
 			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Unit\\\\ReleaseHistory\\\\ProcessorTest\\:\\:testGetData\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/tests/src/Unit/ReleaseHistory/ProcessorTest.php
-
-		-
-			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:get\\(\\)\\.$#"
-			count: 6
-			path: web/modules/custom/simplytest_projects/tests/src/Unit/ReleaseHistory/ReleaseHistoryUnitTestBase.php
-
-		-
-			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:getBody\\(\\)\\.$#"
-			count: 4
-			path: web/modules/custom/simplytest_projects/tests/src/Unit/ReleaseHistory/ReleaseHistoryUnitTestBase.php
-
-		-
-			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:getHeaderLine\\(\\)\\.$#"
-			count: 4
-			path: web/modules/custom/simplytest_projects/tests/src/Unit/ReleaseHistory/ReleaseHistoryUnitTestBase.php
-
-		-
-			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:getStatusCode\\(\\)\\.$#"
-			count: 5
-			path: web/modules/custom/simplytest_projects/tests/src/Unit/ReleaseHistory/ReleaseHistoryUnitTestBase.php
 
 		-
 			message: "#^Method Drupal\\\\simplytest_tugboat\\\\Controller\\\\SimplytestTugboatController\\:\\:instanceState\\(\\) has no return type specified\\.$#"
@@ -1142,11 +1087,6 @@ parameters:
 			message: "#^Method Drupal\\\\simplytest_tugboat\\\\PreviewConfigGenerator\\:\\:oneClickDemo\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_tugboat/src/PreviewConfigGenerator.php
-
-		-
-			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:get\\(\\)\\.$#"
-			count: 4
-			path: web/modules/custom/simplytest_tugboat/tests/src/Unit/InstanceManagerTest.php
 
 		-
 			message: "#^Method Drupal\\\\Tests\\\\simplytest_tugboat\\\\Unit\\\\InstanceManagerTest\\:\\:doTest\\(\\) has no return type specified\\.$#"
