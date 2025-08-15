@@ -81,11 +81,6 @@ parameters:
 			path: web/modules/custom/simplytest_launch/src/Plugin/DataType/ProjectInfo.php
 
 		-
-			message: "#^Method Drupal\\\\simplytest_launch\\\\Plugin\\\\Validation\\\\Constraint\\\\PatchesUrlConstraintValidator\\:\\:__construct\\(\\) has parameter \\$allowed_hosts with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_launch/src/Plugin/Validation/Constraint/PatchesUrlConstraintValidator.php
-
-		-
 			message: "#^Method Drupal\\\\simplytest_launch\\\\Plugin\\\\Validation\\\\Constraint\\\\PatchesUrlConstraintValidator\\:\\:create\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_launch/src/Plugin/Validation/Constraint/PatchesUrlConstraintValidator.php
@@ -394,16 +389,6 @@ parameters:
 			path: web/modules/custom/simplytest_projects/src/CoreVersionManager.php
 
 		-
-			message: "#^Property Drupal\\\\simplytest_projects\\\\CoreVersionManager\\:\\:\\$client \\(GuzzleHttp\\\\Client\\) does not accept GuzzleHttp\\\\ClientInterface\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/CoreVersionManager.php
-
-		-
-			message: "#^Property Drupal\\\\simplytest_projects\\\\CoreVersionManager\\:\\:\\$state has no type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/CoreVersionManager.php
-
-		-
 			message: "#^Method Drupal\\\\simplytest_projects\\\\Entity\\\\SimplytestProject\\:\\:getVersions\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/src/Entity/SimplytestProject.php
@@ -492,11 +477,6 @@ parameters:
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/src/Form/ImportForm.php
-
-		-
-			message: "#^Method Drupal\\\\Core\\\\Config\\\\Config\\:\\:get\\(\\) invoked with 2 parameters, 0\\-1 required\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/Form/Settings.php
 
 		-
 			message: "#^Method Drupal\\\\simplytest_projects\\\\Form\\\\Settings\\:\\:buildForm\\(\\) has parameter \\$form with no value type specified in iterable type array\\.$#"
@@ -674,36 +654,6 @@ parameters:
 			path: web/modules/custom/simplytest_projects/src/ProjectImporter.php
 
 		-
-			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectTypes\\:\\:getProjectType\\(\\) should return string but returns false\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ProjectTypes.php
-
-		-
-			message: "#^Access to an undefined property Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:\\$core_compatibility\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ProjectVersionManager.php
-
-		-
-			message: "#^Access to an undefined property Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:\\$date\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ProjectVersionManager.php
-
-		-
-			message: "#^Access to an undefined property Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:\\$status\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ProjectVersionManager.php
-
-		-
-			message: "#^Access to an undefined property Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:\\$tag\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ProjectVersionManager.php
-
-		-
-			message: "#^Access to an undefined property Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:\\$version\\.$#"
-			count: 2
-			path: web/modules/custom/simplytest_projects/src/ProjectVersionManager.php
-
-		-
 			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectVersionManager\\:\\:getAllReleases\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/src/ProjectVersionManager.php
@@ -739,52 +689,12 @@ parameters:
 			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/Processor.php
 
 		-
-			message: "#^Method Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:__construct\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
-
-		-
 			message: "#^Method Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:__get\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
 
 		-
 			message: "#^Method Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:__get\\(\\) has parameter \\$name with no type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
-
-		-
-			message: "#^PHPDoc tag @property has invalid value \\(string core_compatibility\\)\\: Unexpected token \"core_compatibility\", expected variable at offset 49 on line 3$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
-
-		-
-			message: "#^PHPDoc tag @property has invalid value \\(string date\\)\\: Unexpected token \"date\", expected variable at offset 140 on line 6$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
-
-		-
-			message: "#^PHPDoc tag @property has invalid value \\(string name\\)\\: Unexpected token \"name\", expected variable at offset 24 on line 2$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
-
-		-
-			message: "#^PHPDoc tag @property has invalid value \\(string status\\)\\: Unexpected token \"status\", expected variable at offset 165 on line 7$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
-
-		-
-			message: "#^PHPDoc tag @property has invalid value \\(string tag\\)\\: Unexpected token \"tag\", expected variable at offset 116 on line 5$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
-
-		-
-			message: "#^PHPDoc tag @property has invalid value \\(string version\\)\\: Unexpected token \"version\", expected variable at offset 88 on line 4$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
-
-		-
-			message: "#^Property Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:\\$data has no type specified\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
 
@@ -882,16 +792,6 @@ parameters:
 			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Unit\\\\ReleaseHistory\\\\FetcherTest\\:\\:testValidReleaseChannels\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/tests/src/Unit/ReleaseHistory/FetcherTest.php
-
-		-
-			message: "#^Access to an undefined property Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:\\$core_compatibility\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/tests/src/Unit/ReleaseHistory/ProcessorTest.php
-
-		-
-			message: "#^Access to an undefined property Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:\\$name\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/tests/src/Unit/ReleaseHistory/ProcessorTest.php
 
 		-
 			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Unit\\\\ReleaseHistory\\\\ProcessorTest\\:\\:testCoreCompatibility\\(\\) has no return type specified\\.$#"

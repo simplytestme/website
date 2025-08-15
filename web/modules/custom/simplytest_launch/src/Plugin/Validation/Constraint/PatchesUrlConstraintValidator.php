@@ -13,13 +13,10 @@ final class PatchesUrlConstraintValidator extends UrlValidator implements Contai
   /**
    * Constructs a new PatchesUrlConstraintValidator object.
    *
-   * @param array $allowedHosts
+   * @param list<string> $allowedHosts
    *   The allowed hosts for patches.
    */
   public function __construct(
-      /**
-       * The allowed hosts for patches.
-       */
       private readonly array $allowedHosts
   )
   {
@@ -39,7 +36,7 @@ final class PatchesUrlConstraintValidator extends UrlValidator implements Contai
    * {@inheritdoc}
    */
   #[\Override]
-  public function validate($value, Constraint $constraint) {
+  public function validate($value, Constraint $constraint): void {
     parent::validate($value, $constraint);
     $value = (string) $value;
     if ('' === $value) {
