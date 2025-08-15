@@ -21,28 +21,20 @@ use Psr\Log\LoggerInterface;
 class ProjectImporter {
 
   /**
-   * GuzzleHttp\ClientInterface definition.
-   *
-   * @var \GuzzleHttp\ClientInterface
-   */
-  protected ClientInterface $httpClient;
-
-  /**
-   * Simplytest Project Fetcher.
-   *
-   * @var \Drupal\simplytest_projects\ProjectFetcher
-   */
-  protected ProjectFetcher $projectFetcher;
-
-  private LoggerInterface $logger;
-
-  /**
    * {@inheritdoc}
    */
-  public function __construct(ClientInterface $http_client, ProjectFetcher $simplytestProjectFetcher, LoggerInterface $logger) {
-    $this->httpClient = $http_client;
-    $this->projectFetcher = $simplytestProjectFetcher;
-    $this->logger = $logger;
+  public function __construct(
+      /**
+       * GuzzleHttp\ClientInterface definition.
+       */
+      protected ClientInterface $httpClient,
+      /**
+       * Simplytest Project Fetcher.
+       */
+      protected ProjectFetcher $projectFetcher,
+      private readonly LoggerInterface $logger
+  )
+  {
   }
 
   /**
@@ -111,7 +103,7 @@ class ProjectImporter {
     $type = 'project_' . $type;
     $items = $this->fetchData($type);
 
-    if (preg_match('/&page=(\d*)/', $items['last'], $count)) {
+    if (preg_match('/&page=(\d*)/', (string) $items['last'], $count)) {
       $count = $count[1];
     } else {
       $count = 0;
@@ -141,7 +133,7 @@ class ProjectImporter {
         $project = SimplytestProject::create($datum);
         $project->save();
       }
-      catch (EntityStorageException $e) {
+      catch (EntityStorageException) {
         // @todo decide how to handle this error if we got a dupe save, somehow.
       }
     }

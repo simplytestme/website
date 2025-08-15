@@ -51,6 +51,7 @@ class SimplytestProjectListBuilder extends EntityListBuilder {
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public static function createInstance(ContainerInterface $container, EntityTypeInterface $entity_type) {
     return new static(
       $entity_type,
@@ -63,6 +64,7 @@ class SimplytestProjectListBuilder extends EntityListBuilder {
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function buildHeader(){
     $header['id'] = $this->t('Linked Entity Label');
     $header['type'] = $this->t('Type');
@@ -76,6 +78,7 @@ class SimplytestProjectListBuilder extends EntityListBuilder {
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function buildRow(EntityInterface $entity) {
     /** @var \Drupal\simplytest_projects\Entity\SimplytestProjectInterface $entity */
     $row['id'] = $entity->toLink($entity->label());

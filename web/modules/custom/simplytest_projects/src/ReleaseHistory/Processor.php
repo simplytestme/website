@@ -18,16 +18,16 @@ final class Processor {
    * @see \Drupal\update\UpdateProcessor::parseXml
    */
   public static function getData(string $release_xml) {
-    if (strpos($release_xml, 'No release history available for') !== FALSE) {
+    if (str_contains($release_xml, 'No release history available for')) {
       throw new NoReleaseHistoryFoundException();
     }
-    if (strpos($release_xml, 'No release history was found for') !== FALSE) {
+    if (str_contains($release_xml, 'No release history was found for')) {
       throw new NoReleaseHistoryFoundException();
     }
     try {
       $xml = new \SimpleXMLElement($release_xml);
     }
-    catch (\Exception $e) {
+    catch (\Exception) {
       throw new \InvalidArgumentException("Could not parse release XML");
     }
     // If there is no valid project data, the XML is invalid, so return failure.

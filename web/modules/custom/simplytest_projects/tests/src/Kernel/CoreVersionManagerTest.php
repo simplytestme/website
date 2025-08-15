@@ -66,9 +66,7 @@ final class CoreVersionManagerTest extends KernelTestBase {
     // NOTE: We do the array map because assertContains performs a strict check
     // and strict checks against objects always fail if they are not literally
     // the same object.
-    $this->assertContains($expected_result_sample, array_map(static function(object $result) {
-      return (array) $result;
-    }, $results));
+    $this->assertContains($expected_result_sample, array_map(static fn(object $result) => (array) $result, $results));
   }
 
   public function coreVersionData(): \Generator {

@@ -72,6 +72,32 @@ jobs:
         run: composer install
       - name: PHPStan
         run: php vendor/bin/phpstan.phar
+  rector:
+    runs-on: ubuntu-latest
+    name: phpstan
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+      - uses: shivammathur/setup-php@v2
+        with:
+            php-version: 8.3
+            extensions: dom, curl, libxml, mbstring, zip, pdo, mysql, pdo_mysql, bcmath, soap, intl, gd, exif, iconv
+            coverage: none
+            tools: composer:v2
+      - name: Install dependencies
+        run: composer install
+      - name: Rector
+        run: vendor/bin/rector
   phpunit:
     runs-on: ubuntu-latest
     name: phpunit

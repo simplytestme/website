@@ -16,6 +16,7 @@ namespace Drupal\simplytest_ocd\Plugin\OneClickDemo;
  */
 class Commerce extends OneClickDemoBase {
 
+  #[\Override]
   public function getSetupCommands(array $parameters): array {
     return [
       'docker-php-ext-install opcache',
@@ -25,6 +26,7 @@ class Commerce extends OneClickDemoBase {
     ];
   }
 
+  #[\Override]
   public function getDownloadCommands(array $parameters): array {
     $commands = [
       // @todo the base preview doesn't have the `commerce` dir?
@@ -39,10 +41,12 @@ class Commerce extends OneClickDemoBase {
     return $commands;
   }
 
+  #[\Override]
   public function getPatchingCommands(array $parameters): array {
     return [];
   }
 
+  #[\Override]
   public function getInstallingCommands(array $parameters): array {
     $commands = [];
     $commands[] = 'echo \'$settings["file_private_path"] = "sites/default/files/private";\' >> ${DOCROOT}/sites/default/settings.php';

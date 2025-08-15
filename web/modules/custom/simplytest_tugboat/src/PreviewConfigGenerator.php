@@ -10,12 +10,12 @@ use Drupal\simplytest_projects\ProjectTypes;
 /**
  * Generates preview configurations for Tugboat.
  */
-final class PreviewConfigGenerator {
+final readonly class PreviewConfigGenerator {
 
 
   public function __construct(
     // @todo what if all builds were a plugin – so D7, D8, D9, Umami, Commerce?
-    private readonly OneClickDemoPluginManager $oneClickDemoManager
+    private OneClickDemoPluginManager $oneClickDemoManager
   ) {
   }
 
@@ -181,8 +181,8 @@ final class PreviewConfigGenerator {
       $commands[] = 'cd "${DOCROOT}" && git config core.fileMode false';
       $commands[] = 'cd "${DOCROOT}" && git fetch --all';
 
-      if (substr($parameters['drupal_core_version'], -4) === '-dev') {
-        $commands[] = sprintf('cd "${DOCROOT}" && git reset --hard origin/' . substr($parameters['drupal_core_version'], 0, -4));
+      if (str_ends_with((string) $parameters['drupal_core_version'], '-dev')) {
+        $commands[] = sprintf('cd "${DOCROOT}" && git reset --hard origin/' . substr((string) $parameters['drupal_core_version'], 0, -4));
       }
       else {
         $commands[] = sprintf('cd "${DOCROOT}" && git reset --hard %s', $parameters['drupal_core_version']);

@@ -29,30 +29,13 @@ class ProjectTypes {
    *  The corresponding project type.
    */
   public static function getProjectType($term) {
-    switch (strtolower(trim($term))) {
-      case 'drupal core':
-      case 'core':
-      case 'project_core':
-        return self::CORE;
-
-      case 'modules':
-      case 'module':
-      case 'project_module':
-        return self::MODULE;
-
-      case 'themes':
-      case 'theme':
-      case 'project_theme':
-        return self::THEME;
-
-      case 'distributions':
-      case 'distribution':
-      case 'project_distribution':
-        return self::DISTRO;
-
-      default:
-        return FALSE;
-    }
+    return match (strtolower(trim($term))) {
+        'drupal core', 'core', 'project_core' => self::CORE,
+        'modules', 'module', 'project_module' => self::MODULE,
+        'themes', 'theme', 'project_theme' => self::THEME,
+        'distributions', 'distribution', 'project_distribution' => self::DISTRO,
+        default => FALSE,
+    };
   }
 
 }

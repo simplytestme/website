@@ -89,7 +89,7 @@ class ProjectFetcher {
     $project_data = $data['list'][0];
 
     // Determine the type of this project.
-    $project_type = strtolower(trim($project_data['field_project_type']));
+    $project_type = strtolower(trim((string) $project_data['field_project_type']));
     $sandbox = $project_type !== 'full';
 
     // Determine project title.
@@ -133,7 +133,7 @@ class ProjectFetcher {
         $this->lock->release("fetch_project_$sanitized_shortname");
         return NULL;
       }
-      $url_parts = explode('/', $project_data['url']);
+      $url_parts = explode('/', (string) $project_data['url']);
       $creator = $url_parts[4];
     }
     else {
@@ -163,10 +163,10 @@ class ProjectFetcher {
       $project = SimplytestProject::create($data);
       $project->save();
     }
-    catch (EntityValidationException $e) {
+    catch (EntityValidationException) {
       // @todo decide how to handle this error if we got a dupe save.
     }
-    catch (EntityStorageException $e) {
+    catch (EntityStorageException) {
       // @todo decide how to handle this error if we got a dupe save, somehow.
     }
     finally {
@@ -291,7 +291,7 @@ class ProjectFetcher {
           usort($versions_data['tags'], 'version_compare');
           foreach ($versions_data['tags'] as $tag) {
             // Support for legacy versioning and semantic versioning.
-            if (strpos($tag, '.x-') === 1) {
+            if (strpos((string) $tag, '.x-') === 1) {
               $api_version = 'Drupal ' . $tag[0];
             }
             // Find out major / api version for structure.
@@ -308,7 +308,7 @@ class ProjectFetcher {
             // This is kind of messy and duplicative, but it works for now.
             $drupal_major_version = '';
             $first_tag = $tags[0];
-            if (strpos($first_tag, '.x-') === 1) {
+            if (strpos((string) $first_tag, '.x-') === 1) {
               $drupal_major_version = $first_tag[0];
             } else {
               // Assume all semver is D9.
@@ -323,7 +323,7 @@ class ProjectFetcher {
         }
         if (isset($versions_data['heads'])) {
           foreach ($versions_data['heads'] as $version) {
-            if (strpos($version, '.x-') === 1) {
+            if (strpos((string) $version, '.x-') === 1) {
               $drupal_major_version = $version[0];
             } else {
               // Assume all semver is D9.

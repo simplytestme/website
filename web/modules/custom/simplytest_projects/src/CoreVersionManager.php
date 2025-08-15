@@ -13,28 +13,22 @@ use Drupal\simplytest_projects\ReleaseHistory\Fetcher;
 use Drupal\update\UpdateFetcher;
 use GuzzleHttp\ClientInterface;
 
-final class CoreVersionManager {
+final readonly class CoreVersionManager {
 
-  public const TABLE_NAME = 'simplytest_core_versions';
+  public const string TABLE_NAME = 'simplytest_core_versions';
 
-  /**
-   * The database.
-   *
-   * @var \Drupal\Core\Database\Connection
-   */
-  private $database;
-
-  /**
-   * @var \GuzzleHttp\Client
-   */
-  private $client;
-
-  private $state;
-
-  public function __construct(Connection $connection, ClientInterface $client, StateInterface $state) {
-    $this->database = $connection;
-    $this->client = $client;
-    $this->state = $state;
+  public function __construct(
+      /**
+       * The database.
+       */
+      private Connection $database,
+      /**
+       * @var \GuzzleHttp\Client
+       */
+      private ClientInterface $client,
+      private StateInterface $state
+  )
+  {
   }
 
   /**
@@ -74,9 +68,7 @@ final class CoreVersionManager {
       ->orderBy('minor', 'DESC')
       ->orderBy('patch', 'DESC');
     $versions = $query->execute()->fetchAll();
-    return array_values(array_filter($versions, static function (\stdClass $row) use ($constraint) {
-      return Semver::satisfies($row->version, $constraint);
-    }));
+    return array_values(array_filter($versions, static fn(\stdClass $row) => Semver::satisfies($row->version, $constraint)));
   }
 
   /**
@@ -94,7 +86,7 @@ final class CoreVersionManager {
     try {
       $this->preflightShouldUpdateCheck($major_version);
     }
-    catch (ReleaseHistoryNotModifiedException $e) {
+    catch (ReleaseHistoryNotModifiedException) {
       return;
     }
 

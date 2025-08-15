@@ -13,6 +13,7 @@ class SettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function getFormId() {
     return 'simplytest_messages_settings';
   }
@@ -20,6 +21,7 @@ class SettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   protected function getEditableConfigNames() {
     return ['simplytest_messages.settings'];
   }
@@ -27,6 +29,7 @@ class SettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function buildForm(array $form, FormStateInterface $form_state) {
     $messageConfig = $this->config('simplytest_messages.settings');
     $form['enable'] = [
@@ -64,6 +67,7 @@ class SettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->config('simplytest_messages.settings')
       ->set('enable', $form_state->getValue('enable'))

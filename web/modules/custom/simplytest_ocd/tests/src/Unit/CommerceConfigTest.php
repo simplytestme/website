@@ -15,6 +15,7 @@ final class CommerceConfigTest extends OneClickDemoConfigTestBase {
   /**
    *
    */
+  #[\Override]
   protected function getExpectedConfig(): array {
     return [
       'php' => [

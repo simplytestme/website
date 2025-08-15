@@ -15,14 +15,17 @@ use Drupal\simplytest_ocd\OneClickDemoInterface;
  */
 class Umami extends OneClickDemoBase {
 
+  #[\Override]
   public function getDownloadCommands(array $parameters): array {
     return [];
   }
 
+  #[\Override]
   public function getPatchingCommands(array $parameters): array {
     return [];
   }
 
+  #[\Override]
   public function getSetupCommands(array $parameters): array {
     $commands[] = 'docker-php-ext-install opcache';
     $commands[] = 'a2enmod headers rewrite';
@@ -34,6 +37,7 @@ class Umami extends OneClickDemoBase {
     return $commands;
   }
 
+  #[\Override]
   public function getInstallingCommands(array $parameters): array {
     $commands = [];
     $commands[] = 'cd ${DOCROOT} && php -d memory_limit=-1 ../vendor/bin/drush si demo_umami --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y';

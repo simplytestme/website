@@ -19,6 +19,7 @@ final class ControllerTest extends KernelTestBase implements ServiceModifierInte
     'simplytest_projects'
   ];
 
+  #[\Override]
   public function alter(ContainerBuilder $container) {
     // Make sure we have debug headers to test.
     $container->setParameter('http.response.debug_cacheability_headers', TRUE);

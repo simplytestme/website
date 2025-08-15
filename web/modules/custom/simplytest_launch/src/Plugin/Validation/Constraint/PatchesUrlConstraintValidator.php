@@ -11,25 +11,24 @@ use Symfony\Component\Validator\Constraints\UrlValidator;
 final class PatchesUrlConstraintValidator extends UrlValidator implements ContainerInjectionInterface {
 
   /**
-   * The allowed hosts for patches.
-   *
-   * @var string[]
-   */
-  private $allowedHosts;
-
-  /**
    * Constructs a new PatchesUrlConstraintValidator object.
    *
-   * @param array $allowed_hosts
+   * @param array $allowedHosts
    *   The allowed hosts for patches.
    */
-  public function __construct(array $allowed_hosts) {
-    $this->allowedHosts = $allowed_hosts;
+  public function __construct(
+      /**
+       * The allowed hosts for patches.
+       */
+      private readonly array $allowedHosts
+  )
+  {
   }
 
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public static function create(ContainerInterface $container) {
     return new self(
       $container->getParameter('simplytest_launch.allowed_hosts')
@@ -39,6 +38,7 @@ final class PatchesUrlConstraintValidator extends UrlValidator implements Contai
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function validate($value, Constraint $constraint) {
     parent::validate($value, $constraint);
     $value = (string) $value;
