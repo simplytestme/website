@@ -83,7 +83,7 @@ class ProjectFetcher {
    */
   public function fetchProject(string $shortname): ?array {
     // Sanitize shortname for use in lock key: allow only lowercase letters, numbers, and underscores.
-    $sanitized_shortname = preg_replace('/[^a-z0-9_]/', '', $shortname);
+    $sanitized_shortname = preg_replace('/[^a-z0-9_]/', '_', strtolower($shortname));
     if (!$this->lock->acquire("fetch_project_$sanitized_shortname")) {
       // Could not acquire lock, another process is already fetching this project.
       // @todo Use `wait` and check if it exists. This seems like something
