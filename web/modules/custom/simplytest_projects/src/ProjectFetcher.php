@@ -65,7 +65,7 @@ class ProjectFetcher {
     }
 
     // Try to parse the received JSON.
-    $data = Json::decode($result->getBody());
+    $data = Json::decode($result);
     if ($data === null) {
       $this->logger->warning('Failed to parse initial data for %project (json decode).', [
         '%project' => $shortname,
