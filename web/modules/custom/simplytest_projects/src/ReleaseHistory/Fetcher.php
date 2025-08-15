@@ -66,7 +66,7 @@ final readonly class Fetcher {
       throw new ReleaseHistoryNotModifiedException();
     }
 
-    $this->state->set("release_history_last_modified:$project:$channel", strtotime((string) $response->getHeaderLine('Last-Modified')));
+    $this->state->set("release_history_last_modified:$project:$channel", strtotime($response->getHeaderLine('Last-Modified')));
     return (string) $response->getBody();
   }
 

@@ -4,7 +4,8 @@
   <short_name>bootstrap</short_name>
   <dc:creator>wundo</dc:creator>
   <type>project_theme</type>
-  <supported_branches>8.x-3.</supported_branches>
+  <supported_branches>5.0.,8.x-3.</supported_branches>
+  <composer_namespace>drupal/bootstrap</composer_namespace>
   <project_status>published</project_status>
   <link>https://www.drupal.org/project/bootstrap</link>
   <terms>
@@ -14,7 +15,7 @@
     </term>
     <term>
       <name>Maintenance status</name>
-      <value>Minimally maintained</value>
+      <value>Actively maintained</value>
     </term>
     <term>
       <name>Development status</name>
@@ -22,6 +23,696 @@
     </term>
   </terms>
   <releases>
+    <release>
+      <name>bootstrap 5.0.2</name>
+      <version>5.0.2</version>
+      <tag>5.0.2</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/5.0.2</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-5.0.2.tar.gz</download_link>
+      <date>1749514442</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-5.0.2.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>a88efe2d557145ee03bf284ff86162cd</md5>
+          <size>620012</size>
+          <filedate>1749514442</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-5.0.2.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>ed2336aca641da16e97caa868ea1decd</md5>
+          <size>813960</size>
+          <filedate>1749514442</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+      <core_compatibility>^10.3 || ^11.0</core_compatibility>
+    </release>
+    <release>
+      <name>bootstrap 5.0.1</name>
+      <version>5.0.1</version>
+      <tag>5.0.1</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/5.0.1</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-5.0.1.tar.gz</download_link>
+      <date>1726511777</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-5.0.1.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>ef2dc01a48a64f2a704f70bdda34a208</md5>
+          <size>550464</size>
+          <filedate>1726511777</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-5.0.1.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>5aeedc163343882c4dfd888cc20f321f</md5>
+          <size>744214</size>
+          <filedate>1726511777</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+      <core_compatibility>^10.3 || ^11.0</core_compatibility>
+    </release>
+    <release>
+      <name>bootstrap 5.0.0</name>
+      <version>5.0.0</version>
+      <tag>5.0.0</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/5.0.0</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-5.0.0.tar.gz</download_link>
+      <date>1726236743</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-5.0.0.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>fdb6fb1c7d7d6e4381c46bf8a660dddf</md5>
+          <size>548201</size>
+          <filedate>1726236743</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-5.0.0.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>fc38325cecede34d2875601777942611</md5>
+          <size>737932</size>
+          <filedate>1726236743</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+      <core_compatibility>^10.3 || ^11.0</core_compatibility>
+    </release>
+    <release>
+      <name>bootstrap 5.0.0-beta1</name>
+      <version>5.0.0-beta1</version>
+      <tag>5.0.0-beta1</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/5.0.0-beta1</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-5.0.0-beta1.tar.gz</download_link>
+      <date>1725855655</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-5.0.0-beta1.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>dce656f2631ff2ec72c3101f0bd7cb81</md5>
+          <size>548220</size>
+          <filedate>1725855655</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-5.0.0-beta1.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>84953e577d7c314b6ffcb9afdc6a5e12</md5>
+          <size>737942</size>
+          <filedate>1725855655</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+      </terms>
+      <security>Beta releases are not covered by Drupal security advisories.</security>
+      <core_compatibility>^10.3 || ^11.0</core_compatibility>
+    </release>
+    <release>
+      <name>bootstrap 8.x-3.38</name>
+      <version>8.x-3.38</version>
+      <tag>8.x-3.38</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/8.x-3.38</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.38.tar.gz</download_link>
+      <date>1754255060</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.38.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>72da66e4a782d7ffb9c4af6a7b6fd040</md5>
+          <size>260803</size>
+          <filedate>1754255060</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.38.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>d80db6e3d7feacb482b9d853752eee5a</md5>
+          <size>434197</size>
+          <filedate>1754255060</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+      <core_compatibility>^10.3 || ^11</core_compatibility>
+    </release>
+    <release>
+      <name>bootstrap 8.x-3.37</name>
+      <version>8.x-3.37</version>
+      <tag>8.x-3.37</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/8.x-3.37</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.37.tar.gz</download_link>
+      <date>1753672746</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.37.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>4dfcf7c11490b42ddf5dfbbdb789f5f0</md5>
+          <size>260802</size>
+          <filedate>1753672746</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.37.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>4256253382ac30afdd306061fbf3aca5</md5>
+          <size>434214</size>
+          <filedate>1753672746</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+      <core_compatibility>^10.3 || ^11</core_compatibility>
+    </release>
+    <release>
+      <name>bootstrap 8.x-3.36</name>
+      <version>8.x-3.36</version>
+      <tag>8.x-3.36</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/8.x-3.36</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.36.tar.gz</download_link>
+      <date>1752607220</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.36.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>fead92b5f8ecb92cd65c31b13ff7d485</md5>
+          <size>260474</size>
+          <filedate>1752607220</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.36.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>9e6e62992e7b3e388058a7fbb18812b0</md5>
+          <size>432732</size>
+          <filedate>1752607220</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+      <core_compatibility>^10.3 || ^11</core_compatibility>
+    </release>
+    <release>
+      <name>bootstrap 8.x-3.35</name>
+      <version>8.x-3.35</version>
+      <tag>8.x-3.35</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/8.x-3.35</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.35.tar.gz</download_link>
+      <date>1737687353</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.35.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>d96e5c5cdbe239e98c6d04b644d11c6a</md5>
+          <size>260413</size>
+          <filedate>1737687353</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.35.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>434510e3f8d8303ada767ade4ab4441b</md5>
+          <size>432628</size>
+          <filedate>1737687353</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+      <core_compatibility>^10.3 || ^11</core_compatibility>
+    </release>
+    <release>
+      <name>bootstrap 8.x-3.34</name>
+      <version>8.x-3.34</version>
+      <tag>8.x-3.34</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/8.x-3.34</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.34.tar.gz</download_link>
+      <date>1733116158</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.34.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>4beaac5f272ca9e664a86ced414f3699</md5>
+          <size>260407</size>
+          <filedate>1733116158</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.34.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>2def394e00f4fbe90fc63e83bd58eb1f</md5>
+          <size>432624</size>
+          <filedate>1733116158</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+      <core_compatibility>^10.3 || ^11</core_compatibility>
+    </release>
+    <release>
+      <name>bootstrap 8.x-3.33</name>
+      <version>8.x-3.33</version>
+      <tag>8.x-3.33</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/8.x-3.33</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.33.tar.gz</download_link>
+      <date>1732721272</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.33.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>1b5f52f0cb4f71b82edf9a2500e0a29f</md5>
+          <size>260409</size>
+          <filedate>1732721272</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.33.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>04c092f350fa8d6d4a72ddac5f8fc19e</md5>
+          <size>432627</size>
+          <filedate>1732721272</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+      <core_compatibility>^10.2 || ^11.0</core_compatibility>
+    </release>
+    <release>
+      <name>bootstrap 8.x-3.33-rc2</name>
+      <version>8.x-3.33-rc2</version>
+      <tag>8.x-3.33-rc2</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/8.x-3.33-rc2</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.33-rc2.tar.gz</download_link>
+      <date>1732219517</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.33-rc2.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>f4c24103ba98a0e4854a0f17464dc875</md5>
+          <size>260406</size>
+          <filedate>1732219517</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.33-rc2.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>51aeae3c3e01c75b3b4552feb1ffb5d5</md5>
+          <size>432630</size>
+          <filedate>1732219517</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+      </terms>
+      <security>RC releases are not covered by Drupal security advisories.</security>
+      <core_compatibility>^10.2 || ^11.0</core_compatibility>
+    </release>
+    <release>
+      <name>bootstrap 8.x-3.33-rc1</name>
+      <version>8.x-3.33-rc1</version>
+      <tag>8.x-3.33-rc1</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/8.x-3.33-rc1</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.33-rc1.tar.gz</download_link>
+      <date>1732215406</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.33-rc1.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>cf5ea5a2b98fe08d68ff0a450a3e81ca</md5>
+          <size>260409</size>
+          <filedate>1732215406</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.33-rc1.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>42554b94e2689f68c9d9143b472457e4</md5>
+          <size>432623</size>
+          <filedate>1732215406</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+      </terms>
+      <security>RC releases are not covered by Drupal security advisories.</security>
+      <core_compatibility>^10.2 || ^11.0</core_compatibility>
+    </release>
+    <release>
+      <name>bootstrap 8.x-3.32</name>
+      <version>8.x-3.32</version>
+      <tag>8.x-3.32</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/8.x-3.32</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.32.tar.gz</download_link>
+      <date>1723065851</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.32.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>83bc5a2891e6d39c02612fa95fcf5907</md5>
+          <size>260257</size>
+          <filedate>1723065851</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.32.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>4ff0ea557730b11b1bcad0ebd4ff3652</md5>
+          <size>432113</size>
+          <filedate>1723065851</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+      <core_compatibility>^9.5 || ^10</core_compatibility>
+    </release>
+    <release>
+      <name>bootstrap 8.x-3.31</name>
+      <version>8.x-3.31</version>
+      <tag>8.x-3.31</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/8.x-3.31</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.31.tar.gz</download_link>
+      <date>1718994537</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.31.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>45dd2ab9b62af80b46ed262aaf88dfe4</md5>
+          <size>260779</size>
+          <filedate>1718994537</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.31.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>1cf345b0268687a282b9601f86ad03f1</md5>
+          <size>434491</size>
+          <filedate>1718994537</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+      <core_compatibility>^9.5 || ^10</core_compatibility>
+    </release>
+    <release>
+      <name>bootstrap 8.x-3.30</name>
+      <version>8.x-3.30</version>
+      <tag>8.x-3.30</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/8.x-3.30</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.30.tar.gz</download_link>
+      <date>1707842525</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.30.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>757394757a09b9ac3a5abffc314762a5</md5>
+          <size>257581</size>
+          <filedate>1707842525</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.30.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>a30af9e3fc24ccb5ce081c750940b0f8</md5>
+          <size>432429</size>
+          <filedate>1707842525</filedate>
+        </file>
+      </files>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+      <core_compatibility>^9.5 || ^10</core_compatibility>
+    </release>
+    <release>
+      <name>bootstrap 8.x-3.29</name>
+      <version>8.x-3.29</version>
+      <tag>8.x-3.29</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/8.x-3.29</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.29.tar.gz</download_link>
+      <date>1689102544</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.29.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>ee70d92168b82017218766a77b657141</md5>
+          <size>257559</size>
+          <filedate>1689102544</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.29.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>6c33453f19f7341395dbbadab4290780</md5>
+          <size>432371</size>
+          <filedate>1689102544</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+      <core_compatibility>^9.5 || ^10</core_compatibility>
+    </release>
+    <release>
+      <name>bootstrap 8.x-3.28</name>
+      <version>8.x-3.28</version>
+      <tag>8.x-3.28</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/8.x-3.28</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.28.tar.gz</download_link>
+      <date>1680536061</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.28.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>9ce8adcd065c8fe63bc6caa250839686</md5>
+          <size>257420</size>
+          <filedate>1680536061</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.28.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>0348d94c235bd0ec8bfa4045aff57848</md5>
+          <size>432135</size>
+          <filedate>1680536061</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+      <core_compatibility>^9.5 || ^10</core_compatibility>
+    </release>
+    <release>
+      <name>bootstrap 8.x-3.27</name>
+      <version>8.x-3.27</version>
+      <tag>8.x-3.27</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/8.x-3.27</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.27.tar.gz</download_link>
+      <date>1676994740</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.27.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>d4c0016b6bb909535fbb06c35f90e2f3</md5>
+          <size>257409</size>
+          <filedate>1676994740</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.27.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>5587795135cf7b15f3027939e475a66d</md5>
+          <size>432123</size>
+          <filedate>1676994740</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+      <core_compatibility>^9.5 || ^10</core_compatibility>
+    </release>
+    <release>
+      <name>bootstrap 8.x-3.26</name>
+      <version>8.x-3.26</version>
+      <tag>8.x-3.26</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/8.x-3.26</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.26.tar.gz</download_link>
+      <date>1676066874</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.26.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>aa0a66c293f3e1940459af3b46aadd5b</md5>
+          <size>257328</size>
+          <filedate>1676066874</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.26.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>70c99efcfcac447082130f7cb3532b09</md5>
+          <size>432002</size>
+          <filedate>1676066874</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+      <core_compatibility>^9.3 || ^10</core_compatibility>
+    </release>
+    <release>
+      <name>bootstrap 8.x-3.25</name>
+      <version>8.x-3.25</version>
+      <tag>8.x-3.25</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/8.x-3.25</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.25.tar.gz</download_link>
+      <date>1654873483</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.25.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>1d293a1a2c46812819065b1768de6763</md5>
+          <size>257313</size>
+          <filedate>1654873483</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.25.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>50773a4ca3ed20335aa58de7f5f4dd12</md5>
+          <size>432007</size>
+          <filedate>1654873483</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>Bug fixes</value>
+        </term>
+      </terms>
+      <security covered="1">Covered by Drupal's security advisory policy</security>
+      <core_compatibility>^9.3 || ^10</core_compatibility>
+    </release>
     <release>
       <name>bootstrap 8.x-3.24</name>
       <version>8.x-3.24</version>
@@ -1194,27 +1885,60 @@
       <core_compatibility>8.x</core_compatibility>
     </release>
     <release>
+      <name>bootstrap 5.0.x-dev</name>
+      <version>5.0.x-dev</version>
+      <tag>5.0.x</tag>
+      <status>published</status>
+      <release_link>https://www.drupal.org/project/bootstrap/releases/5.0.x-dev</release_link>
+      <download_link>https://ftp.drupal.org/files/projects/bootstrap-5.0.x-dev.tar.gz</download_link>
+      <date>1749513912</date>
+      <files>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-5.0.x-dev.tar.gz</url>
+          <archive_type>tar.gz</archive_type>
+          <md5>d91b37841c5305cf04f6855da0329b5b</md5>
+          <size>620017</size>
+          <filedate>1749513912</filedate>
+        </file>
+        <file>
+          <url>https://ftp.drupal.org/files/projects/bootstrap-5.0.x-dev.zip</url>
+          <archive_type>zip</archive_type>
+          <md5>cce31682470290817dab7f3423536d3c</md5>
+          <size>813978</size>
+          <filedate>1749513912</filedate>
+        </file>
+      </files>
+      <terms>
+        <term>
+          <name>Release type</name>
+          <value>New features</value>
+        </term>
+      </terms>
+      <security>Dev releases are not covered by Drupal security advisories.</security>
+      <core_compatibility>^10.3 || ^11.0</core_compatibility>
+    </release>
+    <release>
       <name>bootstrap 8.x-4.x-dev</name>
       <version>8.x-4.x-dev</version>
       <tag>8.x-4.x</tag>
       <status>published</status>
       <release_link>https://www.drupal.org/project/bootstrap/releases/8.x-4.x-dev</release_link>
       <download_link>https://ftp.drupal.org/files/projects/bootstrap-8.x-4.x-dev.tar.gz</download_link>
-      <date>1646090524</date>
+      <date>1664229724</date>
       <files>
         <file>
           <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-4.x-dev.tar.gz</url>
           <archive_type>tar.gz</archive_type>
-          <md5>fc67dcda6efce2f5c8775578082d32d0</md5>
-          <size>265901</size>
-          <filedate>1646090524</filedate>
+          <md5>42e74bda041d1e051af03ab04d6e2aee</md5>
+          <size>265911</size>
+          <filedate>1664229724</filedate>
         </file>
         <file>
           <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-4.x-dev.zip</url>
           <archive_type>zip</archive_type>
-          <md5>d9f85666ed401932721eb155fc7f5d56</md5>
-          <size>437038</size>
-          <filedate>1646090524</filedate>
+          <md5>9e2d583124911900ac4a21ce031f6243</md5>
+          <size>437044</size>
+          <filedate>1664229724</filedate>
         </file>
       </files>
       <security>Dev releases are not covered by Drupal security advisories.</security>
@@ -1227,25 +1951,25 @@
       <status>published</status>
       <release_link>https://www.drupal.org/project/bootstrap/releases/8.x-3.x-dev</release_link>
       <download_link>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.x-dev.tar.gz</download_link>
-      <date>1648748892</date>
+      <date>1754254839</date>
       <files>
         <file>
           <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.x-dev.tar.gz</url>
           <archive_type>tar.gz</archive_type>
-          <md5>53f0ebf4e113f45d73c67fe16f79aeb9</md5>
-          <size>257529</size>
-          <filedate>1648748892</filedate>
+          <md5>4c81727e245d3b74d340727415bd6ff0</md5>
+          <size>260804</size>
+          <filedate>1754254839</filedate>
         </file>
         <file>
           <url>https://ftp.drupal.org/files/projects/bootstrap-8.x-3.x-dev.zip</url>
           <archive_type>zip</archive_type>
-          <md5>a6696f9eb282f334872210246e3f8e37</md5>
-          <size>432399</size>
-          <filedate>1648748892</filedate>
+          <md5>2f9b7e630cd6715b900c5b036c7e8b50</md5>
+          <size>434203</size>
+          <filedate>1754254839</filedate>
         </file>
       </files>
       <security>Dev releases are not covered by Drupal security advisories.</security>
-      <core_compatibility>^8.8 || ^9</core_compatibility>
+      <core_compatibility>^10.3 || ^11</core_compatibility>
     </release>
   </releases>
 </project>
