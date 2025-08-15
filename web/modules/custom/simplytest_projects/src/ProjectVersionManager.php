@@ -13,25 +13,18 @@ use Drupal\simplytest_projects\ReleaseHistory\Processor;
 use Drupal\simplytest_projects\ReleaseHistory\ProjectRelease;
 use UnexpectedValueException;
 
-final class ProjectVersionManager {
+final readonly class ProjectVersionManager {
 
-  public const TABLE_NAME = 'simplytest_project_versions';
+  public const string TABLE_NAME = 'simplytest_project_versions';
 
-  /**
-   * The database.
-   *
-   * @var \Drupal\Core\Database\Connection
-   */
-  private $database;
-
-  /**
-   * @var \Drupal\simplytest_projects\ReleaseHistory\Fetcher
-   */
-  private $fetcher;
-
-  public function __construct(Connection $connection, Fetcher $fetcher) {
-    $this->database = $connection;
-    $this->fetcher = $fetcher;
+  public function __construct(
+      /**
+       * The database.
+       */
+      private Connection $database,
+      private Fetcher $fetcher
+  )
+  {
   }
 
   public function updateData(string $project): void {
@@ -76,7 +69,7 @@ final class ProjectVersionManager {
 
   // @todo needs tests.
   public function getRelease(string $project, string $version): ?array {
-    if (substr($version, -1) === 'x') {
+    if (str_ends_with($version, 'x')) {
       $version .= '-dev';
     }
 
@@ -101,9 +94,7 @@ final class ProjectVersionManager {
   // @todo needs tests.
   public function getCompatibleReleases(string $project, string $core_version) {
     $releases = $this->getAllReleases($project);
-    return array_values(array_filter($releases, static function (\stdClass $row) use ($core_version) {
-      return Semver::satisfies($core_version, $row->core_compatibility);
-    }));
+    return array_values(array_filter($releases, static fn(\stdClass $row) => Semver::satisfies($core_version, $row->core_compatibility)));
   }
 
   public function organizeAndSortReleases(array $releases): array {
@@ -146,7 +137,7 @@ final class ProjectVersionManager {
       ]
     ];
     foreach ($releases as $release) {
-      if (strpos($release->version, '-dev') !== FALSE) {
+      if (str_contains($release->version, '-dev')) {
         $branches[] = $release;
         continue;
       }
@@ -198,9 +189,7 @@ final class ProjectVersionManager {
     // Due to the fact some versions may support multiple Drupal core majors, we
     // could have duplicate latest releases. We filter out non-unique releases
     // where.
-    $latest_versions = array_map(static function (\stdClass $version) {
-      return $version->version;
-    }, $organized_releases['latest']);
+    $latest_versions = array_map(static fn(\stdClass $version) => $version->version, $organized_releases['latest']);
     $latest_versions = array_unique($latest_versions);
     $organized_releases['latest'] = array_values(array_intersect_key($organized_releases['latest'], $latest_versions));
 

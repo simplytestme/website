@@ -36,6 +36,7 @@ class SimplyTestProjects implements ContainerInjectionInterface {
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('simplytest_projects.fetcher'),

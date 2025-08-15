@@ -9,6 +9,7 @@ final class UmamiConfigTest extends OneClickDemoConfigTestBase {
   protected static string $pluginId = 'oneclickdemo_umami';
   protected static string $pluginClass = Umami::class;
 
+  #[\Override]
   protected function getExpectedConfig(): array {
     return [
       'php' => [

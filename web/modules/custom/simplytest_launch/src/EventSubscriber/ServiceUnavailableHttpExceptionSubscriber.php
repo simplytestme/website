@@ -12,6 +12,7 @@ final class ServiceUnavailableHttpExceptionSubscriber extends ExceptionJsonSubsc
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   protected static function getPriority() {
     return parent::getPriority() + 25;
   }
@@ -19,6 +20,7 @@ final class ServiceUnavailableHttpExceptionSubscriber extends ExceptionJsonSubsc
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   protected function getHandledFormats() {
     return ['json'];
   }

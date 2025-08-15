@@ -13,6 +13,7 @@ namespace Drupal\simplytest_ocd\Plugin\OneClickDemo;
  */
 class Starshot extends OneClickDemoBase {
 
+  #[\Override]
   public function getSetupCommands(array $parameters): array {
     $commands[] = 'docker-php-ext-install opcache';
     $commands[] = 'a2enmod headers rewrite';
@@ -20,6 +21,7 @@ class Starshot extends OneClickDemoBase {
     return $commands;
   }
 
+  #[\Override]
   public function getDownloadCommands(array $parameters): array {
     $commands[] = 'git clone https://git.drupalcode.org/project/drupal_cms.git';
     $commands[] = "find \$TUGBOAT_ROOT/drupal_cms -type d -maxdepth 1 -name 'drupal_cms*' -exec composer config --global repositories.{} path {} ';'";
@@ -29,10 +31,12 @@ class Starshot extends OneClickDemoBase {
     return $commands;
   }
 
+  #[\Override]
   public function getPatchingCommands(array $parameters): array {
     return [];
   }
 
+  #[\Override]
   public function getInstallingCommands(array $parameters): array {
     $commands = [];
     $commands[] = 'cd ${DOCROOT} && php -d memory_limit=-1 ../vendor/bin/drush si --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y --site-name="Drupal CMS Demo"';

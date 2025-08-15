@@ -52,6 +52,7 @@ class SimplytestProject extends ContentEntityBase implements SimplytestProjectIn
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function label() {
     return $this->get('title')->value;
   }
@@ -59,6 +60,7 @@ class SimplytestProject extends ContentEntityBase implements SimplytestProjectIn
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function getShortname() {
     return $this->get('shortname')->value;
   }
@@ -66,6 +68,7 @@ class SimplytestProject extends ContentEntityBase implements SimplytestProjectIn
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function isSandbox() {
     return (bool) $this->get('sandbox')->value;
   }
@@ -73,6 +76,7 @@ class SimplytestProject extends ContentEntityBase implements SimplytestProjectIn
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function getCreator() {
     return $this->get('creator')->value;
   }
@@ -80,6 +84,7 @@ class SimplytestProject extends ContentEntityBase implements SimplytestProjectIn
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function getCreatorEscaped() {
     return preg_replace('/[^a-zA-Z0-9-_\.+!*\(\)\']/s', '', $this->getCreator());
   }
@@ -87,6 +92,7 @@ class SimplytestProject extends ContentEntityBase implements SimplytestProjectIn
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function getType() {
     return $this->get('type')->value;
   }
@@ -94,6 +100,7 @@ class SimplytestProject extends ContentEntityBase implements SimplytestProjectIn
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function getVersions() {
     $versions = $this->get('versions')->getValue();
     return !empty($versions[0]) ? $versions[0] : [];
@@ -102,6 +109,7 @@ class SimplytestProject extends ContentEntityBase implements SimplytestProjectIn
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function setVersions($tags, $heads) {
     $this->set('versions', [
       'tags' => array_combine($tags, $tags),
@@ -112,6 +120,7 @@ class SimplytestProject extends ContentEntityBase implements SimplytestProjectIn
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function getTimestamp() {
     return $this->get('timestamp')->value;
   }
@@ -119,6 +128,7 @@ class SimplytestProject extends ContentEntityBase implements SimplytestProjectIn
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function getGitUrl() {
     if ($this->isSandbox()) {
       return DrupalUrls::GIT_WEB . 'sandbox-' . $this->getCreatorEscaped() . '-' . $this->getShortname();
@@ -131,6 +141,7 @@ class SimplytestProject extends ContentEntityBase implements SimplytestProjectIn
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function getGitWebUrl() {
     if ($this->isSandbox()) {
       return DrupalUrls::GIT_SANDBOX . $this->getCreatorEscaped() . '/' . $this->getShortname() . '.git';
@@ -143,6 +154,7 @@ class SimplytestProject extends ContentEntityBase implements SimplytestProjectIn
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function getProjectUrl() {
     if ($this->isSandbox()) {
       return DrupalUrls::ORG . 'sandbox/' . $this->getCreatorEscaped() . '/' . $this->getShortname();
@@ -155,6 +167,7 @@ class SimplytestProject extends ContentEntityBase implements SimplytestProjectIn
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function preSave(EntityStorageInterface $storage) {
     parent::preSave($storage);
 
@@ -168,6 +181,7 @@ class SimplytestProject extends ContentEntityBase implements SimplytestProjectIn
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields = parent::baseFieldDefinitions($entity_type);
 
@@ -220,12 +234,7 @@ class SimplytestProject extends ContentEntityBase implements SimplytestProjectIn
         'text_processing' => 0,
       ])
       ->setDefaultValue('')
-      ->setDisplayOptions('form', array(
-        'type' => 'boolean_checkbox',
-        'settings' => array(
-          'display_label' => TRUE,
-        ),
-      ))
+      ->setDisplayOptions('form', ['type' => 'boolean_checkbox', 'settings' => ['display_label' => TRUE]])
       ->setDisplayConfigurable('form', TRUE);
 
     $fields['creator'] = BaseFieldDefinition::create('string')

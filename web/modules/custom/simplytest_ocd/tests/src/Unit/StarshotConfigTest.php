@@ -15,6 +15,7 @@ final class StarshotConfigTest extends OneClickDemoConfigTestBase {
   /**
    * @return array<string, mixed>
    */
+  #[\Override]
   protected function getExpectedConfig(): array {
     return [
       'php' => [

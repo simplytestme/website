@@ -72,6 +72,7 @@ class InstanceManager implements InstanceManagerInterface {
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function loadPreviewId($context, $base = TRUE) {
     $branch_name = $base ? "base-$context" : $context;
     $repository_id = $this->tugboatSettings->get('repository_id');
@@ -104,6 +105,7 @@ class InstanceManager implements InstanceManagerInterface {
    * @todo accept \Drupal\simplytest_launch\Plugin\DataType\InstanceLaunch
    * @todo decide if data types should be refactored into here.
    */
+  #[\Override]
   public function launchInstance($submission) {
     // @todo move into its own method or OCD controller directly?
     // Check for one click demos.
@@ -125,7 +127,7 @@ class InstanceManager implements InstanceManagerInterface {
       $project = reset($project_result);
 
       $project_version = $submission['project']['version'];
-      [$major_version, ] = explode('.', $submission['drupalVersion'], 2);
+      [$major_version, ] = explode('.', (string) $submission['drupalVersion'], 2);
 
       $additional_projects = array_map(static function(array $data) use ($project_storage) {
         $project_result = $project_storage->loadByProperties(['shortname' => $data['shortname']]);

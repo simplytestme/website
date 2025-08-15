@@ -22,22 +22,13 @@ use Drush\Commands\DrushCommands;
  */
 class SimplytestProjectsCommands extends DrushCommands {
 
-  private CoreVersionManager $coreVersionManager;
-  private ProjectVersionManager $projectVersionManager;
-  private ProjectFetcher $projectFetcher;
-  private ProjectImporter $projectImporter;
-
   public function __construct(
-    CoreVersionManager $core_version_manager,
-    ProjectVersionManager $project_version_manager,
-    ProjectFetcher $project_fetcher,
-    ProjectImporter $project_importer
+    private readonly CoreVersionManager $coreVersionManager,
+    private readonly ProjectVersionManager $projectVersionManager,
+    private readonly ProjectFetcher $projectFetcher,
+    private readonly ProjectImporter $projectImporter
   ) {
     parent::__construct();
-    $this->coreVersionManager = $core_version_manager;
-    $this->projectVersionManager = $project_version_manager;
-    $this->projectFetcher = $project_fetcher;
-    $this->projectImporter = $project_importer;
   }
 
   /**

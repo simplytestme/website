@@ -51,6 +51,7 @@ class SimplytestTugboatController extends ControllerBase {
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('config.factory')->get('simplytest_tugboat.settings'),
@@ -127,17 +128,13 @@ class SimplytestTugboatController extends ControllerBase {
     }
 
     // Trim out some git logs.
-    $logs_data = array_values(array_filter($logs_data, static function(array $log) {
-      return strpos($log['message'], 'new (next fetch will store in remotes/origin)') === FALSE &&
-        strpos($log['message'], '-> origin/') === FALSE &&
-        strpos($log['message'], '[new tag]') === FALSE;
-    }));
+    $logs_data = array_values(array_filter($logs_data, static fn(array $log) => !str_contains((string) $log['message'], 'new (next fetch will store in remotes/origin)') &&
+      !str_contains((string) $log['message'], '-> origin/') &&
+      !str_contains((string) $log['message'], '[new tag]')));
 
     $instance_state['logs'] = $logs_data;
     // Filter the logs to find our progress markers and the complete message.
-    $progress_steps = array_filter($logs_data, static function(array $logs) {
-      return strpos($logs['message'], 'SIMPLYEST_STAGE_') === 0 || strpos($logs['message'], '(simplytest) is ready') !== FALSE;
-    });
+    $progress_steps = array_filter($logs_data, static fn(array $logs) => str_starts_with((string) $logs['message'], 'SIMPLYEST_STAGE_') || str_contains((string) $logs['message'], '(simplytest) is ready'));
     $total_steps = ['SIMPLYEST_STAGE_DOWNLOAD', 'SIMPLYEST_STAGE_PATCHING', 'SIMPLYEST_STAGE_INSTALLING', 'SIMPLYEST_STAGE_FINALIZE', 'SIMPLYEST_STAGE_FINISHED'];
     $instance_state['progress'] = (count($progress_steps) / count($total_steps)) * 100;
 

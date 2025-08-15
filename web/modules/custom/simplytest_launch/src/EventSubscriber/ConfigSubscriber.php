@@ -7,28 +7,27 @@ use Drupal\Core\Config\ConfigEvents;
 use Drupal\Core\DrupalKernelInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-final class ConfigSubscriber implements EventSubscriberInterface {
-
-  /**
-   * The Drupal kernel.
-   *
-   * @var \Drupal\Core\DrupalKernelInterface
-   */
-  private $drupalKernel;
+final readonly class ConfigSubscriber implements EventSubscriberInterface {
 
   /**
    * Constructs a new ConfigSubscriber object.
    *
-   * @param \Drupal\Core\DrupalKernelInterface $drupal_kernel
+   * @param \Drupal\Core\DrupalKernelInterface $drupalKernel
    *   The Drupal kernel.
    */
-  public function __construct(DrupalKernelInterface $drupal_kernel) {
-    $this->drupalKernel = $drupal_kernel;
+  public function __construct(
+      /**
+       * The Drupal kernel.
+       */
+      private DrupalKernelInterface $drupalKernel
+  )
+  {
   }
 
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public static function getSubscribedEvents() {
     $events[ConfigEvents::SAVE][] = ['onSave'];
     return $events;

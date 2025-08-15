@@ -12,12 +12,14 @@ final class ProjectInfoDefinition extends ComplexDataDefinitionBase {
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public static function create($type = 'project_info') {
     $definition['type'] = $type;
     return new self($definition);
   }
 
 
+  #[\Override]
   public function getPropertyDefinitions() {
     $properties = [];
     $properties['title'] = DataDefinition::create('string')

@@ -5,19 +5,23 @@ namespace Drupal\simplytest_projects\ReleaseHistory;
 use Composer\Semver\Semver;
 
 /**
- * @property string name
- * @property string core_compatibility
- * @property string version
- * @property string tag
- * @property string date
- * @property string status
+ * @property string $name
+ * @property string $core_compatibility
+ * @property string $version
+ * @property string $tag
+ * @property string $date
+ * @property string $status
+ *
+ * @phpstan-type ReleaseTerms array{"Release type": list<string>}
+ * @phpstan-type ReleaseData array{name: string, core_compatibility: string, version: string, tag: string, date: string, status: string, terms: ReleaseTerms}
  */
 final class ProjectRelease {
 
-  private $data;
-
-  public function __construct(array $data) {
-    $this->data = $data;
+  /**
+   * @param ReleaseData $data
+   */
+  public function __construct(private array $data)
+  {
   }
 
   public function __get($name) {

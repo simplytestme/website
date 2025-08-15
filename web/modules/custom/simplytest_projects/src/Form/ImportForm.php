@@ -17,30 +17,25 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class ImportForm extends FormBase {
 
   /**
-   * Simplytest Project Fetcher Service.
-   *
-   * @var \Drupal\simplytest_projects\ProjectFetcher
-   */
-  protected ProjectFetcher $projectFetcher;
-
-  /**
-   * Simplytest Project Import Service.
-   *
-   * @var \Drupal\simplytest_projects\ProjectImporter
-   */
-  protected ProjectImporter $projectImporter;
-
-  /**
    * {@inheritdoc}
    */
-  public function __construct(ProjectFetcher $projectFetcher, ProjectImporter $projectImporter) {
-    $this->projectFetcher = $projectFetcher;
-    $this->projectImporter = $projectImporter;
+  public function __construct(
+      /**
+       * Simplytest Project Fetcher Service.
+       */
+      protected ProjectFetcher $projectFetcher,
+      /**
+       * Simplytest Project Import Service.
+       */
+      protected ProjectImporter $projectImporter
+  )
+  {
   }
 
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('simplytest_projects.fetcher'),
@@ -51,6 +46,7 @@ class ImportForm extends FormBase {
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function getFormId() {
     return 'simplytest_import_form';
   }
@@ -58,6 +54,7 @@ class ImportForm extends FormBase {
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form['type'] = [
       '#type' => 'checkboxes',
@@ -80,6 +77,7 @@ class ImportForm extends FormBase {
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $types = array_filter($form_state->getValue('type'));
     // Import the Drupal core data.
@@ -94,7 +92,7 @@ class ImportForm extends FormBase {
         ]);
         $project->save();
       }
-      catch (EntityStorageException $e) {
+      catch (EntityStorageException) {
         // @todo decide how to handle this error if we got a dupe save, somehow.
       }
     }

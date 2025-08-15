@@ -3,5 +3,5 @@
   "phpunit.paths": {
     "${workspaceFolder}": "/var/www/html"
   },
-  "intelephense.environment.phpVersion": "8.2"
+  "intelephense.environment.phpVersion": "8.3"
 }

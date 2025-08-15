@@ -15,6 +15,7 @@ final class TestDatabaseLockBackend extends DatabaseLockBackend {
     $this->lockId = '';
   }
 
+  #[\Override]
   public function getLockId(): string {
     if ($this->lockId === '') {
       return $this->lockId = uniqid((string) mt_rand(), TRUE);
