@@ -2,6 +2,7 @@
 
 namespace Drupal\simplytest_projects;
 
+use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Query\Condition;
 use Drupal\Core\Entity\EntityStorageException;
@@ -20,56 +21,15 @@ use Psr\Log\LoggerInterface;
  */
 class ProjectFetcher {
 
-  /**
-   * @var \Psr\Log\LoggerInterface
-   */
-  private LoggerInterface $logger;
-
-  /**
-   * @var \GuzzleHttp\Client
-   */
-  private Client $httpClient;
-
-  /**
-   * @var \Drupal\Core\Entity\EntityTypeManager
-   */
-  private EntityTypeManagerInterface $entityTypeManager;
-
-  /**
-   * The database connection.
-   *
-   * @var \Drupal\Core\Database\Connection
-   */
-  private Connection $connection;
-
-  private ProjectVersionManager $projectVersionManager;
-
-  private LockBackendInterface $lock;
-
-  /**
-   * Constructs a new ProjectFetcher object.
-   *
-   * @param \GuzzleHttp\Client $http_client
-   * @param \Psr\Log\LoggerInterface $logger
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface
-   * @param \Drupal\Core\Database\Connection $connection
-   * @param \Drupal\simplytest_projects\ProjectVersionManager $project_version_manager
-   */
   public function __construct(
-    Client $http_client,
-    LoggerInterface $logger,
-    EntityTypeManagerInterface $entity_type_manager,
-    Connection $connection,
-    ProjectVersionManager $project_version_manager,
-    LockBackendInterface $lock
-  )
-  {
-    $this->httpClient = $http_client;
-    $this->logger = $logger;
-    $this->entityTypeManager = $entity_type_manager;
-    $this->connection = $connection;
-    $this->projectVersionManager = $project_version_manager;
-    $this->lock = $lock;
+    private readonly Client $httpClient,
+    private readonly LoggerInterface $logger,
+    private readonly EntityTypeManagerInterface $entityTypeManager,
+    private readonly Connection $connection,
+    private readonly ProjectVersionManager $projectVersionManager,
+    private readonly CacheBackendInterface $cache,
+    private readonly LockBackendInterface $lock,
+  ) {
   }
 
   /**
@@ -93,10 +53,26 @@ class ProjectFetcher {
     // Ensure the shortname is always lowercase. The Drupal.org API is not
     // case-sensitive, but other APIs are.
     $shortname = strtolower($shortname);
-    $result = $this->httpClient->get(DrupalUrls::ORG_API . 'node.json?field_project_machine_name=' . urlencode($shortname));
+    $cid = 'project_fetch:' . $shortname;
+    if ($cache = $this->cache->get($cid)) {
+      $result = $cache->data;
+    } else {
+      $response = $this->httpClient->get(DrupalUrls::ORG_API . 'node.json?field_project_machine_name=' . urlencode($shortname));
+      $result = (string) $response->getBody();
+      if ($response->getStatusCode() === 200) {
+        $this->cache->set($cid, $result, strtotime('+1 day'), ['project_fetch']);
+      }
+      else {
+        $this->logger->warning('Failed to fetch initial data for %project: %data', [
+          '%project' => $shortname,
+          '%data' => $result,
+        ]);
+        return NULL;
+      }
+    }
 
     // Try to parse the received JSON.
-    $data = Json::decode($result->getBody());
+    $data = Json::decode($result);
     if ($data === null) {
       $this->logger->warning('Failed to parse initial data for %project (json decode).', [
         '%project' => $shortname,

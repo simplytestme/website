@@ -604,16 +604,6 @@ parameters:
 			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
 
 		-
-			message: "#^PHPDoc tag @param has invalid value \\(\\\\Drupal\\\\Core\\\\Entity\\\\EntityTypeManagerInterface\\)\\: Unexpected token \"\\\\n   \\* \", expected variable at offset 201 on line 6$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
-
-		-
-			message: "#^Property Drupal\\\\simplytest_projects\\\\ProjectFetcher\\:\\:\\$entityTypeManager \\(Drupal\\\\Core\\\\Entity\\\\EntityTypeManager\\) does not accept Drupal\\\\Core\\\\Entity\\\\EntityTypeManagerInterface\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
-
-		-
 			message: "#^Strict comparison using \\!\\=\\= between non\\-empty\\-array and false will always evaluate to true\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
