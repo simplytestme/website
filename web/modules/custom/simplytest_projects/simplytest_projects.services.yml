@@ -6,7 +6,7 @@ services:
 
   simplytest_projects.fetcher:
     class: Drupal\simplytest_projects\ProjectFetcher
-    arguments: ['@http_client', '@logger.channel.simplytest_projects', '@entity_type.manager', '@database', '@simplytest_projects.project_version_manager']
+    arguments: ['@http_client', '@logger.channel.simplytest_projects', '@entity_type.manager', '@database', '@simplytest_projects.project_version_manager', '@cache.data']
   simplytest_projects.core_version_manager:
     class: Drupal\simplytest_projects\CoreVersionManager
     arguments: [ '@database', '@http_client', '@state' ]
