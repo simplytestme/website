@@ -195,6 +195,9 @@ final readonly class ProjectVersionManager {
     return str_replace(['8.x-', '7.x-'], '', $release);
   }
 
+  /**
+   * @param list<object{version: string}> $versions
+   */
   private static function sortVersions(array &$versions): void {
     usort($versions, static function (object $left, object $right) {
       $left_version = self::stripLegacyPrefix($left->version);
