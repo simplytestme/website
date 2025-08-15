@@ -9,6 +9,8 @@ use Drupal\Core\State\State;
 use Drupal\simplytest_projects\ReleaseHistory\Fetcher;
 use Drupal\simplytest_projects\ReleaseHistory\Processor;
 use Drupal\simplytest_projects\ReleaseHistory\ProjectRelease;
+use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
 
 /**
  * Tests processing of release history data
@@ -21,8 +23,10 @@ final class ProcessorTest extends ReleaseHistoryUnitTestBase {
    * @covers ::getData
    */
   public function testGetData() {
+    $stack = HandlerStack::create();
+    $stack->push($this());
+    $client = new Client(['handler' => $stack]);
     $state = new State(new KeyValueMemoryFactory(), new NullBackend('bootstrap'), new NullLockBackend());
-    $client = $this->getMockedHttpClient();
     $fetcher = new Fetcher($client, $state);
     $data = $fetcher->getProjectData('pathauto', 'current');
 
@@ -44,7 +48,9 @@ final class ProcessorTest extends ReleaseHistoryUnitTestBase {
 
   public function testCoreCompatibility() {
     $state = new State(new KeyValueMemoryFactory(), new NullBackend('bootstrap'), new NullLockBackend());
-    $client = $this->getMockedHttpClient();
+    $stack = HandlerStack::create();
+    $stack->push($this());
+    $client = new Client(['handler' => $stack]);
     $fetcher = new Fetcher($client, $state);
     $data = $fetcher->getProjectData('pathauto', '7.x');
     $processed_data = Processor::getData($data);

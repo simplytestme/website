@@ -9,6 +9,7 @@ use Drupal\Core\State\State;
 use Drupal\simplytest_projects\Exception\ReleaseHistoryNotModifiedException;
 use Drupal\simplytest_projects\ReleaseHistory\Fetcher;
 use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
 
 /**
  * Tests fetching release data
@@ -31,9 +32,14 @@ final class FetcherTest extends ReleaseHistoryUnitTestBase {
    *
    * @dataProvider releaseChannelData
    */
-  public function testValidReleaseChannels(string $channel, bool $expected_exception) {
+  public function testValidReleaseChannels(string $channel, bool $expected_exception): void {
     $state = new State(new KeyValueMemoryFactory(), new NullBackend('bootstrap'), new NullLockBackend());
-    $sut = new Fetcher($this->getMockedHttpClient(), $state);
+
+    $stack = HandlerStack::create();
+    $stack->push($this());
+    $client = new Client(['handler' => $stack]);
+
+    $sut = new Fetcher($client, $state);
 
     if ($expected_exception) {
       $this->expectException(\InvalidArgumentException::class);

@@ -2,13 +2,10 @@
 
 namespace Drupal\Tests\simplytest_projects\Kernel;
 
-use Drupal\Core\Database\Query\SelectInterface;
+use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\KernelTests\KernelTestBase;
-use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\ProjectVersionManager;
-use Drupal\simplytest_projects\ReleaseHistory\Fetcher;
 use Drupal\Tests\simplytest_projects\Traits\MockedReleaseHttpClientTrait;
-use GuzzleHttp\Client;
 
 /**
  * @coversDefaultClass \Drupal\simplytest_projects\ProjectVersionManager
@@ -18,24 +15,20 @@ final class ProjectVersionManagerTest extends KernelTestBase {
   use MockedReleaseHttpClientTrait;
 
   protected static $modules = [
-    'simplytest_projects'
+    'simplytest_projects',
   ];
 
-  /**
-   * @var \Drupal\simplytest_projects\ProjectVersionManager
-   */
-  private $sut;
+  private ProjectVersionManager $sut;
+
+  public function register(ContainerBuilder $container): void {
+    parent::register($container);
+    self::registerWithContainer($container, $this);
+  }
 
   protected function setUp(): void {
     parent::setUp();
     $this->installSchema('simplytest_projects', ProjectVersionManager::TABLE_NAME);
-    $this->sut = new ProjectVersionManager(
-      $this->container->get('database'),
-      new Fetcher(
-        $this->getMockedHttpClient(),
-        $this->container->get('state')
-      )
-    );
+    $this->sut = $this->container->get('simplytest_projects.project_version_manager');
   }
 
   /**
@@ -46,7 +39,6 @@ final class ProjectVersionManagerTest extends KernelTestBase {
     $database = $this->container->get('database');
 
     $query = $database->select(ProjectVersionManager::TABLE_NAME);
-    assert($query instanceof SelectInterface);
     $query
       ->fields(ProjectVersionManager::TABLE_NAME)
       ->condition('short_name', 'pathauto');
@@ -62,7 +54,6 @@ final class ProjectVersionManagerTest extends KernelTestBase {
     $database = $this->container->get('database');
 
     $query = $database->select(ProjectVersionManager::TABLE_NAME);
-    assert($query instanceof SelectInterface);
     $query
       ->fields(ProjectVersionManager::TABLE_NAME)
       ->condition('short_name', 'drupalbin');
@@ -91,4 +82,23 @@ final class ProjectVersionManagerTest extends KernelTestBase {
     self::assertArrayHasKey('core', $organized);
     self::assertCount(3, $organized['core']);
   }
+
+  public function testBootstrap3523792(): void {
+    $this->sut->updateData('bootstrap');
+    $releases = $this->sut->getAllReleases('bootstrap');
+    $organized = $this->sut->organizeAndSortReleases($releases);
+    $latest = $organized['latest'];
+    self::assertCount(5, $latest);
+    self::assertEquals([
+      '5.0.2',
+      '8.x-3.38',
+      '8.x-3.32',
+      '8.x-3.24',
+      '8.x-3.23',
+    ], array_map(
+      static fn($release) => $release->version,
+      $latest
+    ));
+  }
+
 }

@@ -49,7 +49,7 @@ final readonly class ProjectVersionManager {
         $this->database->merge(self::TABLE_NAME)
           ->keys([
             'short_name' => $project,
-            'version' => $release->version
+            'version' => $release->version,
           ])
           ->fields([
             'short_name' => $project,
@@ -105,7 +105,6 @@ final readonly class ProjectVersionManager {
         'core' => [],
       ];
     }
-    $is_core = $releases[0]->short_name === 'drupal';
     $organized_releases = [];
 
     $branches = [];
@@ -134,20 +133,21 @@ final readonly class ProjectVersionManager {
         'label' => 'Drupal 7',
         'constraint' => '7',
         'versions' => [],
-      ]
+      ],
     ];
     foreach ($releases as $release) {
       if (str_contains($release->version, '-dev')) {
         $branches[] = $release;
         continue;
       }
+      [$release_major] = explode('.', self::stripLegacyPrefix($release->version), 2);
       try {
-      $compatibility = $release->core_compatibility;
-      foreach ($core_compatibilities as $key => $major_version) {
-          if (Semver::satisfies($major_version['constraint'], $compatibility)) {
-            $core_compatibilities[$key]['versions'][] = $release;
+        $compatibility = $release->core_compatibility;
+        foreach ($core_compatibilities as $key => $major_version) {
+            if (Semver::satisfies($major_version['constraint'], $compatibility)) {
+              $core_compatibilities[$key]['versions'][$release_major][] = $release;
+            }
           }
-        }
       }
       catch (UnexpectedValueException) {
         // If the core compatibility is not a valid semantic version, we skip
@@ -155,6 +155,7 @@ final readonly class ProjectVersionManager {
         continue;
       }
     }
+    self::sortVersions($branches);
 
     $organized_releases['latest'] = [];
     $organized_releases['core'] = [];
@@ -163,26 +164,19 @@ final readonly class ProjectVersionManager {
       if (empty($core_data['versions'])) {
         continue;
       }
+      krsort($core_data['versions']);
 
-      // For now, we only limit this sorting to Drupal core. This can get akward
-      // with contrib which has 8.x- prefixes AND semantic versioning across
-      // the same core compatibilities (see decoupled_router.)
-      if ($is_core) {
-        // Inspired from \Composer\Semver\Semver::usort.
-        usort($core_data['versions'], static function (object $left, object $right) {
-          if ($left->version === $right->version) {
-            return 0;
-          }
-          if (Comparator::lessThan($left->version, $right->version)) {
-            return 1;
-          }
-          return -1;
-        });
+      // @todo is this sorting needed if they are in order from release history?
+      foreach ($core_data['versions'] as &$core_versions) {
+        self::sortVersions($core_versions);
       }
+      unset($core_versions);
 
-      $organized_releases['latest'][] = $core_data['versions'][0];
-      unset($core_data['versions'][0]);
-      $core_data['versions'] = array_values($core_data['versions']);
+      foreach ($core_data['versions'] as &$core_versions) {
+        $organized_releases['latest'][] = array_shift($core_versions);
+      }
+      unset($core_versions);
+      $core_data['versions'] = array_merge(...$core_data['versions']);
       $organized_releases['core'][] = $core_data;
     }
 
@@ -195,6 +189,27 @@ final readonly class ProjectVersionManager {
 
 
     return $organized_releases;
+  }
+
+  private static function stripLegacyPrefix(string $release): string {
+    return str_replace(['8.x-', '7.x-'], '', $release);
+  }
+
+  /**
+   * @param list<object{version: string}> $versions
+   */
+  private static function sortVersions(array &$versions): void {
+    usort($versions, static function (object $left, object $right) {
+      $left_version = self::stripLegacyPrefix($left->version);
+      $right_version = self::stripLegacyPrefix($right->version);
+      if ($left_version === $right_version) {
+        return 0;
+      }
+      if (Comparator::lessThan($left_version, $right_version)) {
+        return 1;
+      }
+      return -1;
+    });
   }
 
 }
