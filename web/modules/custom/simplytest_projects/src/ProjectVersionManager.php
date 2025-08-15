@@ -140,7 +140,7 @@ final readonly class ProjectVersionManager {
         $branches[] = $release;
         continue;
       }
-      [$release_major, ] = explode('.', self::stripLegacyPrefix($release->version), 2);
+      [$release_major] = explode('.', self::stripLegacyPrefix($release->version), 2);
       try {
         $compatibility = $release->core_compatibility;
         foreach ($core_compatibilities as $key => $major_version) {
