@@ -155,6 +155,7 @@ final readonly class ProjectVersionManager {
         continue;
       }
     }
+    self::sortVersions($branches);
 
     $organized_releases['latest'] = [];
     $organized_releases['core'] = [];
@@ -165,25 +166,18 @@ final readonly class ProjectVersionManager {
       }
       krsort($core_data['versions']);
 
-      // @todo is this sorting needed if we got them in order from release history?
-      foreach ($core_data['versions'] as $core_versions) {
-        usort($core_versions, static function (object $left, object $right) {
-          $left_version = self::stripLegacyPrefix($left->version);
-          $right_version = self::stripLegacyPrefix($right->version);
-          if ($left_version === $right_version) {
-            return 0;
-          }
-          if (Comparator::lessThan($left_version, $right_version)) {
-            return 1;
-          }
-          return -1;
-        });
+      // @todo is this sorting needed if they are in order from release history?
+      foreach ($core_data['versions'] as &$core_versions) {
+        self::sortVersions($core_versions);
       }
+      unset($core_versions);
 
-      foreach ($core_data['versions'] as $core_versions) {
+      foreach ($core_data['versions'] as &$core_versions) {
         $organized_releases['latest'][] = array_shift($core_versions);
-        $organized_releases['core'][] = $core_versions;
       }
+      unset($core_versions);
+      $core_data['versions'] = array_merge(...$core_data['versions']);
+      $organized_releases['core'][] = $core_data;
     }
 
     // Due to the fact some versions may support multiple Drupal core majors, we
@@ -199,6 +193,20 @@ final readonly class ProjectVersionManager {
 
   private static function stripLegacyPrefix(string $release): string {
     return str_replace(['8.x-', '7.x-'], '', $release);
+  }
+
+  private static function sortVersions(array &$versions): void {
+    usort($versions, static function (object $left, object $right) {
+      $left_version = self::stripLegacyPrefix($left->version);
+      $right_version = self::stripLegacyPrefix($right->version);
+      if ($left_version === $right_version) {
+        return 0;
+      }
+      if (Comparator::lessThan($left_version, $right_version)) {
+        return 1;
+      }
+      return -1;
+    });
   }
 
 }
