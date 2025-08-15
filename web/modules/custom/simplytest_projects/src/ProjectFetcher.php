@@ -2,14 +2,12 @@
 
 namespace Drupal\simplytest_projects;
 
-use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheBackendInterface;
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Query\Condition;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Logger\LoggerChannelFactory;
+use Drupal\Core\Lock\LockBackendInterface;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
 use Drupal\simplytest_projects\Exception\EntityValidationException;
 use GuzzleHttp\Client;
@@ -30,6 +28,7 @@ class ProjectFetcher {
     private readonly Connection $connection,
     private readonly ProjectVersionManager $projectVersionManager,
     private readonly CacheBackendInterface $cache,
+    private readonly LockBackendInterface $lock,
   ) {
   }
 
@@ -43,6 +42,14 @@ class ProjectFetcher {
    * @todo should not return null, but throw exceptions.
    */
   public function fetchProject(string $shortname): ?array {
+    // Sanitize shortname for use in lock key: allow only lowercase letters, numbers, and underscores.
+    $sanitized_shortname = preg_replace('/[^a-z0-9_]/', '_', strtolower($shortname));
+    if (!$this->lock->acquire("fetch_project_$sanitized_shortname")) {
+      // Could not acquire lock, another process is already fetching this project.
+      // @todo Use `wait` and check if it exists. This seems like something
+      //   the caller should implement?
+      return NULL;
+    }
     // Ensure the shortname is always lowercase. The Drupal.org API is not
     // case-sensitive, but other APIs are.
     $shortname = strtolower($shortname);
@@ -70,11 +77,13 @@ class ProjectFetcher {
       $this->logger->warning('Failed to parse initial data for %project (json decode).', [
         '%project' => $shortname,
       ]);
+      $this->lock->release("fetch_project_$sanitized_shortname");
       return NULL;
     }
 
     // Did we find the project we searched for?
     if (count($data['list']) === 0 || !isset($data['list'][0])) {
+      $this->lock->release("fetch_project_$sanitized_shortname");
       return NULL;
     }
     $project_data = $data['list'][0];
@@ -88,6 +97,7 @@ class ProjectFetcher {
       $this->logger->warning('Failed to get initial data for %project (no project title).', [
         '%project' => $shortname,
       ]);
+      $this->lock->release("fetch_project_$sanitized_shortname");
       return NULL;
     }
     $title = $project_data['title'];
@@ -97,6 +107,7 @@ class ProjectFetcher {
       $this->logger->warning('Failed to get initial data for %project (no project type).', [
         '%project' => $shortname,
       ]);
+      $this->lock->release("fetch_project_$sanitized_shortname");
       return NULL;
     }
     $type_term = $project_data['type'];
@@ -109,6 +120,7 @@ class ProjectFetcher {
         '%project' => $shortname,
         '@term' => $type_term,
       ]);
+      $this->lock->release("fetch_project_$sanitized_shortname");
       return NULL;
     }
 
@@ -118,6 +130,7 @@ class ProjectFetcher {
         $this->logger->warning('Failed to scrap user name from "%url".', [
           '%url' => $project_data['url'],
         ]);
+        $this->lock->release("fetch_project_$sanitized_shortname");
         return NULL;
       }
       $url_parts = explode('/', $project_data['url']);
@@ -155,6 +168,9 @@ class ProjectFetcher {
     }
     catch (EntityStorageException $e) {
       // @todo decide how to handle this error if we got a dupe save, somehow.
+    }
+    finally {
+      $this->lock->release("fetch_project_$sanitized_shortname");
     }
     return $data;
   }
