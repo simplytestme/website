@@ -17,6 +17,6 @@ describe('Tests additional projects and version constraints', () => {
 
     cy.wait(400)
     cy.get('#additional_project_0 select')
-      .should('have.value', '2.0.0')
+      .should('have.value', '2.0.1')
   })
 })

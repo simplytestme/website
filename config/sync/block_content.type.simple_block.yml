@@ -4,5 +4,5 @@ status: true
 dependencies: {  }
 id: simple_block
 label: 'Simple Block'
-revision: 0
+revision: false
 description: 'Block with title and body'
