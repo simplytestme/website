@@ -19,7 +19,7 @@ tasks:
         service: cli
     - run:
         name: drush updb
-        command: php vendor/bin/drush deploy
+        command: vendor/bin/drush deploy
         service: cli
     - run:
         command: php scripts/github/deployment.php
