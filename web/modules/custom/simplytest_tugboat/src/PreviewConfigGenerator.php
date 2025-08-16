@@ -60,7 +60,7 @@ final readonly class PreviewConfigGenerator {
       [
         'docker-php-ext-install opcache',
         'a2enmod headers rewrite',
-        'add-apt-repository ppa:rmescandon/yq && apt update && apt install -y yq',
+        'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
       ],
       ['composer self-update'],
       $this->getSetupCommands($parameters),
@@ -369,7 +369,7 @@ final readonly class PreviewConfigGenerator {
       }
 
       if ($parameters['project_type'] === ProjectTypes::THEME) {
-        $commands[] = sprintf('deps=$(yq -o=json \'.dependencies // []\' web/themes/contrib/%s.info.yml | jq -r \'.[] | split(":")[1]\' | xargs); [ -n "$deps" ] && ${DOCROOT}/vendor/bin/drush en $deps -y', $parameters['project']);
+        $commands[] = sprintf('deps=$(yq -o=json \'.dependencies // []\' ${DOCROOT}/themes/contrib/%1$s/%1$s.info.yml | jq -r \'.[] | split(":")[1]\' | xargs); [ -n "$deps" ] && ${DOCROOT}/../vendor/bin/drush en $deps -y', $parameters['project']);
         $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush theme:enable %s -y', $parameters['project']);
         $commands[] = sprintf(
           'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.theme %s %s -y',
