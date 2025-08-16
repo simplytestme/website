@@ -56,10 +56,11 @@ final readonly class PreviewConfigGenerator {
 
     // @todo we could have different Config classes, but this is an easy start.
     $build_commands = [
-      // @todo these belong in a base preview.
+      // @todo these belong in a base preview or `init`.
       [
         'docker-php-ext-install opcache',
-        'a2enmod headers rewrite'
+        'a2enmod headers rewrite',
+        'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
       ],
       ['composer self-update'],
       $this->getSetupCommands($parameters),
@@ -363,12 +364,13 @@ final readonly class PreviewConfigGenerator {
       $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush si %s --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y', $install_profile);
       // Enable verbose error reporting.
       $commands[] = 'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.logging error_level verbose -y';
-      if (!$is_distro && !$is_core) {
-        $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush %s %s -y', $parameters['project_type'] === ProjectTypes::THEME ? 'theme:enable' : 'en', $parameters['project']);
+      if ($parameters['project_type'] === ProjectTypes::MODULE) {
+        $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush en %s -y', $parameters['project']);
       }
-      // If this is a theme, and it is not the Gin admin theme, set it as the
-      // default theme.
+
       if ($parameters['project_type'] === ProjectTypes::THEME) {
+        $commands[] = sprintf('deps=$(yq -o=json \'.dependencies // []\' ${DOCROOT}/themes/contrib/%1$s/%1$s.info.yml | jq -r \'.[] | split(":")[1]\' | xargs); [ -n "$deps" ] && ${DOCROOT}/../vendor/bin/drush en $deps -y', $parameters['project']);
+        $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush theme:enable %s -y', $parameters['project']);
         $commands[] = sprintf(
           'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.theme %s %s -y',
           $parameters['project'] === 'gin' ? 'admin' : 'default',
@@ -377,6 +379,9 @@ final readonly class PreviewConfigGenerator {
       }
       foreach ($parameters['additionals'] as $additional) {
         $additional_product_type = $additional['project_type'] ?? ProjectTypes::MODULE;
+        if ($additional_product_type === ProjectTypes::THEME) {
+          $commands[] = sprintf('deps=$(yq -o=json \'.dependencies // []\' ${DOCROOT}/themes/contrib/%1$s/%1$s.info.yml | jq -r \'.[] | split(":")[1]\' | xargs); [ -n "$deps" ] && ${DOCROOT}/../vendor/bin/drush en $deps -y', $additional['shortname']);
+        }
         $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush %s %s -y', $additional_product_type === ProjectTypes::THEME ? 'theme:enable' : 'en', $additional['shortname']);
         if ($additional_product_type === ProjectTypes::THEME) {
           $commands[] = sprintf(
