@@ -148,7 +148,6 @@ final class InstanceManagerTest extends KernelTestBase {
       'repo' => 'kerneltestrepo',
       'base' => 'base-drupal9-id',
     ];
-    print_r($expected);
     self::assertEquals($expected, $payload);
   }
 }
