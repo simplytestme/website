@@ -726,6 +726,7 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'cd "${DOCROOT}" && ../vendor/bin/drush si standard --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y',
               'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.logging error_level verbose -y',
               'cd "${DOCROOT}" && ../vendor/bin/drush en token -y',
+              'deps=$(yq -o=json \'.dependencies // []\' ${DOCROOT}/themes/contrib/uswds/uswds.info.yml | jq -r \'.[] | split(":")[1]\' | xargs); [ -n "$deps" ] && ${DOCROOT}/../vendor/bin/drush en $deps -y',
               'cd "${DOCROOT}" && ../vendor/bin/drush theme:enable uswds -y',
               'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.theme default uswds -y',
               'cd "${DOCROOT}" && echo \'$settings["file_private_path"] = "sites/default/files/private";\' >> sites/default/settings.php',
