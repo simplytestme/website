@@ -81,6 +81,7 @@ final class InstanceManagerTest extends KernelTestBase {
           'version' => '8.x-1.8',
           'patches' => [],
         ],
+        // @todo should should have installed the theme's dependencies.
         [
           'shortname' => 'bootstrap',
           'type' => 'theme',
@@ -105,6 +106,7 @@ final class InstanceManagerTest extends KernelTestBase {
               'build' => [
                 'docker-php-ext-install opcache',
                 'a2enmod headers rewrite',
+                'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
                 'composer self-update',
                 'rm -rf "${DOCROOT}"',
                 'composer -n create-project drupal/recommended-project:9.3.2 stm --no-install',
@@ -146,7 +148,7 @@ final class InstanceManagerTest extends KernelTestBase {
       'repo' => 'kerneltestrepo',
       'base' => 'base-drupal9-id',
     ];
+    print_r($expected);
     self::assertEquals($expected, $payload);
   }
 }
-
