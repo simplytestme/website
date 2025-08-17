@@ -7,7 +7,7 @@ namespace Drupal\simplytest_ocd\Plugin\OneClickDemo;
  *
  * @OneClickDemo(
  *   id = "starshot",
- *   title = @Translation("Starshot"),
+ *   title = @Translation("Drupal CMS"),
  *   base_preview_name = "drupal10",
  * )
  */
@@ -16,6 +16,7 @@ class Starshot extends OneClickDemoBase {
   #[\Override]
   public function getSetupCommands(array $parameters): array {
     $commands[] = 'docker-php-ext-install opcache';
+    $commands[] = 'echo "memory_limit = 512M" >> /usr/local/etc/php/conf.d/my-php.ini';
     $commands[] = 'a2enmod headers rewrite';
     $commands[] = 'rm -rf "${DOCROOT}"';
     return $commands;
@@ -23,10 +24,7 @@ class Starshot extends OneClickDemoBase {
 
   #[\Override]
   public function getDownloadCommands(array $parameters): array {
-    $commands[] = 'git clone https://git.drupalcode.org/project/drupal_cms.git';
-    $commands[] = "find \$TUGBOAT_ROOT/drupal_cms -type d -maxdepth 1 -name 'drupal_cms*' -exec composer config --global repositories.{} path {} ';'";
-    $commands[] = 'composer config --global repositories.template path $TUGBOAT_ROOT/drupal_cms/project_template';
-    $commands[] = 'composer create-project drupal/drupal-cms-project $TUGBOAT_ROOT/stm --stability=dev';
+    $commands[] = 'composer create-project drupal/cms $TUGBOAT_ROOT/stm';
     $commands[] = 'ln -snf $TUGBOAT_ROOT/stm/web $DOCROOT';
     return $commands;
   }
