@@ -369,7 +369,7 @@ final readonly class PreviewConfigGenerator {
       }
 
       if ($parameters['project_type'] === ProjectTypes::THEME) {
-        $commands[] = sprintf('deps=$(yq -o=json \'.dependencies // []\' ${DOCROOT}/themes/contrib/%1$s/%1$s.info.yml | jq -r \'.[] | split(":")[1]\' | xargs); [ -n "$deps" ] && ${DOCROOT}/../vendor/bin/drush en $deps -y', $parameters['project']);
+        $commands[] = sprintf('deps=$(yq -o=json \'.dependencies // []\' ${DOCROOT}/themes/contrib/%1$s/%1$s.info.yml | jq -r \'.[] | split(":")[1]\' | xargs); [ -z "$deps" ] || ${DOCROOT}/../vendor/bin/drush en $deps -y', $parameters['project']);
         $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush theme:enable %s -y', $parameters['project']);
         $commands[] = sprintf(
           'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.theme %s %s -y',
@@ -380,7 +380,7 @@ final readonly class PreviewConfigGenerator {
       foreach ($parameters['additionals'] as $additional) {
         $additional_product_type = $additional['project_type'] ?? ProjectTypes::MODULE;
         if ($additional_product_type === ProjectTypes::THEME) {
-          $commands[] = sprintf('deps=$(yq -o=json \'.dependencies // []\' ${DOCROOT}/themes/contrib/%1$s/%1$s.info.yml | jq -r \'.[] | split(":")[1]\' | xargs); [ -n "$deps" ] && ${DOCROOT}/../vendor/bin/drush en $deps -y', $additional['shortname']);
+          $commands[] = sprintf('deps=$(yq -o=json \'.dependencies // []\' ${DOCROOT}/themes/contrib/%1$s/%1$s.info.yml | jq -r \'.[] | split(":")[1]\' | xargs); [ -z "$deps" ] || ${DOCROOT}/../vendor/bin/drush en $deps -y', $additional['shortname']);
         }
         $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush %s %s -y', $additional_product_type === ProjectTypes::THEME ? 'theme:enable' : 'en', $additional['shortname']);
         if ($additional_product_type === ProjectTypes::THEME) {

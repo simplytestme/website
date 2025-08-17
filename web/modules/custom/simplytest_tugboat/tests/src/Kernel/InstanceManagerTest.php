@@ -126,7 +126,7 @@ final class InstanceManagerTest extends KernelTestBase {
                 'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.logging error_level verbose -y',
                 'cd "${DOCROOT}" && ../vendor/bin/drush en token -y',
                 'cd "${DOCROOT}" && ../vendor/bin/drush en pathauto -y',
-                'deps=$(yq -o=json \'.dependencies // []\' ${DOCROOT}/themes/contrib/bootstrap/bootstrap.info.yml | jq -r \'.[] | split(":")[1]\' | xargs); [ -n "$deps" ] && ${DOCROOT}/../vendor/bin/drush en $deps -y',
+                'deps=$(yq -o=json \'.dependencies // []\' ${DOCROOT}/themes/contrib/bootstrap/bootstrap.info.yml | jq -r \'.[] | split(":")[1]\' | xargs); [ -z "$deps" ] || ${DOCROOT}/../vendor/bin/drush en $deps -y',
                 'cd "${DOCROOT}" && ../vendor/bin/drush theme:enable bootstrap -y',
                 'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.theme default bootstrap -y',
                 'cd "${DOCROOT}" && echo \'$settings["file_private_path"] = "sites/default/files/private";\' >> sites/default/settings.php',
