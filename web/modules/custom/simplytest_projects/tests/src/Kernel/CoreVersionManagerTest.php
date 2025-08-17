@@ -2,11 +2,18 @@
 
 namespace Drupal\Tests\simplytest_projects\Kernel;
 
+use Drupal\Core\Cache\NullBackend;
+use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Core\KeyValueStore\KeyValueMemoryFactory;
+use Drupal\Core\Lock\NullLockBackend;
 use Drupal\Core\State\State;
 use Drupal\KernelTests\KernelTestBase;
+use GuzzleHttp\Promise\FulfilledPromise;
 use Drupal\simplytest_projects\CoreVersionManager;
 use GuzzleHttp\Client;
+use GuzzleHttp\Promise\PromiseInterface;
+use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * @group simplytest
@@ -21,6 +28,11 @@ final class CoreVersionManagerTest extends KernelTestBase {
   ];
 
   /**
+   * @var list<\Psr\Http\Message\RequestInterface>
+   */
+  protected array $requests = [];
+
+  /**
    * @var \Drupal\simplytest_projects\CoreVersionManager
    */
   private $sut;
@@ -31,18 +43,63 @@ final class CoreVersionManagerTest extends KernelTestBase {
     $this->sut = $this->container->get('simplytest_projects.core_version_manager');
   }
 
-  public function testPreflightCheck() {
-    $state = new State(new KeyValueMemoryFactory());
+  public function register(ContainerBuilder $container): void {
+    parent::register($container);
+    $container->register(self::class, self::class)
+      ->addTag('http_client_middleware');
+    $container->set(self::class, $this);
+  }
+
+  public function __invoke(): \Closure {
+    return function () {
+      return function (RequestInterface $request): PromiseInterface {
+        $this->requests[] = $request;
+        if ($request->getMethod() === 'HEAD' && $request->getUri()->getHost() === 'updates.drupal.org') {
+          if ($request->hasHeader('If-Modified-Since')) {
+            return new FulfilledPromise(new Response(304, [], ''));
+          }
+          return new FulfilledPromise(new Response(200, ['Last-Modified' => 'Wed, 21 Apr 2021 00:36:14 GMT'], ''));
+        }
+
+        $path = $request->getUri()->getPath();
+        if ($path === '/api-d7/node.json') {
+          $query = [];
+          parse_str($request->getUri()->getQuery(), $query);
+          if ($query['type'] === 'project_release' && $query['field_release_project'] === '3060') {
+            $version = $query['field_release_version_major'] ?? '';
+            $fixture_file = __DIR__ . "/../../fixtures/node/project_release/core-$version.json";
+            if (file_exists($fixture_file)) {
+              $fixture = file_get_contents($fixture_file);
+              if ($query['page'] === '1') {
+                $decoded_fixture = \json_decode($fixture, TRUE, 512, JSON_THROW_ON_ERROR);
+                // Prevent infinite looping for pagination logic.
+                unset($decoded_fixture['next']);
+                $fixture = \json_encode($decoded_fixture, JSON_THROW_ON_ERROR);
+              }
+              return new FulfilledPromise(new Response(200, ['Content-Type' => 'application/json'], $fixture));
+            }
+          }
+        }
+
+        throw new \RuntimeException("Mocked request tried to escape: {$request->getMethod()} {$request->getUri()}");
+      };
+    };
+  }
+
+  public function testPreflightCheck(): void {
+    $state = new State(new KeyValueMemoryFactory(), new NullBackend('state'), new NullLockBackend());
     $sut = new CoreVersionManager(
       $this->container->get('database'),
-      new Client(),
+      $this->container->get('http_client'),
       $state
     );
     $sut->updateData(7);
+    self::assertCount(3, $this->requests);
     self::assertNotNull($state->get('release_history_last_modified:drupal:7'));
     $last_modified = $state->get('release_history_last_modified:drupal:7');
     $sut->updateData(7);
     self::assertEquals($last_modified, $state->get('release_history_last_modified:drupal:7'));
+    self::assertCount(4, $this->requests);
   }
 
   /**
@@ -71,39 +128,30 @@ final class CoreVersionManagerTest extends KernelTestBase {
 
   public function coreVersionData(): \Generator {
     yield [9, 33, [
-      'version' => '9.2.x-dev',
+      'version' => '9.4.0',
       'major' => '9',
-      'minor' => '2',
-      'patch' => null,
-      'extra' => 'dev',
-      'vcs_label' => '9.2.x',
-      'insecure' => '0',
-    ]];
-    yield [8, 200, [
-      'version' => '8.9.9',
-      'major' => '8',
-      'minor' => '9',
-      'patch' => '9',
+      'minor' => '4',
+      'patch' => '0',
       'extra' => null,
-      'vcs_label' => '8.9.9',
+      'vcs_label' => '9.4.0',
       'insecure' => '1',
     ]];
-    yield [7, 90, [
-      'version' => '7.9',
+    yield [7, 9, [
+      'version' => '7.95',
       'major' => '7',
-      'minor' => '9',
+      'minor' => '95',
       'patch' => null,
       'extra' => null,
-      'vcs_label' => '7.9',
+      'vcs_label' => '7.95',
       'insecure' => '1',
     ]];
     yield [10, 3, [
-      'version' => '10.0.x-dev',
+      'version' => '10.3.x-dev',
       'major' => '10',
-      'minor' => '0',
+      'minor' => '3',
       'patch' => NULL,
       'extra' => 'dev',
-      'vcs_label' => '10.0.x',
+      'vcs_label' => '10.3.x',
       'insecure' => '0',
     ]];
   }
