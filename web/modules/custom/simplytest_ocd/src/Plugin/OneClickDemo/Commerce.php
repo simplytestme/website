@@ -44,8 +44,9 @@ class Commerce extends OneClickDemoBase {
   #[\Override]
   public function getInstallingCommands(array $parameters): array {
     $commands = [];
+    $commands[] = 'cd "${DOCROOT}" && mkdir -p sites/default/files/private';
     $commands[] = 'echo \'$settings["file_private_path"] = "sites/default/files/private";\' >> ${DOCROOT}/sites/default/settings.php';
-    $commands[] = 'cd "${DOCROOT}" && ../vendor/bin/drush si --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y';
+    $commands[] = 'cd "${DOCROOT}" && ../vendor/bin/drush si ../recipes/commerce_kickstart_demo --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y';
     return $commands;
   }
 
