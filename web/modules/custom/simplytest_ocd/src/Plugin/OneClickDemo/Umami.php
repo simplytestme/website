@@ -40,7 +40,7 @@ class Umami extends OneClickDemoBase {
   #[\Override]
   public function getInstallingCommands(array $parameters): array {
     $commands = [];
-    $commands[] = 'cd ${DOCROOT} && php -d memory_limit=-1 ../vendor/bin/drush si demo_umami --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y';
+    $commands[] = 'cd ${DOCROOT} && ../vendor/bin/drush si demo_umami --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y';
     return $commands;
   }
 

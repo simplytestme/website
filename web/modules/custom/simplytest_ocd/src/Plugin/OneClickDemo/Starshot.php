@@ -39,7 +39,7 @@ class Starshot extends OneClickDemoBase {
   #[\Override]
   public function getInstallingCommands(array $parameters): array {
     $commands = [];
-    $commands[] = 'cd ${DOCROOT} && php -d memory_limit=-1 ../vendor/bin/drush si --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y --site-name="Drupal CMS Demo"';
+    $commands[] = 'cd ${DOCROOT} && ../vendor/bin/drush si --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y --site-name="Drupal CMS Demo"';
     return $commands;
   }
 
