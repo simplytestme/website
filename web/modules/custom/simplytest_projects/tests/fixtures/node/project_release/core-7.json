@@ -1,0 +1,791 @@
+{
+  "self": "https:\/\/www.drupal.org\/api-d7\/node?type=project_release\u0026field_release_project=3060\u0026limit=100\u0026sort=created\u0026direction=desc\u0026page=0\u0026field_release_version_major=7",
+  "first": "https:\/\/www.drupal.org\/api-d7\/node?type=project_release\u0026field_release_project=3060\u0026limit=100\u0026sort=created\u0026direction=desc\u0026page=0\u0026field_release_version_major=7",
+  "last": "https:\/\/www.drupal.org\/api-d7\/node?type=project_release\u0026field_release_project=3060\u0026limit=100\u0026sort=created\u0026direction=desc\u0026page=2\u0026field_release_version_major=7",
+  "next": "https:\/\/www.drupal.org\/api-d7\/node?type=project_release\u0026field_release_project=3060\u0026limit=100\u0026sort=created\u0026direction=desc\u0026page=1\u0026field_release_version_major=7",
+  "list": [
+    {
+      "body": {
+        "value": "\u003Cp\u003EMaintenance release of the Drupal 7 series. Includes bug fixes and small API\/feature improvements only (no major, non-backwards-compatible new functionality).\u003C\/p\u003E\n\u003Cp\u003ENo security fixes are included in this release.\u003C\/p\u003E\n\u003Cp\u003EChanges have been made to default.settings.php. More details in the Change Records for major changes below.\u003C\/p\u003E\n\u003Cp\u003ENo changes have been made to .htaccess, web.config or robots.txt files in this release, so upgrading custom versions of those files is not necessary.\u003C\/p\u003E\n\u003Cp\u003EThis is the first Drupal 7 release to \u003Ca href=\u0022https:\/\/www.drupal.org\/project\/drupal\/issues\/3380823\u0022 rel=\u0022nofollow\u0022\u003Epass tests in PHP 8.3\u003C\/a\u003E. However there may still be problems not revealed by Drupal core\u0027s test suite, especially on sites with contrib (and custom) modules. Please test, and report any problems in the appropriate issue queue.\u003C\/p\u003E\n\u003Cp\u003EAs always, many thanks to everyone that contributed to this - and every - release of Drupal 7.\u003C\/p\u003E\n\u003Ch3\u003EMajor \u003Ca href=\u0022https:\/\/www.drupal.org\/list-changes\/drupal\/published?version=7.103\u0022 rel=\u0022nofollow\u0022\u003Echanges in 7.103\u003C\/a\u003E:\u003C\/h3\u003E\n\u003Cul\u003E\n\u003Cli\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/node\/3319062\u0022 rel=\u0022nofollow\u0022\u003E#3319062: [D7] PhpMail : broken mail headers in PHP 8.0+ because of LF characters\u003C\/a\u003E\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/node\/3478716\u0022 rel=\u0022nofollow\u0022\u003E#3478716: [D7] Full path disclosure from errors on maintenance pages\u003C\/a\u003E\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/node\/3444017\u0022 rel=\u0022nofollow\u0022\u003E#3444017: [D7] HTTP_HOST header cannot be trusted\u003C\/a\u003E\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/node\/3383223\u0022 rel=\u0022nofollow\u0022\u003E#3383223: URL aliases can be used to override trusted urls\u003C\/a\u003E\u003C\/li\u003E\n\u003C\/ul\u003E\n\u003Ch3\u003EAll changes:\u003C\/h3\u003E\n\u003Cul\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3319062\u0022 rel=\u0022nofollow\u0022\u003E#3319062\u003C\/a\u003E by \u003Ca href=\u0022\/u\/arx-e\u0022 rel=\u0022nofollow\u0022\u003Earx-e\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/rclemings\u0022 rel=\u0022nofollow\u0022\u003Erclemings\u003C\/a\u003E, \u003Ca href=\u0022\/u\/down2under\u0022 rel=\u0022nofollow\u0022\u003Edown2under\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mcdruid\u0022 rel=\u0022nofollow\u0022\u003Emcdruid\u003C\/a\u003E, \u003Ca href=\u0022\/u\/aitala\u0022 rel=\u0022nofollow\u0022\u003Eaitala\u003C\/a\u003E, \u003Ca href=\u0022\/u\/longwave\u0022 rel=\u0022nofollow\u0022\u003Elongwave\u003C\/a\u003E, \u003Ca href=\u0022\/u\/edvanleeuwen\u0022 rel=\u0022nofollow\u0022\u003Eedvanleeuwen\u003C\/a\u003E, \u003Ca href=\u0022\/u\/jbiechele\u0022 rel=\u0022nofollow\u0022\u003Ejbiechele\u003C\/a\u003E, \u003Ca href=\u0022\/u\/davidwhthomas\u0022 rel=\u0022nofollow\u0022\u003Edavidwhthomas\u003C\/a\u003E, \u003Ca href=\u0022\/u\/danrod\u0022 rel=\u0022nofollow\u0022\u003Edanrod\u003C\/a\u003E, \u003Ca href=\u0022\/u\/stevewilson\u0022 rel=\u0022nofollow\u0022\u003Estevewilson\u003C\/a\u003E, \u003Ca href=\u0022\/u\/chase.\u0022 rel=\u0022nofollow\u0022\u003EChase.\u003C\/a\u003E: [D7] PhpMail : broken mail headers in PHP 8.0+ because of LF characters\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3478716\u0022 rel=\u0022nofollow\u0022\u003E#3478716\u003C\/a\u003E by \u003Ca href=\u0022\/u\/ram4nd\u0022 rel=\u0022nofollow\u0022\u003Eram4nd\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mcdruid\u0022 rel=\u0022nofollow\u0022\u003Emcdruid\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: [D7] Full path disclosure from errors on maintenance pages\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3444017\u0022 rel=\u0022nofollow\u0022\u003E#3444017\u003C\/a\u003E by \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/avpaderno\u0022 rel=\u0022nofollow\u0022\u003Eavpaderno\u003C\/a\u003E, \u003Ca href=\u0022\/u\/akalata\u0022 rel=\u0022nofollow\u0022\u003Eakalata\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mcdruid\u0022 rel=\u0022nofollow\u0022\u003Emcdruid\u003C\/a\u003E: [D7] HTTP_HOST header cannot be trusted\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3438308\u0022 rel=\u0022nofollow\u0022\u003E#3438308\u003C\/a\u003E by \u003Ca href=\u0022\/u\/avpaderno\u0022 rel=\u0022nofollow\u0022\u003Eavpaderno\u003C\/a\u003E, \u003Ca href=\u0022\/u\/ceonizm\u0022 rel=\u0022nofollow\u0022\u003Eceonizm\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/aaron.ferris\u0022 rel=\u0022nofollow\u0022\u003Eaaron.ferris\u003C\/a\u003E, \u003Ca href=\u0022\/u\/robcarr\u0022 rel=\u0022nofollow\u0022\u003Erobcarr\u003C\/a\u003E: dirname(): Passing null to parameter \u003Ca href=\u0022\/node\/1\u0022 rel=\u0022nofollow\u0022\u003E#1\u003C\/a\u003E ($path) of type string is deprecated in drupal_get_path()\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3383223\u0022 rel=\u0022nofollow\u0022\u003E#3383223\u003C\/a\u003E by \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/dokumori\u0022 rel=\u0022nofollow\u0022\u003Edokumori\u003C\/a\u003E, \u003Ca href=\u0022\/u\/dsnopek\u0022 rel=\u0022nofollow\u0022\u003Edsnopek\u003C\/a\u003E, \u003Ca href=\u0022\/u\/catch\u0022 rel=\u0022nofollow\u0022\u003Ecatch\u003C\/a\u003E, \u003Ca href=\u0022\/u\/berdir\u0022 rel=\u0022nofollow\u0022\u003Eberdir\u003C\/a\u003E, \u003Ca href=\u0022\/u\/effulgentsia\u0022 rel=\u0022nofollow\u0022\u003Eeffulgentsia\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mlhess\u0022 rel=\u0022nofollow\u0022\u003Emlhess\u003C\/a\u003E, \u003Ca href=\u0022\/u\/samuel.mortenson\u0022 rel=\u0022nofollow\u0022\u003Esamuel.mortenson\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poiu\u0022 rel=\u0022nofollow\u0022\u003Epoiu\u003C\/a\u003E, \u003Ca href=\u0022\/u\/moshe-weitzman\u0022 rel=\u0022nofollow\u0022\u003Emoshe weitzman\u003C\/a\u003E: URL aliases can be used to override trusted urls\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/1447236\u0022 rel=\u0022nofollow\u0022\u003E#1447236\u003C\/a\u003E by \u003Ca href=\u0022\/u\/c.-lee\u0022 rel=\u0022nofollow\u0022\u003EC. Lee\u003C\/a\u003E, \u003Ca href=\u0022\/u\/avpaderno\u0022 rel=\u0022nofollow\u0022\u003Eavpaderno\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mfb\u0022 rel=\u0022nofollow\u0022\u003Emfb\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: DefaultMailSystem implements MailSystemInterface::format() incorrectly\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3182166\u0022 rel=\u0022nofollow\u0022\u003E#3182166\u003C\/a\u003E by \u003Ca href=\u0022\/u\/stefanos.petrakis@gmail.com\u0022 rel=\u0022nofollow\u0022\u003Estefanos.petrakis@gmail.com\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/almador\u0022 rel=\u0022nofollow\u0022\u003Ealmador\u003C\/a\u003E, \u003Ca href=\u0022\/u\/adinan-cenci\u0022 rel=\u0022nofollow\u0022\u003Eadinan cenci\u003C\/a\u003E, \u003Ca href=\u0022\/u\/czunigaco\u0022 rel=\u0022nofollow\u0022\u003Eczunigaco\u003C\/a\u003E, \u003Ca href=\u0022\/u\/rhip\u0022 rel=\u0022nofollow\u0022\u003Erhip\u003C\/a\u003E, \u003Ca href=\u0022\/u\/benjifisher\u0022 rel=\u0022nofollow\u0022\u003Ebenjifisher\u003C\/a\u003E, \u003Ca href=\u0022\/u\/neclimdul\u0022 rel=\u0022nofollow\u0022\u003Eneclimdul\u003C\/a\u003E, \u003Ca href=\u0022\/u\/cilefen\u0022 rel=\u0022nofollow\u0022\u003Ecilefen\u003C\/a\u003E: [D7] preg_split in _filter_url breaks for long html tags\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3397882\u0022 rel=\u0022nofollow\u0022\u003E#3397882\u003C\/a\u003E by \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/andypost\u0022 rel=\u0022nofollow\u0022\u003Eandypost\u003C\/a\u003E, \u003Ca href=\u0022\/u\/joseph.olstad\u0022 rel=\u0022nofollow\u0022\u003Ejoseph.olstad\u003C\/a\u003E: [D7 PHP 8.3] TextSummaryTestCase::testLength() fails on some libxml versions\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3446569\u0022 rel=\u0022nofollow\u0022\u003E#3446569\u003C\/a\u003E by \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/joseph.olstad\u0022 rel=\u0022nofollow\u0022\u003Ejoseph.olstad\u003C\/a\u003E: [D7 PHP 8.3] Fix SessionHttpsTestCase-\u0026gt;testEmptySessionId() failure\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3464097\u0022 rel=\u0022nofollow\u0022\u003E#3464097\u003C\/a\u003E by \u003Ca href=\u0022\/u\/avpaderno\u0022 rel=\u0022nofollow\u0022\u003Eavpaderno\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: CacheClearCase::testClearArray() sets a persistent variable that has no effect\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3467905\u0022 rel=\u0022nofollow\u0022\u003E#3467905\u003C\/a\u003E by \u003Ca href=\u0022\/u\/avpaderno\u0022 rel=\u0022nofollow\u0022\u003Eavpaderno\u003C\/a\u003E: drupal_var_export() initializes a variable that is never used\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3467781\u0022 rel=\u0022nofollow\u0022\u003E#3467781\u003C\/a\u003E by \u003Ca href=\u0022\/u\/avpaderno\u0022 rel=\u0022nofollow\u0022\u003Eavpaderno\u003C\/a\u003E: drupal_var_export() passes a third argument to itself, when it uses just two parameters\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3463022\u0022 rel=\u0022nofollow\u0022\u003E#3463022\u003C\/a\u003E by \u003Ca href=\u0022\/u\/avpaderno\u0022 rel=\u0022nofollow\u0022\u003Eavpaderno\u003C\/a\u003E: Correct a comment in drupal_settings_initialize()\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/2453785\u0022 rel=\u0022nofollow\u0022\u003E#2453785\u003C\/a\u003E by \u003Ca href=\u0022\/u\/adammalone\u0022 rel=\u0022nofollow\u0022\u003Eadammalone\u003C\/a\u003E: Password hashing tests do not cover all options\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/2401743\u0022 rel=\u0022nofollow\u0022\u003E#2401743\u003C\/a\u003E by \u003Ca href=\u0022\/u\/epashkin\u0022 rel=\u0022nofollow\u0022\u003EEPashkin\u003C\/a\u003E: Wrong link to test results in settings form\u003C\/li\u003E\n\u003C\/ul\u003E",
+        "summary": "",
+        "format": "1"
+      },
+      "field_release_project": {
+        "uri": "https:\/\/www.drupal.org\/api-d7\/node\/3060",
+        "id": "3060",
+        "resource": "node"
+      },
+      "field_release_version_major": "7",
+      "taxonomy_vocabulary_6": {
+        "uri": "https:\/\/www.drupal.org\/api-d7\/taxonomy_term\/103",
+        "id": "103",
+        "resource": "taxonomy_term"
+      },
+      "taxonomy_vocabulary_7": [
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/taxonomy_term\/99",
+          "id": "99",
+          "resource": "taxonomy_term"
+        }
+      ],
+      "field_release_version": "7.103",
+      "field_release_version_minor": "103",
+      "field_release_version_patch": null,
+      "field_release_version_extra": null,
+      "field_release_version_ext_weight": null,
+      "field_release_version_ext_delta": null,
+      "field_release_vcs_label": "7.103",
+      "field_release_build_type": "static",
+      "field_release_update_status": "0",
+      "field_release_files": [
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/field_collection_item\/1684750",
+          "id": "1684750",
+          "resource": "field_collection_item"
+        },
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/field_collection_item\/1684751",
+          "id": "1684751",
+          "resource": "field_collection_item"
+        }
+      ],
+      "field_release_short_description": "Supported until January 05, 2025. Use this version for sites already running Drupal 7.",
+      "field_show_download": false,
+      "field_packaged_git_sha1": "e7242e52bb13286c67d27fad57915f868f50b0a9",
+      "field_release_category": "legacy",
+      "field_composer_type": null,
+      "nid": "3491667",
+      "vid": "13818715",
+      "is_new": false,
+      "type": "project_release",
+      "title": "drupal 7.103",
+      "language": "en",
+      "url": "https:\/\/www.drupal.org\/project\/drupal\/releases\/7.103",
+      "edit_url": "https:\/\/www.drupal.org\/node\/3491667\/edit",
+      "status": "1",
+      "promote": "0",
+      "sticky": "0",
+      "created": "1733324506",
+      "changed": "1734205950",
+      "author": {
+        "uri": "https:\/\/www.drupal.org\/api-d7\/user\/255969",
+        "id": "255969",
+        "resource": "user",
+        "name": "mcdruid"
+      },
+      "comment": "1",
+      "comments": [],
+      "comment_count": "0",
+      "comment_count_new": false,
+      "feeds_item_guid": null,
+      "feeds_item_url": null,
+      "feed_nid": null,
+      "flag_flag_tracker_follow_user": [],
+      "flag_tracker_follower_count": null,
+      "has_new_content": null,
+      "last_comment_timestamp": "1733324506",
+      "release_usage": "29163"
+    },
+    {
+      "body": {
+        "value": "\u003Cp\u003EThis is a \u003Cstrong\u003Esecurity release\u003C\/strong\u003E of the Drupal 7 series.\u003C\/p\u003E\n\u003Cp\u003EThis release fixes \u003Cstrong\u003Esecurity vulnerabilities\u003C\/strong\u003E. Sites are \u003Cstrong\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/docs\/7\/update\/introduction\u0022 rel=\u0022nofollow\u0022\u003Eurged to update immediately\u003C\/a\u003E\u003C\/strong\u003E after reading the notes below and the security announcements:\u003C\/p\u003E\n\u003Cul\u003E\n\u003Cli\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/sa-core-2024-005\u0022 rel=\u0022nofollow\u0022\u003EDrupal core - Critical - Cross-Site Scripting - SA-CORE-2024-005\u003C\/a\u003E\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/sa-core-2024-008\u0022 rel=\u0022nofollow\u0022\u003EDrupal core - Moderately critical - Gadget chain - SA-CORE-2024-008\u003C\/a\u003E\u003C\/li\u003E\n\u003C\/ul\u003E\n\u003Cp\u003ENo other fixes are included.\u003C\/p\u003E\n\u003Ch3\u003EImportant update information for sites using uncommon database\u003C\/h3\u003E\n\u003Cp\u003EAdditional checks have been added to some of Drupal core\u0027s database-related code. Most sites do not need to take steps beyond upgrading. If you use a third-party database driver \u003Ca href=\u0022https:\/\/www.drupal.org\/docs\/7\/api\/database-api\/writing-database-drivers#s-allowing-prefetch-in-a-custom-database-driver\u0022 rel=\u0022nofollow\u0022\u003Eread instructions about how to update it for this release\u003C\/a\u003E.\u003C\/p\u003E",
+        "summary": "",
+        "format": "1"
+      },
+      "field_release_project": {
+        "uri": "https:\/\/www.drupal.org\/api-d7\/node\/3060",
+        "id": "3060",
+        "resource": "node"
+      },
+      "field_release_version_major": "7",
+      "taxonomy_vocabulary_6": {
+        "uri": "https:\/\/www.drupal.org\/api-d7\/taxonomy_term\/103",
+        "id": "103",
+        "resource": "taxonomy_term"
+      },
+      "taxonomy_vocabulary_7": [
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/taxonomy_term\/100",
+          "id": "100",
+          "resource": "taxonomy_term"
+        }
+      ],
+      "field_release_version": "7.102",
+      "field_release_version_minor": "102",
+      "field_release_version_patch": null,
+      "field_release_version_extra": null,
+      "field_release_version_ext_weight": null,
+      "field_release_version_ext_delta": null,
+      "field_release_vcs_label": "7.102",
+      "field_release_build_type": "static",
+      "field_release_update_status": "1",
+      "field_release_files": [
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/field_collection_item\/1682731",
+          "id": "1682731",
+          "resource": "field_collection_item"
+        },
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/field_collection_item\/1682732",
+          "id": "1682732",
+          "resource": "field_collection_item"
+        }
+      ],
+      "field_release_short_description": "Supported until January 05, 2025. Use this version for sites already running Drupal 7.",
+      "field_show_download": false,
+      "field_packaged_git_sha1": "fa67320cf2109f1102201da5f66fd189c56f8b25",
+      "field_release_category": "legacy",
+      "field_composer_type": null,
+      "nid": "3488751",
+      "vid": "13788474",
+      "is_new": false,
+      "type": "project_release",
+      "title": "drupal 7.102",
+      "language": "en",
+      "url": "https:\/\/www.drupal.org\/project\/drupal\/releases\/7.102",
+      "edit_url": "https:\/\/www.drupal.org\/node\/3488751\/edit",
+      "status": "1",
+      "promote": "0",
+      "sticky": "0",
+      "created": "1732131764",
+      "changed": "1732134146",
+      "author": {
+        "uri": "https:\/\/www.drupal.org\/api-d7\/user\/272316",
+        "id": "272316",
+        "resource": "user",
+        "name": "poker10"
+      },
+      "comment": "1",
+      "comments": [],
+      "comment_count": "0",
+      "comment_count_new": false,
+      "feeds_item_guid": null,
+      "feeds_item_url": null,
+      "feed_nid": null,
+      "flag_flag_tracker_follow_user": [],
+      "flag_tracker_follower_count": null,
+      "has_new_content": null,
+      "last_comment_timestamp": "1732131764",
+      "release_usage": "8861"
+    },
+    {
+      "body": {
+        "value": "\u003Cp\u003EMaintenance release of the Drupal 7 series. Includes bug fixes and small API\/feature improvements only (no major, non-backwards-compatible new functionality).\u003C\/p\u003E\n\u003Cp\u003ENo security fixes are included in this release.\u003C\/p\u003E\n\u003Cp\u003EChanges have been made to default.settings.php and .htaccess. More details in the Change Records for major changes below.\u003C\/p\u003E\n\u003Cp\u003ENo changes have been made to web.config or robots.txt files in this release, so upgrading custom versions of those files is not necessary.\u003C\/p\u003E\n\u003Cp\u003EAs always, many thanks to everyone that contributed to this release of Drupal 7.\u003C\/p\u003E\n\u003Ch3\u003EMajor \u003Ca href=\u0022https:\/\/www.drupal.org\/list-changes\/drupal\/published?version=7.101\u0022 rel=\u0022nofollow\u0022\u003Echanges in 7.101\u003C\/a\u003E:\u003C\/h3\u003E\n\u003Cul\u003E\n\u003Cli\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/node\/3451532\u0022 rel=\u0022nofollow\u0022\u003EMissing or non-existent entity controller class now throws an EntityMalformedException in Drupal 7\u003C\/a\u003E\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/node\/3451526\u0022 rel=\u0022nofollow\u0022\u003EArchive_Tar now uses 775 permissions by default when creating directories in Drupal 7\u003C\/a\u003E\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/node\/3443661\u0022 rel=\u0022nofollow\u0022\u003EAdded fix for duplicate X-Content-Type-Options headers with value nosniff to .htaccess in Drupal 7\u003C\/a\u003E\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/node\/3438765\u0022 rel=\u0022nofollow\u0022\u003ECLI tools that cause a fatal error now exit with an error status in Drupal 7\u003C\/a\u003E\u003C\/li\u003E\n\u003C\/ul\u003E\n\u003Ch3\u003EAll changes:\u003C\/h3\u003E\n\u003Cul\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/2745013\u0022 rel=\u0022nofollow\u0022\u003E#2745013\u003C\/a\u003E by \u003Ca href=\u0022\/u\/tetranz\u0022 rel=\u0022nofollow\u0022\u003Etetranz\u003C\/a\u003E, \u003Ca href=\u0022\/u\/apaderno\u0022 rel=\u0022nofollow\u0022\u003Eapaderno\u003C\/a\u003E: drupal_random_key() documentation for length of returned string is wrong\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3429165\u0022 rel=\u0022nofollow\u0022\u003E#3429165\u003C\/a\u003E by \u003Ca href=\u0022\/u\/mcdruid\u0022 rel=\u0022nofollow\u0022\u003Emcdruid\u003C\/a\u003E: Sync D7\u0027s copy of Archive_Tar with new 1.5.0 release\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/2722453\u0022 rel=\u0022nofollow\u0022\u003E#2722453\u003C\/a\u003E by \u003Ca href=\u0022\/u\/damienmckenna\u0022 rel=\u0022nofollow\u0022\u003EDamienMcKenna\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/moonray\u0022 rel=\u0022nofollow\u0022\u003Emoonray\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mcdruid\u0022 rel=\u0022nofollow\u0022\u003Emcdruid\u003C\/a\u003E: [D7] Improve cron logging\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3279652\u0022 rel=\u0022nofollow\u0022\u003E#3279652\u003C\/a\u003E by \u003Ca href=\u0022\/u\/apaderno\u0022 rel=\u0022nofollow\u0022\u003Eapaderno\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/anrikun\u0022 rel=\u0022nofollow\u0022\u003Eanrikun\u003C\/a\u003E: Erroneous signature and documentation for user_login_finalize() and hook_user_login()\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3362238\u0022 rel=\u0022nofollow\u0022\u003E#3362238\u003C\/a\u003E by \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/deanthomas\u0022 rel=\u0022nofollow\u0022\u003EDeanThomas\u003C\/a\u003E, \u003Ca href=\u0022\/u\/gbirch\u0022 rel=\u0022nofollow\u0022\u003Egbirch\u003C\/a\u003E, \u003Ca href=\u0022\/u\/sakthi_dev\u0022 rel=\u0022nofollow\u0022\u003Esakthi_dev\u003C\/a\u003E, \u003Ca href=\u0022\/u\/joelpittet\u0022 rel=\u0022nofollow\u0022\u003Ejoelpittet\u003C\/a\u003E: _form_validate sends null to drupal_strlen triggering deprecation notice\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/1982810\u0022 rel=\u0022nofollow\u0022\u003E#1982810\u003C\/a\u003E by \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mcdruid\u0022 rel=\u0022nofollow\u0022\u003Emcdruid\u003C\/a\u003E, \u003Ca href=\u0022\/u\/liam-morland\u0022 rel=\u0022nofollow\u0022\u003ELiam Morland\u003C\/a\u003E, \u003Ca href=\u0022\/u\/jp.stacey\u0022 rel=\u0022nofollow\u0022\u003Ejp.stacey\u003C\/a\u003E, \u003Ca href=\u0022\/u\/joseph.olstad\u0022 rel=\u0022nofollow\u0022\u003Ejoseph.olstad\u003C\/a\u003E, \u003Ca href=\u0022\/u\/exploratus\u0022 rel=\u0022nofollow\u0022\u003EExploratus\u003C\/a\u003E, \u003Ca href=\u0022\/u\/lilott8\u0022 rel=\u0022nofollow\u0022\u003Elilott8\u003C\/a\u003E, \u003Ca href=\u0022\/u\/g33kg1rl\u0022 rel=\u0022nofollow\u0022\u003Eg33kg1rl\u003C\/a\u003E, \u003Ca href=\u0022\/u\/gcb\u0022 rel=\u0022nofollow\u0022\u003Egcb\u003C\/a\u003E, \u003Ca href=\u0022\/u\/levelos\u0022 rel=\u0022nofollow\u0022\u003Elevelos\u003C\/a\u003E, \u003Ca href=\u0022\/u\/longwave\u0022 rel=\u0022nofollow\u0022\u003Elongwave\u003C\/a\u003E, \u003Ca href=\u0022\/u\/leeteq\u0022 rel=\u0022nofollow\u0022\u003ELeeteq\u003C\/a\u003E, \u003Ca href=\u0022\/u\/sunset_bill\u0022 rel=\u0022nofollow\u0022\u003Esunset_bill\u003C\/a\u003E, \u003Ca href=\u0022\/u\/oualid-ezr\u0022 rel=\u0022nofollow\u0022\u003EOualid-EZR\u003C\/a\u003E, \u003Ca href=\u0022\/u\/caspervoogt\u0022 rel=\u0022nofollow\u0022\u003Ecaspervoogt\u003C\/a\u003E, \u003Ca href=\u0022\/u\/hgoto\u0022 rel=\u0022nofollow\u0022\u003Ehgoto\u003C\/a\u003E, \u003Ca href=\u0022\/u\/capysara\u0022 rel=\u0022nofollow\u0022\u003Ecapysara\u003C\/a\u003E: Core entity_get_controller gets a NULL controller class\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3331044\u0022 rel=\u0022nofollow\u0022\u003E#3331044\u003C\/a\u003E by \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/anrikun\u0022 rel=\u0022nofollow\u0022\u003Eanrikun\u003C\/a\u003E, \u003Ca href=\u0022\/u\/xoruna\u0022 rel=\u0022nofollow\u0022\u003EXoruna\u003C\/a\u003E, \u003Ca href=\u0022\/u\/apaderno\u0022 rel=\u0022nofollow\u0022\u003Eapaderno\u003C\/a\u003E: Notice: Undefined index: form_build_id in ajax_get_form()\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3212823\u0022 rel=\u0022nofollow\u0022\u003E#3212823\u003C\/a\u003E by \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/vctlzac\u0022 rel=\u0022nofollow\u0022\u003Evctlzac\u003C\/a\u003E, \u003Ca href=\u0022\/u\/apaderno\u0022 rel=\u0022nofollow\u0022\u003Eapaderno\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mcdruid\u0022 rel=\u0022nofollow\u0022\u003Emcdruid\u003C\/a\u003E: [D7] Do not trigger hook_file_download when no file is requested\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3032209\u0022 rel=\u0022nofollow\u0022\u003E#3032209\u003C\/a\u003E by \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/hadsie\u0022 rel=\u0022nofollow\u0022\u003Ehadsie\u003C\/a\u003E, \u003Ca href=\u0022\/u\/fabianx\u0022 rel=\u0022nofollow\u0022\u003EFabianx\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mcdruid\u0022 rel=\u0022nofollow\u0022\u003Emcdruid\u003C\/a\u003E: Allow users to update their settings regardless of duplicate email addresses in the users table\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/2763435\u0022 rel=\u0022nofollow\u0022\u003E#2763435\u003C\/a\u003E by \u003Ca href=\u0022\/u\/david_rothstein\u0022 rel=\u0022nofollow\u0022\u003EDavid_Rothstein\u003C\/a\u003E, \u003Ca href=\u0022\/u\/fjgarlin\u0022 rel=\u0022nofollow\u0022\u003Efjgarlin\u003C\/a\u003E, \u003Ca href=\u0022\/u\/bramdriesen\u0022 rel=\u0022nofollow\u0022\u003EBramDriesen\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mixologic\u0022 rel=\u0022nofollow\u0022\u003EMixologic\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: Exceptions during the setUp() or tearDown() method of a test are not handled\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/2488420\u0022 rel=\u0022nofollow\u0022\u003E#2488420\u003C\/a\u003E by \u003Ca href=\u0022\/u\/talhaparacha\u0022 rel=\u0022nofollow\u0022\u003Etalhaparacha\u003C\/a\u003E, \u003Ca href=\u0022\/u\/amybrate\u0022 rel=\u0022nofollow\u0022\u003Eamybrate\u003C\/a\u003E, \u003Ca href=\u0022\/u\/martin_q\u0022 rel=\u0022nofollow\u0022\u003Emartin_q\u003C\/a\u003E, \u003Ca href=\u0022\/u\/cilefen\u0022 rel=\u0022nofollow\u0022\u003Ecilefen\u003C\/a\u003E, \u003Ca href=\u0022\/u\/yesct\u0022 rel=\u0022nofollow\u0022\u003EYesCT\u003C\/a\u003E, \u003Ca href=\u0022\/u\/alexpott\u0022 rel=\u0022nofollow\u0022\u003Ealexpott\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/quietone\u0022 rel=\u0022nofollow\u0022\u003Equietone\u003C\/a\u003E, \u003Ca href=\u0022\/u\/anavarre\u0022 rel=\u0022nofollow\u0022\u003Eanavarre\u003C\/a\u003E: Remove a misleading comment from Updater::update()\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/1180722\u0022 rel=\u0022nofollow\u0022\u003E#1180722\u003C\/a\u003E by \u003Ca href=\u0022\/u\/tr\u0022 rel=\u0022nofollow\u0022\u003ETR\u003C\/a\u003E: Remove dead code from node_filter_form()\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3116482\u0022 rel=\u0022nofollow\u0022\u003E#3116482\u003C\/a\u003E by \u003Ca href=\u0022\/u\/andypost\u0022 rel=\u0022nofollow\u0022\u003Eandypost\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/liam-morland\u0022 rel=\u0022nofollow\u0022\u003ELiam Morland\u003C\/a\u003E: Duplicate X-Content-Type-Options headers both with the value nosniff [D7]\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3441050\u0022 rel=\u0022nofollow\u0022\u003E#3441050\u003C\/a\u003E: [GitLab d.o infra] D7 Allow superuser to call composer on jobs\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3420050\u0022 rel=\u0022nofollow\u0022\u003E#3420050\u003C\/a\u003E by \u003Ca href=\u0022\/u\/fjgarlin\u0022 rel=\u0022nofollow\u0022\u003Efjgarlin\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: [D7] Bring external template files into core\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/2853671\u0022 rel=\u0022nofollow\u0022\u003E#2853671\u003C\/a\u003E by \u003Ca href=\u0022\/u\/jacob.embree\u0022 rel=\u0022nofollow\u0022\u003Ejacob.embree\u003C\/a\u003E, \u003Ca href=\u0022\/u\/dpi\u0022 rel=\u0022nofollow\u0022\u003Edpi\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/apaderno\u0022 rel=\u0022nofollow\u0022\u003Eapaderno\u003C\/a\u003E: [D7] Useless test in UserRegistrationTest.php\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3420076\u0022 rel=\u0022nofollow\u0022\u003E#3420076\u003C\/a\u003E by \u003Ca href=\u0022\/u\/klausi\u0022 rel=\u0022nofollow\u0022\u003Eklausi\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: _drupal_log_error() should return a non-zero exit code on errors in the cli\u003C\/li\u003E\n\u003C\/ul\u003E",
+        "summary": "",
+        "format": "1"
+      },
+      "field_release_project": {
+        "uri": "https:\/\/www.drupal.org\/api-d7\/node\/3060",
+        "id": "3060",
+        "resource": "node"
+      },
+      "field_release_version_major": "7",
+      "taxonomy_vocabulary_6": {
+        "uri": "https:\/\/www.drupal.org\/api-d7\/taxonomy_term\/103",
+        "id": "103",
+        "resource": "taxonomy_term"
+      },
+      "taxonomy_vocabulary_7": [
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/taxonomy_term\/99",
+          "id": "99",
+          "resource": "taxonomy_term"
+        },
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/taxonomy_term\/98",
+          "id": "98",
+          "resource": "taxonomy_term"
+        },
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/taxonomy_term\/188131",
+          "id": "188131",
+          "resource": "taxonomy_term"
+        }
+      ],
+      "field_release_version": "7.101",
+      "field_release_version_minor": "101",
+      "field_release_version_patch": null,
+      "field_release_version_extra": null,
+      "field_release_version_ext_weight": null,
+      "field_release_version_ext_delta": null,
+      "field_release_vcs_label": "7.101",
+      "field_release_build_type": "static",
+      "field_release_update_status": "2",
+      "field_release_files": [
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/field_collection_item\/1658875",
+          "id": "1658875",
+          "resource": "field_collection_item"
+        },
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/field_collection_item\/1658876",
+          "id": "1658876",
+          "resource": "field_collection_item"
+        }
+      ],
+      "field_release_short_description": "Supported until January 05, 2025. Use this version for sites already running Drupal 7.",
+      "field_show_download": false,
+      "field_packaged_git_sha1": "9b6d1490829fc62d40e5d7017fb2b1fb6bf111d7",
+      "field_release_category": "legacy",
+      "field_composer_type": null,
+      "nid": "3452768",
+      "vid": "13592455",
+      "is_new": false,
+      "type": "project_release",
+      "title": "drupal 7.101",
+      "language": "en",
+      "url": "https:\/\/www.drupal.org\/project\/drupal\/releases\/7.101",
+      "edit_url": "https:\/\/www.drupal.org\/node\/3452768\/edit",
+      "status": "1",
+      "promote": "0",
+      "sticky": "0",
+      "created": "1717606579",
+      "changed": "1717606635",
+      "author": {
+        "uri": "https:\/\/www.drupal.org\/api-d7\/user\/272316",
+        "id": "272316",
+        "resource": "user",
+        "name": "poker10"
+      },
+      "comment": "1",
+      "comments": [],
+      "comment_count": "0",
+      "comment_count_new": false,
+      "feeds_item_guid": null,
+      "feeds_item_url": null,
+      "feed_nid": null,
+      "flag_flag_tracker_follow_user": [],
+      "flag_tracker_follower_count": null,
+      "has_new_content": null,
+      "last_comment_timestamp": "1717606579",
+      "release_usage": "12080"
+    },
+    {
+      "body": {
+        "value": "\u003Cp\u003EMaintenance release of the Drupal 7 series. Includes bug fixes and small API\/feature improvements only (no major, non-backwards-compatible new functionality). Unusually, this release does include a new core module.\u003C\/p\u003E\n\u003Cp\u003ENo security fixes are included in this release.\u003C\/p\u003E\n\u003Cp\u003ENo changes have been made to .htaccess, web.config, robots.txt or default.settings.php files in this release, so upgrading custom versions of those files is not necessary.\u003C\/p\u003E\n\u003Cp\u003ENote that this is the first Drupal 7 release with 3 digits. If you receive a report that your version of Drupal is over a decade out of date, see \u003Ca href=\u0022https:\/\/en.wikipedia.org\/wiki\/Year_2000_problem\u0022 rel=\u0022nofollow\u0022\u003Ehttps:\/\/en.wikipedia.org\/wiki\/Year_2000_problem\u003C\/a\u003E .\u003C\/p\u003E\n\u003Cp\u003EAs always, many thanks to everyone that contributed to this release of Drupal 7.\u003C\/p\u003E\n\u003Ch3\u003EMajor \u003Ca href=\u0022https:\/\/www.drupal.org\/list-changes\/drupal\/published?version=7.100\u0022 rel=\u0022nofollow\u0022\u003Echanges in 7.100\u003C\/a\u003E:\u003C\/h3\u003E\n\u003Cul\u003E\n\u003Cli\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/node\/3362227\u0022 rel=\u0022nofollow\u0022\u003EAnnouncements module\u003C\/a\u003E\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/node\/3424912\u0022 rel=\u0022nofollow\u0022\u003EAnnouncements module is enabled by default and added to the Standard profile in Drupal 7.100\u003C\/a\u003E\u003Cstrong\u003E - please read this Change Record if you do not wish for the new module to be enabled.\u003C\/strong\u003E\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/node\/3409960\u0022 title=\u0022user_pass_rehash() now separates the parameter values when calculating the resulting hash.\u0022 rel=\u0022nofollow\u0022\u003Euser_pass_rehash() hash calculation now separates parameter values in Drupal 7\u003C\/a\u003E\u003C\/li\u003E\n\u003C\/ul\u003E\n\u003Ch3\u003EAll changes:\u003C\/h3\u003E\n\u003Cul\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3424898\u0022 rel=\u0022nofollow\u0022\u003E#3424898\u003C\/a\u003E by \u003Ca href=\u0022\/u\/mcdruid\u0022 rel=\u0022nofollow\u0022\u003Emcdruid\u003C\/a\u003E: Enable Announcements Feed by default, but allow opt-out\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3425698\u0022 rel=\u0022nofollow\u0022\u003E#3425698\u003C\/a\u003E by \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: Announcements module info file is missing the version property\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3357707\u0022 rel=\u0022nofollow\u0022\u003E#3357707\u003C\/a\u003E by \u003Ca href=\u0022\/u\/mcdruid\u0022 rel=\u0022nofollow\u0022\u003Emcdruid\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mitthukumawat\u0022 rel=\u0022nofollow\u0022\u003Emitthukumawat\u003C\/a\u003E, \u003Ca href=\u0022\/u\/fjgarlin\u0022 rel=\u0022nofollow\u0022\u003Efjgarlin\u003C\/a\u003E, \u003Ca href=\u0022\/u\/jijojoseph_zyxware\u0022 rel=\u0022nofollow\u0022\u003Ejijojoseph_zyxware\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/prasanth_kp\u0022 rel=\u0022nofollow\u0022\u003Eprasanth_kp\u003C\/a\u003E, \u003Ca href=\u0022\/u\/hestenet\u0022 rel=\u0022nofollow\u0022\u003Ehestenet\u003C\/a\u003E: Backport the Announcements Feed core module to Drupal 7\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3419409\u0022 rel=\u0022nofollow\u0022\u003E#3419409\u003C\/a\u003E by \u003Ca href=\u0022\/u\/fjgarlin\u0022 rel=\u0022nofollow\u0022\u003Efjgarlin\u003C\/a\u003E: [D7] Make CI template compatible with private repositories\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3409043\u0022 rel=\u0022nofollow\u0022\u003E#3409043\u003C\/a\u003E by \u003Ca href=\u0022\/u\/mcdruid\u0022 rel=\u0022nofollow\u0022\u003Emcdruid\u003C\/a\u003E: [D7] Harden user_pass_rehash() against attack\u003C\/li\u003E\n\u003C\/ul\u003E",
+        "summary": "",
+        "format": "1"
+      },
+      "field_release_project": {
+        "uri": "https:\/\/www.drupal.org\/api-d7\/node\/3060",
+        "id": "3060",
+        "resource": "node"
+      },
+      "field_release_version_major": "7",
+      "taxonomy_vocabulary_6": {
+        "uri": "https:\/\/www.drupal.org\/api-d7\/taxonomy_term\/103",
+        "id": "103",
+        "resource": "taxonomy_term"
+      },
+      "taxonomy_vocabulary_7": [
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/taxonomy_term\/99",
+          "id": "99",
+          "resource": "taxonomy_term"
+        },
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/taxonomy_term\/98",
+          "id": "98",
+          "resource": "taxonomy_term"
+        },
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/taxonomy_term\/188131",
+          "id": "188131",
+          "resource": "taxonomy_term"
+        }
+      ],
+      "field_release_version": "7.100",
+      "field_release_version_minor": "100",
+      "field_release_version_patch": null,
+      "field_release_version_extra": null,
+      "field_release_version_ext_weight": null,
+      "field_release_version_ext_delta": null,
+      "field_release_vcs_label": "7.100",
+      "field_release_build_type": "static",
+      "field_release_update_status": "2",
+      "field_release_files": [
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/field_collection_item\/1646269",
+          "id": "1646269",
+          "resource": "field_collection_item"
+        },
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/field_collection_item\/1646270",
+          "id": "1646270",
+          "resource": "field_collection_item"
+        }
+      ],
+      "field_release_short_description": "Supported until January 05, 2025. Use this version for sites already running Drupal 7.",
+      "field_show_download": false,
+      "field_packaged_git_sha1": "29748dbaa166f8193baa47c973f32c1f80d73af5",
+      "field_release_category": "legacy",
+      "field_composer_type": null,
+      "nid": "3426070",
+      "vid": "13470047",
+      "is_new": false,
+      "type": "project_release",
+      "title": "drupal 7.100",
+      "language": "en",
+      "url": "https:\/\/www.drupal.org\/project\/drupal\/releases\/7.100",
+      "edit_url": "https:\/\/www.drupal.org\/node\/3426070\/edit",
+      "status": "1",
+      "promote": "0",
+      "sticky": "0",
+      "created": "1709734466",
+      "changed": "1709735575",
+      "author": {
+        "uri": "https:\/\/www.drupal.org\/api-d7\/user\/255969",
+        "id": "255969",
+        "resource": "user",
+        "name": "mcdruid"
+      },
+      "comment": "1",
+      "comments": [],
+      "comment_count": "0",
+      "comment_count_new": false,
+      "feeds_item_guid": null,
+      "feeds_item_url": null,
+      "feed_nid": null,
+      "flag_flag_tracker_follow_user": [],
+      "flag_tracker_follower_count": null,
+      "has_new_content": null,
+      "last_comment_timestamp": "1709734466",
+      "release_usage": "5679"
+    },
+    {
+      "body": {
+        "value": "\u003Cp\u003EMaintenance release of the Drupal 7 series. Includes bug fixes and small API\/feature improvements only (no major, non-backwards-compatible new functionality).\u003C\/p\u003E\n\u003Cp\u003ENo security fixes are included in this release.\u003C\/p\u003E\n\u003Cp\u003EChanges have been made to default.settings.php but \u003Ca href=\u0022https:\/\/git.drupalcode.org\/project\/drupal\/-\/commit\/ecf339b6d94\u0022 rel=\u0022nofollow\u0022\u003Eonly within comments\u003C\/a\u003E.\u003C\/p\u003E\n\u003Cp\u003ENo changes have been made to .htaccess, web.config or robots.txt files in this release, so upgrading custom versions of those files is not necessary.\u003C\/p\u003E\n\u003Cp\u003EAs always, many thanks to everyone that contributed to this release of Drupal 7.\u003C\/p\u003E\n\u003Ch3\u003EMajor \u003Ca href=\u0022https:\/\/www.drupal.org\/list-changes\/drupal\/published?version=7.99\u0022 rel=\u0022nofollow\u0022\u003Echanges in 7.99\u003C\/a\u003E:\u003C\/h3\u003E\n\u003Cul\u003E\n\u003Cli\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/node\/3406314\u0022 rel=\u0022nofollow\u0022\u003EMenu link \u0027Parent link\u0027 is limited to the current menu when creating new custom menu links through the UI in Drupal 7\u003C\/a\u003E\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/node\/3406312\u0022 rel=\u0022nofollow\u0022\u003Ehook_field_schema_alter() was added in Drupal 7\u003C\/a\u003E\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/node\/3406291\u0022 rel=\u0022nofollow\u0022\u003Efile_validate_image_resolution() now validates minimum dimensions against the resized image in Drupal 7\u003C\/a\u003E\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/node\/3405563\u0022 rel=\u0022nofollow\u0022\u003ENode translations table now contains a link to delete translation in Drupal 7\u003C\/a\u003E\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/node\/3386939\u0022 rel=\u0022nofollow\u0022\u003EModuleUpdater::getSchemaUpdates() was removed in Drupal 7\u003C\/a\u003E\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/node\/3383562\u0022 rel=\u0022nofollow\u0022\u003EWhen a user fails login, the reset password link no longer pre-fills the username in Drupal 7\u003C\/a\u003E\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/node\/3383554\u0022 rel=\u0022nofollow\u0022\u003EDrupal 7\u0027s aggregator feed now displays up to 255 characters from description if no title is found\u003C\/a\u003E\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/node\/3381030\u0022 rel=\u0022nofollow\u0022\u003EProtection against abuse of DrupalCacheArray::__destruct() in Drupal 7\u003C\/a\u003E\u003C\/li\u003E\n\u003C\/ul\u003E\n\u003Ch3\u003EAll changes:\u003C\/h3\u003E\n\u003Cul\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3405443\u0022 rel=\u0022nofollow\u0022\u003E#3405443\u003C\/a\u003E by \u003Ca href=\u0022\/u\/fjgarlin\u0022 rel=\u0022nofollow\u0022\u003Efjgarlin\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: [D7] phpcs job fails when run on-commit\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/2180877\u0022 rel=\u0022nofollow\u0022\u003E#2180877\u003C\/a\u003E by \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/classiccut\u0022 rel=\u0022nofollow\u0022\u003EClassicCut\u003C\/a\u003E, \u003Ca href=\u0022\/u\/juankvillegas\u0022 rel=\u0022nofollow\u0022\u003Ejuankvillegas\u003C\/a\u003E: file_validate_image_resolution() doesn\u0027t recalculate the image dimensions after checking $maximum_dimensions\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/2847553\u0022 rel=\u0022nofollow\u0022\u003E#2847553\u003C\/a\u003E by \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/jill-l\u0022 rel=\u0022nofollow\u0022\u003EJill L\u003C\/a\u003E, \u003Ca href=\u0022\/u\/david_rothstein\u0022 rel=\u0022nofollow\u0022\u003EDavid_Rothstein\u003C\/a\u003E: XSS attribute handling mangles valid attribute names containing numbers (D7 backport)\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3384397\u0022 rel=\u0022nofollow\u0022\u003E#3384397\u003C\/a\u003E by \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/fabianx\u0022 rel=\u0022nofollow\u0022\u003EFabianx\u003C\/a\u003E: [D7] When adding a new menu link, restrict the available parents to the current menu\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/764408\u0022 rel=\u0022nofollow\u0022\u003E#764408\u003C\/a\u003E by \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/sgtpep\u0022 rel=\u0022nofollow\u0022\u003Esgtpep\u003C\/a\u003E, \u003Ca href=\u0022\/u\/acrollet\u0022 rel=\u0022nofollow\u0022\u003Eacrollet\u003C\/a\u003E, \u003Ca href=\u0022\/u\/david_rothstein\u0022 rel=\u0022nofollow\u0022\u003EDavid_Rothstein\u003C\/a\u003E, \u003Ca href=\u0022\/u\/checker\u0022 rel=\u0022nofollow\u0022\u003Echecker\u003C\/a\u003E, \u003Ca href=\u0022\/u\/fabianx\u0022 rel=\u0022nofollow\u0022\u003EFabianx\u003C\/a\u003E, \u003Ca href=\u0022\/u\/bkouchi\u0022 rel=\u0022nofollow\u0022\u003Ebkouchi\u003C\/a\u003E: [D7] Drupal.t() does not respect locale_custom_strings\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/691932\u0022 rel=\u0022nofollow\u0022\u003E#691932\u003C\/a\u003E by \u003Ca href=\u0022\/u\/btmash\u0022 rel=\u0022nofollow\u0022\u003EBTMash\u003C\/a\u003E, \u003Ca href=\u0022\/u\/shellingfox\u0022 rel=\u0022nofollow\u0022\u003EShellingfox\u003C\/a\u003E, \u003Ca href=\u0022\/u\/jhedstrom\u0022 rel=\u0022nofollow\u0022\u003Ejhedstrom\u003C\/a\u003E, \u003Ca href=\u0022\/u\/dinarcon\u0022 rel=\u0022nofollow\u0022\u003Edinarcon\u003C\/a\u003E, \u003Ca href=\u0022\/u\/andyf\u0022 rel=\u0022nofollow\u0022\u003EAndyF\u003C\/a\u003E, \u003Ca href=\u0022\/u\/zhangtaihao\u0022 rel=\u0022nofollow\u0022\u003Ezhangtaihao\u003C\/a\u003E, \u003Ca href=\u0022\/u\/catch\u0022 rel=\u0022nofollow\u0022\u003Ecatch\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mustanggb\u0022 rel=\u0022nofollow\u0022\u003EMustangGB\u003C\/a\u003E, \u003Ca href=\u0022\/u\/wamilton\u0022 rel=\u0022nofollow\u0022\u003Ewamilton\u003C\/a\u003E, \u003Ca href=\u0022\/u\/barry_fisher\u0022 rel=\u0022nofollow\u0022\u003EBarry_Fisher\u003C\/a\u003E, \u003Ca href=\u0022\/u\/brad.bulger\u0022 rel=\u0022nofollow\u0022\u003Ebrad.bulger\u003C\/a\u003E, \u003Ca href=\u0022\/u\/yched\u0022 rel=\u0022nofollow\u0022\u003Eyched\u003C\/a\u003E, \u003Ca href=\u0022\/u\/xjm\u0022 rel=\u0022nofollow\u0022\u003Exjm\u003C\/a\u003E, \u003Ca href=\u0022\/u\/sylvain-lecoy\u0022 rel=\u0022nofollow\u0022\u003ESylvain Lecoy\u003C\/a\u003E, \u003Ca href=\u0022\/u\/5n00py\u0022 rel=\u0022nofollow\u0022\u003E5n00py\u003C\/a\u003E, \u003Ca href=\u0022\/u\/chx\u0022 rel=\u0022nofollow\u0022\u003Echx\u003C\/a\u003E, \u003Ca href=\u0022\/u\/droplet\u0022 rel=\u0022nofollow\u0022\u003Edroplet\u003C\/a\u003E, \u003Ca href=\u0022\/u\/tim.plunkett\u0022 rel=\u0022nofollow\u0022\u003Etim.plunkett\u003C\/a\u003E, \u003Ca href=\u0022\/u\/ohthehugemanatee\u0022 rel=\u0022nofollow\u0022\u003Eohthehugemanatee\u003C\/a\u003E, \u003Ca href=\u0022\/u\/parasolx\u0022 rel=\u0022nofollow\u0022\u003Eparasolx\u003C\/a\u003E, \u003Ca href=\u0022\/u\/cilefen\u0022 rel=\u0022nofollow\u0022\u003Ecilefen\u003C\/a\u003E, \u003Ca href=\u0022\/u\/andypost\u0022 rel=\u0022nofollow\u0022\u003Eandypost\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/fabianx\u0022 rel=\u0022nofollow\u0022\u003EFabianx\u003C\/a\u003E: Add hook_field_schema_alter()\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3396440\u0022 rel=\u0022nofollow\u0022\u003E#3396440\u003C\/a\u003E by \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/joelpittet\u0022 rel=\u0022nofollow\u0022\u003Ejoelpittet\u003C\/a\u003E, \u003Ca href=\u0022\/u\/tibezh\u0022 rel=\u0022nofollow\u0022\u003Etibezh\u003C\/a\u003E, \u003Ca href=\u0022\/u\/fabianx\u0022 rel=\u0022nofollow\u0022\u003EFabianx\u003C\/a\u003E: [D7 PHP 8.1] html_entity_decode(): Passing null to parameter \u003Ca href=\u0022\/node\/1\u0022 rel=\u0022nofollow\u0022\u003E#1\u003C\/a\u003E ($string) of type string is deprecated in decode_entities()\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3026560\u0022 rel=\u0022nofollow\u0022\u003E#3026560\u003C\/a\u003E by \u003Ca href=\u0022\/u\/alexpott\u0022 rel=\u0022nofollow\u0022\u003Ealexpott\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mcdruid\u0022 rel=\u0022nofollow\u0022\u003Emcdruid\u003C\/a\u003E, \u003Ca href=\u0022\/u\/generalredneck\u0022 rel=\u0022nofollow\u0022\u003Egeneralredneck\u003C\/a\u003E, \u003Ca href=\u0022\/u\/pbirk\u0022 rel=\u0022nofollow\u0022\u003Epbirk\u003C\/a\u003E, \u003Ca href=\u0022\/u\/plach\u0022 rel=\u0022nofollow\u0022\u003Eplach\u003C\/a\u003E, \u003Ca href=\u0022\/u\/xjm\u0022 rel=\u0022nofollow\u0022\u003Exjm\u003C\/a\u003E, \u003Ca href=\u0022\/u\/hitby\u0022 rel=\u0022nofollow\u0022\u003EHitby\u003C\/a\u003E, \u003Ca href=\u0022\/u\/kevinquillen\u0022 rel=\u0022nofollow\u0022\u003Ekevinquillen\u003C\/a\u003E, \u003Ca href=\u0022\/u\/alex-monaghan\u0022 rel=\u0022nofollow\u0022\u003EAlex Monaghan\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mustanggb\u0022 rel=\u0022nofollow\u0022\u003EMustangGB\u003C\/a\u003E, \u003Ca href=\u0022\/u\/damienmckenna\u0022 rel=\u0022nofollow\u0022\u003EDamienMcKenna\u003C\/a\u003E, \u003Ca href=\u0022\/u\/greg.1.anderson\u0022 rel=\u0022nofollow\u0022\u003Egreg.1.anderson\u003C\/a\u003E, \u003Ca href=\u0022\/u\/littlepixiez\u0022 rel=\u0022nofollow\u0022\u003Elittlepixiez\u003C\/a\u003E, \u003Ca href=\u0022\/u\/bartvig\u0022 rel=\u0022nofollow\u0022\u003Ebartvig\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/catch\u0022 rel=\u0022nofollow\u0022\u003Ecatch\u003C\/a\u003E, \u003Ca href=\u0022\/u\/anybody\u0022 rel=\u0022nofollow\u0022\u003EAnybody\u003C\/a\u003E, \u003Ca href=\u0022\/u\/bserem\u0022 rel=\u0022nofollow\u0022\u003Ebserem\u003C\/a\u003E, \u003Ca href=\u0022\/u\/juampynr\u0022 rel=\u0022nofollow\u0022\u003Ejuampynr\u003C\/a\u003E: After upgrade to 7.63, 8.5.10, 8.6.7, 9.4.0 get TYPO3 phar error for drush\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/2345695\u0022 rel=\u0022nofollow\u0022\u003E#2345695\u003C\/a\u003E by \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca rel=\u0022nofollow\u0022\u003EformatC\u0027vt\u003C\/a\u003E, \u003Ca href=\u0022\/u\/frodri\u0022 rel=\u0022nofollow\u0022\u003Efrodri\u003C\/a\u003E, \u003Ca href=\u0022\/u\/quietone\u0022 rel=\u0022nofollow\u0022\u003Equietone\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mgifford\u0022 rel=\u0022nofollow\u0022\u003Emgifford\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mondrake\u0022 rel=\u0022nofollow\u0022\u003Emondrake\u003C\/a\u003E, \u003Ca href=\u0022\/u\/thirdender\u0022 rel=\u0022nofollow\u0022\u003Ethirdender\u003C\/a\u003E, \u003Ca href=\u0022\/u\/james.williams\u0022 rel=\u0022nofollow\u0022\u003Ejames.williams\u003C\/a\u003E: Users are able to upload 0-byte images\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3386936\u0022 rel=\u0022nofollow\u0022\u003E#3386936\u003C\/a\u003E by \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: Remove unused\/non-working function getSchemaUpdates()\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3326994\u0022 rel=\u0022nofollow\u0022\u003E#3326994\u003C\/a\u003E by \u003Ca href=\u0022\/u\/klonos\u0022 rel=\u0022nofollow\u0022\u003Eklonos\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/bramdriesen\u0022 rel=\u0022nofollow\u0022\u003EBramDriesen\u003C\/a\u003E: Username enumeration via one time login route\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3383556\u0022 rel=\u0022nofollow\u0022\u003E#3383556\u003C\/a\u003E by \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/bramdriesen\u0022 rel=\u0022nofollow\u0022\u003EBramDriesen\u003C\/a\u003E, \u003Ca href=\u0022\/u\/cussack\u0022 rel=\u0022nofollow\u0022\u003Ecussack\u003C\/a\u003E: Username disclosure in \/user\/password\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/1721506\u0022 rel=\u0022nofollow\u0022\u003E#1721506\u003C\/a\u003E by \u003Ca href=\u0022\/u\/dcam\u0022 rel=\u0022nofollow\u0022\u003Edcam\u003C\/a\u003E, \u003Ca href=\u0022\/u\/andymartha\u0022 rel=\u0022nofollow\u0022\u003Eandymartha\u003C\/a\u003E, \u003Ca href=\u0022\/u\/charles-belov\u0022 rel=\u0022nofollow\u0022\u003ECharles Belov\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/dries\u0022 rel=\u0022nofollow\u0022\u003EDries\u003C\/a\u003E: In update.php instructions, move database backup after maintenance mode\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/2677118\u0022 rel=\u0022nofollow\u0022\u003E#2677118\u003C\/a\u003E by \u003Ca href=\u0022\/u\/chi\u0022 rel=\u0022nofollow\u0022\u003EChi\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: Wrong usage of watchdog in system.api.php\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/2801329\u0022 rel=\u0022nofollow\u0022\u003E#2801329\u003C\/a\u003E by \u003Ca href=\u0022\/u\/gianani\u0022 rel=\u0022nofollow\u0022\u003Egianani\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mustanggb\u0022 rel=\u0022nofollow\u0022\u003EMustangGB\u003C\/a\u003E: Remove system.cron.js\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/808416\u0022 rel=\u0022nofollow\u0022\u003E#808416\u003C\/a\u003E by \u003Ca href=\u0022\/u\/lostchord\u0022 rel=\u0022nofollow\u0022\u003Elostchord\u003C\/a\u003E, \u003Ca href=\u0022\/u\/gaurav.kapoor\u0022 rel=\u0022nofollow\u0022\u003Egaurav.kapoor\u003C\/a\u003E, \u003Ca href=\u0022\/u\/daniels220\u0022 rel=\u0022nofollow\u0022\u003Edaniels220\u003C\/a\u003E, \u003Ca href=\u0022\/u\/jacobsanford\u0022 rel=\u0022nofollow\u0022\u003EJacobSanford\u003C\/a\u003E, \u003Ca href=\u0022\/u\/jp.stacey\u0022 rel=\u0022nofollow\u0022\u003Ejp.stacey\u003C\/a\u003E, \u003Ca href=\u0022\/u\/er.pushpinderrana\u0022 rel=\u0022nofollow\u0022\u003Eer.pushpinderrana\u003C\/a\u003E, \u003Ca href=\u0022\/u\/jhodgdon\u0022 rel=\u0022nofollow\u0022\u003Ejhodgdon\u003C\/a\u003E, \u003Ca href=\u0022\/u\/oriol_e9g\u0022 rel=\u0022nofollow\u0022\u003Eoriol_e9g\u003C\/a\u003E, \u003Ca href=\u0022\/u\/kiwimind\u0022 rel=\u0022nofollow\u0022\u003Ekiwimind\u003C\/a\u003E, \u003Ca href=\u0022\/u\/damien-tournoud\u0022 rel=\u0022nofollow\u0022\u003EDamien Tournoud\u003C\/a\u003E, \u003Ca href=\u0022\/u\/g\u00e1bor-hojtsy\u0022 rel=\u0022nofollow\u0022\u003EG\u00e1bor Hojtsy\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/dries\u0022 rel=\u0022nofollow\u0022\u003EDries\u003C\/a\u003E: Document that clock drift will cause lock system to fail\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/2978218\u0022 rel=\u0022nofollow\u0022\u003E#2978218\u003C\/a\u003E by \u003Ca href=\u0022\/u\/heilop\u0022 rel=\u0022nofollow\u0022\u003Eheilop\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/langelhc\u0022 rel=\u0022nofollow\u0022\u003Elangelhc\u003C\/a\u003E: Add \u0022delete\u0022 link on node Translate tab Operations\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3403989\u0022 rel=\u0022nofollow\u0022\u003E#3403989\u003C\/a\u003E by \u003Ca href=\u0022\/u\/dimitriskr\u0022 rel=\u0022nofollow\u0022\u003Edimitriskr\u003C\/a\u003E, \u003Ca href=\u0022\/u\/fjgarlin\u0022 rel=\u0022nofollow\u0022\u003Efjgarlin\u003C\/a\u003E: [D7] GitLab CI tests for MariaDB currently not working\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3402945\u0022 rel=\u0022nofollow\u0022\u003E#3402945\u003C\/a\u003E by \u003Ca href=\u0022\/u\/fjgarlin\u0022 rel=\u0022nofollow\u0022\u003Efjgarlin\u003C\/a\u003E: [D7] Test-only job shouldn\u0027t require constant rebases to detect which files were changed\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3384545\u0022 rel=\u0022nofollow\u0022\u003E#3384545\u003C\/a\u003E by \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: Update the list of reserved keywords in DatabaseConnection_mysql\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/2880910\u0022 rel=\u0022nofollow\u0022\u003E#2880910\u003C\/a\u003E by \u003Ca href=\u0022\/u\/tatarbj\u0022 rel=\u0022nofollow\u0022\u003Etatarbj\u003C\/a\u003E, \u003Ca href=\u0022\/u\/joseph.olstad\u0022 rel=\u0022nofollow\u0022\u003Ejoseph.olstad\u003C\/a\u003E, \u003Ca href=\u0022\/u\/vijaycs85\u0022 rel=\u0022nofollow\u0022\u003Evijaycs85\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/klausi\u0022 rel=\u0022nofollow\u0022\u003Eklausi\u003C\/a\u003E, \u003Ca href=\u0022\/u\/oadaeh\u0022 rel=\u0022nofollow\u0022\u003Eoadaeh\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mahalingam_cs\u0022 rel=\u0022nofollow\u0022\u003Emahalingam_cs\u003C\/a\u003E, \u003Ca href=\u0022\/u\/david_rothstein\u0022 rel=\u0022nofollow\u0022\u003EDavid_Rothstein\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mcdruid\u0022 rel=\u0022nofollow\u0022\u003Emcdruid\u003C\/a\u003E: [D7] Nothing clears the \u00225 failed login attempts\u0022 security message when a user resets their own password\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3362409\u0022 rel=\u0022nofollow\u0022\u003E#3362409\u003C\/a\u003E by \u003Ca href=\u0022\/u\/durifal\u0022 rel=\u0022nofollow\u0022\u003Edurifal\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mrinalini9\u0022 rel=\u0022nofollow\u0022\u003Emrinalini9\u003C\/a\u003E, \u003Ca href=\u0022\/u\/klausi\u0022 rel=\u0022nofollow\u0022\u003Eklausi\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mcdruid\u0022 rel=\u0022nofollow\u0022\u003Emcdruid\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: Vertical tabs result in jQuery error when overlay-context hashtag is added to URL\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3195566\u0022 rel=\u0022nofollow\u0022\u003E#3195566\u003C\/a\u003E by \u003Ca href=\u0022\/u\/savel\u0022 rel=\u0022nofollow\u0022\u003ESAVEL\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: Add a note on MySQL 8 sql_mode override\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3348669\u0022 rel=\u0022nofollow\u0022\u003E#3348669\u003C\/a\u003E by \u003Ca href=\u0022\/u\/chase.\u0022 rel=\u0022nofollow\u0022\u003EChase.\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: system.mail.inc: strpos(): Passing null to parameter \u003Ca href=\u0022\/node\/1\u0022 rel=\u0022nofollow\u0022\u003E#1\u003C\/a\u003E ($haystack) of type string is deprecated\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3372666\u0022 rel=\u0022nofollow\u0022\u003E#3372666\u003C\/a\u003E by \u003Ca href=\u0022\/u\/hadsie\u0022 rel=\u0022nofollow\u0022\u003Ehadsie\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/ayushmishra206\u0022 rel=\u0022nofollow\u0022\u003Eayushmishra206\u003C\/a\u003E, \u003Ca href=\u0022\/u\/jibran\u0022 rel=\u0022nofollow\u0022\u003Ejibran\u003C\/a\u003E, \u003Ca href=\u0022\/u\/larowlan\u0022 rel=\u0022nofollow\u0022\u003Elarowlan\u003C\/a\u003E, \u003Ca href=\u0022\/u\/amietpatial\u0022 rel=\u0022nofollow\u0022\u003Eamietpatial\u003C\/a\u003E, \u003Ca href=\u0022\/u\/alexpott\u0022 rel=\u0022nofollow\u0022\u003Ealexpott\u003C\/a\u003E, \u003Ca href=\u0022\/u\/aalamaki\u0022 rel=\u0022nofollow\u0022\u003Eaalamaki\u003C\/a\u003E, \u003Ca href=\u0022\/u\/afox\u0022 rel=\u0022nofollow\u0022\u003Eafox\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mark_fullmer\u0022 rel=\u0022nofollow\u0022\u003Emark_fullmer\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mohit_aghera\u0022 rel=\u0022nofollow\u0022\u003Emohit_aghera\u003C\/a\u003E, \u003Ca href=\u0022\/u\/wim-leers\u0022 rel=\u0022nofollow\u0022\u003EWim Leers\u003C\/a\u003E, \u003Ca href=\u0022\/u\/wroxbox\u0022 rel=\u0022nofollow\u0022\u003Ewroxbox\u003C\/a\u003E, \u003Ca href=\u0022\/u\/tanubansal\u0022 rel=\u0022nofollow\u0022\u003Etanubansal\u003C\/a\u003E, \u003Ca href=\u0022\/u\/rteijeiro\u0022 rel=\u0022nofollow\u0022\u003Erteijeiro\u003C\/a\u003E, \u003Ca href=\u0022\/u\/nikolaat\u0022 rel=\u0022nofollow\u0022\u003ENikolaAt\u003C\/a\u003E, \u003Ca href=\u0022\/u\/rakesh.gectcr\u0022 rel=\u0022nofollow\u0022\u003Erakesh.gectcr\u003C\/a\u003E, \u003Ca href=\u0022\/u\/richardbporter\u0022 rel=\u0022nofollow\u0022\u003Erichardbporter\u003C\/a\u003E: D7 Backport: Links with \u0022@\u0022 are converted into email addresses even if there is no domain suffix present\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/2540830\u0022 rel=\u0022nofollow\u0022\u003E#2540830\u003C\/a\u003E by \u003Ca href=\u0022\/u\/swarad07\u0022 rel=\u0022nofollow\u0022\u003Eswarad07\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mikemadison\u0022 rel=\u0022nofollow\u0022\u003Emikemadison\u003C\/a\u003E, \u003Ca href=\u0022\/u\/jhodgdon\u0022 rel=\u0022nofollow\u0022\u003Ejhodgdon\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/david_rothstein\u0022 rel=\u0022nofollow\u0022\u003EDavid_Rothstein\u003C\/a\u003E, \u003Ca href=\u0022\/u\/cilefen\u0022 rel=\u0022nofollow\u0022\u003Ecilefen\u003C\/a\u003E: Sanitize watchdog() link in dblog_event()\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3397117\u0022 rel=\u0022nofollow\u0022\u003E#3397117\u003C\/a\u003E by \u003Ca href=\u0022\/u\/fjgarlin\u0022 rel=\u0022nofollow\u0022\u003Efjgarlin\u003C\/a\u003E: SQLite testing in GitlabCI - apache2(98)Address already in use\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3397119\u0022 rel=\u0022nofollow\u0022\u003E#3397119\u003C\/a\u003E by \u003Ca href=\u0022\/u\/fjgarlin\u0022 rel=\u0022nofollow\u0022\u003Efjgarlin\u003C\/a\u003E: Allow failures in D7 GitlabCI PHPCS checks\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3396515\u0022 rel=\u0022nofollow\u0022\u003E#3396515\u003C\/a\u003E by \u003Ca href=\u0022\/u\/fjgarlin\u0022 rel=\u0022nofollow\u0022\u003Efjgarlin\u003C\/a\u003E: GitlabCI test-only job - ambiguous argument in git diff\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3387052\u0022 rel=\u0022nofollow\u0022\u003E#3387052\u003C\/a\u003E by \u003Ca href=\u0022\/u\/fjgarlin\u0022 rel=\u0022nofollow\u0022\u003Efjgarlin\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mcdruid\u0022 rel=\u0022nofollow\u0022\u003Emcdruid\u003C\/a\u003E: [D7] GitLab CI integration for core\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3380876\u0022 rel=\u0022nofollow\u0022\u003E#3380876\u003C\/a\u003E by \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: [D7 PHP 8.3] unserialize(): Extra data starting at offset\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3379524\u0022 rel=\u0022nofollow\u0022\u003E#3379524\u003C\/a\u003E by \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mcdruid\u0022 rel=\u0022nofollow\u0022\u003Emcdruid\u003C\/a\u003E: Update PHP requirements for D7 according to the PSA-2023-06-07\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3393147\u0022 rel=\u0022nofollow\u0022\u003E#3393147\u003C\/a\u003E by \u003Ca href=\u0022\/u\/fjgarlin\u0022 rel=\u0022nofollow\u0022\u003Efjgarlin\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mcdruid\u0022 rel=\u0022nofollow\u0022\u003Emcdruid\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: Exceptions ignored in errorHandler for DrupalTestCase\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3373222\u0022 rel=\u0022nofollow\u0022\u003E#3373222\u003C\/a\u003E by \u003Ca href=\u0022\/u\/g\u00e1bor-hojtsy\u0022 rel=\u0022nofollow\u0022\u003EG\u00e1bor Hojtsy\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mcdruid\u0022 rel=\u0022nofollow\u0022\u003Emcdruid\u003C\/a\u003E: Fallback to feed item description does not strip HTML, only takes 40 chars even though field allows 255\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3386055\u0022 rel=\u0022nofollow\u0022\u003E#3386055\u003C\/a\u003E by \u003Ca href=\u0022\/u\/fjgarlin\u0022 rel=\u0022nofollow\u0022\u003Efjgarlin\u003C\/a\u003E: Cookie base path not check in the test but set in code\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3381481\u0022 rel=\u0022nofollow\u0022\u003E#3381481\u003C\/a\u003E by \u003Ca href=\u0022\/u\/mcdruid\u0022 rel=\u0022nofollow\u0022\u003Emcdruid\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: add tests for PHP Gadget Chain Drupal7\/RCE1 protection\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3378257\u0022 rel=\u0022nofollow\u0022\u003E#3378257\u003C\/a\u003E by \u003Ca href=\u0022\/u\/mcdruid\u0022 rel=\u0022nofollow\u0022\u003Emcdruid\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: harden D7 against PHP Gadget Chain Drupal7\/RCE1\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3365407\u0022 rel=\u0022nofollow\u0022\u003E#3365407\u003C\/a\u003E by \u003Ca href=\u0022\/u\/mcdruid\u0022 rel=\u0022nofollow\u0022\u003Emcdruid\u003C\/a\u003E, \u003Ca href=\u0022\/u\/dries\u0022 rel=\u0022nofollow\u0022\u003EDries\u003C\/a\u003E, \u003Ca href=\u0022\/u\/fabianx\u0022 rel=\u0022nofollow\u0022\u003EFabianx\u003C\/a\u003E: Promote poker10 to full D7 maintainer\u003C\/li\u003E\n\u003C\/ul\u003E",
+        "summary": "",
+        "format": "1"
+      },
+      "field_release_project": {
+        "uri": "https:\/\/www.drupal.org\/api-d7\/node\/3060",
+        "id": "3060",
+        "resource": "node"
+      },
+      "field_release_version_major": "7",
+      "taxonomy_vocabulary_6": {
+        "uri": "https:\/\/www.drupal.org\/api-d7\/taxonomy_term\/103",
+        "id": "103",
+        "resource": "taxonomy_term"
+      },
+      "taxonomy_vocabulary_7": [
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/taxonomy_term\/188131",
+          "id": "188131",
+          "resource": "taxonomy_term"
+        }
+      ],
+      "field_release_version": "7.99",
+      "field_release_version_minor": "99",
+      "field_release_version_patch": null,
+      "field_release_version_extra": null,
+      "field_release_version_ext_weight": null,
+      "field_release_version_ext_delta": null,
+      "field_release_vcs_label": "7.99",
+      "field_release_build_type": "static",
+      "field_release_update_status": "2",
+      "field_release_files": [
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/field_collection_item\/1634158",
+          "id": "1634158",
+          "resource": "field_collection_item"
+        },
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/field_collection_item\/1634159",
+          "id": "1634159",
+          "resource": "field_collection_item"
+        }
+      ],
+      "field_release_short_description": "Supported until January 05, 2025. Use this version for sites already running Drupal 7.",
+      "field_show_download": false,
+      "field_packaged_git_sha1": "04a44e3d9bb4be6f4f5d263270b0920720c460d4",
+      "field_release_category": "legacy",
+      "field_composer_type": null,
+      "nid": "3406523",
+      "vid": "13334625",
+      "is_new": false,
+      "type": "project_release",
+      "title": "drupal 7.99",
+      "language": "en",
+      "url": "https:\/\/www.drupal.org\/project\/drupal\/releases\/7.99",
+      "edit_url": "https:\/\/www.drupal.org\/node\/3406523\/edit",
+      "status": "1",
+      "promote": "0",
+      "sticky": "0",
+      "created": "1701873746",
+      "changed": "1701873806",
+      "author": {
+        "uri": "https:\/\/www.drupal.org\/api-d7\/user\/255969",
+        "id": "255969",
+        "resource": "user",
+        "name": "mcdruid"
+      },
+      "comment": "1",
+      "comments": [],
+      "comment_count": "0",
+      "comment_count_new": false,
+      "feeds_item_guid": null,
+      "feeds_item_url": null,
+      "feed_nid": null,
+      "flag_flag_tracker_follow_user": [],
+      "flag_tracker_follower_count": null,
+      "has_new_content": null,
+      "last_comment_timestamp": "1701873746",
+      "release_usage": "8534"
+    },
+    {
+      "body": {
+        "value": "\u003Cp\u003EMaintenance release of the Drupal 7 series. Includes bug fixes and small API\/feature improvements only (no major, non-backwards-compatible new functionality).\u003C\/p\u003E\n\u003Cp\u003ENo security fixes are included in this release.\u003C\/p\u003E\n\u003Cp\u003EChanges have been made to default.settings.php. More details in the Change Records for major changes below.\u003C\/p\u003E\n\u003Cp\u003ENo changes have been made to .htaccess, web.config or robots.txt files in this release, so upgrading custom versions of those files is not necessary.\u003C\/p\u003E\n\u003Cp\u003EAs always, many thanks to everyone that contributed to this release of Drupal 7.\u003C\/p\u003E\n\u003Ch3\u003EMajor \u003Ca href=\u0022https:\/\/www.drupal.org\/list-changes\/drupal\/published?version=7.98\u0022 rel=\u0022nofollow\u0022\u003Echanges in 7.98\u003C\/a\u003E:\u003C\/h3\u003E\n\u003Cul\u003E\n\u003Cli\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/node\/3364841\u0022 rel=\u0022nofollow\u0022\u003ESession IDs are now hashed in the database in Drupal 7\u003C\/a\u003E - \u003Cstrong\u003Eread this change record before running the database update\u003C\/strong\u003E\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/node\/3365142\u0022 rel=\u0022nofollow\u0022\u003EDouble click prevention introduced in Drupal 7\u003C\/a\u003E\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/node\/3365108\u0022 rel=\u0022nofollow\u0022\u003EUpdate info is fetched over https by default in Drupal 7\u003C\/a\u003E\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/node\/3362955\u0022 rel=\u0022nofollow\u0022\u003EContent of phpinfo() admin status page is now configurable in Drupal 7\u003C\/a\u003E\u003C\/li\u003E\n\u003C\/ul\u003E\n\u003Ch3\u003EAll changes:\u003C\/h3\u003E\n\u003Cul\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/1705618\u0022 rel=\u0022nofollow\u0022\u003E#1705618\u003C\/a\u003E by \u003Ca href=\u0022\/u\/sun\u0022 rel=\u0022nofollow\u0022\u003Esun\u003C\/a\u003E, \u003Ca href=\u0022\/u\/nod_\u0022 rel=\u0022nofollow\u0022\u003Enod_\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mgifford\u0022 rel=\u0022nofollow\u0022\u003Emgifford\u003C\/a\u003E, \u003Ca href=\u0022\/u\/hanoii\u0022 rel=\u0022nofollow\u0022\u003Ehanoii\u003C\/a\u003E, \u003Ca href=\u0022\/u\/clemens.tolboom\u0022 rel=\u0022nofollow\u0022\u003Eclemens.tolboom\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/torotil\u0022 rel=\u0022nofollow\u0022\u003Etorotil\u003C\/a\u003E, \u003Ca href=\u0022\/u\/wim-leers\u0022 rel=\u0022nofollow\u0022\u003EWim Leers\u003C\/a\u003E, \u003Ca href=\u0022\/u\/matt-v.\u0022 rel=\u0022nofollow\u0022\u003EMatt V.\u003C\/a\u003E, \u003Ca href=\u0022\/u\/helmo\u0022 rel=\u0022nofollow\u0022\u003Ehelmo\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mcdruid\u0022 rel=\u0022nofollow\u0022\u003Emcdruid\u003C\/a\u003E, \u003Ca href=\u0022\/u\/joseph.olstad\u0022 rel=\u0022nofollow\u0022\u003Ejoseph.olstad\u003C\/a\u003E, \u003Ca href=\u0022\/u\/jve\u0022 rel=\u0022nofollow\u0022\u003EJvE\u003C\/a\u003E, \u003Ca href=\u0022\/u\/tim.plunkett\u0022 rel=\u0022nofollow\u0022\u003Etim.plunkett\u003C\/a\u003E, \u003Ca href=\u0022\/u\/bojhan\u0022 rel=\u0022nofollow\u0022\u003EBojhan\u003C\/a\u003E, \u003Ca href=\u0022\/u\/fawwad.nirvana\u0022 rel=\u0022nofollow\u0022\u003Efawwad.nirvana\u003C\/a\u003E, \u003Ca href=\u0022\/u\/guypaddock\u0022 rel=\u0022nofollow\u0022\u003EGuyPaddock\u003C\/a\u003E, \u003Ca href=\u0022\/u\/dries\u0022 rel=\u0022nofollow\u0022\u003EDries\u003C\/a\u003E, \u003Ca href=\u0022\/u\/david_rothstein\u0022 rel=\u0022nofollow\u0022\u003EDavid_Rothstein\u003C\/a\u003E: Double click prevention on form submission\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3007538\u0022 rel=\u0022nofollow\u0022\u003E#3007538\u003C\/a\u003E by \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/torotil\u0022 rel=\u0022nofollow\u0022\u003Etorotil\u003C\/a\u003E, \u003Ca href=\u0022\/u\/damienmckenna\u0022 rel=\u0022nofollow\u0022\u003EDamienMcKenna\u003C\/a\u003E, \u003Ca href=\u0022\/u\/jorrit\u0022 rel=\u0022nofollow\u0022\u003EJorrit\u003C\/a\u003E, \u003Ca href=\u0022\/u\/fabianx\u0022 rel=\u0022nofollow\u0022\u003EFabianx\u003C\/a\u003E: Cron.php does not check for maintenance mode correctly\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/2090185\u0022 rel=\u0022nofollow\u0022\u003E#2090185\u003C\/a\u003E by \u003Ca href=\u0022\/u\/stevel\u0022 rel=\u0022nofollow\u0022\u003EStevel\u003C\/a\u003E, \u003Ca href=\u0022\/u\/generalredneck\u0022 rel=\u0022nofollow\u0022\u003Egeneralredneck\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: Warning span background image on update.php makes update dependencies unreadable\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/2164025\u0022 rel=\u0022nofollow\u0022\u003E#2164025\u003C\/a\u003E by \u003Ca href=\u0022\/u\/skipyt\u0022 rel=\u0022nofollow\u0022\u003EskipyT\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mcdruid\u0022 rel=\u0022nofollow\u0022\u003Emcdruid\u003C\/a\u003E, \u003Ca href=\u0022\/u\/pwolanin\u0022 rel=\u0022nofollow\u0022\u003Epwolanin\u003C\/a\u003E: Improve security of session ID against DB exposure or SQL injection\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3293648\u0022 rel=\u0022nofollow\u0022\u003E#3293648\u003C\/a\u003E by \u003Ca href=\u0022\/u\/mcdruid\u0022 rel=\u0022nofollow\u0022\u003Emcdruid\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: [D7 backport] Update status does not verify the identity or authenticity of the release history URL\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/2060235\u0022 rel=\u0022nofollow\u0022\u003E#2060235\u003C\/a\u003E by \u003Ca href=\u0022\/u\/lauriii\u0022 rel=\u0022nofollow\u0022\u003Elauriii\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/gaas\u0022 rel=\u0022nofollow\u0022\u003Egaas\u003C\/a\u003E: Getting a PDOException when adding new image style named thumbnail, medium and large\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3358515\u0022 rel=\u0022nofollow\u0022\u003E#3358515\u003C\/a\u003E by \u003Ca href=\u0022\/u\/mcdruid\u0022 rel=\u0022nofollow\u0022\u003Emcdruid\u003C\/a\u003E: Make phpinfo on the admin status report configurable [D7]\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3214047\u0022 rel=\u0022nofollow\u0022\u003E#3214047\u003C\/a\u003E by \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mcdruid\u0022 rel=\u0022nofollow\u0022\u003Emcdruid\u003C\/a\u003E: [D7] Add phtml files to the list of potentially malicious extensions\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/1470236\u0022 rel=\u0022nofollow\u0022\u003E#1470236\u003C\/a\u003E by \u003Ca href=\u0022\/u\/iameap\u0022 rel=\u0022nofollow\u0022\u003EiamEAP\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mstrelan\u0022 rel=\u0022nofollow\u0022\u003Emstrelan\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/divesh.kumar\u0022 rel=\u0022nofollow\u0022\u003Edivesh.kumar\u003C\/a\u003E: Array flip error when a taxonomy term field has a NULL value\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/1451072\u0022 rel=\u0022nofollow\u0022\u003E#1451072\u003C\/a\u003E by \u003Ca href=\u0022\/u\/david_rothstein\u0022 rel=\u0022nofollow\u0022\u003EDavid_Rothstein\u003C\/a\u003E, \u003Ca href=\u0022\/u\/duttonma\u0022 rel=\u0022nofollow\u0022\u003EDuttonMa\u003C\/a\u003E: Deleting a comment author while the Comment module is disabled leads to an EntityMalformedException error after it\u0027s reenabled\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/998632\u0022 rel=\u0022nofollow\u0022\u003E#998632\u003C\/a\u003E by \u003Ca href=\u0022\/u\/dalin\u0022 rel=\u0022nofollow\u0022\u003Edalin\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: drupal_write_record() throws PHP notices if any fields use DB-specific data types\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3308471\u0022 rel=\u0022nofollow\u0022\u003E#3308471\u003C\/a\u003E by \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: [D7] Update CommonXssUnitTest::testBadProtocolStripping() to check other allowed \/ dangerous protocols\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/1821178\u0022 rel=\u0022nofollow\u0022\u003E#1821178\u003C\/a\u003E by \u003Ca href=\u0022\/u\/heddn\u0022 rel=\u0022nofollow\u0022\u003Eheddn\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: Performance tune text_field_load()\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/1621334\u0022 rel=\u0022nofollow\u0022\u003E#1621334\u003C\/a\u003E by \u003Ca href=\u0022\/u\/sebcorbin\u0022 rel=\u0022nofollow\u0022\u003ESebCorbin\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/szt\u0022 rel=\u0022nofollow\u0022\u003Eszt\u003C\/a\u003E, \u003Ca href=\u0022\/u\/larowlan\u0022 rel=\u0022nofollow\u0022\u003Elarowlan\u003C\/a\u003E, \u003Ca href=\u0022\/u\/swentel\u0022 rel=\u0022nofollow\u0022\u003Eswentel\u003C\/a\u003E, \u003Ca href=\u0022\/u\/salvis\u0022 rel=\u0022nofollow\u0022\u003Esalvis\u003C\/a\u003E: Notice: Undefined property: stdClass::$forum_tid in forum_node_view()\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/2177335\u0022 rel=\u0022nofollow\u0022\u003E#2177335\u003C\/a\u003E by \u003Ca href=\u0022\/u\/drintios\u0022 rel=\u0022nofollow\u0022\u003Edrintios\u003C\/a\u003E, \u003Ca href=\u0022\/u\/idebr\u0022 rel=\u0022nofollow\u0022\u003Eidebr\u003C\/a\u003E, \u003Ca href=\u0022\/u\/czigor\u0022 rel=\u0022nofollow\u0022\u003Eczigor\u003C\/a\u003E, \u003Ca href=\u0022\/u\/therealssj\u0022 rel=\u0022nofollow\u0022\u003Etherealssj\u003C\/a\u003E, \u003Ca href=\u0022\/u\/oo0shiny\u0022 rel=\u0022nofollow\u0022\u003Eoo0shiny\u003C\/a\u003E, \u003Ca href=\u0022\/u\/bdimaggio\u0022 rel=\u0022nofollow\u0022\u003Ebdimaggio\u003C\/a\u003E, \u003Ca href=\u0022\/u\/samiullah\u0022 rel=\u0022nofollow\u0022\u003Esamiullah\u003C\/a\u003E, \u003Ca href=\u0022\/u\/shashank5563\u0022 rel=\u0022nofollow\u0022\u003Eshashank5563\u003C\/a\u003E, \u003Ca href=\u0022\/u\/rinku-jacob-13\u0022 rel=\u0022nofollow\u0022\u003ERinku Jacob 13\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/alexpott\u0022 rel=\u0022nofollow\u0022\u003Ealexpott\u003C\/a\u003E: Selecting \u0022None\u0022 does not move the block to the disabled region when there are no disabled blocks\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/2412151\u0022 rel=\u0022nofollow\u0022\u003E#2412151\u003C\/a\u003E by \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/abramm\u0022 rel=\u0022nofollow\u0022\u003Eabramm\u003C\/a\u003E, \u003Ca href=\u0022\/u\/monika.danielsson\u0022 rel=\u0022nofollow\u0022\u003Emonika.danielsson\u003C\/a\u003E: taxonomy_overview_terms undefined index\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/2133309\u0022 rel=\u0022nofollow\u0022\u003E#2133309\u003C\/a\u003E by \u003Ca href=\u0022\/u\/pawandubey\u0022 rel=\u0022nofollow\u0022\u003Epawandubey\u003C\/a\u003E, \u003Ca href=\u0022\/u\/tinko\u0022 rel=\u0022nofollow\u0022\u003Etinko\u003C\/a\u003E, \u003Ca href=\u0022\/u\/matsbla\u0022 rel=\u0022nofollow\u0022\u003Ematsbla\u003C\/a\u003E, \u003Ca href=\u0022\/u\/ifrik\u0022 rel=\u0022nofollow\u0022\u003Eifrik\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: Change link for language code identifier when creating custom languages\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/1777166\u0022 rel=\u0022nofollow\u0022\u003E#1777166\u003C\/a\u003E by \u003Ca href=\u0022\/u\/gyuhyon\u0022 rel=\u0022nofollow\u0022\u003Egyuhyon\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mandclu\u0022 rel=\u0022nofollow\u0022\u003Emandclu\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E, \u003Ca href=\u0022\/u\/jhodgdon\u0022 rel=\u0022nofollow\u0022\u003Ejhodgdon\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mradcliffe\u0022 rel=\u0022nofollow\u0022\u003Emradcliffe\u003C\/a\u003E, \u003Ca href=\u0022\/u\/catch\u0022 rel=\u0022nofollow\u0022\u003Ecatch\u003C\/a\u003E: hook_comment_publish() docs are completely wrong\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3019792\u0022 rel=\u0022nofollow\u0022\u003E#3019792\u003C\/a\u003E by \u003Ca href=\u0022\/u\/apaderno\u0022 rel=\u0022nofollow\u0022\u003Eapaderno\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: The description for the value returned from form_type_token_value() is wrong\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/2550519\u0022 rel=\u0022nofollow\u0022\u003E#2550519\u003C\/a\u003E by \u003Ca href=\u0022\/u\/pwolanin\u0022 rel=\u0022nofollow\u0022\u003Epwolanin\u003C\/a\u003E, \u003Ca href=\u0022\/u\/klausi\u0022 rel=\u0022nofollow\u0022\u003Eklausi\u003C\/a\u003E, \u003Ca href=\u0022\/u\/nullkernel\u0022 rel=\u0022nofollow\u0022\u003Enullkernel\u003C\/a\u003E, \u003Ca href=\u0022\/u\/cweagans\u0022 rel=\u0022nofollow\u0022\u003Ecweagans\u003C\/a\u003E, \u003Ca href=\u0022\/u\/heine\u0022 rel=\u0022nofollow\u0022\u003EHeine\u003C\/a\u003E, \u003Ca href=\u0022\/u\/alexpott\u0022 rel=\u0022nofollow\u0022\u003Ealexpott\u003C\/a\u003E, \u003Ca href=\u0022\/u\/sindurig\u0022 rel=\u0022nofollow\u0022\u003Esindurig\u003C\/a\u003E, \u003Ca href=\u0022\/u\/yesct\u0022 rel=\u0022nofollow\u0022\u003EYesCT\u003C\/a\u003E, \u003Ca href=\u0022\/u\/ayesh\u0022 rel=\u0022nofollow\u0022\u003EAyesh\u003C\/a\u003E, \u003Ca href=\u0022\/u\/neclimdul\u0022 rel=\u0022nofollow\u0022\u003Eneclimdul\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mfb\u0022 rel=\u0022nofollow\u0022\u003Emfb\u003C\/a\u003E, \u003Ca href=\u0022\/u\/zniki.ru\u0022 rel=\u0022nofollow\u0022\u003Ezniki.ru\u003C\/a\u003E, \u003Ca href=\u0022\/u\/eugene.ilyin\u0022 rel=\u0022nofollow\u0022\u003Eeugene.ilyin\u003C\/a\u003E, \u003Ca href=\u0022\/u\/david_rothstein\u0022 rel=\u0022nofollow\u0022\u003EDavid_Rothstein\u003C\/a\u003E, \u003Ca href=\u0022\/u\/catch\u0022 rel=\u0022nofollow\u0022\u003Ecatch\u003C\/a\u003E, \u003Ca href=\u0022\/u\/joseph.olstad\u0022 rel=\u0022nofollow\u0022\u003Ejoseph.olstad\u003C\/a\u003E, \u003Ca href=\u0022\/u\/dawehner\u0022 rel=\u0022nofollow\u0022\u003Edawehner\u003C\/a\u003E, \u003Ca href=\u0022\/u\/izmeez\u0022 rel=\u0022nofollow\u0022\u003Eizmeez\u003C\/a\u003E, \u003Ca href=\u0022\/u\/chx\u0022 rel=\u0022nofollow\u0022\u003Echx\u003C\/a\u003E, \u003Ca href=\u0022\/u\/sarciszewski\u0022 rel=\u0022nofollow\u0022\u003Esarciszewski\u003C\/a\u003E, \u003Ca href=\u0022\/u\/stefan.r\u0022 rel=\u0022nofollow\u0022\u003Estefan.r\u003C\/a\u003E, \u003Ca href=\u0022\/u\/apaderno\u0022 rel=\u0022nofollow\u0022\u003Eapaderno\u003C\/a\u003E, \u003Ca href=\u0022\/u\/fabianx\u0022 rel=\u0022nofollow\u0022\u003EFabianx\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: drupal_random_bytes() should use random_bytes() if available\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3345570\u0022 rel=\u0022nofollow\u0022\u003E#3345570\u003C\/a\u003E by \u003Ca href=\u0022\/u\/dmitrii\u0022 rel=\u0022nofollow\u0022\u003Edmitrii\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: list_allowed_values_setting_validate dies with PHP Fatal error on PHP 8.1\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3358536\u0022 rel=\u0022nofollow\u0022\u003E#3358536\u003C\/a\u003E by \u003Ca href=\u0022\/u\/mcdruid\u0022 rel=\u0022nofollow\u0022\u003Emcdruid\u003C\/a\u003E, \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: Add test(s) for SA-CORE-2023-004\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3325533\u0022 rel=\u0022nofollow\u0022\u003E#3325533\u003C\/a\u003E by \u003Ca href=\u0022\/u\/benqwerty\u0022 rel=\u0022nofollow\u0022\u003Ebenqwerty\u003C\/a\u003E: Undefined variables in system.tar.inc\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/2733299\u0022 rel=\u0022nofollow\u0022\u003E#2733299\u003C\/a\u003E by \u003Ca href=\u0022\/u\/jacob.embree\u0022 rel=\u0022nofollow\u0022\u003Ejacob.embree\u003C\/a\u003E, \u003Ca href=\u0022\/u\/mikhailkrainiuk\u0022 rel=\u0022nofollow\u0022\u003Emikhailkrainiuk\u003C\/a\u003E: Documentation and behavior mismatch in form_get_errors\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3064227\u0022 rel=\u0022nofollow\u0022\u003E#3064227\u003C\/a\u003E by \u003Ca href=\u0022\/u\/zniki.ru\u0022 rel=\u0022nofollow\u0022\u003Ezniki.ru\u003C\/a\u003E: Add close p tag at clean_url_description in system.admin.inc\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/2845290\u0022 rel=\u0022nofollow\u0022\u003E#2845290\u003C\/a\u003E by \u003Ca href=\u0022\/u\/eiriksm\u0022 rel=\u0022nofollow\u0022\u003Eeiriksm\u003C\/a\u003E: Missing function comment doc for user_admin_account_validate\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3004335\u0022 rel=\u0022nofollow\u0022\u003E#3004335\u003C\/a\u003E by \u003Ca href=\u0022\/u\/interx\u0022 rel=\u0022nofollow\u0022\u003EinterX\u003C\/a\u003E: Wrong database table mentioned in the documentation of taxonomy_term_load_multiple\u003C\/li\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3068195\u0022 rel=\u0022nofollow\u0022\u003E#3068195\u003C\/a\u003E by \u003Ca href=\u0022\/u\/slydevil\u0022 rel=\u0022nofollow\u0022\u003Eslydevil\u003C\/a\u003E: Documentation for _locale_import_one_string_db() is incorrect\u003C\/li\u003E\n\u003C\/ul\u003E",
+        "summary": "",
+        "format": "1"
+      },
+      "field_release_project": {
+        "uri": "https:\/\/www.drupal.org\/api-d7\/node\/3060",
+        "id": "3060",
+        "resource": "node"
+      },
+      "field_release_version_major": "7",
+      "taxonomy_vocabulary_6": {
+        "uri": "https:\/\/www.drupal.org\/api-d7\/taxonomy_term\/103",
+        "id": "103",
+        "resource": "taxonomy_term"
+      },
+      "taxonomy_vocabulary_7": [
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/taxonomy_term\/99",
+          "id": "99",
+          "resource": "taxonomy_term"
+        },
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/taxonomy_term\/98",
+          "id": "98",
+          "resource": "taxonomy_term"
+        },
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/taxonomy_term\/188131",
+          "id": "188131",
+          "resource": "taxonomy_term"
+        }
+      ],
+      "field_release_version": "7.98",
+      "field_release_version_minor": "98",
+      "field_release_version_patch": null,
+      "field_release_version_extra": null,
+      "field_release_version_ext_weight": null,
+      "field_release_version_ext_delta": null,
+      "field_release_vcs_label": "7.98",
+      "field_release_build_type": "static",
+      "field_release_update_status": "2",
+      "field_release_files": [
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/field_collection_item\/1601365",
+          "id": "1601365",
+          "resource": "field_collection_item"
+        },
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/field_collection_item\/1601366",
+          "id": "1601366",
+          "resource": "field_collection_item"
+        }
+      ],
+      "field_release_short_description": "Supported until January 05, 2025. Use this version for sites already running Drupal 7.",
+      "field_show_download": false,
+      "field_packaged_git_sha1": "434f76cb5913cdef3767dfe4c08545e28ae9c1c1",
+      "field_release_category": "legacy",
+      "field_composer_type": null,
+      "nid": "3365399",
+      "vid": "13114634",
+      "is_new": false,
+      "type": "project_release",
+      "title": "drupal 7.98",
+      "language": "en",
+      "url": "https:\/\/www.drupal.org\/project\/drupal\/releases\/7.98",
+      "edit_url": "https:\/\/www.drupal.org\/node\/3365399\/edit",
+      "status": "1",
+      "promote": "0",
+      "sticky": "0",
+      "created": "1686154342",
+      "changed": "1686154390",
+      "author": {
+        "uri": "https:\/\/www.drupal.org\/api-d7\/user\/272316",
+        "id": "272316",
+        "resource": "user",
+        "name": "poker10"
+      },
+      "comment": "1",
+      "comments": [],
+      "comment_count": "0",
+      "comment_count_new": false,
+      "feeds_item_guid": null,
+      "feeds_item_url": null,
+      "feed_nid": null,
+      "flag_flag_tracker_follow_user": [],
+      "flag_tracker_follower_count": null,
+      "has_new_content": null,
+      "last_comment_timestamp": "1686154342",
+      "release_usage": "12123"
+    },
+    {
+      "body": {
+        "value": "\u003Cp\u003EMaintenance release of the Drupal 7 series. Includes bug fixes and small API\/feature improvements only (no major, non-backwards-compatible new functionality).\u003C\/p\u003E\n\u003Cp\u003ENo security fixes are included in this release.\u003C\/p\u003E\n\u003Cp\u003ENo changes have been made to the .htaccess, web.config, robots.txt or default settings.php files in this release, so upgrading custom versions of those files is not necessary.\u003C\/p\u003E\n\u003Cp\u003EThis is a \u0022hotfix\u0022 release to address a PHP 5.x regression caused by SA-CORE-2023-005.\u003C\/p\u003E\n\u003Cp\u003EChanges since 7.96:\u003C\/p\u003E\n\u003Cul\u003E\n\u003Cli\u003E\u003Ca href=\u0022\/node\/3355216\u0022 rel=\u0022nofollow\u0022\u003E#3355216\u003C\/a\u003E by \u003Ca href=\u0022\/u\/poker10\u0022 rel=\u0022nofollow\u0022\u003Epoker10\u003C\/a\u003E: Fix PHP 5.x regression caused by ::class constant\u003C\/li\u003E\n\u003C\/ul\u003E",
+        "summary": "",
+        "format": "1"
+      },
+      "field_release_project": {
+        "uri": "https:\/\/www.drupal.org\/api-d7\/node\/3060",
+        "id": "3060",
+        "resource": "node"
+      },
+      "field_release_version_major": "7",
+      "taxonomy_vocabulary_6": {
+        "uri": "https:\/\/www.drupal.org\/api-d7\/taxonomy_term\/103",
+        "id": "103",
+        "resource": "taxonomy_term"
+      },
+      "taxonomy_vocabulary_7": [
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/taxonomy_term\/99",
+          "id": "99",
+          "resource": "taxonomy_term"
+        },
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/taxonomy_term\/188131",
+          "id": "188131",
+          "resource": "taxonomy_term"
+        }
+      ],
+      "field_release_version": "7.97",
+      "field_release_version_minor": "97",
+      "field_release_version_patch": null,
+      "field_release_version_extra": null,
+      "field_release_version_ext_weight": null,
+      "field_release_version_ext_delta": null,
+      "field_release_vcs_label": "7.97",
+      "field_release_build_type": "static",
+      "field_release_update_status": "2",
+      "field_release_files": [
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/field_collection_item\/1593308",
+          "id": "1593308",
+          "resource": "field_collection_item"
+        },
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/field_collection_item\/1593309",
+          "id": "1593309",
+          "resource": "field_collection_item"
+        }
+      ],
+      "field_release_short_description": "Supported until (at least) November 2023. Use this version for sites already running Drupal 7.",
+      "field_show_download": false,
+      "field_packaged_git_sha1": "48dbcb26ad0d2474b905217628616a1b15356aba",
+      "field_release_category": "legacy",
+      "field_composer_type": null,
+      "nid": "3355596",
+      "vid": "13058398",
+      "is_new": false,
+      "type": "project_release",
+      "title": "drupal 7.97",
+      "language": "en",
+      "url": "https:\/\/www.drupal.org\/project\/drupal\/releases\/7.97",
+      "edit_url": "https:\/\/www.drupal.org\/node\/3355596\/edit",
+      "status": "1",
+      "promote": "0",
+      "sticky": "0",
+      "created": "1682075478",
+      "changed": "1682075527",
+      "author": {
+        "uri": "https:\/\/www.drupal.org\/api-d7\/user\/272316",
+        "id": "272316",
+        "resource": "user",
+        "name": "poker10"
+      },
+      "comment": "1",
+      "comments": [],
+      "comment_count": "0",
+      "comment_count_new": false,
+      "feeds_item_guid": null,
+      "feeds_item_url": null,
+      "feed_nid": null,
+      "flag_flag_tracker_follow_user": [],
+      "flag_tracker_follower_count": null,
+      "has_new_content": null,
+      "last_comment_timestamp": "1682075478",
+      "release_usage": "6841"
+    },
+    {
+      "body": {
+        "value": "\u003Cp\u003EThis is a \u003Cstrong\u003Esecurity release\u003C\/strong\u003E of the Drupal 7 series.\u003C\/p\u003E\n\u003Cp\u003EThis release fixes \u003Cstrong\u003Esecurity vulnerabilities\u003C\/strong\u003E. Sites are \u003Cstrong\u003E\u003Ca href=\u0022\/docs\/7\/update\/introduction\u0022 rel=\u0022nofollow\u0022\u003Eurged to update immediately\u003C\/a\u003E\u003C\/strong\u003E after reading the notes below and the security announcements:\u003C\/p\u003E\n\u003Cul\u003E\n\u003Cli\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/sa-core-2023-005\u0022 rel=\u0022nofollow\u0022\u003EDrupal core - Moderately critical - Access bypass - SA-CORE-2023-005\u003C\/a\u003E\u003C\/li\u003E\n\u003C\/ul\u003E\n\u003Cp\u003ENo other fixes are included.\u003C\/p\u003E\n\u003Cp\u003E\u003Cstrong\u003ENote that Drupal 7.97 was released as a hotfix shortly after this release.\u003C\/strong\u003E\u003C\/p\u003E\n\u003Ch2 id=\u0022update-info\u0022\u003EImportant update information\u003C\/h2\u003E\n\u003Ch3 id=\u0022site-owner-managed\u0022\u003EChanges to site-owner-managed files\u003C\/h3\u003E\n\u003Cul\u003E\n\u003Cli\u003E\n\u003Cp\u003EFollowing this release, Drupal will block access to private files at certain specially crafted paths. Previous versions of Drupal allowed access to these paths, and in most cases blocking access is the correct behavior.\u003C\/p\u003E\n\u003Cp\u003EThere may be some sites that rely on allowing access to these paths, or the changes in this release may cause other problems with file access. These sites can add the following line to \u003Ccode class=\u0022language-php\u0022\u003Esettings.php\u003C\/code\u003E:\u003C\/p\u003E\n\u003Cpre class=\u0022codeblock\u0022\u003E\u003Ccode class=\u0022language-php\u0022\u003E$conf[\u0027file_sa_core_2023_005_schemes\u0027] = array(\u0027private\u0027);\n\u003C\/code\u003E\u003C\/pre\u003E\u003Cp\u003E\nThis will preserve the old behavior for files saved in the private files directory, using the \u003Ccode class=\u0022language-php\u0022\u003Eprivate\u003C\/code\u003E stream wrapper from Drupal core. Sites that need to preserve the old behavior for files using other stream wrappers, from contributed or custom modules, should list those stream wrappers instead of \u003Ccode class=\u0022language-php\u0022\u003E\u0027private\u0027\u003C\/code\u003E.\u003C\/p\u003E\n\u003Cp\u003EThe comments in \u003Ccode class=\u0022language-php\u0022\u003Edefault.settings.php\u003C\/code\u003E have additional information.\u003C\/p\u003E\n\u003Cp\u003EUsing this setting will \u003Cstrong\u003Ebypass the access checks added in this release\u003C\/strong\u003E, which may allow public access to files that are meant to be private. This setting is a temporary backward-compatibility layer for misconfigured sites. It will be removed in a future release since it is insecure.\u003C\/p\u003E\n\u003C\/li\u003E\n\u003C\/ul\u003E",
+        "summary": "",
+        "format": "1"
+      },
+      "field_release_project": {
+        "uri": "https:\/\/www.drupal.org\/api-d7\/node\/3060",
+        "id": "3060",
+        "resource": "node"
+      },
+      "field_release_version_major": "7",
+      "taxonomy_vocabulary_6": {
+        "uri": "https:\/\/www.drupal.org\/api-d7\/taxonomy_term\/103",
+        "id": "103",
+        "resource": "taxonomy_term"
+      },
+      "taxonomy_vocabulary_7": [
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/taxonomy_term\/100",
+          "id": "100",
+          "resource": "taxonomy_term"
+        },
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/taxonomy_term\/188131",
+          "id": "188131",
+          "resource": "taxonomy_term"
+        }
+      ],
+      "field_release_version": "7.96",
+      "field_release_version_minor": "96",
+      "field_release_version_patch": null,
+      "field_release_version_extra": null,
+      "field_release_version_ext_weight": null,
+      "field_release_version_ext_delta": null,
+      "field_release_vcs_label": "7.96",
+      "field_release_build_type": "static",
+      "field_release_update_status": "2",
+      "field_release_files": [
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/field_collection_item\/1592994",
+          "id": "1592994",
+          "resource": "field_collection_item"
+        },
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/field_collection_item\/1592995",
+          "id": "1592995",
+          "resource": "field_collection_item"
+        }
+      ],
+      "field_release_short_description": "Supported until (at least) November 2023. Use this version for sites already running Drupal 7.",
+      "field_show_download": false,
+      "field_packaged_git_sha1": "d5d2a01bb6de80b202e141278312ab2d376f3c63",
+      "field_release_category": "legacy",
+      "field_composer_type": null,
+      "nid": "3355179",
+      "vid": "13058412",
+      "is_new": false,
+      "type": "project_release",
+      "title": "drupal 7.96",
+      "language": "en",
+      "url": "https:\/\/www.drupal.org\/project\/drupal\/releases\/7.96",
+      "edit_url": "https:\/\/www.drupal.org\/node\/3355179\/edit",
+      "status": "1",
+      "promote": "0",
+      "sticky": "0",
+      "created": "1681921335",
+      "changed": "1682076069",
+      "author": {
+        "uri": "https:\/\/www.drupal.org\/api-d7\/user\/65776",
+        "id": "65776",
+        "resource": "user",
+        "name": "xjm"
+      },
+      "comment": "1",
+      "comments": [],
+      "comment_count": "0",
+      "comment_count_new": false,
+      "feeds_item_guid": null,
+      "feeds_item_url": null,
+      "feed_nid": null,
+      "flag_flag_tracker_follow_user": [],
+      "flag_tracker_follower_count": null,
+      "has_new_content": null,
+      "last_comment_timestamp": "1681921335",
+      "release_usage": "2136"
+    },
+    {
+      "body": {
+        "value": "\u003Cp\u003EThis is a \u003Cstrong\u003Esecurity release\u003C\/strong\u003E of the Drupal 7 series.\u003C\/p\u003E\n\u003Cp\u003EThis release fixes \u003Cstrong\u003Esecurity vulnerabilities\u003C\/strong\u003E. Sites are \u003Cstrong\u003E\u003Ca href=\u0022\/docs\/7\/update\/introduction\u0022 rel=\u0022nofollow\u0022\u003Eurged to update immediately\u003C\/a\u003E\u003C\/strong\u003E after reading the notes below and the security announcements:\u003C\/p\u003E\n\u003Cul\u003E\n\u003Cli\u003E\u003Ca href=\u0022https:\/\/www.drupal.org\/sa-core-2023-004\u0022 rel=\u0022nofollow\u0022\u003EDrupal core - Moderately critical - Access bypass - SA-CORE-2023-004\u003C\/a\u003E\u003C\/li\u003E\n\u003C\/ul\u003E\n\u003Cp\u003ENo other fixes are included.\u003C\/p\u003E",
+        "summary": "",
+        "format": "1"
+      },
+      "field_release_project": {
+        "uri": "https:\/\/www.drupal.org\/api-d7\/node\/3060",
+        "id": "3060",
+        "resource": "node"
+      },
+      "field_release_version_major": "7",
+      "taxonomy_vocabulary_6": {
+        "uri": "https:\/\/www.drupal.org\/api-d7\/taxonomy_term\/103",
+        "id": "103",
+        "resource": "taxonomy_term"
+      },
+      "taxonomy_vocabulary_7": [
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/taxonomy_term\/100",
+          "id": "100",
+          "resource": "taxonomy_term"
+        },
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/taxonomy_term\/188131",
+          "id": "188131",
+          "resource": "taxonomy_term"
+        }
+      ],
+      "field_release_version": "7.95",
+      "field_release_version_minor": "95",
+      "field_release_version_patch": null,
+      "field_release_version_extra": null,
+      "field_release_version_ext_weight": null,
+      "field_release_version_ext_delta": null,
+      "field_release_vcs_label": "7.95",
+      "field_release_build_type": "static",
+      "field_release_update_status": "2",
+      "field_release_files": [
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/field_collection_item\/1587459",
+          "id": "1587459",
+          "resource": "field_collection_item"
+        },
+        {
+          "uri": "https:\/\/www.drupal.org\/api-d7\/field_collection_item\/1587460",
+          "id": "1587460",
+          "resource": "field_collection_item"
+        }
+      ],
+      "field_release_short_description": "Supported until (at least) November 2023. Use this version for sites already running Drupal 7.",
+      "field_show_download": false,
+      "field_packaged_git_sha1": "281a1ac6978d44f8c4e841561b072b1af635185d",
+      "field_release_category": "legacy",
+      "field_composer_type": null,
+      "nid": "3348231",
+      "vid": "13014706",
+      "is_new": false,
+      "type": "project_release",
+      "title": "drupal 7.95",
+      "language": "en",
+      "url": "https:\/\/www.drupal.org\/project\/drupal\/releases\/7.95",
+      "edit_url": "https:\/\/www.drupal.org\/node\/3348231\/edit",
+      "status": "1",
+      "promote": "0",
+      "sticky": "0",
+      "created": "1678901207",
+      "changed": "1678902947",
+      "author": {
+        "uri": "https:\/\/www.drupal.org\/api-d7\/user\/255969",
+        "id": "255969",
+        "resource": "user",
+        "name": "mcdruid"
+      },
+      "comment": "1",
+      "comments": [],
+      "comment_count": "0",
+      "comment_count_new": false,
+      "feeds_item_guid": null,
+      "feeds_item_url": null,
+      "feed_nid": null,
+      "flag_flag_tracker_follow_user": [],
+      "flag_tracker_follower_count": null,
+      "has_new_content": null,
+      "last_comment_timestamp": "1678901207",
+      "release_usage": "3709"
+    }
+  ]
+}
