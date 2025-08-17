@@ -18,6 +18,7 @@ class Commerce extends OneClickDemoBase {
     return [
       'docker-php-ext-install opcache',
       'docker-php-ext-install bcmath',
+      'echo "memory_limit = 512M" >> /usr/local/etc/php/conf.d/my-php.ini',
       'a2enmod headers rewrite',
       'rm -rf "${DOCROOT}"',
     ];
@@ -45,7 +46,6 @@ class Commerce extends OneClickDemoBase {
     $commands = [];
     $commands[] = 'echo \'$settings["file_private_path"] = "sites/default/files/private";\' >> ${DOCROOT}/sites/default/settings.php';
     $commands[] = 'cd "${DOCROOT}" && ../vendor/bin/drush si --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y';
-    $commands[] = 'cd "${DOCROOT}" && ../vendor/bin/drush en commerce_demo -y';
     return $commands;
   }
 
