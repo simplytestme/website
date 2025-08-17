@@ -32,7 +32,6 @@ final class CommerceConfigTest extends OneClickDemoConfigTestBase {
             'rm -rf "${DOCROOT}"',
             'echo "SIMPLYEST_STAGE_DOWNLOAD"',
             'cd "${TUGBOAT_ROOT}" && composer create-project centarro/commerce-kickstart-project stm --no-install --stability dev --no-interaction',
-            'cd "${TUGBOAT_ROOT}/stm" && composer require --no-update drupal/commerce_demo:^3.0',
             'cd "${TUGBOAT_ROOT}/stm" && composer config bin-dir --unset',
             'cd "${TUGBOAT_ROOT}/stm" && composer install',
             'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"',
