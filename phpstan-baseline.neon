@@ -754,11 +754,6 @@ parameters:
 			path: web/modules/custom/simplytest_projects/tests/src/Kernel/CoreVersionManagerTest.php
 
 		-
-			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Kernel\\\\CoreVersionManagerTest\\:\\:testPreflightCheck\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/tests/src/Kernel/CoreVersionManagerTest.php
-
-		-
 			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Kernel\\\\CoreVersionManagerTest\\:\\:testReleaseData\\(\\) has parameter \\$expected_result_sample with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/tests/src/Kernel/CoreVersionManagerTest.php
