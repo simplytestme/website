@@ -28,10 +28,11 @@ class Umami extends OneClickDemoBase {
   #[\Override]
   public function getSetupCommands(array $parameters): array {
     $commands[] = 'docker-php-ext-install opcache';
+    $commands[] = 'echo "memory_limit = 512M" >> /usr/local/etc/php/conf.d/my-php.ini';
     $commands[] = 'a2enmod headers rewrite';
     $commands[] = 'rm -rf "${DOCROOT}"';
     // Pin to Drupal ^10 for now, until ^11 is supported.
-    $commands[] = 'composer -n create-project drupal/recommended-project:^10 stm --no-install';
+    $commands[] = 'composer -n create-project drupal/recommended-project stm --no-install';
     $commands[] = 'cd stm && composer require --no-update drush/drush';
     $commands[] = 'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"';
     return $commands;
