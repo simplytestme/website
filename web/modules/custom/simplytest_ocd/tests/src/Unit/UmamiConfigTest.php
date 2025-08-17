@@ -13,7 +13,7 @@ final class UmamiConfigTest extends OneClickDemoConfigTestBase {
   protected function getExpectedConfig(): array {
     return [
       'php' => [
-        'image' => 'tugboatqa/php:8.2-apache',
+        'image' => 'tugboatqa/php:8.3-apache',
         'default' => TRUE,
         'depends' => 'mysql',
         'commands' => [
