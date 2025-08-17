@@ -144,7 +144,7 @@ final readonly class PreviewConfigGenerator {
     return [
       'services' => [
         'php' => [
-          'image' => 'tugboatqa/php:8.2-apache',
+          'image' => 'tugboatqa/php:8.3-apache',
           'default' => TRUE,
           'depends' => 'mysql',
           'commands' => [
