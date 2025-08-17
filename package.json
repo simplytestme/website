@@ -33,7 +33,7 @@
     "babel-core": "^4.7.16",
     "babel-plugin-add-header-comment": "^1.0.3",
     "babel-preset-env": "^0.0.0",
-    "browser-sync": "^3.0.4",
+    "browser-sync": "^2.29.3",
     "browser-sync-webpack-plugin": "^2.2.2",
     "cross-env": "^7.0.3",
     "cypress": "^13.6.6",
