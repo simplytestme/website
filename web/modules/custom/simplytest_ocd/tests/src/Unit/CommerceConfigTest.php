@@ -25,7 +25,6 @@ final class CommerceConfigTest extends OneClickDemoConfigTestBase {
         'commands' => [
           'build' => [
             'composer self-update',
-            'docker-php-ext-install opcache',
             'docker-php-ext-install bcmath',
             'echo "memory_limit = 512M" >> /usr/local/etc/php/conf.d/my-php.ini',
             'a2enmod headers rewrite',

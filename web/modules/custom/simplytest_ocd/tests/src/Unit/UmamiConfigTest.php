@@ -19,7 +19,6 @@ final class UmamiConfigTest extends OneClickDemoConfigTestBase {
         'commands' => [
           'build' => [
             'composer self-update',
-            'docker-php-ext-install opcache',
             'echo "memory_limit = 512M" >> /usr/local/etc/php/conf.d/my-php.ini',
             'a2enmod headers rewrite',
             'rm -rf "${DOCROOT}"',

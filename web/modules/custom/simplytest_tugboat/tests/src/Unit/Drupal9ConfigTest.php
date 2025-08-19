@@ -41,7 +41,6 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
               'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
               'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
@@ -100,7 +99,6 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
               'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
               'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
@@ -164,7 +162,6 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
               'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
               'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
@@ -221,7 +218,6 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
               'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
               'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
@@ -288,7 +284,6 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
               'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
               'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
@@ -349,7 +344,6 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
               'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
               'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
@@ -416,7 +410,6 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
               'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
               'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
@@ -475,7 +468,6 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
               'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
               'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
@@ -531,7 +523,6 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
               'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
               'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
@@ -587,7 +578,6 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
               'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
               'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
@@ -643,7 +633,6 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
               'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
               'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
@@ -715,7 +704,6 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
               'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
               'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
