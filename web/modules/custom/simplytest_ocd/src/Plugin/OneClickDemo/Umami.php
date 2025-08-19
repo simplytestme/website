@@ -27,7 +27,6 @@ class Umami extends OneClickDemoBase {
 
   #[\Override]
   public function getSetupCommands(array $parameters): array {
-    $commands[] = 'docker-php-ext-install opcache';
     $commands[] = 'echo "memory_limit = 512M" >> /usr/local/etc/php/conf.d/my-php.ini';
     $commands[] = 'a2enmod headers rewrite';
     $commands[] = 'rm -rf "${DOCROOT}"';
