@@ -21,7 +21,7 @@
     "gulp-using": "^0.1.1",
     "postcss-import": "^15.1.0",
     "postcss-include": "^0.3.1",
-    "postcss-nested": "^6.2.0",
+    "postcss-nested": "^7.0.2",
     "prop-types": "^15.8.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
