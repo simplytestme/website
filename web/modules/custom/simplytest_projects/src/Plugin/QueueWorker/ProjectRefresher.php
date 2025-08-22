@@ -47,6 +47,7 @@ class ProjectRefresher extends QueueWorkerBase implements ContainerFactoryPlugin
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     return new static(
       $configuration,
@@ -63,6 +64,7 @@ class ProjectRefresher extends QueueWorkerBase implements ContainerFactoryPlugin
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function processItem($data): void {
     $project = $this->entityTypeManager->getStorage('simplytest_project')->load($data);
     if (!$project instanceof SimplytestProject) {

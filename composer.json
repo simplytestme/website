@@ -28,25 +28,26 @@
         }
     ],
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "amazeeio/drupal_integrations": "^0.5.0",
         "composer/installers": "^2.2",
         "composer/semver": "^3.0",
         "cweagans/composer-patches": "^1.7",
-        "drupal/admin_toolbar": "^3.4",
         "drupal/core-composer-scaffold": "^10",
         "drupal/core-recommended": "^10",
         "drupal/fastly": "^4.0",
         "drupal/http_cache_control": "^2.0",
         "drupal/lagoon_logs": "^3.0",
         "drupal/purge": "^3.0",
-        "drupal/queue_unique": "^3.0",
+        "drupal/queue_unique": "^4.0",
         "drupal/tugboat": "^1.0@alpha",
         "drush/drush": "^13"
     },
     "require-dev": {
         "drupal/core-dev": "^10",
-        "phpspec/prophecy-phpunit": "^2"
+        "jangregor/phpstan-prophecy": "^1.0",
+        "phpspec/prophecy-phpunit": "^2",
+        "rector/rector": "^1.2"
     },
     "conflict": {
         "drupal/drupal": "*"
@@ -60,11 +61,12 @@
         "sort-packages": true,
         "allow-plugins": {
             "composer/installers": true,
-            "drupal/core-composer-scaffold": true,
             "cweagans/composer-patches": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
+            "drupal/core-composer-scaffold": true,
             "php-http/discovery": true,
-            "phpstan/extension-installer": true
+            "phpstan/extension-installer": true,
+            "tbachert/spi": true
         }
     },
     "scripts": {

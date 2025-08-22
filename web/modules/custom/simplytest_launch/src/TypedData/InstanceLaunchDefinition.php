@@ -12,11 +12,13 @@ final class InstanceLaunchDefinition extends ComplexDataDefinitionBase {
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public static function create($type = 'instance_launch') {
     $definition['type'] = $type;
     return new self($definition);
   }
 
+  #[\Override]
   public function getPropertyDefinitions() {
     $properties = [];
     $properties['project'] = ProjectInfoDefinition::create()

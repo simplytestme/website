@@ -56,6 +56,7 @@ class MessageBlock extends BlockBase implements ContainerFactoryPluginInterface 
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     return new static(
       $configuration,
@@ -69,6 +70,7 @@ class MessageBlock extends BlockBase implements ContainerFactoryPluginInterface 
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function getCacheMaxAge() {
     return 0;
   }
@@ -76,6 +78,7 @@ class MessageBlock extends BlockBase implements ContainerFactoryPluginInterface 
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function build() {
     $messageConfig = $this->configFactory->get('simplytest_messages.settings');
     if ($messageConfig->get('enable')) {

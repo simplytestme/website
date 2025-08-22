@@ -16,6 +16,7 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function configData(): \Generator {
     $instance_id = Crypt::randomBytesBase64();
     $hash = Crypt::randomBytesBase64();
@@ -40,8 +41,9 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
+              'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
+              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
               'composer self-update',
               'rm -rf "${DOCROOT}"',
               'composer -n create-project drupal/recommended-project:9.3.2 stm --no-install',
@@ -97,8 +99,9 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
+              'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
+              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
               'composer self-update',
               'rm -rf "${DOCROOT}"',
               'composer -n create-project drupal/recommended-project:9.3.2 stm --no-install',
@@ -159,8 +162,9 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
+              'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
+              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
               'composer self-update',
               'rm -rf "${DOCROOT}"',
               'composer -n create-project drupal/recommended-project:9.3.2 stm --no-install',
@@ -214,8 +218,9 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
+              'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
+              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
               'composer self-update',
               'rm -rf "${DOCROOT}"',
               'composer -n create-project drupal/recommended-project:9.3.2 stm --no-install',
@@ -279,8 +284,9 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
+              'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
+              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
               'composer self-update',
               'rm -rf "${DOCROOT}"',
               'composer -n create-project drupal/recommended-project:9.3.2 stm --no-install',
@@ -338,8 +344,9 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
+              'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
+              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
               'composer self-update',
               'rm -rf "${DOCROOT}"',
               'composer -n create-project drupal/recommended-project:9.3.2 stm --no-install',
@@ -403,8 +410,9 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
+              'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
+              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
               'composer self-update',
               'rm -rf "${DOCROOT}"',
               'composer -n create-project drupal/recommended-project:9.3.2 stm --no-install',
@@ -460,8 +468,9 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
+              'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
+              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
               'composer self-update',
               'rm -rf "${DOCROOT}"',
               'composer -n create-project drupal/recommended-project:9.1.5 stm --no-install',
@@ -514,8 +523,9 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
+              'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
+              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
               'composer self-update',
               'rm -rf "${DOCROOT}"',
               'composer -n create-project drupal/recommended-project:9.3.x-dev stm --no-install',
@@ -568,8 +578,9 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
+              'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
+              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
               'composer self-update',
               'rm -rf "${DOCROOT}"',
               'composer -n create-project drupal/recommended-project:9.1.9 stm --no-install',
@@ -622,8 +633,9 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
+              'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
+              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
               'composer self-update',
               'rm -rf "${DOCROOT}"',
               'composer -n create-project drupal/recommended-project:9.3.2 stm --no-install',
@@ -640,6 +652,7 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'echo "SIMPLYEST_STAGE_INSTALLING"',
               'cd "${DOCROOT}" && ../vendor/bin/drush si standard --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y',
               'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.logging error_level verbose -y',
+              'deps=$(yq -o=json \'.dependencies // []\' ${DOCROOT}/themes/contrib/bootstrap/bootstrap.info.yml | jq -r \'.[] | split(":")[1]\' | xargs); [ -z "$deps" ] || ${DOCROOT}/../vendor/bin/drush en $deps -y',
               'cd "${DOCROOT}" && ../vendor/bin/drush theme:enable bootstrap -y',
               'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.theme default bootstrap -y',
               'cd "${DOCROOT}" && echo \'$settings["file_private_path"] = "sites/default/files/private";\' >> sites/default/settings.php',
@@ -691,8 +704,9 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
+              'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
+              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
               'composer self-update',
               'rm -rf "${DOCROOT}"',
               'composer -n create-project drupal/recommended-project:9.3.x-dev stm --no-install',
@@ -712,6 +726,7 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
               'cd "${DOCROOT}" && ../vendor/bin/drush si standard --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y',
               'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.logging error_level verbose -y',
               'cd "${DOCROOT}" && ../vendor/bin/drush en token -y',
+              'deps=$(yq -o=json \'.dependencies // []\' ${DOCROOT}/themes/contrib/uswds/uswds.info.yml | jq -r \'.[] | split(":")[1]\' | xargs); [ -z "$deps" ] || ${DOCROOT}/../vendor/bin/drush en $deps -y',
               'cd "${DOCROOT}" && ../vendor/bin/drush theme:enable uswds -y',
               'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.theme default uswds -y',
               'cd "${DOCROOT}" && echo \'$settings["file_private_path"] = "sites/default/files/private";\' >> sites/default/settings.php',

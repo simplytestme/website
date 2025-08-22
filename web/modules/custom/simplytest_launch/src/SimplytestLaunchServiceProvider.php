@@ -11,6 +11,7 @@ final class SimplytestLaunchServiceProvider extends ServiceProviderBase {
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function alter(ContainerBuilder $container) {
     $settings = BootstrapConfigStorageFactory::get()->read('simplytest_launch.settings');
     if (!is_array($settings)) {

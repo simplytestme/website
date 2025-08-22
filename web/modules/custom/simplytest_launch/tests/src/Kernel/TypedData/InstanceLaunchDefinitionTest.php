@@ -37,9 +37,7 @@ final class InstanceLaunchDefinitionTest extends KernelTestBase {
     $data = $typed_data_manager->create(InstanceLaunchDefinition::create(), $data);
     assert($data instanceof InstanceLaunch);
     $constraints = $data->validate();
-    $messages = array_map(static function (ConstraintViolationInterface $violation) {
-      return sprintf("%s: %s", $violation->getPropertyPath(), $violation->getMessage());
-    }, \iterator_to_array($constraints));
+    $messages = array_map(static fn(ConstraintViolationInterface $violation) => sprintf("%s: %s", $violation->getPropertyPath(), $violation->getMessage()), \iterator_to_array($constraints));
     $this->assertCount(count($expected_violations), $constraints, var_export($messages, TRUE));
     $this->assertEquals($messages, $expected_violations);
   }

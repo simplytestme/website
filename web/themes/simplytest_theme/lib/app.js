@@ -1,20 +1,21 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { LauncherProvider } from "./context/launcher";
-import InstanceProgress from "./components/ProgressPage/InstanceProgress";
-import Launcher from "./components/Launcher/Launcher";
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { LauncherProvider } from './context/launcher';
+import InstanceProgress from './components/ProgressPage/InstanceProgress';
+import Launcher from './components/Launcher/Launcher';
 
-const launcherMount = document.getElementById("launcher_mount");
+const launcherMount = document.getElementById('launcher_mount');
 if (launcherMount) {
-  ReactDOM.render(
+  const root = createRoot(launcherMount);
+  root.render(
     <LauncherProvider>
       <Launcher />
-    </LauncherProvider>,
-    launcherMount
+    </LauncherProvider>
   );
 }
 
-const progressMount = document.getElementById("progress_mount");
+const progressMount = document.getElementById('progress_mount');
 if (progressMount) {
-  ReactDOM.render(<InstanceProgress />, progressMount);
+  const root = createRoot(progressMount);
+  root.render(<InstanceProgress />);
 }

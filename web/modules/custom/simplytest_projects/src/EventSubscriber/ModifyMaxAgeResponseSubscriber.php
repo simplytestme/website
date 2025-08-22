@@ -13,6 +13,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 final class ModifyMaxAgeResponseSubscriber implements EventSubscriberInterface {
 
+  #[\Override]
   public static function getSubscribedEvents() {
     return [
       // Run after FinishResponseSubscriber.
@@ -29,7 +30,7 @@ final class ModifyMaxAgeResponseSubscriber implements EventSubscriberInterface {
       return;
     }
     $route_name = $event->getRequest()->attributes->get(RouteObjectInterface::ROUTE_NAME, '');
-    if (!str_starts_with($route_name, 'simplytest_projects')) {
+    if (!str_starts_with((string) $route_name, 'simplytest_projects')) {
       return;
     }
     // Change the response max-age to 300, but do not modify Expires so that

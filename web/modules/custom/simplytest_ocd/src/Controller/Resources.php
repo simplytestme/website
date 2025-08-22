@@ -47,6 +47,7 @@ class Resources implements ContainerInjectionInterface {
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('plugin.manager.oneclickdemo'),
@@ -84,13 +85,11 @@ class Resources implements ContainerInjectionInterface {
    * It fulfills autocomplete request of a project.
    */
   public function info() {
-    $ocds = array_values(array_map(static function(array $definition) {
-      return [
-        'id' => $definition['id'],
-        'title' => $definition['title'],
-        'base_preview_name' => $definition['base_preview_name'],
-      ];
-    }, $this->manager->getDefinitions()));
+    $ocds = array_values(array_map(static fn(array $definition) => [
+      'id' => $definition['id'],
+      'title' => $definition['title'],
+      'base_preview_name' => $definition['base_preview_name'],
+    ], $this->manager->getDefinitions()));
 
     $response = new CacheableJsonResponse($ocds);
     $response->getCacheableMetadata()->addCacheableDependency($this->manager);

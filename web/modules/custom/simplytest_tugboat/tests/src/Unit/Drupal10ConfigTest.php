@@ -16,6 +16,7 @@ final class Drupal10ConfigTest extends TugboatConfigTestBase {
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function configData(): \Generator {
     $instance_id = Crypt::randomBytesBase64();
     $hash = Crypt::randomBytesBase64();
@@ -40,8 +41,9 @@ final class Drupal10ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
+              'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
+              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
               'composer self-update',
               'rm -rf "${DOCROOT}"',
               'composer -n create-project drupal/recommended-project:10.0.0-alpha3 stm --no-install',

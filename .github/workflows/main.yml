@@ -23,7 +23,7 @@ jobs:
         ports:
           - 9515
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -38,7 +38,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-            php-version: 8.2
+            php-version: 8.3
             extensions: dom, curl, libxml, mbstring, zip, pdo, mysql, pdo_mysql, bcmath, soap, intl, gd, exif, iconv
             coverage: none
             tools: composer:v2
@@ -50,7 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     name: phpstan
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -64,7 +64,7 @@ jobs:
             ${{ runner.os }}-composer-
       - uses: shivammathur/setup-php@v2
         with:
-            php-version: 8.2
+            php-version: 8.3
             extensions: dom, curl, libxml, mbstring, zip, pdo, mysql, pdo_mysql, bcmath, soap, intl, gd, exif, iconv
             coverage: none
             tools: composer:v2
@@ -72,6 +72,32 @@ jobs:
         run: composer install
       - name: PHPStan
         run: php vendor/bin/phpstan.phar
+  rector:
+    runs-on: ubuntu-latest
+    name: phpstan
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+      - uses: shivammathur/setup-php@v2
+        with:
+            php-version: 8.3
+            extensions: dom, curl, libxml, mbstring, zip, pdo, mysql, pdo_mysql, bcmath, soap, intl, gd, exif, iconv
+            coverage: none
+            tools: composer:v2
+      - name: Install dependencies
+        run: composer install
+      - name: Rector
+        run: vendor/bin/rector
   phpunit:
     runs-on: ubuntu-latest
     name: phpunit
@@ -87,7 +113,7 @@ jobs:
           - 3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -101,7 +127,7 @@ jobs:
             ${{ runner.os }}-composer-
       - uses: shivammathur/setup-php@v2
         with:
-            php-version: 8.2
+            php-version: 8.3
             extensions: dom, curl, libxml, mbstring, zip, pdo, mysql, pdo_mysql, bcmath, soap, intl, gd, exif, iconv
             coverage: none
             tools: composer:v2
@@ -137,7 +163,7 @@ jobs:
         ports:
           - 9515
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: "Install Node"
         uses: actions/setup-node@v4
         with:
@@ -168,25 +194,30 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.2
+          php-version: 8.3
           extensions: dom, curl, libxml, mbstring, zip, pdo, mysql, pdo_mysql, bcmath, soap, intl, gd, exif, iconv
           coverage: none
           tools: composer:v2
 
       - name: Install Composer dependencies
-        run: composer install
+        run: composer install --no-dev
       - name: Install NPM dependencies
         run: npm ci
       - name: Build frontend
         run: npm run build
       - name: Install Simplytest
-        run: php vendor/bin/drush site:install simplytest --account-pass=admin --db-url=mysql://root:@127.0.0.1:${{ job.services.mysql.ports[3306] }}/db --yes
+        run: vendor/bin/drush site:install simplytest --account-pass=admin --db-url=mysql://root:@127.0.0.1:${{ job.services.mysql.ports[3306] }}/db --yes
       - name: Run php built-in server
         run: cd web && php -S 127.0.0.1:8080 .ht.router.php &
+      - name: Visit homepage
+        run: curl -If http://127.0.0.1:8080 || exit 1
       - name: env
         run: cp .env.ci .env
       - name: cypress
         run: npm run cypress:run
+      - name: debug watchdog
+        run: vendor/bin/drush watchdog:show --format=json --count=20
+        if: ${{ failure() }}
       - uses: actions/upload-artifact@v4
         if: ${{ failure() }}
         with:

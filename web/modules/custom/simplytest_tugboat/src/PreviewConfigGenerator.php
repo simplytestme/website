@@ -10,12 +10,12 @@ use Drupal\simplytest_projects\ProjectTypes;
 /**
  * Generates preview configurations for Tugboat.
  */
-final class PreviewConfigGenerator {
+final readonly class PreviewConfigGenerator {
 
 
   public function __construct(
     // @todo what if all builds were a plugin – so D7, D8, D9, Umami, Commerce?
-    private readonly OneClickDemoPluginManager $oneClickDemoManager
+    private OneClickDemoPluginManager $oneClickDemoManager
   ) {
   }
 
@@ -56,10 +56,11 @@ final class PreviewConfigGenerator {
 
     // @todo we could have different Config classes, but this is an easy start.
     $build_commands = [
-      // @todo these belong in a base preview.
+      // @todo these belong in a base preview or `init`.
       [
-        'docker-php-ext-install opcache',
-        'a2enmod headers rewrite'
+        'docker-php-ext-install bcmath',
+        'a2enmod headers rewrite',
+        'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
       ],
       ['composer self-update'],
       $this->getSetupCommands($parameters),
@@ -143,7 +144,7 @@ final class PreviewConfigGenerator {
     return [
       'services' => [
         'php' => [
-          'image' => 'tugboatqa/php:8.2-apache',
+          'image' => 'tugboatqa/php:8.3-apache',
           'default' => TRUE,
           'depends' => 'mysql',
           'commands' => [
@@ -182,8 +183,8 @@ final class PreviewConfigGenerator {
       $commands[] = 'cd "${DOCROOT}" && git config core.fileMode false';
       $commands[] = 'cd "${DOCROOT}" && git fetch --all';
 
-      if (substr($parameters['drupal_core_version'], -4) === '-dev') {
-        $commands[] = sprintf('cd "${DOCROOT}" && git reset --hard origin/' . substr($parameters['drupal_core_version'], 0, -4));
+      if (str_ends_with((string) $parameters['drupal_core_version'], '-dev')) {
+        $commands[] = sprintf('cd "${DOCROOT}" && git reset --hard origin/' . substr((string) $parameters['drupal_core_version'], 0, -4));
       }
       else {
         $commands[] = sprintf('cd "${DOCROOT}" && git reset --hard %s', $parameters['drupal_core_version']);
@@ -364,12 +365,13 @@ final class PreviewConfigGenerator {
       $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush si %s --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y', $install_profile);
       // Enable verbose error reporting.
       $commands[] = 'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.logging error_level verbose -y';
-      if (!$is_distro && !$is_core) {
-        $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush %s %s -y', $parameters['project_type'] === ProjectTypes::THEME ? 'theme:enable' : 'en', $parameters['project']);
+      if ($parameters['project_type'] === ProjectTypes::MODULE) {
+        $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush en %s -y', $parameters['project']);
       }
-      // If this is a theme, and it is not the Gin admin theme, set it as the
-      // default theme.
+
       if ($parameters['project_type'] === ProjectTypes::THEME) {
+        $commands[] = sprintf('deps=$(yq -o=json \'.dependencies // []\' ${DOCROOT}/themes/contrib/%1$s/%1$s.info.yml | jq -r \'.[] | split(":")[1]\' | xargs); [ -z "$deps" ] || ${DOCROOT}/../vendor/bin/drush en $deps -y', $parameters['project']);
+        $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush theme:enable %s -y', $parameters['project']);
         $commands[] = sprintf(
           'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.theme %s %s -y',
           $parameters['project'] === 'gin' ? 'admin' : 'default',
@@ -378,6 +380,9 @@ final class PreviewConfigGenerator {
       }
       foreach ($parameters['additionals'] as $additional) {
         $additional_product_type = $additional['project_type'] ?? ProjectTypes::MODULE;
+        if ($additional_product_type === ProjectTypes::THEME) {
+          $commands[] = sprintf('deps=$(yq -o=json \'.dependencies // []\' ${DOCROOT}/themes/contrib/%1$s/%1$s.info.yml | jq -r \'.[] | split(":")[1]\' | xargs); [ -z "$deps" ] || ${DOCROOT}/../vendor/bin/drush en $deps -y', $additional['shortname']);
+        }
         $commands[] = sprintf('cd "${DOCROOT}" && ../vendor/bin/drush %s %s -y', $additional_product_type === ProjectTypes::THEME ? 'theme:enable' : 'en', $additional['shortname']);
         if ($additional_product_type === ProjectTypes::THEME) {
           $commands[] = sprintf(
@@ -426,7 +431,7 @@ final class PreviewConfigGenerator {
     // versioning.
     $legacy_matches = [];
     $result = preg_match('/^[7|8].x-(.*)$/', $version, $legacy_matches);
-    if ($result === 1 && count($legacy_matches) === 2) {
+    if ($result === 1) {
       return $legacy_matches[1];
     }
     return $version;

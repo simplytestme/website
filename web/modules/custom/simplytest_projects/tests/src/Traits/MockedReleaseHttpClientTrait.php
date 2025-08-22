@@ -2,85 +2,80 @@
 
 namespace Drupal\Tests\simplytest_projects\Traits;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7;
-use Psr\Http\Message\ResponseInterface;
-use Prophecy\PhpUnit\ProphecyTrait;
+use Drupal\Core\DependencyInjection\ContainerBuilder;
+use GuzzleHttp\Promise\FulfilledPromise;
+use GuzzleHttp\Promise\PromiseInterface;
+use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\RequestInterface;
 
-
+/**
+ * @phpstan-require-extends \PHPUnit\Framework\TestCase
+ */
 trait MockedReleaseHttpClientTrait {
 
-  use ProphecyTrait;
+  /**
+   * @var list<\Psr\Http\Message\RequestInterface>
+   */
+  protected array $requests = [];
 
-  protected function getMockedHttpClient(): Client {
-    $client = $this->prophesize(Client::class);
+  private static function registerWithContainer(ContainerBuilder $container, object $instance): void {
+    $container->register(static::class, static::class)
+      ->addTag('http_client_middleware');
+    $container->set(static::class, $instance);
+  }
 
-    $not_modified_response = $this->prophesize(ResponseInterface::class);
-    $not_modified_response->getStatusCode()->willReturn(304);
+  public function __invoke(): \Closure {
+    return function () {
+      return function (RequestInterface $request): PromiseInterface {
+        $this->requests[] = $request;
 
-    $pathauto_current_response = $this->prophesize(ResponseInterface::class);
-    $pathauto_current_response->getHeaderLine('Last-Modified')->willReturn('Wed, 21 Apr 2021 00:36:14 GMT');
-    $pathauto_current_response->getStatusCode()->willReturn(200);
-    $pathauto_current_response->getBody()->willReturn(
-      Psr7\Utils::streamFor(
-        file_get_contents(__DIR__ . '/../../fixtures/release-history/current/pathauto.xml')
-      )
-    );
-    $client->get(
-      'https://updates.drupal.org/release-history/pathauto/current',
-      ['headers' => ['Accept' => 'text/xml']])
-      ->willReturn($pathauto_current_response->reveal());
+        $uri = (string) $request->getUri();
 
-    $client->get(
-      'https://updates.drupal.org/release-history/pathauto/current',
-      ['headers' => ['Accept' => 'text/xml', 'If-Modified-Since' => 'Wed, 21 Apr 2021 00:36:14 GMT']])
-      ->willReturn($not_modified_response->reveal());
+        if ($uri === 'https://updates.drupal.org/release-history/pathauto/current') {
+          if ($request->hasHeader('If-Modified-Since')) {
+            return self::notModifiedResponse();
+          }
+          $fixture = file_get_contents(__DIR__ . '/../../fixtures/release-history/current/pathauto.xml');
+          return new FulfilledPromise(new Response(200, ['Last-Modified' => 'Wed, 21 Apr 2021 00:36:14 GMT'], $fixture));
+        }
 
-    $pathauto_7x_response = $this->prophesize(ResponseInterface::class);
-    $pathauto_7x_response->getHeaderLine('Last-Modified')->willReturn('Wed, 21 Apr 2021 00:36:14 GMT');
-    $pathauto_7x_response->getStatusCode()->willReturn(200);
-    $pathauto_7x_response->getBody()->willReturn(
-      Psr7\Utils::streamFor(
-        file_get_contents(__DIR__ . '/../../fixtures/release-history/7.x/pathauto.xml')
-      )
-    );
-    $client->get(
-      'https://updates.drupal.org/release-history/pathauto/7.x',
-      ['headers' => ['Accept' => 'text/xml']])
-      ->willReturn($pathauto_7x_response->reveal());
+        if ($uri === 'https://updates.drupal.org/release-history/pathauto/7.x') {
+          if ($request->hasHeader('If-Modified-Since')) {
+            return self::notModifiedResponse();
+          }
+          $fixture = file_get_contents(__DIR__ . '/../../fixtures/release-history/7.x/pathauto.xml');
+          return new FulfilledPromise(new Response(200, ['Last-Modified' => 'Wed, 21 Apr 2021 00:36:14 GMT'], $fixture));
+        }
 
-    $client->get(
-      'https://updates.drupal.org/release-history/pathauto/7.x',
-      ['headers' => ['Accept' => 'text/xml', 'If-Modified-Since' => 'Wed, 21 Apr 2021 00:36:14 GMT']])
-      ->willReturn($not_modified_response->reveal());
+        if ($uri === 'https://updates.drupal.org/release-history/drupalbin/current') {
+          $fixture = file_get_contents(__DIR__ . '/../../fixtures/release-history/current/drupalbin.xml');
+          return new FulfilledPromise(new Response(200, ['Last-Modified' => 'Wed, 21 Apr 2021 00:36:14 GMT'], $fixture));
+        }
 
-    $drupalbin_7x_response = $this->prophesize(ResponseInterface::class);
-    $drupalbin_7x_response->getHeaderLine('Last-Modified')->willReturn('Wed, 21 Apr 2021 00:36:14 GMT');
-    $drupalbin_7x_response->getStatusCode()->willReturn(200);
-    $drupalbin_7x_response->getBody()->willReturn(
-      Psr7\Utils::streamFor(
-        file_get_contents(__DIR__ . '/../../fixtures/release-history/7.x/drupalbin.xml')
-      )
-    );
-    $client->get(
-      'https://updates.drupal.org/release-history/drupalbin/7.x',
-      ['headers' => ['Accept' => 'text/xml']])
-      ->willReturn($drupalbin_7x_response->reveal());
+        if ($uri === 'https://updates.drupal.org/release-history/drupalbin/7.x') {
+          $fixture = file_get_contents(__DIR__ . '/../../fixtures/release-history/7.x/drupalbin.xml');
+          return new FulfilledPromise(new Response(200, ['Last-Modified' => 'Wed, 21 Apr 2021 00:36:14 GMT'], $fixture));
+        }
 
-    $drupalbin_current_response = $this->prophesize(ResponseInterface::class);
-    $drupalbin_current_response->getHeaderLine('Last-Modified')->willReturn('Wed, 21 Apr 2021 00:36:14 GMT');
-    $drupalbin_current_response->getStatusCode()->willReturn(200);
-    $drupalbin_current_response->getBody()->willReturn(
-      Psr7\Utils::streamFor(
-        file_get_contents(__DIR__ . '/../../fixtures/release-history/current/drupalbin.xml')
-      )
-    );
-    $client->get(
-      'https://updates.drupal.org/release-history/drupalbin/current',
-      ['headers' => ['Accept' => 'text/xml']])
-      ->willReturn($drupalbin_current_response->reveal());
+        if ($uri === 'https://updates.drupal.org/release-history/bootstrap/current') {
+          if ($request->hasHeader('If-Modified-Since')) {
+            return self::notModifiedResponse();
+          }
+          $fixture = file_get_contents(__DIR__ . '/../../fixtures/release-history/current/bootstrap.xml');
+          return new FulfilledPromise(new Response(200, ['Last-Modified' => 'Wed, 21 Apr 2021 00:36:14 GMT'], $fixture));
+        }
+        if ($uri === 'https://updates.drupal.org/release-history/bootstrap/7.x') {
+          // Not mocked, skip.
+          return self::notModifiedResponse();
+        }
 
-    return $client->reveal();
+        throw new \RuntimeException('Mocked request tried to escape: ' . $request->getUri());
+      };
+    };
+  }
+
+  private static function notModifiedResponse(): FulfilledPromise {
+    return new FulfilledPromise(new Response(304, [], ''));
   }
 
 }

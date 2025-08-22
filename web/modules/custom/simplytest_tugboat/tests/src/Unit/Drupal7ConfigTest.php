@@ -16,6 +16,7 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function configData(): \Generator {
     $instance_id = Crypt::randomBytesBase64();
     $hash = Crypt::randomBytesBase64();
@@ -40,8 +41,9 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
+              'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
+              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
               'composer self-update',
               'cd "${DOCROOT}" && git config core.fileMode false',
               'cd "${DOCROOT}" && git fetch --all',
@@ -90,8 +92,9 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
+              'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
+              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
               'composer self-update',
               'cd "${DOCROOT}" && git config core.fileMode false',
               'cd "${DOCROOT}" && git fetch --all',
@@ -141,8 +144,9 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
+              'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
+              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
               'composer self-update',
               'cd "${DOCROOT}" && git config core.fileMode false',
               'cd "${DOCROOT}" && git fetch --all',
@@ -188,8 +192,9 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
+              'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
+              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
               'composer self-update',
               'cd "${DOCROOT}" && git config core.fileMode false',
               'cd "${DOCROOT}" && git fetch --all',
@@ -250,8 +255,9 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
+              'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
+              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
               'composer self-update',
               'cd "${DOCROOT}" && git config core.fileMode false',
               'cd "${DOCROOT}" && git fetch --all',
@@ -297,8 +303,9 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install opcache',
+              'docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
+              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
               'composer self-update',
               'cd "${DOCROOT}" && git config core.fileMode false',
               'cd "${DOCROOT}" && git fetch --all',

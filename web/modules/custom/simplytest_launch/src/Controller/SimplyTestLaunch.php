@@ -40,6 +40,7 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('simplytest_projects.fetcher'),
@@ -165,9 +166,7 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
     $version = $data['project']['version'];
 
     // Get available project versions.
-    $versions = array_map(static function (\stdClass $release) {
-      return $release->version;
-    }, $this->projectFetcher->fetchVersions($project));
+    $versions = array_map(static fn(\stdClass $release) => $release->version, $this->projectFetcher->fetchVersions($project));
 
     // Check whether the submitted project exists.
     if ($versions === FALSE) {

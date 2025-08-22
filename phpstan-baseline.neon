@@ -81,11 +81,6 @@ parameters:
 			path: web/modules/custom/simplytest_launch/src/Plugin/DataType/ProjectInfo.php
 
 		-
-			message: "#^Method Drupal\\\\simplytest_launch\\\\Plugin\\\\Validation\\\\Constraint\\\\PatchesUrlConstraintValidator\\:\\:__construct\\(\\) has parameter \\$allowed_hosts with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_launch/src/Plugin/Validation/Constraint/PatchesUrlConstraintValidator.php
-
-		-
 			message: "#^Method Drupal\\\\simplytest_launch\\\\Plugin\\\\Validation\\\\Constraint\\\\PatchesUrlConstraintValidator\\:\\:create\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_launch/src/Plugin/Validation/Constraint/PatchesUrlConstraintValidator.php
@@ -217,11 +212,6 @@ parameters:
 			message: "#^Method Drupal\\\\Tests\\\\simplytest_ocd\\\\Unit\\\\CommerceConfigTest\\:\\:getExpectedConfig\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_ocd/tests/src/Unit/CommerceConfigTest.php
-
-		-
-			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:createInstance\\(\\)\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_ocd/tests/src/Unit/OneClickDemoConfigTestBase.php
 
 		-
 			message: "#^Method Drupal\\\\Tests\\\\simplytest_ocd\\\\Unit\\\\OneClickDemoConfigTestBase\\:\\:getExpectedConfig\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -399,16 +389,6 @@ parameters:
 			path: web/modules/custom/simplytest_projects/src/CoreVersionManager.php
 
 		-
-			message: "#^Property Drupal\\\\simplytest_projects\\\\CoreVersionManager\\:\\:\\$client \\(GuzzleHttp\\\\Client\\) does not accept GuzzleHttp\\\\ClientInterface\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/CoreVersionManager.php
-
-		-
-			message: "#^Property Drupal\\\\simplytest_projects\\\\CoreVersionManager\\:\\:\\$state has no type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/CoreVersionManager.php
-
-		-
 			message: "#^Method Drupal\\\\simplytest_projects\\\\Entity\\\\SimplytestProject\\:\\:getVersions\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/src/Entity/SimplytestProject.php
@@ -497,11 +477,6 @@ parameters:
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/src/Form/ImportForm.php
-
-		-
-			message: "#^Method Drupal\\\\Core\\\\Config\\\\Config\\:\\:get\\(\\) invoked with 2 parameters, 0\\-1 required\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/Form/Settings.php
 
 		-
 			message: "#^Method Drupal\\\\simplytest_projects\\\\Form\\\\Settings\\:\\:buildForm\\(\\) has parameter \\$form with no value type specified in iterable type array\\.$#"
@@ -609,16 +584,6 @@ parameters:
 			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
 
 		-
-			message: "#^PHPDoc tag @param has invalid value \\(\\\\Drupal\\\\Core\\\\Entity\\\\EntityTypeManagerInterface\\)\\: Unexpected token \"\\\\n   \\* \", expected variable at offset 201 on line 6$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
-
-		-
-			message: "#^Property Drupal\\\\simplytest_projects\\\\ProjectFetcher\\:\\:\\$entityTypeManager \\(Drupal\\\\Core\\\\Entity\\\\EntityTypeManager\\) does not accept Drupal\\\\Core\\\\Entity\\\\EntityTypeManagerInterface\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
-
-		-
 			message: "#^Strict comparison using \\!\\=\\= between non\\-empty\\-array and false will always evaluate to true\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
@@ -689,36 +654,6 @@ parameters:
 			path: web/modules/custom/simplytest_projects/src/ProjectImporter.php
 
 		-
-			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectTypes\\:\\:getProjectType\\(\\) should return string but returns false\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ProjectTypes.php
-
-		-
-			message: "#^Access to an undefined property Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:\\$core_compatibility\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ProjectVersionManager.php
-
-		-
-			message: "#^Access to an undefined property Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:\\$date\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ProjectVersionManager.php
-
-		-
-			message: "#^Access to an undefined property Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:\\$status\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ProjectVersionManager.php
-
-		-
-			message: "#^Access to an undefined property Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:\\$tag\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ProjectVersionManager.php
-
-		-
-			message: "#^Access to an undefined property Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:\\$version\\.$#"
-			count: 2
-			path: web/modules/custom/simplytest_projects/src/ProjectVersionManager.php
-
-		-
 			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectVersionManager\\:\\:getAllReleases\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/src/ProjectVersionManager.php
@@ -754,52 +689,12 @@ parameters:
 			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/Processor.php
 
 		-
-			message: "#^Method Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:__construct\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
-
-		-
 			message: "#^Method Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:__get\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
 
 		-
 			message: "#^Method Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:__get\\(\\) has parameter \\$name with no type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
-
-		-
-			message: "#^PHPDoc tag @property has invalid value \\(string core_compatibility\\)\\: Unexpected token \"core_compatibility\", expected variable at offset 49 on line 3$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
-
-		-
-			message: "#^PHPDoc tag @property has invalid value \\(string date\\)\\: Unexpected token \"date\", expected variable at offset 140 on line 6$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
-
-		-
-			message: "#^PHPDoc tag @property has invalid value \\(string name\\)\\: Unexpected token \"name\", expected variable at offset 24 on line 2$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
-
-		-
-			message: "#^PHPDoc tag @property has invalid value \\(string status\\)\\: Unexpected token \"status\", expected variable at offset 165 on line 7$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
-
-		-
-			message: "#^PHPDoc tag @property has invalid value \\(string tag\\)\\: Unexpected token \"tag\", expected variable at offset 116 on line 5$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
-
-		-
-			message: "#^PHPDoc tag @property has invalid value \\(string version\\)\\: Unexpected token \"version\", expected variable at offset 88 on line 4$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
-
-		-
-			message: "#^Property Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:\\$data has no type specified\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/src/ReleaseHistory/ProjectRelease.php
 
@@ -849,27 +744,12 @@ parameters:
 			path: web/modules/custom/simplytest_projects/tests/modules/simplytest_projects_test/src/MockedHttpMiddleware.php
 
 		-
-			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Functional\\\\ProjectsAutocompleteTest\\:\\:testAutoImport\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/tests/src/Functional/ProjectsAutocompleteTest.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/tests/src/Functional/ProjectsAutocompleteTest.php
-
-		-
 			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Kernel\\\\ControllerTest\\:\\:alter\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/tests/src/Kernel/ControllerTest.php
 
 		-
 			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Kernel\\\\CoreVersionManagerTest\\:\\:testGetWithCompatibility\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/tests/src/Kernel/CoreVersionManagerTest.php
-
-		-
-			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Kernel\\\\CoreVersionManagerTest\\:\\:testPreflightCheck\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/tests/src/Kernel/CoreVersionManagerTest.php
 
@@ -889,54 +769,9 @@ parameters:
 			path: web/modules/custom/simplytest_projects/tests/src/Kernel/ProjectPreSaveValidationTest.php
 
 		-
-			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:get\\(\\)\\.$#"
-			count: 6
-			path: web/modules/custom/simplytest_projects/tests/src/Kernel/ProjectVersionManagerTest.php
-
-		-
-			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:getBody\\(\\)\\.$#"
-			count: 4
-			path: web/modules/custom/simplytest_projects/tests/src/Kernel/ProjectVersionManagerTest.php
-
-		-
-			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:getHeaderLine\\(\\)\\.$#"
-			count: 4
-			path: web/modules/custom/simplytest_projects/tests/src/Kernel/ProjectVersionManagerTest.php
-
-		-
-			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:getStatusCode\\(\\)\\.$#"
-			count: 5
-			path: web/modules/custom/simplytest_projects/tests/src/Kernel/ProjectVersionManagerTest.php
-
-		-
-			message: "#^Call to function assert\\(\\) with true will always evaluate to true\\.$#"
-			count: 2
-			path: web/modules/custom/simplytest_projects/tests/src/Kernel/ProjectVersionManagerTest.php
-
-		-
-			message: "#^Instanceof between Drupal\\\\Core\\\\Database\\\\Query\\\\SelectInterface and Drupal\\\\Core\\\\Database\\\\Query\\\\SelectInterface will always evaluate to true\\.$#"
-			count: 2
-			path: web/modules/custom/simplytest_projects/tests/src/Kernel/ProjectVersionManagerTest.php
-
-		-
 			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Unit\\\\ReleaseHistory\\\\FetcherTest\\:\\:testLastModified\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/tests/src/Unit/ReleaseHistory/FetcherTest.php
-
-		-
-			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Unit\\\\ReleaseHistory\\\\FetcherTest\\:\\:testValidReleaseChannels\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/tests/src/Unit/ReleaseHistory/FetcherTest.php
-
-		-
-			message: "#^Access to an undefined property Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:\\$core_compatibility\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/tests/src/Unit/ReleaseHistory/ProcessorTest.php
-
-		-
-			message: "#^Access to an undefined property Drupal\\\\simplytest_projects\\\\ReleaseHistory\\\\ProjectRelease\\:\\:\\$name\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/tests/src/Unit/ReleaseHistory/ProcessorTest.php
 
 		-
 			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Unit\\\\ReleaseHistory\\\\ProcessorTest\\:\\:testCoreCompatibility\\(\\) has no return type specified\\.$#"
@@ -947,26 +782,6 @@ parameters:
 			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Unit\\\\ReleaseHistory\\\\ProcessorTest\\:\\:testGetData\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/tests/src/Unit/ReleaseHistory/ProcessorTest.php
-
-		-
-			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:get\\(\\)\\.$#"
-			count: 6
-			path: web/modules/custom/simplytest_projects/tests/src/Unit/ReleaseHistory/ReleaseHistoryUnitTestBase.php
-
-		-
-			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:getBody\\(\\)\\.$#"
-			count: 4
-			path: web/modules/custom/simplytest_projects/tests/src/Unit/ReleaseHistory/ReleaseHistoryUnitTestBase.php
-
-		-
-			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:getHeaderLine\\(\\)\\.$#"
-			count: 4
-			path: web/modules/custom/simplytest_projects/tests/src/Unit/ReleaseHistory/ReleaseHistoryUnitTestBase.php
-
-		-
-			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:getStatusCode\\(\\)\\.$#"
-			count: 5
-			path: web/modules/custom/simplytest_projects/tests/src/Unit/ReleaseHistory/ReleaseHistoryUnitTestBase.php
 
 		-
 			message: "#^Method Drupal\\\\simplytest_tugboat\\\\Controller\\\\SimplytestTugboatController\\:\\:instanceState\\(\\) has no return type specified\\.$#"
@@ -1142,11 +957,6 @@ parameters:
 			message: "#^Method Drupal\\\\simplytest_tugboat\\\\PreviewConfigGenerator\\:\\:oneClickDemo\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_tugboat/src/PreviewConfigGenerator.php
-
-		-
-			message: "#^Call to an undefined method Prophecy\\\\Prophecy\\\\ObjectProphecy\\:\\:get\\(\\)\\.$#"
-			count: 4
-			path: web/modules/custom/simplytest_tugboat/tests/src/Unit/InstanceManagerTest.php
 
 		-
 			message: "#^Method Drupal\\\\Tests\\\\simplytest_tugboat\\\\Unit\\\\InstanceManagerTest\\:\\:doTest\\(\\) has no return type specified\\.$#"

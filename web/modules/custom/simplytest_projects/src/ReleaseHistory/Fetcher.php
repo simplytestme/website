@@ -16,25 +16,19 @@ use GuzzleHttp\Psr7\Request;
  *
  * @see \Drupal\update\UpdateFetcher
  */
-final class Fetcher {
+final readonly class Fetcher {
 
-  /**
-   * The HTTP client to fetch the feed data with.
-   *
-   * @var \GuzzleHttp\ClientInterface
-   */
-  private $httpClient;
-
-  /**
-   * The state.
-   *
-   * @var \Drupal\Core\State\StateInterface
-   */
-  private $state;
-
-  public function __construct(ClientInterface $http_client, StateInterface $state) {
-    $this->httpClient = $http_client;
-    $this->state = $state;
+  public function __construct(
+      /**
+       * The HTTP client to fetch the feed data with.
+       */
+      private ClientInterface $httpClient,
+      /**
+       * The state.
+       */
+      private StateInterface $state
+  )
+  {
   }
 
   /**
