@@ -65,7 +65,7 @@
     "postcss-custom-media": "^11.0.6",
     "postcss-custom-properties": "^13.3.0",
     "postcss-discard-comments": "^6.0.2",
-    "postcss-partial-import": "^2.1.0",
+    "postcss-partial-import": "^4.1.0",
     "postcss-reporter": "^7.1.0",
     "precss": "^4.0.0",
     "prettier": "3.0.3",
