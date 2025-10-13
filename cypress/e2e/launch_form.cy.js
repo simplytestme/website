@@ -29,7 +29,7 @@ describe('Test the launch form', function () {
   it('should adjust available core versions based on compatibility', function () {
     cy.pickProject('Pathauto')
     cy.getByLabel('Project version')
-      .should('have.value', '8.x-1.13')
+      .should('have.value', '8.x-1.14')
     cy.toggleDetailsElement('Advanced options')
     cy.getByLabel('Drupal Core')
       .should('have.value', '11.2.3')
@@ -45,7 +45,7 @@ describe('Test the launch form', function () {
   it('should show the Umami demo for Drupal 8.6.x and Drupal 9 sites', function () {
     cy.pickProject('Pathauto')
     cy.getByLabel('Project version')
-      .should('have.value', '8.x-1.13')
+      .should('have.value', '8.x-1.14')
     cy.getByLabel('Project version')
       .select('7.x-1.0')
     cy.toggleDetailsElement('Advanced options')
