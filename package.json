@@ -36,7 +36,7 @@
     "browser-sync": "^2.29.3",
     "browser-sync-webpack-plugin": "^2.4.0",
     "cross-env": "^7.0.3",
-    "cypress": "^13.6.6",
+    "cypress": "^15.4.0",
     "cypress-dotenv": "^2.0.0",
     "dotenv": "^16.4.5",
     "eslint": "^7.32.0",
