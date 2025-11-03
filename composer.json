@@ -32,7 +32,7 @@
         "amazeeio/drupal_integrations": "^0.5.0",
         "composer/installers": "^2.2",
         "composer/semver": "^3.0",
-        "cweagans/composer-patches": "^1.7",
+        "cweagans/composer-patches": "^2.0",
         "drupal/core-composer-scaffold": "^10",
         "drupal/core-recommended": "^10",
         "drupal/fastly": "^4.0",
