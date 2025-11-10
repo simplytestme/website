@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "cross-env": "^7.0.3",
-    "downshift": "^6.0.10",
+    "downshift": "^9.0.10",
     "gulp-clean-css": "^4.3.0",
     "gulp-using": "^0.1.1",
     "postcss-import": "^16.1.1",
