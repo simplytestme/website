@@ -1,5 +1,28 @@
 describe('Test the launch form', function () {
   beforeEach(() => {
+    // Mock autocomplete
+    cy.intercept('GET', '**/simplytest/projects/autocomplete**', (req) => {
+      if (req.query.string === 'Pathauto') {
+        req.reply({ fixture: 'launch_form/autocomplete_pathauto.json' });
+      } else if (req.query.string === 'Password Policy') {
+        req.reply({ fixture: 'launch_form/autocomplete_password_policy.json' });
+      }
+    });
+
+    // Mock project versions
+    cy.intercept('GET', '**/simplytest/project/pathauto/versions', { fixture: 'launch_form/project_versions_pathauto.json' });
+    cy.intercept('GET', '**/simplytest/project/password_policy/versions', { fixture: 'launch_form/project_versions_password_policy.json' });
+
+    // Mock core compatibility
+    cy.intercept('GET', '**/simplytest/core/compatible/pathauto/8.x-1.14', { fixture: 'launch_form/core_compat_pathauto_8.x-1.14.json' });
+    cy.intercept('GET', '**/simplytest/core/compatible/pathauto/8.x-1.6', { fixture: 'launch_form/core_compat_pathauto_8.x-1.6.json' });
+    cy.intercept('GET', '**/simplytest/core/compatible/pathauto/8.x-1.11', { fixture: 'launch_form/core_compat_pathauto_8.x-1.11.json' });
+    cy.intercept('GET', '**/simplytest/core/compatible/pathauto/7.x-1.0', { fixture: 'launch_form/core_compat_pathauto_7.x-1.0.json' });
+    cy.intercept('GET', '**/simplytest/core/compatible/password_policy/4.0.3', { fixture: 'launch_form/core_compat_password_policy_4.0.3.json' });
+
+    // Mock One Click Demos
+    cy.intercept('GET', '**/one-click-demos', { fixture: 'launch_form/one_click_demos.json' });
+
     cy.visit('/')
   })
   it('allows autocompleting of a project with a version selected', () => {
@@ -31,8 +54,10 @@ describe('Test the launch form', function () {
     cy.getByLabel('Project version')
       .should('have.value', '8.x-1.14')
     cy.toggleDetailsElement('Advanced options')
-    cy.getByLabel('Drupal Core')
-      .should('have.value', '11.2.4')
+    cy.fixture('launch_form/core_compat_pathauto_8.x-1.14.json').then((data) => {
+      cy.getByLabel('Drupal Core')
+        .should('have.value', data.list[1].version)
+    })
     cy.getByLabel('Project version')
       .select('8.x-1.6')
     cy.getByLabel('Drupal Core')

@@ -1,0 +1,197 @@
+[
+  {
+    "title": "Pathauto",
+    "shortname": "pathauto",
+    "type": "Module"
+  },
+  {
+    "title": "Sub-pathauto (Sub-path URL Aliases)",
+    "shortname": "subpathauto",
+    "type": "Module"
+  },
+  {
+    "title": "Pathauto i18n",
+    "shortname": "pathauto_i18n",
+    "type": "Module"
+  },
+  {
+    "title": "Pathauto Persistent State",
+    "shortname": "pathauto_persist",
+    "type": "Module"
+  },
+  {
+    "title": "Pathauto Entity",
+    "shortname": "pathauto_entity",
+    "type": "Module"
+  },
+  {
+    "title": "Pathauto i18n Taxonomy",
+    "shortname": "pathauto_i18n_taxonomy",
+    "type": "Module"
+  },
+  {
+    "title": "Pathauto Menu Link",
+    "shortname": "pathauto_menu_link",
+    "type": "Module"
+  },
+  {
+    "title": "Pathauto entity parent",
+    "shortname": "pathauto_entity_parent",
+    "type": "Module"
+  },
+  {
+    "title": "Pathauto Force Regenerate",
+    "shortname": "pathauto_force_regenerate",
+    "type": "Module"
+  },
+  {
+    "title": "Pathauto export",
+    "shortname": "pathauto_export",
+    "type": "Module"
+  },
+  {
+    "title": "Page Manager Pathauto",
+    "shortname": "page_manager_pathauto",
+    "type": "Module"
+  },
+  {
+    "title": "Pathauto Punctuations",
+    "shortname": "pathauto_punctuations",
+    "type": "Module"
+  },
+  {
+    "title": "Pathauto Enforce",
+    "shortname": "pathauto_enforce",
+    "type": "Module"
+  },
+  {
+    "title": "Pathauto regen",
+    "shortname": "pathauto_regen",
+    "type": "Module"
+  },
+  {
+    "title": "Hosting Platform Pathauto",
+    "shortname": "hosting_platform_pathauto",
+    "type": "Module"
+  },
+  {
+    "title": "Retroactively Use Automatic Path Aliases",
+    "shortname": "retro_use_pathauto",
+    "type": "Module"
+  },
+  {
+    "title": "Pathauto Alias Translate",
+    "shortname": "pathauto_alias_translate",
+    "type": "Module"
+  },
+  {
+    "title": "Pathauto Uncheck (obsolete)",
+    "shortname": "pathauto_uncheck",
+    "type": "Module"
+  },
+  {
+    "title": "Pathauto Content Type Reset",
+    "shortname": "2551709",
+    "type": "Module"
+  },
+  {
+    "title": "Pathauto in core",
+    "shortname": "1085536",
+    "type": "Module"
+  },
+  {
+    "title": "Webform Pathauto",
+    "shortname": "1287708",
+    "type": "Module"
+  },
+  {
+    "title": "Pathauto integration for all Entity Types",
+    "shortname": "1332096",
+    "type": "Module"
+  },
+  {
+    "title": "Nodehierarchy Recursive Pathauto",
+    "shortname": "1368874",
+    "type": "Module"
+  },
+  {
+    "title": "Pathauto pattern selector",
+    "shortname": "3206467",
+    "type": "Module"
+  },
+  {
+    "title": "Pathauto paths",
+    "shortname": "1572908",
+    "type": "Module"
+  },
+  {
+    "title": "Pathauto Live Preview",
+    "shortname": "1600922",
+    "type": "Module"
+  },
+  {
+    "title": "Pathauto Slug",
+    "shortname": "2846083",
+    "type": "Module"
+  },
+  {
+    "title": "Pathauto Livee Preview",
+    "shortname": "2792181",
+    "type": "Module"
+  },
+  {
+    "title": "Pathauto multiple",
+    "shortname": "2630658",
+    "type": "Module"
+  },
+  {
+    "title": "UUID Pathauto Features Integration",
+    "shortname": "1884170",
+    "type": "Module"
+  },
+  {
+    "title": "Media Gallery Pathauto",
+    "shortname": "1785610",
+    "type": "Module"
+  },
+  {
+    "title": "Pathauto Regenerate",
+    "shortname": "2420287",
+    "type": "Module"
+  },
+  {
+    "title": "PathAuto Redirect Check",
+    "shortname": "2397509",
+    "type": "Module"
+  },
+  {
+    "title": "CRM Core Pathauto",
+    "shortname": "2293725",
+    "type": "Module"
+  },
+  {
+    "title": "Pathauto UUID",
+    "shortname": "1863950",
+    "type": "Module"
+  },
+  {
+    "title": "Domain pathauto",
+    "shortname": "2160211",
+    "type": "Module"
+  },
+  {
+    "title": "Redirect pathauto defaults",
+    "shortname": "2140989",
+    "type": "Module"
+  },
+  {
+    "title": "Pathauto for RDF",
+    "shortname": "1871288",
+    "type": "Module"
+  },
+  {
+    "title": "Experimental D8 Subpathauto",
+    "shortname": "2091657",
+    "type": "Module"
+  }
+]
