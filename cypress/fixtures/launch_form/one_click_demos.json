@@ -1,0 +1,17 @@
+[
+  {
+    "id": "oneclickdemo_commerce",
+    "title": "Commerce Kickstart Demo",
+    "base_preview_name": "commerce"
+  },
+  {
+    "id": "starshot",
+    "title": "Drupal CMS",
+    "base_preview_name": "drupal10"
+  },
+  {
+    "id": "oneclickdemo_umami",
+    "title": "Umami Demo",
+    "base_preview_name": "umami"
+  }
+]
