@@ -13,7 +13,7 @@ class RetryMiddlewareFactory
     /**
      * Invokes the retry middleware factory.
      */
-    public function __invoke()
+    public function __invoke(): \Closure
     {
         return GuzzleRetryMiddleware::factory([
             'max_retry_attempts' => 3,

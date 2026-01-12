@@ -21,7 +21,7 @@ use Psr\Http\Message\RequestInterface;
  * @group simplytest
  * @group simplytest_project
  *
- * @coversDefaultClass \Drupal\simplytest_projects\Http\Middleware\RetryMiddleware
+ * @coversDefaultClass \Drupal\simplytest_projects\Http\Middleware\RetryMiddlewareFactory
  */
 final class RetryMiddlewareTest extends KernelTestBase
 {
