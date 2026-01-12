@@ -26,3 +26,8 @@ services:
     class: Drupal\simplytest_projects\EventSubscriber\ModifyMaxAgeResponseSubscriber
     tags:
       - { name: event_subscriber }
+
+  simplytest_projects.http_middleware.retry:
+    class: Drupal\simplytest_projects\Http\Middleware\RetryMiddlewareFactory
+    tags:
+      - { name: http_client_middleware }
