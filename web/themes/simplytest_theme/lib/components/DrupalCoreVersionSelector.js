@@ -31,7 +31,7 @@ function DrupalCoreVersionSelector() {
       fetchWithCallback(releaseUrl, json => {
         if (json.hasOwnProperty("list")) {
           setDrupalVersions(json.list.map(release => release.version));
-          setDrupalVersion(json.list[1].version);
+          setDrupalVersion(json.list[0].version);
         }
       });
     },

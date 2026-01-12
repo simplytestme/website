@@ -56,12 +56,12 @@ describe('Test the launch form', function () {
     cy.toggleDetailsElement('Advanced options')
     cy.fixture('launch_form/core_compat_pathauto_8.x-1.14.json').then((data) => {
       cy.getByLabel('Drupal Core')
-        .should('have.value', data.list[1].version)
+        .should('have.value', data.list[0].version)
     })
     cy.getByLabel('Project version')
       .select('8.x-1.6')
     cy.getByLabel('Drupal Core')
-      .should('have.value', '8.9.19')
+      .should('have.value', '8.9.20')
     cy.getByLabel('Project version')
       .select('8.x-1.11')
     cy.getByLabel('Drupal Core')
@@ -77,7 +77,7 @@ describe('Test the launch form', function () {
 
     // Drupal 7 has no Umami.
     cy.getByLabel('Drupal Core')
-      .should('have.value', '7.102')
+      .should('have.value', '7.103')
     cy.getByLabel('Install profile')
       .contains('Minimal')
     cy.getByLabel('Install profile')
@@ -87,7 +87,7 @@ describe('Test the launch form', function () {
     cy.getByLabel('Project version')
       .select('8.x-1.6')
     cy.getByLabel('Drupal Core')
-      .should('have.value', '8.9.19')
+      .should('have.value', '8.9.20')
     cy.wait(100);
     cy.getByLabel('Install profile')
       .contains('Minimal')
