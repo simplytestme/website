@@ -81,6 +81,7 @@ final readonly class PreviewConfigGenerator {
     $build_commands[] = [
       'mkdir -p ${DOCROOT}/sites/default/files',
       'mkdir -p ${DOCROOT}/sites/default/files/private',
+      'chmod 775 ${DOCROOT}/sites/default/files/private',
       'chown -R www-data:www-data ${DOCROOT}/sites/default',
       'chown -R www-data:www-data ${DOCROOT}/modules',
       'echo "max_allowed_packet=33554432" >> /etc/my.cnf',
