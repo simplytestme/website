@@ -1,6 +1,0 @@
-simplytest_messages.settings_form:
-  title: Simplytest Messages
-  description: Configure Simplytest warning messages.
-  parent: system.admin_config_system
-  route_name: simplytest_messages.settings_form
-  weight: 10
