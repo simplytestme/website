@@ -218,7 +218,7 @@ jobs:
       - name: debug watchdog
         run: vendor/bin/drush watchdog:show --format=json --count=20
         if: ${{ failure() }}
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         if: ${{ failure() }}
         with:
           name: cypress
