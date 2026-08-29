@@ -524,11 +524,6 @@ parameters:
 			path: web/modules/custom/simplytest_projects/src/Form/SimplytestProjectEntityForm.php
 
 		-
-			message: "#^Dead catch \\- Drupal\\\\simplytest_projects\\\\Exception\\\\EntityValidationException is never thrown in the try block\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/Plugin/QueueWorker/ProjectRefresher.php
-
-		-
 			message: "#^Method Drupal\\\\simplytest_projects\\\\Plugin\\\\QueueWorker\\\\ProjectRefresher\\:\\:__construct\\(\\) has parameter \\$configuration with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/src/Plugin/QueueWorker/ProjectRefresher.php

@@ -8,6 +8,12 @@ simplytest_projects.settings:
     blacklisted_projects:
       type: sequence
       label: 'Blacklisted projects'
+      sequence:
+        type: string
+        label: 'Project shortname'
     blacklisted_versions:
       type: sequence
       label: 'Blacklisted versions'
+      sequence:
+        type: string
+        label: 'Version pattern'

@@ -127,8 +127,8 @@ class ProjectFetcher {
     // Get author name from project url.
     if ($sandbox) {
       if (!isset($project_data['url'])) {
-        $this->logger->warning('Failed to scrap user name from "%url".', [
-          '%url' => $project_data['url'],
+        $this->logger->warning('Failed to scrap user name for %project, the project node has no URL.', [
+          '%project' => $shortname,
         ]);
         $this->lock->release("fetch_project_$sanitized_shortname");
         return NULL;
@@ -198,6 +198,10 @@ class ProjectFetcher {
       ->accessCheck(FALSE)
       ->condition('shortname', $shortname)
       ->execute();
+
+    if ($project_ids === []) {
+      return FALSE;
+    }
 
     $project = SimplytestProject::load(reset($project_ids));
 
