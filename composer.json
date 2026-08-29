@@ -72,12 +72,17 @@
     },
     "scripts": {
         "tests": "php vendor/bin/phpunit web/modules/custom",
-        "compile": "npm run build"
+        "compile": "npm run build",
+        "test:coverage": [
+            "@putenv XDEBUG_MODE=coverage",
+            "mkdir -p private/coverage",
+            "php vendor/bin/phpunit web/modules/custom --coverage-clover=$PWD/private/coverage/clover.xml --coverage-text",
+            "php scripts/coverage-check.php private/coverage/clover.xml 85"
+        ]
     },
     "extra": {
         "composer-exit-on-patch-failure": true,
-        "patches": {
-        },
+        "patches": {},
         "drupal-scaffold": {
             "locations": {
                 "web-root": "web/"

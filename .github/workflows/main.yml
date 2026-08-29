@@ -146,6 +146,61 @@ jobs:
           SIMPLETEST_DB: mysql://root:@127.0.0.1:${{ job.services.mysql.ports[3306] }}/db
           SIMPLETEST_BASE_URL: http://127.0.0.1:8080
           MINK_DRIVER_ARGS_WEBDRIVER: '["chrome", {"browserName":"chrome","chromeOptions":{"args":["--disable-gpu","--headless", "--no-sandbox"]}}, "http://127.0.0.1:${{ job.services.chromedriver.ports[9515] }}"]'
+  coverage:
+    runs-on: ubuntu-latest
+    name: phpunit coverage
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: db
+        ports:
+          - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v5
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+      - uses: shivammathur/setup-php@v2
+        with:
+            php-version: 8.3
+            extensions: dom, curl, libxml, mbstring, zip, pdo, mysql, pdo_mysql, bcmath, soap, intl, gd, exif, iconv
+            coverage: xdebug
+            tools: composer:v2
+      - name: Install dependencies
+        run: composer install
+      - name: Ensure test directories
+        run: |
+          mkdir -p web/sites/simpletest
+          chmod 777 web/sites/simpletest
+          mkdir -p private/coverage
+      # The custom modules are covered by Unit and Kernel tests only. Functional
+      # tests run in a separate process, so Xdebug never sees that code.
+      # The report path is absolute because Drupal's test bootstrap chdir()s to
+      # the web root.
+      - name: PHPUnit with coverage
+        run: php vendor/bin/phpunit web/modules/custom --coverage-clover="$GITHUB_WORKSPACE/private/coverage/clover.xml" --coverage-text
+        env:
+          XDEBUG_MODE: coverage
+          SYMFONY_DEPRECATIONS_HELPER: weak
+          SIMPLETEST_DB: mysql://root:@127.0.0.1:${{ job.services.mysql.ports[3306] }}/db
+      - name: Enforce coverage threshold
+        run: php scripts/coverage-check.php private/coverage/clover.xml 85
+      - uses: actions/upload-artifact@v7
+        if: ${{ always() }}
+        with:
+          name: coverage-clover
+          path: private/coverage/clover.xml
   cypress:
     runs-on: ubuntu-latest
     name: cypress
