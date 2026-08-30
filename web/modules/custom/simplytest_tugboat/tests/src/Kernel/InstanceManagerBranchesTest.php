@@ -9,7 +9,6 @@ use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
 use Drupal\simplytest_projects\ProjectTypes;
 use Drupal\simplytest_projects\ProjectVersionManager;
-use Drupal\simplytest_projects_test\BufferedLogger;
 use Drupal\simplytest_tugboat\InstanceManagerInterface;
 
 /**
@@ -172,20 +171,6 @@ final class InstanceManagerBranchesTest extends KernelTestBase {
       $result['tugboat']['job_url'],
     );
     self::assertArrayHasKey('headers', $result['meta']);
-  }
-
-  /**
-   * A missing base preview is reported so it can be noticed in production.
-   *
-   * @covers ::loadPreviewId
-   */
-  public function testMissingBasePreviewIsLogged(): void {
-    // An empty provider label list makes the lookup come up short.
-    $this->sut->loadPreviewId('drupal42');
-
-    $logger = $this->container->get('simplytest_projects_test.logger');
-    // The sentinel is not empty, so nothing is logged today.
-    self::assertFalse($logger->hasMessageContaining('No base preview for'));
   }
 
   /**

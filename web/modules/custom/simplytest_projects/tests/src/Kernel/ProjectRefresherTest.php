@@ -11,7 +11,6 @@ use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
 use Drupal\simplytest_projects\ProjectTypes;
 use Drupal\simplytest_projects\ProjectVersionManager;
-use Drupal\simplytest_projects_test\BufferedLogger;
 
 /**
  * @group simplytest
