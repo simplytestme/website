@@ -146,6 +146,28 @@ final class ProjectHooksTest extends KernelTestBase {
   }
 
   /**
+   * The Surrogate-Control max-age is rewritten to the CDN lifetime.
+   *
+   * The fastly module copies Cache-Control into Surrogate-Control at priority
+   * 0, before this subscriber runs, and Fastly prefers that header over
+   * s-maxage. Left alone, the edge would keep these routes for the site-wide
+   * 32 days.
+   *
+   * @covers \Drupal\simplytest_projects\EventSubscriber\ModifyMaxAgeResponseSubscriber::onResponse
+   */
+  public function testSurrogateControlIsCappedForTheCdn(): void {
+    $response = self::publicResponse();
+    // What fastly's AddStaleHeaders builds from the site's configuration.
+    $response->headers->set('Surrogate-Control', 'public, max-age=2764800, stale-while-revalidate=14440, stale-if-error=604800');
+    $this->dispatchResponse($response, 'simplytest_projects.core_versions');
+
+    self::assertEquals(
+      'public, max-age=600, stale-while-revalidate=14440, stale-if-error=604800',
+      $response->headers->get('Surrogate-Control'),
+    );
+  }
+
+  /**
    * @dataProvider untouchedResponses
    *
    * @covers \Drupal\simplytest_projects\EventSubscriber\ModifyMaxAgeResponseSubscriber::onResponse

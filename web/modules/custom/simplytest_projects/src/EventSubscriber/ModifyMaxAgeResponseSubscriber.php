@@ -65,6 +65,22 @@ final class ModifyMaxAgeResponseSubscriber implements EventSubscriberInterface {
     // http_cache_control. Expires is untouched as well, which keeps the
     // internal page cache permanent.
     $response->setMaxAge(self::MAX_AGE);
+
+    // The fastly module copies Cache-Control into Surrogate-Control at
+    // priority 0, before this subscriber runs, so by now that header carries
+    // the site-wide max-age. Fastly prefers Surrogate-Control over s-maxage,
+    // which would pin the edge cache to the 32 day lifetime. Rewrite its
+    // max-age to the CDN lifetime configured in http_cache_control.
+    $surrogate_control = $response->headers->get('Surrogate-Control');
+    if ($surrogate_control !== NULL) {
+      $s_maxage = $response->headers->getCacheControlDirective('s-maxage');
+      $cdn_max_age = is_numeric($s_maxage) ? (int) $s_maxage : self::MAX_AGE;
+      $response->headers->set('Surrogate-Control', preg_replace(
+        '/max-age=\d+/',
+        'max-age=' . $cdn_max_age,
+        $surrogate_control,
+      ));
+    }
   }
 
 }
