@@ -434,11 +434,6 @@ parameters:
 			path: web/modules/custom/simplytest_projects/src/Entity/SimplytestProjectInterface.php
 
 		-
-			message: "#^Method Drupal\\\\simplytest_projects\\\\EventSubscriber\\\\ModifyMaxAgeResponseSubscriber\\:\\:onResponse\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/EventSubscriber/ModifyMaxAgeResponseSubscriber.php
-
-		-
 			message: "#^Call to function assert\\(\\) with true will always evaluate to true\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/src/Exception/EntityValidationException.php
@@ -544,16 +539,6 @@ parameters:
 			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
 
 		-
-			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectFetcher\\:\\:fetchProjectVersions\\(\\) has parameter \\$project with no type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
-
-		-
-			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectFetcher\\:\\:fetchProjectVersions\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
-
-		-
 			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectFetcher\\:\\:fetchVersions\\(\\) has parameter \\$force with no type specified\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
@@ -575,11 +560,6 @@ parameters:
 
 		-
 			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectFetcher\\:\\:searchFromProjects\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
-
-		-
-			message: "#^Strict comparison using \\!\\=\\= between non\\-empty\\-array and false will always evaluate to true\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
 

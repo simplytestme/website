@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\Tests\simplytest_projects\Kernel;
 
 use Drupal\Core\Cache\CacheableResponse;
+use Drupal\Core\EventSubscriber\FinishResponseSubscriber;
 use Drupal\Core\Routing\RouteObjectInterface;
 use Drupal\Core\Url;
 use Drupal\KernelTests\KernelTestBase;
@@ -18,6 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * Covers the module's procedural hooks and its entity list builder.
@@ -107,14 +109,40 @@ final class ProjectHooksTest extends KernelTestBase {
   }
 
   /**
-   * The subscriber shortens max-age on this module's own routes.
+   * The subscriber runs after everything else that writes Cache-Control.
    *
+   * Core's FinishResponseSubscriber rebuilds the header from scratch at
+   * priority 0, and http_cache_control adds s-maxage at -10. A subscriber that
+   * runs before either of them has its work thrown away.
+   *
+   * @covers \Drupal\simplytest_projects\EventSubscriber\ModifyMaxAgeResponseSubscriber::getSubscribedEvents
+   */
+  public function testSubscriberRunsAfterCoreCacheControl(): void {
+    $call_order = [];
+    foreach ($this->container->get('event_dispatcher')->getListeners(KernelEvents::RESPONSE) as $listener) {
+      $call_order[] = get_class($listener[0]) . '::' . $listener[1];
+    }
+
+    $ours = array_search(ModifyMaxAgeResponseSubscriber::class . '::onResponse', $call_order, TRUE);
+    $core = array_search(FinishResponseSubscriber::class . '::onRespond', $call_order, TRUE);
+    self::assertIsInt($ours);
+    self::assertIsInt($core);
+    self::assertGreaterThan($core, $ours);
+  }
+
+  /**
    * @covers \Drupal\simplytest_projects\EventSubscriber\ModifyMaxAgeResponseSubscriber::onResponse
    */
   public function testMaxAgeIsShortenedOnProjectRoutes(): void {
-    $response = new CacheableResponse();
+    $response = self::publicResponse();
     $this->dispatchResponse($response, 'simplytest_projects.core_versions');
-    self::assertEquals(300, $response->getMaxAge());
+
+    self::assertEquals(300, self::maxAge($response));
+    // Shortening the browser lifetime must not make the response private, or
+    // the CDN stops storing it altogether.
+    self::assertTrue($response->headers->hasCacheControlDirective('public'));
+    // The CDN keeps the lifetime http_cache_control configured for it.
+    self::assertEquals('600', $response->headers->getCacheControlDirective('s-maxage'));
   }
 
   /**
@@ -123,13 +151,14 @@ final class ProjectHooksTest extends KernelTestBase {
    * @covers \Drupal\simplytest_projects\EventSubscriber\ModifyMaxAgeResponseSubscriber::onResponse
    */
   public function testMaxAgeIsUntouched(Response $response, string $route_name, int $request_type): void {
+    $before = self::maxAge($response);
     $this->dispatchResponse($response, $route_name, $request_type);
-    self::assertNotEquals(300, $response->getMaxAge());
+    self::assertEquals($before, self::maxAge($response));
   }
 
   public static function untouchedResponses(): \Generator {
     yield 'a route owned by another module' => [
-      new CacheableResponse(),
+      self::publicResponse(),
       'system.admin',
       HttpKernelInterface::MAIN_REQUEST,
     ];
@@ -139,24 +168,45 @@ final class ProjectHooksTest extends KernelTestBase {
       HttpKernelInterface::MAIN_REQUEST,
     ];
     yield 'a sub-request' => [
-      new CacheableResponse(),
+      self::publicResponse(),
       'simplytest_projects.core_versions',
       HttpKernelInterface::SUB_REQUEST,
+    ];
+    // Core withholds `public` when its cache policies deny the request, which
+    // is how an authenticated response arrives here.
+    yield 'a response core did not mark public' => [
+      (new CacheableResponse())->setPrivate()->setMaxAge(2764800),
+      'simplytest_projects.core_versions',
+      HttpKernelInterface::MAIN_REQUEST,
+    ];
+    // Nothing sets a shorter max-age today, but raising one back up to 300
+    // would be a regression rather than a fix.
+    yield 'a max-age already below the ceiling' => [
+      self::publicResponse()->setMaxAge(60),
+      'simplytest_projects.core_versions',
+      HttpKernelInterface::MAIN_REQUEST,
     ];
   }
 
   /**
-   * Hands a response to the subscriber on its own.
+   * A response in the state core's FinishResponseSubscriber leaves behind.
    *
-   * The subscriber is invoked directly rather than through the dispatcher:
-   * core's FinishResponseSubscriber runs at a lower priority, which in Symfony
-   * means later, and it rewrites Cache-Control before the response is sent.
-   *
-   * @todo the priority says "run after FinishResponseSubscriber" but a higher
-   *   priority runs first, so the 300 second max-age never survives a real
-   *   response. Decide whether the max-age is still wanted before changing it,
-   *   since it would start being advertised to the CDN.
+   * The values are the site's own configuration: a 32 day max-age from
+   * system.performance, and a 600 second s-maxage from http_cache_control.
    */
+  private static function maxAge(Response $response): ?string {
+    $directive = $response->headers->getCacheControlDirective('max-age');
+    return is_string($directive) ? $directive : NULL;
+  }
+
+  private static function publicResponse(): CacheableResponse {
+    $response = new CacheableResponse();
+    $response->setPublic();
+    $response->setMaxAge(2764800);
+    $response->setSharedMaxAge(600);
+    return $response;
+  }
+
   private function dispatchResponse(Response $response, string $route_name, int $request_type = HttpKernelInterface::MAIN_REQUEST): void {
     $request = Request::create('/whatever');
     $request->attributes->set(RouteObjectInterface::ROUTE_NAME, $route_name);
