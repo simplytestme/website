@@ -71,7 +71,9 @@ final readonly class CloverReport {
     }
 
     $files = [];
-    foreach ($xml->project->file as $file) {
+    // php-code-coverage nests a namespaced class's <file> inside a <package>
+    // element; only global-namespace files sit directly under <project>.
+    foreach ($xml->xpath('//project//file') ?: [] as $file) {
       $metrics = $file->metrics;
       $files[] = new CoverageMetrics(
         (string) $file['name'],
