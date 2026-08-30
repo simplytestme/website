@@ -4,6 +4,7 @@ namespace Drupal\simplytest_projects\Plugin\QueueWorker;
 
 use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Component\Serialization\Json;
+use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Queue\QueueWorkerBase;
@@ -97,12 +98,17 @@ class ProjectRefresher extends QueueWorkerBase implements ContainerFactoryPlugin
     try {
       $project->save();
     }
-    catch (EntityValidationException $e) {
-      $this->logger->error("Validation errors when saving project {$project->label()}: {$e->getMessage()}");
+    catch (EntityStorageException $e) {
+      // Entity storage wraps whatever preSave() threw, so the validation
+      // exception arrives as the previous exception rather than directly.
+      $validation_exception = $e->getPrevious();
+      if (!$validation_exception instanceof EntityValidationException) {
+        throw $e;
+      }
       $this->logger->error(sprintf(
         "Validation errors when saving project %s: %s",
         $project->label(),
-        implode('|', $e->getViolationMessages())
+        implode('|', $validation_exception->getViolationMessages())
       ));
     }
   }
