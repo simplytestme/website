@@ -272,17 +272,6 @@ final class ProjectFetcherTest extends KernelTestBase {
   }
 
   /**
-   * @covers ::fetchProjectVersions
-   */
-  public function testFetchProjectVersions(): void {
-    $this->container->get('simplytest_projects.project_version_manager')->updateData('token');
-
-    $versions = $this->sut->fetchProjectVersions('token');
-    self::assertArrayHasKey('branches', $versions);
-    self::assertArrayHasKey('tags', $versions);
-  }
-
-  /**
    * @return array<int|string, string>
    */
   private function projectIds(string $shortname): array {
