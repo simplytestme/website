@@ -143,6 +143,8 @@ final class ProjectFetcherTest extends KernelTestBase {
     yield 'node has no type' => ['no_type'];
     yield 'node type is not a project type' => ['weird_type'];
     yield 'sandbox node has no URL' => ['sandbox_no_url'];
+    yield 'Drupal.org responds with a server error' => ['servererror'];
+    yield 'Drupal.org responds with a 404' => ['notfound'];
   }
 
   /**
