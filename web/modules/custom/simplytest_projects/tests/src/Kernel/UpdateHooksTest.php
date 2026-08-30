@@ -12,7 +12,7 @@ use Drupal\simplytest_projects\ProjectVersionManager;
  * Covers the module's update hooks.
  *
  * The schemas are deliberately not installed in setUp(): the update hooks are
- * what put them there, which is the behaviour under test.
+ * what put them there, which is the behavior under test.
  *
  * @group simplytest
  * @group simplytest_project

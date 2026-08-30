@@ -147,7 +147,7 @@ final class TugboatControllerTest extends KernelTestBase {
   }
 
   /**
-   * An unrecognised job type is a bug, not a state to render.
+   * An unrecognized job type is a bug, not a state to render.
    *
    * @covers ::instanceState
    */

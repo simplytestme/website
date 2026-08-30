@@ -152,11 +152,11 @@ final class ProjectFetcherTest extends KernelTestBase {
    *
    * @covers ::fetchProject
    */
-  public function testFetchProjectSanitisesLockKey(): void {
+  public function testFetchProjectSanitizesLockKey(): void {
     $result = $this->sut->fetchProject('not.a-project');
     self::assertNotNull($result);
     self::assertEquals('not.a-project', $result['shortname']);
-    // The sanitised key is what the lock was taken and released under.
+    // The sanitized key is what the lock was taken and released under.
     self::assertTrue($this->container->get('lock')->lockMayBeAvailable('fetch_project_not_a_project'));
   }
 
