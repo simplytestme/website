@@ -216,7 +216,9 @@ final readonly class MockedHttpMiddleware {
 
   private function handleReleaseHistory(RequestInterface $request): FulfilledPromise {
     $matches = [];
-    preg_match('#https://updates\.drupal\.org/release-history/([^/]+)/(.+)#', (string) $request->getUri(), $matches);
+    if (preg_match('#https://updates\.drupal\.org/release-history/([^/]+)/(.+)#', (string) $request->getUri(), $matches) !== 1) {
+      throw new \InvalidArgumentException("No response mocked for '{$request->getUri()}'");
+    }
     [, $project, $channel] = $matches;
 
     if ($request->getMethod() === 'HEAD') {
@@ -248,7 +250,10 @@ final readonly class MockedHttpMiddleware {
       ));
     }
 
-    if (str_ends_with($uri, '/previews') && $request->getMethod() === 'GET') {
+    // The repository segment must be present: a test that never configured
+    // tugboat.settings.repository_id requests `repos//previews`, and that has
+    // to fail loudly rather than return the base previews.
+    if (preg_match('#/v3/repos/[^/]+/previews$#', $uri) === 1 && $request->getMethod() === 'GET') {
       $this->state->set($uri, (string) $request->getBody());
       return new FulfilledPromise(new Response(200, [], Json::encode([
         ['provider_label' => 'base-drupal7', 'id' => 'base-drupal7-id'],
