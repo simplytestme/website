@@ -112,11 +112,11 @@ final class ProjectImporterTest extends KernelTestBase {
     $batch = $this->sut->buildBatch('module');
 
     $array = $batch->toArray();
-    // The fixture reports `last` as page 2, so two operations get queued.
-    self::assertCount(2, $array['operations']);
+    // The fixture reports `last` as page 2, so pages 0 through 2 get queued.
+    self::assertCount(3, $array['operations']);
     self::assertEquals([ProjectImporter::class, 'batchProcess'], $array['operations'][0][0]);
     self::assertEquals([0, 'project_module'], $array['operations'][0][1]);
-    self::assertEquals('Importing 2 pages of module', (string) $array['title']);
+    self::assertEquals('Importing 3 pages of module', (string) $array['title']);
   }
 
   /**
@@ -132,7 +132,9 @@ final class ProjectImporterTest extends KernelTestBase {
    * @covers ::batchProcess
    */
   public function testBatchProcess(): void {
-    $context = ['results' => ['processed' => 0]];
+    // The Batch API hands operations an empty context; batchProcess has to
+    // initialize its own counter.
+    $context = [];
     ProjectImporter::batchProcess(0, 'project_module', $context);
 
     self::assertEquals(3, $context['results']['processed']);
@@ -148,7 +150,7 @@ final class ProjectImporterTest extends KernelTestBase {
    * @covers ::batchProcess
    */
   public function testBatchProcessToleratesDuplicates(): void {
-    $context = ['results' => ['processed' => 0]];
+    $context = [];
     ProjectImporter::batchProcess(0, 'project_module', $context);
     ProjectImporter::batchProcess(0, 'project_module', $context);
 
@@ -163,7 +165,7 @@ final class ProjectImporterTest extends KernelTestBase {
     ProjectImporter::batchFinished(TRUE, ['processed' => 6, 'type' => 'project_module'], []);
 
     $messages = $this->container->get('messenger')->messagesByType('status');
-    self::assertEquals('Total 7 module imported.', (string) $messages[0]);
+    self::assertEquals('Total 6 module imported.', (string) $messages[0]);
   }
 
   /**

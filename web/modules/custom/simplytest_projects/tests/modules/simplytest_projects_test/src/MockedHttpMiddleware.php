@@ -192,8 +192,8 @@ final readonly class MockedHttpMiddleware {
   }
 
   private function handleProjectListing(string $type, int $page): FulfilledPromise {
-    // Two pages of results, so the importer builds a batch with real
-    // operations, and the second page terminates the crawl.
+    // Three zero-based pages of results (`last` names page 2), so the
+    // importer builds a batch with a real operation for every page.
     $base = 'https://www.drupal.org/api-d7/node?type=' . $type;
     $list = [];
     foreach (range(1, 3) as $index) {

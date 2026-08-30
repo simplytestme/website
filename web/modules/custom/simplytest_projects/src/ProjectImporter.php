@@ -103,21 +103,24 @@ class ProjectImporter {
     $type = 'project_' . $type;
     $items = $this->fetchData($type);
 
-    if (preg_match('/&page=(\d*)/', (string) $items['last'], $count)) {
-      $count = $count[1];
+    if (preg_match('/&page=(\d+)/', (string) $items['last'], $matches)) {
+      // Pages are zero-based, so a `last` link naming page N means N + 1
+      // pages exist, and every one of them has to be fetched.
+      $page_count = (int) $matches[1] + 1;
     } else {
-      $count = 0;
+      // Without a parseable `last` link the page just fetched is the only one.
+      $page_count = 1;
     }
 
     $batch_builder = (new BatchBuilder())
       ->setTitle(new FormattableMarkup('Importing @num pages of @type',
         [
-          '@num' => $count,
+          '@num' => $page_count,
           '@type' => str_replace('project_', '', $type),
         ]
       ))
       ->setFinishCallback([self::class, 'batchFinished']);
-    for ($index = 0; $index < $count; $index++) {
+    for ($index = 0; $index < $page_count; $index++) {
       $batch_builder->addOperation([self::class, 'batchProcess'], [$index, $type]);
     }
     return $batch_builder;
@@ -137,7 +140,7 @@ class ProjectImporter {
         // @todo decide how to handle this error if we got a dupe save, somehow.
       }
     }
-    $context['results']['processed'] += count($data);
+    $context['results']['processed'] = ($context['results']['processed'] ?? 0) + count($data);
     $context['results']['type'] = $type;
   }
 
@@ -146,7 +149,7 @@ class ProjectImporter {
     if ($success) {
       $messenger->addMessage(t('Total @count @type imported.',
         [
-          '@count' => $results['processed'] + 1,
+          '@count' => $results['processed'] ?? 0,
           '@type' => str_replace('project_', '', $results['type']),
         ]));
     }
