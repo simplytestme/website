@@ -35,6 +35,7 @@ final class ProjectCommandsTest extends KernelTestBase {
       $this->container->get('simplytest_projects.project_version_manager'),
       $this->container->get('simplytest_projects.fetcher'),
       $this->container->get('simplytest_projects.importer'),
+      $this->container->get('simplytest_projects.seeder'),
     );
   }
 

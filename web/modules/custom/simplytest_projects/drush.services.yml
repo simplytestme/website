@@ -5,7 +5,8 @@ services:
         '@simplytest_projects.core_version_manager',
         '@simplytest_projects.project_version_manager',
         '@simplytest_projects.fetcher',
-        '@simplytest_projects.importer'
+        '@simplytest_projects.importer',
+        '@simplytest_projects.seeder'
     ]
     tags:
       - { name: drush.command }
