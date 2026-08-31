@@ -42,13 +42,17 @@ final readonly class Fetcher {
    *   Appended to the If-Modified-Since state key. Consumers that process
    *   the same feed independently pass a distinct suffix so one consumer's
    *   fetch cannot starve the other with 304s.
+   * @param bool $force
+   *   Fetch unconditionally. A conditional request is only valid while the
+   *   consumer still holds the data from its previous fetch; pass TRUE when
+   *   it does not, or a 304 would leave it empty for good.
    *
    * @return string
    *   The release history XML as a string.
    *
    * @throws \Drupal\simplytest_projects\Exception\ReleaseHistoryNotModifiedException
    */
-  public function getProjectData(string $project, string $channel, string $state_key_suffix = ''): string {
+  public function getProjectData(string $project, string $channel, string $state_key_suffix = '', bool $force = FALSE): string {
     if ($channel !== 'current' && $channel !== '7.x') {
       throw new \InvalidArgumentException("Only the 'current' and '7.x' channel are supported, {$channel} was provided.");
     }
@@ -62,7 +66,7 @@ final readonly class Fetcher {
     // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-Modified-Since
     $state_key = "release_history_last_modified:$project:$channel$state_key_suffix";
     $last_modified = $this->state->get($state_key);
-    if ($last_modified) {
+    if ($last_modified && !$force) {
       $headers['If-Modified-Since'] = gmdate(DateTimePlus::RFC7231, $last_modified);
     }
 

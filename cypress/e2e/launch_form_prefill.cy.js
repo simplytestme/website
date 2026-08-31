@@ -18,4 +18,19 @@ describe('Autofil of launch form from query parameters', function () {
     cy.getByLabel('Project patch 0')
       .should('have.value', 'https://www.drupal.org/files/issues/2021-05-16/3214191-2.patch')
   })
+
+  it('imports an unknown project from a configure deep link', function () {
+    // The deep link is explicit intent, so a project the site does not know
+    // yet is looked up on Drupal.org automatically.
+    cy.visit('/', {
+      qs: {
+        'project': 'pathauto',
+        'version': '8.x-1.14',
+      }
+    })
+    cy.getByLabel('Module, theme or distribution', { timeout: 10000 })
+      .should('have.value', 'Pathauto')
+    cy.getByLabel('Version', { timeout: 10000 })
+      .should('have.value', '8.x-1.14')
+  })
 })

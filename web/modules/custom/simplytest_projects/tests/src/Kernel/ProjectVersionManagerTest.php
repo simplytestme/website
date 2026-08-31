@@ -47,6 +47,30 @@ final class ProjectVersionManagerTest extends KernelTestBase {
   }
 
   /**
+   * Lost release rows are re-fetched despite the If-Modified-Since state.
+   *
+   * A conditional request is only valid while the previous fetch's rows are
+   * still stored; when they are gone, a 304 must not leave the project
+   * permanently versionless.
+   *
+   * @covers ::updateData
+   */
+  public function testUpdateDataRefetchesWhenRowsAreGone(): void {
+    $this->sut->updateData('pathauto');
+    self::assertNotEmpty($this->sut->getAllReleases('pathauto'));
+
+    $this->container->get('database')
+      ->delete(ProjectVersionManager::TABLE_NAME)
+      ->condition('short_name', 'pathauto')
+      ->execute();
+
+    // The state still holds the feed's Last-Modified, so a conditional
+    // request would be answered with a 304.
+    $this->sut->updateData('pathauto');
+    self::assertNotEmpty($this->sut->getAllReleases('pathauto'));
+  }
+
+  /**
    * @see https://www.drupal.org/project/simplytest/issues/3208252
    */
   public function testInvalidIntegerValue(): void {
