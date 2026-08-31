@@ -2,20 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
-progress::-webkit-progress-bar {
-  @apply rounded-md
+/* Self-hosted fonts; see design_handoff_simplytest_redesign/README.md. */
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("../fonts/PlusJakartaSans-variable.woff2") format("woff2");
 }
-progress::-webkit-progress-value {
-  @apply rounded-md bg-gradient-to-r from-flat-blue to-sky-blue
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  font-style: italic;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("../fonts/PlusJakartaSans-variable-italic.woff2") format("woff2");
 }
-progress::-moz-progress-bar {
-  @apply rounded-md bg-gradient-to-r from-flat-blue to-sky-blue
+@font-face {
+  font-family: "Space Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/SpaceMono-regular.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Space Mono";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../fonts/SpaceMono-bold.woff2") format("woff2");
 }
 
-.cta-link .btn {
-  @apply bg-dark-sky-blue font-bold px-2 py-1 no-underline rounded text-white;
+@layer base {
+  body {
+    @apply bg-white font-sans text-st-body;
+  }
+  ::placeholder {
+    color: theme("colors.st.faint");
+  }
+  /* Every interactive element gets a visible focus ring. */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid theme("colors.st.accent");
+    outline-offset: 2px;
+  }
 }
 
-.cta-link .btn:hover {
-  @apply bg-title-blue transform transition duration-500 scale-110;
+@layer components {
+  .eyebrow {
+    @apply font-mono text-xs uppercase tracking-[0.16em];
+  }
+  .field-label {
+    @apply font-mono text-[11px] uppercase tracking-[0.12em] text-st-soft;
+  }
 }

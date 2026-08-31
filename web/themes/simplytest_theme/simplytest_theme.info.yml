@@ -1,15 +1,12 @@
-name: SimpyTest
+name: SimplyTest
 type: theme
-description: 'SimplyTest Custom Theme'
+description: 'SimplyTest custom theme'
 core_version_requirement: ^9 || ^10
-base theme: claro
+base theme: false
 
 regions:
-  banner: Banner
   content: Main Content
   messages: Messages
-  sponsors: Sponsors
-  footer: Footer
 
 libraries:
   - simplytest_theme/global

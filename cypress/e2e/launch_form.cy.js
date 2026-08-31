@@ -27,56 +27,56 @@ describe('Test the launch form', function () {
   })
   it('allows autocompleting of a project with a version selected', () => {
     cy.pickProject('Password Policy')
-    cy.getByLabel('Project version')
+    cy.getByLabel('Version')
       .should('have.value', '4.0.3')
   })
   it('with a project and modify the drupal core version', () => {
     cy.pickProject('Password Policy')
-    cy.getByLabel('Project version')
+    cy.getByLabel('Version')
       .should('have.value', '4.0.3')
-    cy.toggleDetailsElement('Advanced options')
-    cy.getByLabel('Drupal Core')
+    cy.toggleAdvancedOptions()
+    cy.getByLabel('Drupal core')
       .select('9.5.9')
   })
   it('should allow me to attach a patch to my project', function () {
     cy.pickProject('Pathauto')
-    cy.toggleDetailsElement('Advanced options')
+    cy.toggleAdvancedOptions()
     cy.getByLabel('Project patch 0')
       .type('https://www.drupal.org/files/issues/2020-12-07/3185080-3.patch')
     cy.wait(200);
-    cy.get('button').contains('Add patch').click();
+    cy.get('button').contains('Add another patch').click();
     cy.getByLabel('Project patch 1');
     cy.get('#project_patch_1').get('button').contains('×').click();
     cy.get('#project_patch_0').get('button').contains('×').click();
   })
   it('should adjust available core versions based on compatibility', function () {
     cy.pickProject('Pathauto')
-    cy.getByLabel('Project version')
+    cy.getByLabel('Version')
       .should('have.value', '8.x-1.14')
-    cy.toggleDetailsElement('Advanced options')
+    cy.toggleAdvancedOptions()
     cy.fixture('launch_form/core_compat_pathauto_8.x-1.14.json').then((data) => {
-      cy.getByLabel('Drupal Core')
+      cy.getByLabel('Drupal core')
         .should('have.value', data.list[0].version)
     })
-    cy.getByLabel('Project version')
+    cy.getByLabel('Version')
       .select('8.x-1.6')
-    cy.getByLabel('Drupal Core')
+    cy.getByLabel('Drupal core')
       .should('have.value', '8.9.20')
-    cy.getByLabel('Project version')
+    cy.getByLabel('Version')
       .select('8.x-1.11')
-    cy.getByLabel('Drupal Core')
+    cy.getByLabel('Drupal core')
       .select('9.5.0')
   })
   it('should show the Umami demo for Drupal 8.6.x and Drupal 9 sites', function () {
     cy.pickProject('Pathauto')
-    cy.getByLabel('Project version')
+    cy.getByLabel('Version')
       .should('have.value', '8.x-1.14')
-    cy.getByLabel('Project version')
+    cy.getByLabel('Version')
       .select('7.x-1.0')
-    cy.toggleDetailsElement('Advanced options')
+    cy.toggleAdvancedOptions()
 
     // Drupal 7 has no Umami.
-    cy.getByLabel('Drupal Core')
+    cy.getByLabel('Drupal core')
       .should('have.value', '7.103')
     cy.getByLabel('Install profile')
       .contains('Minimal')
@@ -84,9 +84,9 @@ describe('Test the launch form', function () {
       .contains('Standard')
 
     // Default Drupal 8 has Umami.
-    cy.getByLabel('Project version')
+    cy.getByLabel('Version')
       .select('8.x-1.6')
-    cy.getByLabel('Drupal Core')
+    cy.getByLabel('Drupal core')
       .should('have.value', '8.9.20')
     cy.wait(100);
     cy.getByLabel('Install profile')
@@ -97,7 +97,7 @@ describe('Test the launch form', function () {
       .contains('Umami Demo')
 
     // Drupal < 8.6 doesn't have Umami
-    cy.getByLabel('Drupal Core')
+    cy.getByLabel('Drupal core')
       .select('8.5.9')
     cy.wait(100);
     cy.getByLabel('Install profile')
@@ -108,9 +108,9 @@ describe('Test the launch form', function () {
       .contains('Umami Demo').should('not.exist')
 
     // Drupal 9 has Umami.
-    cy.getByLabel('Project version')
+    cy.getByLabel('Version')
       .select('8.x-1.11')
-    cy.getByLabel('Drupal Core')
+    cy.getByLabel('Drupal core')
       .select('9.5.0')
     cy.wait(100);
     cy.getByLabel('Install profile')

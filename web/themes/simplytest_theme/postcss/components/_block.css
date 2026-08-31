@@ -1,7 +1,0 @@
-.block {
-  margin: var(--section-margin) 0;
-
-  .region__banner & {
-    color: var(--white);
-  }
-}

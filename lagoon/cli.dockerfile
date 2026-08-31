@@ -8,15 +8,13 @@ RUN set -eux; \
   composer dump-autoload --optimize --apcu; \
   mkdir -p -v -m775 /app/web/sites/default/files
 
-FROM node:18-slim as node
+FROM node:22-slim as node
 
 WORKDIR /app
 
 COPY . .
 
-RUN cd web/themes/simplytest_theme \
-  && npm ci \
-  && npx update-browserslist-db@latest \
+RUN npm ci \
   && npm run build \
   && rm -rf node_modules
 
