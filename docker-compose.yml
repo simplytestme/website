@@ -55,8 +55,7 @@ services:
       lagoon.type: nginx-php-persistent
       lagoon.persistent: /app/web/sites/default/files/ # define where the persistent storage should be mounted too
       lando.type: nginx-drupal
-    << : *default-volumes # loads the defined volumes from the top
-    << : *default-user # uses the defined user from top
+    << : [*default-volumes, *default-user] # loads the defined volumes and user from the top
     depends_on:
       - cli # basically just tells docker-compose to build the cli first
     environment:
@@ -77,8 +76,7 @@ services:
       lagoon.name: nginx # we want this service be part of the nginx pod in Lagoon
       lagoon.persistent: /app/web/sites/default/files/ # define where the persistent storage should be mounted too
       lando.type: php-fpm
-    << : *default-volumes # loads the defined volumes from the top
-    << : *default-user # uses the defined user from top
+    << : [*default-volumes, *default-user] # loads the defined volumes and user from the top
     depends_on:
       - cli # basically just tells docker-compose to build the cli first
     environment:
