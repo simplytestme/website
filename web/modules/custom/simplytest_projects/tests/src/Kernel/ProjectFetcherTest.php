@@ -274,6 +274,31 @@ final class ProjectFetcherTest extends KernelTestBase {
   }
 
   /**
+   * A duplicate import reports success and leaves the original untouched.
+   *
+   * Two lookups for the same project can race; whichever loses the save must
+   * still tell its caller the project exists, and must not disturb the row
+   * the winner created.
+   *
+   * @covers ::fetchProject
+   */
+  public function testFetchProjectDuplicateKeepsOriginal(): void {
+    self::assertNotNull($this->sut->fetchProject('token'));
+    $original_ids = $this->projectIds('token');
+    self::assertCount(1, $original_ids);
+
+    self::assertNotNull($this->sut->fetchProject('token'));
+
+    // Still exactly the one entity, with its original ID.
+    self::assertEquals($original_ids, $this->projectIds('token'));
+    $logger = $this->container->get('simplytest_projects_test.logger');
+    self::assertStringContainsString(
+      'Skipped saving token: it was imported concurrently.',
+      implode("\n", $logger->getMessages()),
+    );
+  }
+
+  /**
    * @return array<int|string, string>
    */
   private function projectIds(string $shortname): array {
