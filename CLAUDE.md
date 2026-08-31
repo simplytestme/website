@@ -22,7 +22,7 @@ php vendor/bin/phpstan.phar --memory-limit=1G   # level 6 + phpstan-baseline.neo
                                                 # the default 128M crashes locally
 vendor/bin/rector               # also enforced in CI
 
-npm run build                   # build the theme (Laravel Mix + gulp postcss)
+npm run build                   # build the theme (Vite: dist/app.js + dist/style.css)
 npm run cypress:run             # E2E tests; CI installs the site first and
                                 # serves it with PHP's built-in server
 ```
@@ -42,7 +42,7 @@ Kernel tests mock all HTTP traffic through `MockedHttpMiddleware` in the `simply
 
 The install profile is `web/profiles/simplytest`, a distribution with `config_install_path: '../config/sync'` — site configuration lives in `config/sync/` at the repo root. After config changes, export with `drush config:export`.
 
-The frontend launch form is React 19 (`downshift` for autocomplete), living in the theme at `web/themes/simplytest_theme`, built with Laravel Mix plus a gulp postcss pass. `npm run build` compiles both.
+The frontend launch form is React 19 (`downshift` for autocomplete), living in the theme at `web/themes/simplytest_theme/lib`, styled with Tailwind (tokens in `tailwind.config.js`) and built with Vite (`vite.config.js`, repo root). `npm run build` emits `dist/app.js`, `dist/style.css`, and the self-hosted fonts. The header, hero, and footer are hardcoded Twig in the theme — no block or theme-settings configuration.
 
 ## Quality gates
 

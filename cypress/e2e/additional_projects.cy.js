@@ -4,10 +4,10 @@ describe('Tests additional projects and version constraints', () => {
   })
   it('should restrict incompatible additional project releases', function () {
     cy.pickProject('Password Policy')
-    cy.getByLabel('Project version')
+    cy.getByLabel('Version')
       .should('have.value', '4.0.3')
-    cy.toggleDetailsElement('Advanced options')
-    cy.get('button').contains('Add additional project').click();
+    cy.toggleAdvancedOptions()
+    cy.get('button').contains('Add another project').click();
     cy.get('#additional_project_0').getByLabel('Additional project name')
       .type('Password Policy')
       .wait(100)

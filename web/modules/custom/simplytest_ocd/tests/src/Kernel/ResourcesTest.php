@@ -61,10 +61,18 @@ final class ResourcesTest extends KernelTestBase {
     self::assertContains('oneclickdemo_commerce', $ids);
     self::assertContains('starshot', $ids);
 
-    // Only the three keys the front end needs are exposed.
+    // Only the keys the front end needs are exposed.
     foreach ($data as $definition) {
-      self::assertEquals(['id', 'title', 'base_preview_name'], array_keys($definition));
+      self::assertEquals(
+        ['id', 'title', 'base_preview_name', 'description', 'weight', 'recommended'],
+        array_keys($definition)
+      );
     }
+
+    // Demos are ordered by weight so the tile grid is stable: the recommended
+    // demo first.
+    self::assertEquals(['starshot', 'oneclickdemo_commerce', 'oneclickdemo_umami'], $ids);
+    self::assertTrue($data[0]['recommended']);
   }
 
   /**
@@ -122,7 +130,7 @@ final class ResourcesTest extends KernelTestBase {
 
     $definition = $manager->getDefinition('oneclickdemo_umami');
     self::assertEquals('umami', $definition['base_preview_name']);
-    self::assertEquals('Umami Demo', (string) $definition['title']);
+    self::assertEquals('Umami', (string) $definition['title']);
 
     self::assertTrue($manager->hasDefinition('oneclickdemo_commerce'));
     self::assertFalse($manager->hasDefinition('nope'));

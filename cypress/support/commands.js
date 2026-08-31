@@ -30,14 +30,14 @@ Cypress.Commands.add('getByLabel', (label) => {
     .invoke('attr', 'for')
     .then((id) => cy.get('#' + id));
 })
-Cypress.Commands.add('toggleDetailsElement', (label) => {
-  return cy.contains('summary', label).click()
+Cypress.Commands.add('toggleAdvancedOptions', () => {
+  return cy.contains('button', 'Advanced options').click()
 })
 
 Cypress.Commands.add('pickProject', input => {
   cy.intercept('GET', '**/simplytest/projects/autocomplete**').as('autocomplete');
 
-  cy.getByLabel('Evaluate Drupal projects')
+  cy.getByLabel('Module, theme or distribution')
     .type(input);
   cy.wait('@autocomplete');
 

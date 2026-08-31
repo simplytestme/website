@@ -176,7 +176,7 @@ jobs:
       - name: "Install Node"
         uses: actions/setup-node@v6
         with:
-          node-version: "18"
+          node-version: "22"
 
       - name: Get Composer Cache Directory
         id: composer-cache

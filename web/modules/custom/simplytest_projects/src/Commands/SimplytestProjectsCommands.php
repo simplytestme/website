@@ -5,6 +5,7 @@ namespace Drupal\simplytest_projects\Commands;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\simplytest_projects\ProjectImporter;
 use Drupal\simplytest_projects\CoreVersionManager;
+use Drupal\simplytest_projects\ProjectSeeder;
 use Drupal\simplytest_projects\ProjectVersionManager;
 use Drupal\simplytest_projects\ProjectFetcher;
 use Drush\Commands\DrushCommands;
@@ -26,9 +27,20 @@ class SimplytestProjectsCommands extends DrushCommands {
     private readonly CoreVersionManager $coreVersionManager,
     private readonly ProjectVersionManager $projectVersionManager,
     private readonly ProjectFetcher $projectFetcher,
-    private readonly ProjectImporter $projectImporter
+    private readonly ProjectImporter $projectImporter,
+    private readonly ProjectSeeder $projectSeeder
   ) {
     parent::__construct();
+  }
+
+  /**
+   * Seeds the starter set of projects for a fresh environment.
+   *
+   * @command simplytest:projects:seed
+   */
+  public function seed(): void {
+    $seeded = $this->projectSeeder->seed();
+    $this->io()->success(sprintf('Seeded %d projects: %s', count($seeded), implode(', ', $seeded)));
   }
 
   /**

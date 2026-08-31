@@ -18,6 +18,10 @@ services:
     class: Drupal\simplytest_projects\ProjectVersionManager
     arguments: [ '@database', '@simpleyest_projects.release_history_fetcher' ]
 
+  simplytest_projects.seeder:
+    class: Drupal\simplytest_projects\ProjectSeeder
+    arguments: ['@simplytest_projects.fetcher', '@simplytest_projects.project_version_manager', '@logger.channel.simplytest_projects']
+
   simplytest_projects.importer:
     class: Drupal\simplytest_projects\ProjectImporter
     arguments: ['@http_client', '@simplytest_projects.fetcher', '@logger.channel.default']

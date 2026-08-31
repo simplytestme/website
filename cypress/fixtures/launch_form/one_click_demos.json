@@ -1,17 +1,26 @@
 [
   {
-    "id": "oneclickdemo_commerce",
-    "title": "Commerce Kickstart Demo",
-    "base_preview_name": "commerce"
-  },
-  {
     "id": "starshot",
     "title": "Drupal CMS",
-    "base_preview_name": "drupal10"
+    "base_preview_name": "drupal10",
+    "description": "The new default Drupal, with smart defaults and installable recipes.",
+    "weight": 0,
+    "recommended": true
+  },
+  {
+    "id": "oneclickdemo_commerce",
+    "title": "Commerce Kickstart",
+    "base_preview_name": "commerce",
+    "description": "A working storefront on Drupal Commerce: catalog, cart and checkout.",
+    "weight": 1,
+    "recommended": false
   },
   {
     "id": "oneclickdemo_umami",
-    "title": "Umami Demo",
-    "base_preview_name": "umami"
+    "title": "Umami",
+    "base_preview_name": "umami",
+    "description": "Core's demo profile. The quickest way to show content modelling.",
+    "weight": 2,
+    "recommended": false
   }
 ]

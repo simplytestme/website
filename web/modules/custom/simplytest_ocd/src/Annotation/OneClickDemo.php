@@ -36,4 +36,27 @@ class OneClickDemo extends Plugin {
    */
   public $base_preview_name;
 
+  /**
+   * One-sentence description shown on the demo tile.
+   *
+   * @var \Drupal\Core\Annotation\Translation
+   *
+   * @ingroup plugin_translatable
+   */
+  public $description;
+
+  /**
+   * Sort weight for the tile grid; lower weights render first.
+   *
+   * @var int
+   */
+  public $weight = 0;
+
+  /**
+   * Whether the tile is highlighted as the recommended demo.
+   *
+   * @var bool
+   */
+  public $recommended = FALSE;
+
 }
