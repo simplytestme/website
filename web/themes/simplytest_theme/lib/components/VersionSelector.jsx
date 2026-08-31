@@ -8,6 +8,19 @@ function versionWithoutCoreModifier(version) {
   return version;
 }
 
+function isEmptyList(list) {
+  return (
+    list.latest.length === 0 &&
+    list.branches.length === 0 &&
+    list.core.length === 0
+  );
+}
+
+// A version fetch can legitimately return an empty list while a deep-linked
+// project is still being imported; retry a few times before accepting it.
+const EMPTY_RETRIES = 3;
+const EMPTY_RETRY_DELAY = 1500;
+
 // @todo this might be better coupled within the ProjectAutocomplete component?
 function VersionSelector({
   selectedProject,
@@ -19,31 +32,40 @@ function VersionSelector({
   compact
 }) {
   const [versions, setVersions] = useState(null);
+  const [attempt, setAttempt] = useState(0);
+
   // Side effect: when we have a project shortname, and no core constraints
   // AKA the root project, fetch the direct versions.
   useEffect(
     () => {
       if (selectedProject && !appliedCoreConstraint) {
         // A deep link fetches once for the query-string placeholder and again
-        // once the project is imported; the first, possibly empty response
-        // can resolve last and must not clobber the fresh list. no-cache for
-        // the same reason: the empty response may already sit in the browser
-        // cache.
+        // once the project is imported; a stale, possibly empty response must
+        // not clobber the fresh list, and the browser cache must not serve
+        // the pre-import empty response back.
         let stale = false;
+        let retryTimer = null;
         fetch(`/simplytest/project/${selectedProject.shortname}/versions`, { cache: "no-cache" })
           .then(res => res.json())
           .then(json => {
-            if (!stale) {
-              setVersions(json.list);
+            if (stale) {
+              return;
+            }
+            setVersions(json.list);
+            if (isEmptyList(json.list) && attempt < EMPTY_RETRIES) {
+              retryTimer = setTimeout(() => setAttempt(attempt + 1), EMPTY_RETRY_DELAY);
             }
           });
         return () => {
           stale = true;
+          if (retryTimer) {
+            clearTimeout(retryTimer);
+          }
         };
       }
       return undefined;
     },
-    [selectedProject, appliedCoreConstraint]
+    [selectedProject, appliedCoreConstraint, attempt]
   );
 
   // Side effect: when we have a project shortname AND core constraints, we know
