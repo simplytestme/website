@@ -68,6 +68,9 @@
             "php-http/discovery": true,
             "phpstan/extension-installer": true,
             "tbachert/spi": true
+        },
+        "audit": {
+            "block-insecure": false
         }
     },
     "scripts": {
