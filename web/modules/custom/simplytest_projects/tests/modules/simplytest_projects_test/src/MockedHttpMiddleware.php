@@ -240,6 +240,12 @@ final readonly class MockedHttpMiddleware {
       return new FulfilledPromise(new Response(200, ['Last-Modified' => 'Wed, 21 Apr 2021 00:36:14 GMT'], ''));
     }
 
+    // Like the real server: the fixtures never change, so a conditional GET
+    // is answered with a 304.
+    if ($request->hasHeader('If-Modified-Since')) {
+      return new FulfilledPromise(new Response(304, [], ''));
+    }
+
     $fixture = __DIR__ . "/../../../fixtures/release-history/$channel/$project.xml";
     if (!is_file($fixture)) {
       // Drupal.org answers with a 200 and this sentinel body, not a 404.

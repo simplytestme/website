@@ -19,8 +19,11 @@ class SimplyTestProjects implements ContainerInjectionInterface {
 
   /**
    * How many explicit Drupal.org lookups one client may make per window.
+   *
+   * Generous enough for a person demoing many obscure modules in a session,
+   * still a hard cap on what one client can relay to Drupal.org.
    */
-  private const int LOOKUP_FLOOD_LIMIT = 20;
+  private const int LOOKUP_FLOOD_LIMIT = 50;
 
   /**
    * The lookup flood window, in seconds.

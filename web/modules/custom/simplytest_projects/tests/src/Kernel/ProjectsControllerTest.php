@@ -114,7 +114,7 @@ final class ProjectsControllerTest extends KernelTestBase {
    */
   public function testLookupFloodLimit(): void {
     $flood = $this->container->get('flood');
-    for ($i = 0; $i < 20; $i++) {
+    for ($i = 0; $i < 50; $i++) {
       $flood->register('simplytest_projects.lookup', 3600);
     }
     $response = $this->lookup('token');

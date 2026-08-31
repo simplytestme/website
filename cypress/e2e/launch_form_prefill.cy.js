@@ -30,7 +30,7 @@ describe('Autofil of launch form from query parameters', function () {
     })
     cy.getByLabel('Module, theme or distribution', { timeout: 10000 })
       .should('have.value', 'Pathauto')
-    cy.getByLabel('Version')
+    cy.getByLabel('Version', { timeout: 10000 })
       .should('have.value', '8.x-1.14')
   })
 })

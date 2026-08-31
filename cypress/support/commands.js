@@ -25,10 +25,10 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 // Copied from https://glebbahmutov.com/cypress-examples/6.8.0/recipes/form-input-by-label.html#simple-custom-command
-Cypress.Commands.add('getByLabel', (label) => {
-  return cy.contains('label', label)
+Cypress.Commands.add('getByLabel', (label, options = {}) => {
+  return cy.contains('label', label, options)
     .invoke('attr', 'for')
-    .then((id) => cy.get('#' + id));
+    .then((id) => cy.get('#' + id, options));
 })
 Cypress.Commands.add('toggleAdvancedOptions', () => {
   return cy.contains('button', 'Advanced options').click()

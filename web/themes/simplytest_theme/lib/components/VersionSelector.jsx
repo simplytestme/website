@@ -24,12 +24,24 @@ function VersionSelector({
   useEffect(
     () => {
       if (selectedProject && !appliedCoreConstraint) {
-        fetch(`/simplytest/project/${selectedProject.shortname}/versions`)
+        // A deep link fetches once for the query-string placeholder and again
+        // once the project is imported; the first, possibly empty response
+        // can resolve last and must not clobber the fresh list. no-cache for
+        // the same reason: the empty response may already sit in the browser
+        // cache.
+        let stale = false;
+        fetch(`/simplytest/project/${selectedProject.shortname}/versions`, { cache: "no-cache" })
           .then(res => res.json())
           .then(json => {
-            setVersions(json.list);
+            if (!stale) {
+              setVersions(json.list);
+            }
           });
+        return () => {
+          stale = true;
+        };
       }
+      return undefined;
     },
     [selectedProject, appliedCoreConstraint]
   );
@@ -40,16 +52,24 @@ function VersionSelector({
   useEffect(
     () => {
       if (selectedProject && appliedCoreConstraint) {
+        let stale = false;
         fetch(
           `/simplytest/project/${
             selectedProject.shortname
-          }/compatibility/${appliedCoreConstraint}`
+          }/compatibility/${appliedCoreConstraint}`,
+          { cache: "no-cache" }
         )
           .then(res => res.json())
           .then(json => {
-            setVersions(json.list);
+            if (!stale) {
+              setVersions(json.list);
+            }
           });
+        return () => {
+          stale = true;
+        };
       }
+      return undefined;
     },
     [selectedProject, appliedCoreConstraint, rootProjectVersion]
   );
