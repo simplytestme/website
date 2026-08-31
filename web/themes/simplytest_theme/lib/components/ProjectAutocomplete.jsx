@@ -36,7 +36,8 @@ function ProjectAutocomplete({
     getItemProps,
     inputValue,
     setInputValue,
-    selectItem
+    selectItem,
+    closeMenu
   } = useCombobox({
     items: inputItems,
     itemToString: item => (item ? item.title : ""),
@@ -69,7 +70,10 @@ function ProjectAutocomplete({
           if (res.ok) {
             setLookup(null);
             setInputItems([json]);
+            // selectItem() alone leaves the menu open; close it so the
+            // selection reads as done.
             selectItem(json);
+            closeMenu();
           } else {
             setLookup({ message: json.message || "The lookup failed. Try again in a minute." });
           }

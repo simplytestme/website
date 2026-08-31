@@ -56,8 +56,17 @@ function VersionSelector({
 
   useEffect(
     () => {
-      if (!initialVersion && versions && versions.latest.length > 0) {
-        setSelectedVersion(versions.latest[0].version);
+      if (!initialVersion && versions) {
+        // Fall back through the groups: a dev-only project has no tagged
+        // release, and without a selection the select displays its first
+        // option while nothing is actually chosen.
+        const first =
+          versions.latest[0] ||
+          versions.branches[0] ||
+          versions.core.flatMap(core => core.versions)[0];
+        if (first) {
+          setSelectedVersion(first.version);
+        }
       }
     },
     [versions, initialVersion]
