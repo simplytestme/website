@@ -1,4 +1,10 @@
 describe('Tests additional projects and version constraints', () => {
+  before(() => {
+    // The autocomplete no longer imports projects on its own.
+    ['password_policy', 'password_policy_pwned'].forEach((name) => {
+      cy.request('POST', '/simplytest/projects/lookup', { name })
+    })
+  })
   beforeEach(() => {
     cy.visit('/')
   })

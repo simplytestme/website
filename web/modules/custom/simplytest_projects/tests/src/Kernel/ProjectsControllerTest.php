@@ -54,33 +54,84 @@ final class ProjectsControllerTest extends KernelTestBase {
   }
 
   /**
-   * Nothing stored locally falls back to fetching the project from Drupal.org.
+   * The autocomplete never imports from Drupal.org on its own.
+   *
+   * Falling through to a Drupal.org API request for every unmatched search
+   * string generated abusive request volume; unknown strings return an empty
+   * list and the client offers the explicit lookup endpoint instead.
    *
    * @covers ::autocompleteProjects
    */
-  public function testAutocompleteFallsBackToFetch(): void {
-    $data = $this->requestJson(Url::fromRoute('simplytest_projects.projects', [], [
+  public function testAutocompleteDoesNotImport(): void {
+    self::assertEquals([], $this->requestJson(Url::fromRoute('simplytest_projects.projects', [], [
       'query' => ['string' => 'token'],
-    ]));
-
-    self::assertCount(1, $data);
-    self::assertEquals('token', $data[0]['shortname']);
-    // The fallback strips the fields the autocomplete has no use for.
-    self::assertArrayNotHasKey('creator', $data[0]);
-    self::assertArrayNotHasKey('usage', $data[0]);
-    self::assertArrayNotHasKey('sandbox', $data[0]);
+    ])));
   }
 
   /**
-   * A search string with spaces is retried with underscores.
+   * An explicit lookup imports the project, normalizing the typed name.
    *
-   * @covers ::autocompleteProjects
+   * @covers ::lookupProject
    */
-  public function testAutocompleteConvertsSpaces(): void {
-    $data = $this->requestJson(Url::fromRoute('simplytest_projects.projects', [], [
-      'query' => ['string' => 'admin toolbar'],
+  public function testLookupImportsProject(): void {
+    $response = $this->lookup('Admin Toolbar');
+    self::assertEquals(200, $response->getStatusCode());
+    $data = Json::decode((string) $response->getContent());
+    self::assertEquals('admin_toolbar', $data['shortname']);
+    // The lookup strips the fields the autocomplete has no use for.
+    self::assertArrayNotHasKey('creator', $data);
+    self::assertArrayNotHasKey('usage', $data);
+    self::assertArrayNotHasKey('sandbox', $data);
+
+    // The project is now known and searchable.
+    $matches = $this->requestJson(Url::fromRoute('simplytest_projects.projects', [], [
+      'query' => ['string' => 'admin_toolbar'],
     ]));
-    self::assertEquals('admin_toolbar', $data[0]['shortname']);
+    self::assertEquals('admin_toolbar', $matches[0]['shortname']);
+  }
+
+  /**
+   * @covers ::lookupProject
+   */
+  public function testLookupUnknownProject(): void {
+    $response = $this->lookup('notaproject');
+    self::assertEquals(404, $response->getStatusCode());
+  }
+
+  /**
+   * @covers ::lookupProject
+   */
+  public function testLookupInvalidName(): void {
+    $response = $this->lookup('not/a/project!');
+    self::assertEquals(400, $response->getStatusCode());
+    self::assertEquals(400, $this->lookup('')->getStatusCode());
+  }
+
+  /**
+   * Lookups are flood limited so the endpoint cannot relay request spam.
+   *
+   * @covers ::lookupProject
+   */
+  public function testLookupFloodLimit(): void {
+    $flood = $this->container->get('flood');
+    for ($i = 0; $i < 20; $i++) {
+      $flood->register('simplytest_projects.lookup', 3600);
+    }
+    $response = $this->lookup('token');
+    self::assertEquals(429, $response->getStatusCode());
+  }
+
+  private function lookup(string $name): Response {
+    $url = Url::fromRoute('simplytest_projects.lookup');
+    return $this->handle(Request::create(
+      $url->toString(),
+      'POST',
+      [],
+      [],
+      [],
+      ['CONTENT_TYPE' => 'application/json'],
+      Json::encode(['name' => $name]),
+    ));
   }
 
   /**

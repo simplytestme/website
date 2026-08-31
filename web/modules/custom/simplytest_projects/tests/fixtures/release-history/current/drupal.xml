@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns:dc="http://purl.org/dc/elements/1.1/">
+<title>Drupal core</title>
+<short_name>drupal</short_name>
+<dc:creator>Drupal</dc:creator>
+<type>project_core</type>
+<supported_branches>10.6.,11.2.</supported_branches>
+<project_status>published</project_status>
+<link>https://www.drupal.org/project/drupal</link>
+<releases>
+<release><name>drupal 11.2.3</name><version>11.2.3</version><tag>11.2.3</tag><status>published</status><date>1755193953</date><terms><term><name>Release type</name><value>Bug fixes</value></term></terms></release>
+<release><name>drupal 11.x-dev</name><version>11.x-dev</version><tag>11.x</tag><status>published</status><date>1755193000</date></release>
+<release><name>drupal 10.6.10</name><version>10.6.10</version><tag>10.6.10</tag><status>published</status><date>1754000000</date><terms><term><name>Release type</name><value>Bug fixes</value></term></terms></release>
+<release><name>drupal 10.3.10</name><version>10.3.10</version><tag>10.3.10</tag><status>published</status><date>1730000000</date><terms><term><name>Release type</name><value>Insecure</value></term></terms></release>
+<release><name>drupal 10.3.x-dev</name><version>10.3.x-dev</version><tag>10.3.x</tag><status>published</status><date>1729000000</date></release>
+<release><name>drupal 9.5.11</name><version>9.5.11</version><tag>9.5.11</tag><status>published</status><date>1690000000</date><terms><term><name>Release type</name><value>Insecure</value></term></terms></release>
+<release><name>drupal 9.4.0</name><version>9.4.0</version><tag>9.4.0</tag><status>published</status><date>1655000000</date><terms><term><name>Release type</name><value>Insecure</value></term></terms></release>
+<release><name>drupal 8.9.20</name><version>8.9.20</version><tag>8.9.20</tag><status>published</status><date>1620000000</date><terms><term><name>Release type</name><value>Insecure</value></term></terms></release>
+<release><name>drupal 8.0.0-rc4</name><version>8.0.0-rc4</version><tag>8.0.0-rc4</tag><status>published</status><date>1446000000</date><terms><term><name>Release type</name><value>New features</value></term></terms></release>
+</releases>
+</project>

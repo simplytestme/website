@@ -53,7 +53,7 @@ final class ProjectHooksTest extends KernelTestBase {
   public function testCron(): void {
     $fresh = $this->createProject('token');
     $stale = $this->createProject('pathauto');
-    $this->setTimestamp($stale, (int) strtotime('-5 hour'));
+    $this->setTimestamp($stale, (int) strtotime('-8 days'));
 
     $this->container->get('cron')->run();
 

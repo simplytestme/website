@@ -22,6 +22,9 @@ function ProjectAutocomplete({
   additionalBtn
 }) {
   const [inputItems, setInputItems] = useState([]);
+  const [searched, setSearched] = useState(false);
+  // null | "looking" | {message} for a failed lookup.
+  const [lookup, setLookup] = useState(null);
 
   const {
     isOpen,
@@ -31,17 +34,51 @@ function ProjectAutocomplete({
     getComboboxProps,
     highlightedIndex,
     getItemProps,
-    setInputValue
+    inputValue,
+    setInputValue,
+    selectItem
   } = useCombobox({
     items: inputItems,
     itemToString: item => (item ? item.title : ""),
     onSelectedItemChange: ({ selectedItem }) => {
       setSelectedItem(selectedItem);
     },
-    onInputValueChange: ({ inputValue }) => {
-      debounce(() => fetchProjects(inputValue, setInputItems))();
+    onInputValueChange: ({ inputValue: value }) => {
+      setLookup(null);
+      setSearched(false);
+      debounce(() => {
+        fetchProjects(value, items => {
+          setInputItems(items);
+          setSearched(true);
+        });
+      })();
     }
   });
+
+  // The autocomplete only searches projects the site already knows about.
+  // Anything else needs an explicit lookup against Drupal.org.
+  function lookupOnDrupalOrg() {
+    setLookup("looking");
+    fetch("/simplytest/projects/lookup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ name: inputValue })
+    })
+      .then(res =>
+        res.json().then(json => {
+          if (res.ok) {
+            setLookup(null);
+            setInputItems([json]);
+            selectItem(json);
+          } else {
+            setLookup({ message: json.message || "The lookup failed. Try again in a minute." });
+          }
+        })
+      )
+      .catch(() => {
+        setLookup({ message: "The lookup failed. Try again in a minute." });
+      });
+  }
 
   // If there is an initial project, kick off a query to populate list items
   // from it's shortname, and then set it's title as the input.
@@ -63,6 +100,8 @@ function ProjectAutocomplete({
     },
     [initialProject]
   );
+
+  const showLookup = searched && inputItems.length === 0 && inputValue.trim().length >= 3;
 
   return (
     <div className="relative flex-1">
@@ -107,6 +146,25 @@ function ProjectAutocomplete({
               <span className="block font-mono text-[11px] text-st-faint">{item.shortname}</span>
             </li>
           ))}
+        {isOpen && showLookup && (
+          <li className="list-none px-3.5 py-3">
+            {lookup === null && (
+              <button
+                type="button"
+                className="text-sm font-semibold text-st-accent-dark hover:text-st-accent"
+                onClick={lookupOnDrupalOrg}
+              >
+                Look up “{inputValue.trim()}” on drupal.org
+              </button>
+            )}
+            {lookup === "looking" && (
+              <span className="text-sm text-st-muted">Checking drupal.org…</span>
+            )}
+            {lookup !== null && lookup !== "looking" && (
+              <span className="text-sm text-st-muted">{lookup.message}</span>
+            )}
+          </li>
+        )}
       </ul>
     </div>
   );
