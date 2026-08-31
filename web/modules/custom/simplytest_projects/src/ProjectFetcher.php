@@ -65,6 +65,9 @@ class ProjectFetcher {
 
   /**
    * Fetches and stores the project while fetchProject() holds the lock.
+   *
+   * @return array{title: string, shortname: string, sandbox: bool, type: string, creator: string|null, usage: int}|null
+   *   The saved project data, or NULL if the project could not be fetched.
    */
   private function doFetchProject(string $shortname): ?array {
     // Ensure the shortname is always lowercase. The Drupal.org API is not
