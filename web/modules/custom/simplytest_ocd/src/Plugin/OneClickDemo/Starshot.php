@@ -10,7 +10,6 @@ namespace Drupal\simplytest_ocd\Plugin\OneClickDemo;
  *   title = @Translation("Drupal CMS"),
  *   base_preview_name = "drupal10",
  *   description = @Translation("The new default Drupal, with smart defaults and installable recipes."),
- *   meta = "drupal_cms · 1.x",
  *   weight = 0,
  *   recommended = TRUE,
  * )

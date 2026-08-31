@@ -87,7 +87,6 @@ function DemoTile({ demo, processing, setProcessing, setErrors }) {
         )}
         <h3 className="m-0 text-lg font-bold tracking-[-0.015em] text-st-body">{demo.title}</h3>
         <p className="m-0 flex-1 text-[13.5px] leading-[1.55] text-st-muted">{demo.description}</p>
-        <span className="font-mono text-[11px] text-st-faint">{demo.meta}</span>
         <button
           type="button"
           disabled={processing !== ""}

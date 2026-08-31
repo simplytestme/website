@@ -46,13 +46,6 @@ class OneClickDemo extends Plugin {
   public $description;
 
   /**
-   * Mono meta line shown on the demo tile, e.g. "drupal_cms · 1.x".
-   *
-   * @var string
-   */
-  public $meta;
-
-  /**
    * Sort weight for the tile grid; lower weights render first.
    *
    * @var int

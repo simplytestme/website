@@ -4,7 +4,6 @@
     "title": "Drupal CMS",
     "base_preview_name": "drupal10",
     "description": "The new default Drupal, with smart defaults and installable recipes.",
-    "meta": "drupal_cms · 1.x",
     "weight": 0,
     "recommended": true
   },
@@ -13,7 +12,6 @@
     "title": "Commerce Kickstart",
     "base_preview_name": "commerce",
     "description": "A working storefront on Drupal Commerce: catalog, cart and checkout.",
-    "meta": "commerce_kickstart · 3.x",
     "weight": 1,
     "recommended": false
   },
@@ -22,7 +20,6 @@
     "title": "Umami",
     "base_preview_name": "umami",
     "description": "Core's demo profile. The quickest way to show content modelling.",
-    "meta": "demo_umami · standard",
     "weight": 2,
     "recommended": false
   }

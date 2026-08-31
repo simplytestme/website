@@ -12,7 +12,6 @@ use Drupal\simplytest_ocd\OneClickDemoInterface;
  *   title = @Translation("Umami"),
  *   base_preview_name = "umami",
  *   description = @Translation("Core's demo profile. The quickest way to show content modelling."),
- *   meta = "demo_umami · standard",
  *   weight = 2,
  * )
  */

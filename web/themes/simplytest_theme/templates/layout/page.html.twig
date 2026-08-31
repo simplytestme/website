@@ -47,17 +47,20 @@
       <div class="flex flex-col gap-3.5">
         <span class="font-mono text-[11px] uppercase tracking-[0.12em] text-st-faint">Free and open source, sponsored by</span>
         <div class="flex flex-wrap items-center gap-8">
+          {# Heights differ per logo: wide wordmarks read at 26px, while the
+             stacked and padded lockups need more height to look the same
+             visual size. #}
           <a href="https://www.centarro.io/?utm_campaign=simplytest&amp;utm_source=sponsors">
-            <img src="{{ base_path ~ directory }}/images/sponsors/centarro.svg" alt="Centarro" class="h-[26px] opacity-80">
+            <img src="{{ base_path ~ directory }}/images/sponsors/centarro.svg" alt="Centarro" class="h-5 opacity-80">
           </a>
           <a href="https://www.amazee.io/?utm_campaign=simplytest&amp;utm_source=sponsors">
-            <img src="{{ base_path ~ directory }}/images/sponsors/amazeelogo.png" alt="amazee.io" class="h-[26px] opacity-80">
+            <img src="{{ base_path ~ directory }}/images/sponsors/amazeelogo.png" alt="amazee.io" class="h-9 opacity-80">
           </a>
           <a href="https://www.qed42.com/?utm_campaign=simplytest&amp;utm_source=sponsors">
-            <img src="{{ base_path ~ directory }}/images/sponsors/qed42.png" alt="QED42" class="h-[22px] opacity-80">
+            <img src="{{ base_path ~ directory }}/images/sponsors/qed42.png" alt="QED42" class="h-12 opacity-80">
           </a>
           <a href="https://bluehorn.digital/?utm_campaign=simplytest&amp;utm_source=sponsors">
-            <img src="{{ base_path ~ directory }}/images/sponsors/bluehorndigital.png" alt="Blue Horn Digital" class="h-[26px] opacity-80">
+            <img src="{{ base_path ~ directory }}/images/sponsors/bluehorndigital.png" alt="Blue Horn Digital" class="h-10 opacity-80">
           </a>
         </div>
       </div>

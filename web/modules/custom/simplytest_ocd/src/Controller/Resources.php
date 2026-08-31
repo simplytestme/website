@@ -90,7 +90,6 @@ class Resources implements ContainerInjectionInterface {
       'title' => $definition['title'],
       'base_preview_name' => $definition['base_preview_name'],
       'description' => $definition['description'] ?? '',
-      'meta' => $definition['meta'] ?? '',
       'weight' => $definition['weight'] ?? 0,
       'recommended' => $definition['recommended'] ?? FALSE,
     ], $this->manager->getDefinitions()));

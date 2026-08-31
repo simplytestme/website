@@ -10,7 +10,6 @@ namespace Drupal\simplytest_ocd\Plugin\OneClickDemo;
  *   title = @Translation("Commerce Kickstart"),
  *   base_preview_name = "commerce",
  *   description = @Translation("A working storefront on Drupal Commerce: catalog, cart and checkout."),
- *   meta = "commerce_kickstart · 3.x",
  *   weight = 1,
  * )
  */
