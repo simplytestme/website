@@ -16,6 +16,15 @@ function simplytest_projects_simplytest_project_insert(SimplytestProject $projec
  * Implements hook_cron().
  */
 function simplytest_projects_cron() {
+  // Only production refreshes data from Drupal.org. Cron also runs on
+  // ephemeral environments (site install triggers a run, and anyone can run
+  // drush cron), and those requests multiplied the traffic that got
+  // simplytest's IPs blocked.
+  $lagoon_environment_type = getenv('LAGOON_ENVIRONMENT_TYPE');
+  if ($lagoon_environment_type !== FALSE && $lagoon_environment_type !== 'production') {
+    return;
+  }
+
   $core_version_manager = \Drupal::service('simplytest_projects.core_version_manager');
   assert($core_version_manager instanceof CoreVersionManager);
   $core_version_manager->updateData(7);

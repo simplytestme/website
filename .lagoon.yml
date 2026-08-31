@@ -51,22 +51,3 @@ environments:
         schedule: "*/10 * * * *"
         command: drush queue:run simplytest_projects_project_refresher --items-limit 250
         service: cli
-  # todo remove
-  prod:
-    routes:
-      - nginx:
-          - beta.simplytest.me:
-              insecure: Redirect
-              tls-acme: "true"
-          - dev.simplytest.me:
-              insecure: Redirect
-              tls-acme: "true"
-    cronjobs:
-      - name: drush cron
-        schedule: "*/30 * * * *"
-        command: drush cron
-        service: cli
-      - name: simplytest_projects_project_refresher
-        schedule: "*/10 * * * *"
-        command: drush queue:run simplytest_projects_project_refresher --items-limit 250
-        service: cli

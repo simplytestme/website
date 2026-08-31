@@ -72,6 +72,30 @@ final class ProjectHooksTest extends KernelTestBase {
   }
 
   /**
+   * Cron does nothing on non-production Lagoon environments.
+   *
+   * Ephemeral environments run cron too (site install triggers a run), and
+   * that traffic against Drupal.org is never wanted there.
+   */
+  public function testCronSkipsNonProductionEnvironments(): void {
+    $stale = $this->createProject('pathauto');
+    $this->setTimestamp($stale, (int) strtotime('-8 days'));
+
+    putenv('LAGOON_ENVIRONMENT_TYPE=development');
+    try {
+      $this->container->get('cron')->run();
+    }
+    finally {
+      putenv('LAGOON_ENVIRONMENT_TYPE');
+    }
+
+    $core_version_manager = $this->container->get('simplytest_projects.core_version_manager');
+    self::assertEmpty($core_version_manager->getVersions(10));
+    $queue = $this->container->get('queue')->get('simplytest_projects_project_refresher');
+    self::assertEquals(0, $queue->numberOfItems());
+  }
+
+  /**
    * Inserting a project pulls its release history straight away.
    */
   public function testProjectInsertFetchesReleases(): void {
