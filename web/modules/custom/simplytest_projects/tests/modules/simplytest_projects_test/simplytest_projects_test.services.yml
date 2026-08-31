@@ -4,3 +4,7 @@ services:
     arguments: ['@state']
     tags:
       - { name: http_client_middleware }
+  simplytest_projects_test.logger:
+    class: Drupal\simplytest_projects_test\BufferedLogger
+    tags:
+      - { name: logger }
