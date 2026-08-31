@@ -58,12 +58,12 @@ function ProjectAutocomplete({
 
   // The autocomplete only searches projects the site already knows about.
   // Anything else needs an explicit lookup against Drupal.org.
-  function lookupOnDrupalOrg() {
+  function lookupOnDrupalOrg(name) {
     setLookup("looking");
     fetch("/simplytest/projects/lookup", {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({ name: inputValue })
+      body: JSON.stringify({ name })
     })
       .then(res =>
         res.json().then(json => {
@@ -98,6 +98,13 @@ function ProjectAutocomplete({
           );
           if (matches.length === 1) {
             setInputValue(matches[0].title);
+          }
+          else if (items.length === 0 && !initialProject.title) {
+            // A deep link (?project=…) to a project the site does not know
+            // yet. The link is explicit intent, so run the lookup for it —
+            // additional-project rows always carry a title and never end up
+            // here.
+            lookupOnDrupalOrg(initialProject.shortname);
           }
         });
       }
