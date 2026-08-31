@@ -74,7 +74,7 @@ jobs:
         run: php vendor/bin/phpstan.phar
   rector:
     runs-on: ubuntu-latest
-    name: phpstan
+    name: rector
     steps:
       - uses: actions/checkout@v6
 
