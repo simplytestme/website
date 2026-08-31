@@ -120,7 +120,7 @@ final class ProjectHooksTest extends KernelTestBase {
   public function testSubscriberRunsAfterCoreCacheControl(): void {
     $call_order = [];
     foreach ($this->container->get('event_dispatcher')->getListeners(KernelEvents::RESPONSE) as $listener) {
-      $call_order[] = get_class($listener[0]) . '::' . $listener[1];
+      $call_order[] = $listener[0]::class . '::' . $listener[1];
     }
 
     $ours = array_search(ModifyMaxAgeResponseSubscriber::class . '::onResponse', $call_order, TRUE);

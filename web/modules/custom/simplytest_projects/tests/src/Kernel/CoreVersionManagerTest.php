@@ -51,38 +51,36 @@ final class CoreVersionManagerTest extends KernelTestBase {
   }
 
   public function __invoke(): \Closure {
-    return function () {
-      return function (RequestInterface $request): PromiseInterface {
-        $this->requests[] = $request;
-        if ($request->getMethod() === 'HEAD' && $request->getUri()->getHost() === 'updates.drupal.org') {
-          if ($request->hasHeader('If-Modified-Since')) {
-            return new FulfilledPromise(new Response(304, [], ''));
-          }
-          return new FulfilledPromise(new Response(200, ['Last-Modified' => 'Wed, 21 Apr 2021 00:36:14 GMT'], ''));
+    return fn() => function (RequestInterface $request): PromiseInterface {
+      $this->requests[] = $request;
+      if ($request->getMethod() === 'HEAD' && $request->getUri()->getHost() === 'updates.drupal.org') {
+        if ($request->hasHeader('If-Modified-Since')) {
+          return new FulfilledPromise(new Response(304, [], ''));
         }
+        return new FulfilledPromise(new Response(200, ['Last-Modified' => 'Wed, 21 Apr 2021 00:36:14 GMT'], ''));
+      }
 
-        $path = $request->getUri()->getPath();
-        if ($path === '/api-d7/node.json') {
-          $query = [];
-          parse_str($request->getUri()->getQuery(), $query);
-          if ($query['type'] === 'project_release' && $query['field_release_project'] === '3060') {
-            $version = $query['field_release_version_major'] ?? '';
-            $fixture_file = __DIR__ . "/../../fixtures/node/project_release/core-$version.json";
-            if (file_exists($fixture_file)) {
-              $fixture = file_get_contents($fixture_file);
-              if ($query['page'] === '1') {
-                $decoded_fixture = \json_decode($fixture, TRUE, 512, JSON_THROW_ON_ERROR);
-                // Prevent infinite looping for pagination logic.
-                unset($decoded_fixture['next']);
-                $fixture = \json_encode($decoded_fixture, JSON_THROW_ON_ERROR);
-              }
-              return new FulfilledPromise(new Response(200, ['Content-Type' => 'application/json'], $fixture));
+      $path = $request->getUri()->getPath();
+      if ($path === '/api-d7/node.json') {
+        $query = [];
+        parse_str($request->getUri()->getQuery(), $query);
+        if ($query['type'] === 'project_release' && $query['field_release_project'] === '3060') {
+          $version = $query['field_release_version_major'] ?? '';
+          $fixture_file = __DIR__ . "/../../fixtures/node/project_release/core-$version.json";
+          if (file_exists($fixture_file)) {
+            $fixture = file_get_contents($fixture_file);
+            if ($query['page'] === '1') {
+              $decoded_fixture = \json_decode($fixture, TRUE, 512, JSON_THROW_ON_ERROR);
+              // Prevent infinite looping for pagination logic.
+              unset($decoded_fixture['next']);
+              $fixture = \json_encode($decoded_fixture, JSON_THROW_ON_ERROR);
             }
+            return new FulfilledPromise(new Response(200, ['Content-Type' => 'application/json'], $fixture));
           }
         }
+      }
 
-        throw new \RuntimeException("Mocked request tried to escape: {$request->getMethod()} {$request->getUri()}");
-      };
+      throw new \RuntimeException("Mocked request tried to escape: {$request->getMethod()} {$request->getUri()}");
     };
   }
 
