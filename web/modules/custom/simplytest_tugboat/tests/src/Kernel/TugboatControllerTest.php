@@ -200,24 +200,6 @@ final class TugboatControllerTest extends KernelTestBase {
   }
 
   /**
-   * Repeated polls within the cache window make one set of Tugboat requests.
-   *
-   * Every open progress page polls every few seconds, and each uncached poll
-   * costs two Tugboat API calls. The computed state is cached briefly so all
-   * concurrent pollers of a job share one upstream round-trip.
-   *
-   * @covers ::instanceState
-   */
-  public function testInstanceStateCollapsesRepeatedPolls(): void {
-    $first = Json::decode((string) $this->sut->instanceState('abc123', 'running-job')->getContent());
-    $second = Json::decode((string) $this->sut->instanceState('abc123', 'running-job')->getContent());
-
-    self::assertEquals($first, $second);
-    $requests = $this->container->get('state')->get('simplytest_projects_test.tugboat_job_requests', []);
-    self::assertCount(2, $requests, 'The second poll was served from cache: one status and one log request in total.');
-  }
-
-  /**
    * A finished preview carries a finite lifetime for browsers and caches.
    *
    * Sandboxes are deleted two hours after creation; a permanently cached

@@ -287,12 +287,6 @@ final readonly class MockedHttpMiddleware {
    * Serves a Tugboat job, keyed off the job ID so tests can pick a state.
    */
   private function tugboatJob(RequestInterface $request, string $job_id, bool $is_log): FulfilledPromise|RejectedPromise {
-    // Record every job request so a test can assert how many round-trips a
-    // controller actually made, e.g. that its cache collapses repeated polls.
-    $requests = $this->state->get('simplytest_projects_test.tugboat_job_requests', []);
-    $requests[] = (string) $request->getUri();
-    $this->state->set('simplytest_projects_test.tugboat_job_requests', $requests);
-
     if ($job_id === 'unreachable-job') {
       return new RejectedPromise(new ConnectException('Connection refused', $request));
     }

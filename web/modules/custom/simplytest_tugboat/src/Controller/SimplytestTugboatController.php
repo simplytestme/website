@@ -5,7 +5,6 @@ namespace Drupal\simplytest_tugboat\Controller;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Cache\CacheableJsonResponse;
 use Drupal\Core\Cache\CacheableMetadata;
-use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Config\Config;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Messenger\MessengerInterface;
@@ -23,17 +22,6 @@ use Symfony\Component\HttpFoundation\Request;
  * Returns responses for Simplytest tugboat routes.
  */
 class SimplytestTugboatController extends ControllerBase {
-
-  /**
-   * How long a computed instance state may be reused, in seconds.
-   *
-   * The progress page polls this endpoint from every open browser tab, and
-   * each uncached hit costs two Tugboat API requests. The TTL collapses all
-   * concurrent pollers of one job into a single upstream round-trip per
-   * window; it must stay at or below the frontend poll interval or a poller
-   * could see the same state twice and conclude nothing is happening.
-   */
-  private const int STATE_CACHE_TTL = 3;
 
   /**
    * Browser max-age for finished previews, in seconds.
@@ -75,10 +63,7 @@ class SimplytestTugboatController extends ControllerBase {
    */
   protected $tugboatClient;
 
-  public function __construct(Config $config, LoggerInterface $logger, MessengerInterface $messenger, TugboatClient $tugboat_client, /**
-   * The cache backend for computed instance states.
-   */
-  protected CacheBackendInterface $cache) {
+  public function __construct(Config $config, LoggerInterface $logger, MessengerInterface $messenger, TugboatClient $tugboat_client) {
     $this->settings = $config;
     $this->logger = $logger;
     $this->messenger = $messenger;
@@ -94,8 +79,7 @@ class SimplytestTugboatController extends ControllerBase {
       $container->get('config.factory')->get('simplytest_tugboat.settings'),
       $container->get('logger.channel.simplytest_tugboat'),
       $container->get('messenger'),
-      $container->get('tugboat.client'),
-      $container->get('cache.default')
+      $container->get('tugboat.client')
     );
   }
 
@@ -122,11 +106,6 @@ class SimplytestTugboatController extends ControllerBase {
   }
 
   public function instanceState($instance_id, $job_id) {
-    $cid = "simplytest_tugboat:instance_state:$job_id";
-    if ($cached = $this->cache->get($cid)) {
-      return $this->stateResponse($cached->data);
-    }
-
     try {
       $status_response = $this->tugboatClient->requestWithApiKey('GET', "jobs/$job_id");
       $status_data = Json::decode((string) $status_response->getBody());
@@ -191,7 +170,6 @@ class SimplytestTugboatController extends ControllerBase {
     $instance_state['logs'] = $logs_data;
     $instance_state['progress'] = $this->calculateProgress($logs_data);
 
-    $this->cache->set($cid, $instance_state, time() + self::STATE_CACHE_TTL);
     return $this->stateResponse($instance_state);
   }
 
@@ -243,8 +221,7 @@ class SimplytestTugboatController extends ControllerBase {
       $response->setMaxAge(self::PREVIEW_MAX_AGE);
       return $response;
     }
-    // A job is still changing. The short server-side TTL above does the
-    // request collapsing; the HTTP response itself must stay uncacheable or
+    // A job is still changing, so the response must stay uncacheable or
     // pollers would never see fresh state.
     return new JsonResponse($instance_state);
   }
