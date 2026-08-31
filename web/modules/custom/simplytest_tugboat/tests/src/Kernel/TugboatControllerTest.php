@@ -11,7 +11,6 @@ use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\ProjectVersionManager;
 use Drupal\simplytest_tugboat\Controller\SimplytestTugboatController;
-use GuzzleHttp\Exception\ClientException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -158,13 +157,62 @@ final class TugboatControllerTest extends KernelTestBase {
   }
 
   /**
-   * Any other client error is left for the caller to deal with.
+   * Upstream errors become a 502 for the poller instead of a raw 500.
+   *
+   * The progress page polls this endpoint; an exception page would be parsed
+   * as JSON and polled into forever. A clean 502 lets the frontend back off.
    *
    * @covers ::instanceState
    */
-  public function testInstanceStateRethrowsOtherClientErrors(): void {
-    $this->expectException(ClientException::class);
-    $this->sut->instanceState('abc123', 'forbidden-job');
+  public function testInstanceStateMapsOtherClientErrors(): void {
+    $response = $this->sut->instanceState('abc123', 'forbidden-job');
+
+    self::assertEquals(502, $response->getStatusCode());
+    self::assertEquals(
+      ['message' => 'Unable to fetch the sandbox status.'],
+      Json::decode((string) $response->getContent()),
+    );
+  }
+
+  /**
+   * A network failure reaching Tugboat is also a 502, not an exception page.
+   *
+   * @covers ::instanceState
+   */
+  public function testInstanceStateMapsNetworkFailure(): void {
+    $response = $this->sut->instanceState('abc123', 'unreachable-job');
+
+    self::assertEquals(502, $response->getStatusCode());
+    self::assertEquals(
+      ['message' => 'Unable to fetch the sandbox status.'],
+      Json::decode((string) $response->getContent()),
+    );
+  }
+
+  /**
+   * Duplicate stage markers cannot push progress past 100.
+   *
+   * @covers ::instanceState
+   */
+  public function testInstanceStateProgressClampsAtHundred(): void {
+    $data = Json::decode((string) $this->sut->instanceState('abc123', 'noisy-job')->getContent());
+    self::assertEquals(100, $data['progress']);
+  }
+
+  /**
+   * A finished preview carries a finite lifetime for browsers and caches.
+   *
+   * Sandboxes are deleted two hours after creation; a permanently cached
+   * "ready" response would keep redirecting users to a dead preview.
+   *
+   * @covers ::instanceState
+   */
+  public function testInstanceStatePreviewMaxAgeIsFinite(): void {
+    $response = $this->sut->instanceState('abc123', 'finished-job');
+
+    self::assertInstanceOf(CacheableJsonResponse::class, $response);
+    self::assertEquals(60, $response->getCacheableMetadata()->getCacheMaxAge());
+    self::assertEquals(60, $response->getMaxAge());
   }
 
 }

@@ -2,6 +2,12 @@ import React, { useEffect, useState } from "react";
 import BuildErrorMessage from "./BuildErrorMessage";
 import BuildSuccessMessage from "./BuildSuccessMessage";
 
+// How long to wait between polls. The backend caches computed state for the
+// same window, so polling faster than this only returns cached answers.
+const POLL_INTERVAL = 3000;
+// Give up after this many consecutive failed status requests.
+const MAX_FAILURES = 5;
+
 function InstanceProgress() {
   const [error, setError] = useState(false);
   const [state, setState] = useState({
@@ -10,29 +16,74 @@ function InstanceProgress() {
     logs: []
   });
 
-  // @todo needs a refactor for 1st request and the subsequent.
   useEffect(() => {
     const { stateUrl } = drupalSettings;
-    const interval = setInterval(async () => {
-      const res = await fetch(stateUrl);
-      const json = await res.json();
-      if (res.status === 404) {
-        setError(true);
-        clearInterval(interval);
+    let timeoutId = null;
+    let stopped = false;
+    let failures = 0;
+
+    const schedule = delay => {
+      if (!stopped) {
+        timeoutId = setTimeout(poll, delay);
       }
-      // If we're no longer interacting with a job, the job has finished and we
-      // now have our preview instance.
-      if (json.type === "preview") {
-        clearInterval(interval);
+    };
+
+    // One request per tick, and the next tick is only scheduled once this one
+    // finishes, so slow responses stretch the interval instead of overlapping.
+    const poll = async () => {
+      let json;
+      try {
+        const res = await fetch(stateUrl);
+        if (res.status === 404) {
+          setState(await res.json());
+          setError(true);
+          return;
+        }
+        if (!res.ok) {
+          throw new Error(`Status request failed with ${res.status}`);
+        }
+        json = await res.json();
+      } catch (e) {
+        failures += 1;
+        if (failures >= MAX_FAILURES) {
+          setState(prev => ({
+            ...prev,
+            message:
+              "We can't check on your sandbox right now. Reload the page to try again."
+          }));
+          setError(true);
+          return;
+        }
+        // Back off so a struggling backend gets 6s, 12s, 24s, 48s of air.
+        schedule(POLL_INTERVAL * 2 ** failures);
+        return;
       }
-      if (json.url && json.state === "ready") {
-        setTimeout(() => {
-          window.location.href = json.url;
-        }, 3000);
-      }
+
+      failures = 0;
       setState(json);
-    }, 3000);
-    return () => clearInterval(interval);
+      // A preview means the job finished; a failed job never becomes one.
+      // Either way the state is final and polling must stop.
+      if (json.type === "preview") {
+        if (json.url && json.state === "ready") {
+          setTimeout(() => {
+            window.location.href = json.url;
+          }, 3000);
+        }
+        return;
+      }
+      if (json.state === "failed") {
+        return;
+      }
+      schedule(POLL_INTERVAL);
+    };
+
+    poll();
+    return () => {
+      stopped = true;
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
   }, []);
 
   if (error) {
@@ -50,10 +101,8 @@ function InstanceProgress() {
   if (state.state === "failed") {
     progressTitle = "There was a build error";
   }
-  // @todo need a successful build to test.
   if (state.type === "preview" && state.progress === 100) {
     progressTitle = "Sandbox built!";
-    console.log(state);
   }
 
   return (
