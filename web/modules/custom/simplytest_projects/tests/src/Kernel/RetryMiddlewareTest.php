@@ -58,29 +58,27 @@ final class RetryMiddlewareTest extends KernelTestBase
    */
   public function __invoke(): \Closure
   {
-    return function () {
-      return function (RequestInterface $request): PromiseInterface {
-        $this->requests[] = $request;
-        $this->attempt++;
+    return fn() => function (RequestInterface $request): PromiseInterface {
+      $this->requests[] = $request;
+      $this->attempt++;
 
-        // Simulate 429 on first two attempts, then 200.
-        if ($request->getUri()->getPath() === '/429-test') {
-          if ($this->attempt < 3) {
-            return new FulfilledPromise(new Response(429, ['Retry-After' => '1'], 'Too Many Requests'));
-          }
-          return new FulfilledPromise(new Response(200, [], 'OK'));
+      // Simulate 429 on first two attempts, then 200.
+      if ($request->getUri()->getPath() === '/429-test') {
+        if ($this->attempt < 3) {
+          return new FulfilledPromise(new Response(429, ['Retry-After' => '1'], 'Too Many Requests'));
         }
+        return new FulfilledPromise(new Response(200, [], 'OK'));
+      }
 
-        // Simulate 503 on first two attempts, then 200.
-        if ($request->getUri()->getPath() === '/503-test') {
-          if ($this->attempt < 3) {
-            return new FulfilledPromise(new Response(503, [], 'Service Unavailable'));
-          }
-          return new FulfilledPromise(new Response(200, [], 'OK'));
+      // Simulate 503 on first two attempts, then 200.
+      if ($request->getUri()->getPath() === '/503-test') {
+        if ($this->attempt < 3) {
+          return new FulfilledPromise(new Response(503, [], 'Service Unavailable'));
         }
+        return new FulfilledPromise(new Response(200, [], 'OK'));
+      }
 
-        return new FulfilledPromise(new Response(404, [], 'Not Found'));
-      };
+      return new FulfilledPromise(new Response(404, [], 'Not Found'));
     };
   }
 
