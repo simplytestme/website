@@ -16,7 +16,7 @@ function DrupalCoreVersionSelector() {
     () => {
       // Handle when the selected project is resolved before the selected version.
       if (!selectedVersion) {
-        return null;
+        return undefined;
       }
       // @todo There can be bugs when toggling between core + contrib
       // @todo Prevent extra requests for core version if we're on the same major.
@@ -29,12 +29,25 @@ function DrupalCoreVersionSelector() {
           selectedProject.shortname
         }/${selectedVersion}`;
       }
+      // When the version changes quickly, a slower earlier response must not
+      // overwrite the state of the one that matches the current selection.
+      let stale = false;
       fetchWithCallback(releaseUrl, json => {
-        if (json.hasOwnProperty("list")) {
+        if (stale) {
+          return;
+        }
+        // The endpoint 404s for an unknown release and can return an empty
+        // list; either way there is nothing to select.
+        if (Array.isArray(json.list) && json.list.length > 0) {
           setDrupalVersions(json.list.map(release => release.version));
           setDrupalVersion(json.list[0].version);
+        } else {
+          setDrupalVersions([]);
         }
       });
+      return () => {
+        stale = true;
+      };
     },
     [selectedProject, selectedVersion]
   );

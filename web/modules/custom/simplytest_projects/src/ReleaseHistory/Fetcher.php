@@ -38,13 +38,17 @@ final readonly class Fetcher {
    *   The project machine name.
    * @param string $channel
    *   The release channel (current or 7.x).
+   * @param string $state_key_suffix
+   *   Appended to the If-Modified-Since state key. Consumers that process
+   *   the same feed independently pass a distinct suffix so one consumer's
+   *   fetch cannot starve the other with 304s.
    *
    * @return string
    *   The release history XML as a string.
    *
    * @throws \Drupal\simplytest_projects\Exception\ReleaseHistoryNotModifiedException
    */
-  public function getProjectData(string $project, string $channel): string {
+  public function getProjectData(string $project, string $channel, string $state_key_suffix = ''): string {
     if ($channel !== 'current' && $channel !== '7.x') {
       throw new \InvalidArgumentException("Only the 'current' and '7.x' channel are supported, {$channel} was provided.");
     }
@@ -56,7 +60,8 @@ final readonly class Fetcher {
     // When sending an If-Modified-Since header, the server will return a 200
     // if the content has been modified, otherwise it returns 304.
     // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-Modified-Since
-    $last_modified = $this->state->get("release_history_last_modified:$project:$channel");
+    $state_key = "release_history_last_modified:$project:$channel$state_key_suffix";
+    $last_modified = $this->state->get($state_key);
     if ($last_modified) {
       $headers['If-Modified-Since'] = gmdate(DateTimePlus::RFC7231, $last_modified);
     }
@@ -66,7 +71,7 @@ final readonly class Fetcher {
       throw new ReleaseHistoryNotModifiedException();
     }
 
-    $this->state->set("release_history_last_modified:$project:$channel", strtotime((string) $response->getHeaderLine('Last-Modified')));
+    $this->state->set($state_key, strtotime((string) $response->getHeaderLine('Last-Modified')));
     return (string) $response->getBody();
   }
 

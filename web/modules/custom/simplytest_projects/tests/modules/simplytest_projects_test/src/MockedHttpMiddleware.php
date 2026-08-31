@@ -215,12 +215,21 @@ final readonly class MockedHttpMiddleware {
     ])));
   }
 
-  private function handleReleaseHistory(RequestInterface $request): FulfilledPromise {
+  private function handleReleaseHistory(RequestInterface $request): FulfilledPromise|RejectedPromise {
     $matches = [];
     if (preg_match('#https://updates\.drupal\.org/release-history/([^/]+)/(.+)#', (string) $request->getUri(), $matches) !== 1) {
       throw new \InvalidArgumentException("No response mocked for '{$request->getUri()}'");
     }
     [, $project, $channel] = $matches;
+
+    // A reserved shortname, so a test can make updates.drupal.org fail.
+    if ($project === 'servererror') {
+      return new RejectedPromise(new ServerException(
+        'updates.drupal.org is unreachable',
+        $request,
+        new Response(500, [], 'Internal server error'),
+      ));
+    }
 
     if ($request->getMethod() === 'HEAD') {
       // The core version manager uses a HEAD request to decide whether a full

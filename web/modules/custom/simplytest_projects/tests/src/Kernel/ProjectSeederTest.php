@@ -47,7 +47,7 @@ final class ProjectSeederTest extends KernelTestBase {
    */
   public function testSeedsStarterProjects(): void {
     $seeded = $this->sut->seed();
-    self::assertEquals(ProjectSeeder::STARTER_PROJECTS, $seeded);
+    self::assertEquals(array_keys(ProjectSeeder::STARTER_PROJECTS), $seeded);
 
     $shortnames = $this->container->get('database')
       ->select('simplytest_project', 'p')
@@ -55,9 +55,18 @@ final class ProjectSeederTest extends KernelTestBase {
       ->execute()
       ->fetchCol();
     sort($shortnames);
-    $expected = ProjectSeeder::STARTER_PROJECTS;
+    $expected = array_keys(ProjectSeeder::STARTER_PROJECTS);
     sort($expected);
     self::assertEquals($expected, $shortnames);
+
+    // The static project info carried the title and type.
+    $gin = $this->container->get('database')
+      ->select('simplytest_project', 'p')
+      ->fields('p', ['title', 'type'])
+      ->condition('shortname', 'gin')
+      ->execute()
+      ->fetchAssoc();
+    self::assertEquals(['title' => 'Gin Admin Theme', 'type' => 'Theme'], $gin);
 
     // Release data came along with the project.
     $releases = $this->container->get('simplytest_projects.project_version_manager')

@@ -46,7 +46,9 @@ final class ProjectRefresherTest extends KernelTestBase {
     $this->sut->processItem($project->id());
 
     $project = $this->reload($project);
-    self::assertEquals(695647, (int) $project->get('usage')->value);
+    // The refresher deliberately never contacts the www.drupal.org API, so
+    // the stored usage count stays whatever it was.
+    self::assertEquals(0, (int) $project->get('usage')->value);
     self::assertGreaterThan(0, $project->getTimestamp());
 
     // The release history for the project was pulled in as well.
@@ -75,15 +77,26 @@ final class ProjectRefresherTest extends KernelTestBase {
    * @covers ::processItem
    */
   public function testProcessItemSuspendsQueueWhenDrupalOrgIsDown(): void {
-    $project = $this->createProject('servererror');
+    // Insert directly: creating the entity would trip the same mocked
+    // server error inside the insert hook's release fetch.
+    $id = $this->container->get('database')->insert('simplytest_project')
+      ->fields([
+        'title' => 'Servererror',
+        'shortname' => 'servererror',
+        'sandbox' => 0,
+        'type' => ProjectTypes::MODULE,
+        'timestamp' => 0,
+        'usage' => 0,
+      ])
+      ->execute();
 
     $this->expectException(SuspendQueueException::class);
     $this->expectExceptionMessage('Drupal.org API may be down.');
-    $this->sut->processItem($project->id());
+    $this->sut->processItem($id);
   }
 
   /**
-   * Any other API failure still lets the release history refresh proceed.
+   * A project without release history still gets its timestamp bumped.
    *
    * @covers ::processItem
    */
