@@ -172,6 +172,14 @@ class SimplyTestProjects implements ContainerInjectionInterface {
    * conditional requests against updates.drupal.org.
    */
   private function refreshStaleReleases(string $project): void {
+    // A project whose import lost its release fetch has a fresh timestamp
+    // and no rows; the staleness gate would keep it versionless for hours,
+    // so refresh it directly. updateData() fetches unconditionally when no
+    // rows are stored.
+    if ($this->projectVersionManager->getAllReleases($project) === []) {
+      $this->projectVersionManager->updateData($project);
+      return;
+    }
     $this->projectFetcher->fetchVersions($project, TRUE);
   }
 

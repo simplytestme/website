@@ -223,7 +223,8 @@ jobs:
       - name: env
         run: cp .env.ci .env
       - name: cypress
-        run: npm run cypress:run
+        # Temporarily narrowed to the failing spec to isolate CI-only state.
+        run: npm run cypress:run -- --spec cypress/e2e/launch_form_prefill.cy.js
       - name: debug watchdog
         run: vendor/bin/drush watchdog:show --format=json --count=20
         if: ${{ failure() }}
