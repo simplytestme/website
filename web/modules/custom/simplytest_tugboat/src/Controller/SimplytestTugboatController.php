@@ -4,6 +4,8 @@ namespace Drupal\simplytest_tugboat\Controller;
 
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Cache\CacheableJsonResponse;
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Config\Config;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Messenger\MessengerInterface;
@@ -11,6 +13,7 @@ use Drupal\Core\Render\Markup;
 use Drupal\Core\Url;
 use Drupal\tugboat\TugboatClient;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,6 +23,37 @@ use Symfony\Component\HttpFoundation\Request;
  * Returns responses for Simplytest tugboat routes.
  */
 class SimplytestTugboatController extends ControllerBase {
+
+  /**
+   * How long a computed instance state may be reused, in seconds.
+   *
+   * The progress page polls this endpoint from every open browser tab, and
+   * each uncached hit costs two Tugboat API requests. The TTL collapses all
+   * concurrent pollers of one job into a single upstream round-trip per
+   * window; it must stay at or below the frontend poll interval or a poller
+   * could see the same state twice and conclude nothing is happening.
+   */
+  private const int STATE_CACHE_TTL = 3;
+
+  /**
+   * Browser max-age for finished previews, in seconds.
+   *
+   * Finite, because a "ready" answer goes stale: sandboxes are deleted two
+   * hours after creation, and a permanently cached response would keep
+   * redirecting users to a dead preview.
+   */
+  private const int PREVIEW_MAX_AGE = 60;
+
+  /**
+   * The build stages echoed by the preview config, in order.
+   */
+  private const array PROGRESS_STAGES = [
+    'SIMPLYEST_STAGE_DOWNLOAD',
+    'SIMPLYEST_STAGE_PATCHING',
+    'SIMPLYEST_STAGE_INSTALLING',
+    'SIMPLYEST_STAGE_FINALIZE',
+    'SIMPLYEST_STAGE_FINISHED',
+  ];
 
   /**
    * The module settings.
@@ -41,7 +75,10 @@ class SimplytestTugboatController extends ControllerBase {
    */
   protected $tugboatClient;
 
-  public function __construct(Config $config, LoggerInterface $logger, MessengerInterface $messenger, TugboatClient $tugboat_client) {
+  public function __construct(Config $config, LoggerInterface $logger, MessengerInterface $messenger, TugboatClient $tugboat_client, /**
+   * The cache backend for computed instance states.
+   */
+  protected CacheBackendInterface $cache) {
     $this->settings = $config;
     $this->logger = $logger;
     $this->messenger = $messenger;
@@ -57,7 +94,8 @@ class SimplytestTugboatController extends ControllerBase {
       $container->get('config.factory')->get('simplytest_tugboat.settings'),
       $container->get('logger.channel.simplytest_tugboat'),
       $container->get('messenger'),
-      $container->get('tugboat.client')
+      $container->get('tugboat.client'),
+      $container->get('cache.default')
     );
   }
 
@@ -84,6 +122,11 @@ class SimplytestTugboatController extends ControllerBase {
   }
 
   public function instanceState($instance_id, $job_id) {
+    $cid = "simplytest_tugboat:instance_state:$job_id";
+    if ($cached = $this->cache->get($cid)) {
+      return $this->stateResponse($cached->data);
+    }
+
     try {
       $status_response = $this->tugboatClient->requestWithApiKey('GET', "jobs/$job_id");
       $status_data = Json::decode((string) $status_response->getBody());
@@ -96,10 +139,23 @@ class SimplytestTugboatController extends ControllerBase {
           'message' => 'Sandbox instance no longer exists',
         ], $exception->getCode());
       }
-      throw $exception;
+      $this->logger->warning('Tugboat returned @code while fetching the state of job @job: @message', [
+        '@code' => $exception->getCode(),
+        '@job' => $job_id,
+        '@message' => $exception->getMessage(),
+      ]);
+      return new JsonResponse([
+        'message' => 'Unable to fetch the sandbox status.',
+      ], 502);
     }
-    catch (\Exception $e) {
-      throw $e;
+    catch (GuzzleException $exception) {
+      $this->logger->warning('Failed to reach Tugboat for the state of job @job: @message', [
+        '@job' => $job_id,
+        '@message' => $exception->getMessage(),
+      ]);
+      return new JsonResponse([
+        'message' => 'Unable to fetch the sandbox status.',
+      ], 502);
     }
 
     $instance_state = [
@@ -133,17 +189,63 @@ class SimplytestTugboatController extends ControllerBase {
       !str_contains((string) $log['message'], '[new tag]')));
 
     $instance_state['logs'] = $logs_data;
-    // Filter the logs to find our progress markers and the complete message.
-    $progress_steps = array_filter($logs_data, static fn(array $logs) => str_starts_with((string) $logs['message'], 'SIMPLYEST_STAGE_') || str_contains((string) $logs['message'], '(simplytest) is ready'));
-    $total_steps = ['SIMPLYEST_STAGE_DOWNLOAD', 'SIMPLYEST_STAGE_PATCHING', 'SIMPLYEST_STAGE_INSTALLING', 'SIMPLYEST_STAGE_FINALIZE', 'SIMPLYEST_STAGE_FINISHED'];
-    $instance_state['progress'] = (count($progress_steps) / count($total_steps)) * 100;
+    $instance_state['progress'] = $this->calculateProgress($logs_data);
 
-    // If we have a preview, that means the job completed and we can cache this
-    // result.
-    if ($status_data['type'] === 'preview') {
-      return new CacheableJsonResponse($instance_state);
+    $this->cache->set($cid, $instance_state, time() + self::STATE_CACHE_TTL);
+    return $this->stateResponse($instance_state);
+  }
+
+  /**
+   * Derives a percentage from the stage markers found in the build log.
+   *
+   * Each known stage counts once no matter how often its marker appears, so
+   * a re-run stage or a duplicated log line can never push the result past
+   * 100. The "is ready" line stands in for the final stage because previews
+   * built before the FINISHED marker existed only log the ready message.
+   *
+   * @param array<int, array{message: string}> $logs_data
+   *   The filtered build log.
+   */
+  private function calculateProgress(array $logs_data): int {
+    $found = [];
+    foreach ($logs_data as $log) {
+      $message = (string) $log['message'];
+      foreach (self::PROGRESS_STAGES as $stage) {
+        if (str_starts_with($message, $stage)) {
+          $found[$stage] = TRUE;
+        }
+      }
+      if (str_contains($message, '(simplytest) is ready')) {
+        $found['SIMPLYEST_STAGE_FINISHED'] = TRUE;
+      }
     }
-    // @todo infer cache headers from Tugboat and return CacheableJsonResponse.
+    return (int) min(100, round(count($found) / count(self::PROGRESS_STAGES) * 100));
+  }
+
+  /**
+   * Builds the JSON response for a computed instance state.
+   *
+   * @param array<string, mixed> $instance_state
+   *   The computed state.
+   */
+  private function stateResponse(array $instance_state): JsonResponse {
+    // A preview is a finished job: its state only changes when the sandbox
+    // expires, so browsers and the page cache may hold it briefly.
+    if ($instance_state['type'] === 'preview') {
+      $response = new CacheableJsonResponse($instance_state);
+      $metadata = (new CacheableMetadata())
+        ->setCacheMaxAge(self::PREVIEW_MAX_AGE)
+        ->addCacheContexts(['url.path']);
+      $response->addCacheableDependency($metadata);
+      // Core writes the site-wide max-age into Cache-Control regardless of
+      // the response's cacheability metadata; setting it here marks the
+      // header as customized so the finite lifetime survives.
+      $response->setMaxAge(self::PREVIEW_MAX_AGE);
+      return $response;
+    }
+    // A job is still changing. The short server-side TTL above does the
+    // request collapsing; the HTTP response itself must stay uncacheable or
+    // pollers would never see fresh state.
     return new JsonResponse($instance_state);
   }
 

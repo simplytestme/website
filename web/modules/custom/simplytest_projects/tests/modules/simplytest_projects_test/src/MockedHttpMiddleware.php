@@ -7,6 +7,7 @@ namespace Drupal\simplytest_projects_test;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\State\StateInterface;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Promise\RejectedPromise;
@@ -286,6 +287,15 @@ final readonly class MockedHttpMiddleware {
    * Serves a Tugboat job, keyed off the job ID so tests can pick a state.
    */
   private function tugboatJob(RequestInterface $request, string $job_id, bool $is_log): FulfilledPromise|RejectedPromise {
+    // Record every job request so a test can assert how many round-trips a
+    // controller actually made, e.g. that its cache collapses repeated polls.
+    $requests = $this->state->get('simplytest_projects_test.tugboat_job_requests', []);
+    $requests[] = (string) $request->getUri();
+    $this->state->set('simplytest_projects_test.tugboat_job_requests', $requests);
+
+    if ($job_id === 'unreachable-job') {
+      return new RejectedPromise(new ConnectException('Connection refused', $request));
+    }
     if ($job_id === 'missing-job') {
       return new RejectedPromise(new ClientException(
         'Not found',
@@ -302,6 +312,20 @@ final readonly class MockedHttpMiddleware {
     }
 
     if ($is_log) {
+      // A log where every stage appears, one of them twice, plus the ready
+      // line: seven marker matches against five stages. Progress derived from
+      // it must clamp at 100.
+      if ($job_id === 'noisy-job') {
+        return new FulfilledPromise(new Response(200, [], Json::encode([
+          ['message' => 'SIMPLYEST_STAGE_DOWNLOAD'],
+          ['message' => 'SIMPLYEST_STAGE_DOWNLOAD'],
+          ['message' => 'SIMPLYEST_STAGE_PATCHING'],
+          ['message' => 'SIMPLYEST_STAGE_INSTALLING'],
+          ['message' => 'SIMPLYEST_STAGE_FINALIZE'],
+          ['message' => 'SIMPLYEST_STAGE_FINISHED'],
+          ['message' => 'Preview (simplytest) is ready'],
+        ])));
+      }
       return new FulfilledPromise(new Response(200, [], Json::encode([
         ['message' => 'Cloning repository'],
         // These three are noise the controller is expected to strip.
@@ -321,7 +345,7 @@ final readonly class MockedHttpMiddleware {
     ];
     return new FulfilledPromise(new Response(200, [], Json::encode(match ($job_id) {
       'suspended-job' => ['type' => 'preview', 'state' => 'ready', 'suspended' => 'suspended'] + $job,
-      'running-job' => ['type' => 'job', 'action' => 'building'] + $job,
+      'running-job', 'noisy-job' => ['type' => 'job', 'action' => 'building'] + $job,
       'bogus-job' => ['type' => 'not-a-real-type'] + $job,
       default => ['type' => 'preview', 'state' => 'ready'] + $job,
     })));
