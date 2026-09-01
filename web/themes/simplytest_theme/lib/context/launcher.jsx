@@ -72,7 +72,9 @@ export function LauncherProvider({ children }) {
       drupalVersion,
       installProfile,
       manualInstall,
-      additionalProjects,
+      // `id` only keys the rows in the UI. The backend builds typed data from
+      // this payload and throws on properties it does not define.
+      additionalProjects: additionalProjects.map(({ id, ...project }) => project),
     }
   }
 

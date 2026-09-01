@@ -4,6 +4,12 @@ import ProjectSelection from "./ProjectSelection";
 import Patches from "./Patches";
 import { btnDashed, removeButton } from "../ui";
 
+let rowIdCounter = 0;
+function nextRowId() {
+  rowIdCounter += 1;
+  return `additional-project-${rowIdCounter}`;
+}
+
 function AdditionalProjects() {
   const {
     additionalProjects,
@@ -17,6 +23,10 @@ function AdditionalProjects() {
     setAdditionalProjects([
       ...additionalProjects,
       {
+        // A row needs a key before it has a shortname, and two empty rows
+        // would otherwise both key on "". The launcher strips this before
+        // the payload goes to the backend, which rejects unknown properties.
+        id: nextRowId(),
         title: "",
         shortname: "",
         version: "",
@@ -36,7 +46,7 @@ function AdditionalProjects() {
     <div className="flex w-full flex-col items-start gap-3">
       {additionalProjects.map((project, k) => (
         <div
-          key={project.shortname}
+          key={project.id}
           id={`additional_project_${k}`}
           className="flex w-full flex-col gap-3 border-b border-st-hairline2 pb-4 last:border-0"
         >
@@ -68,11 +78,18 @@ function AdditionalProjects() {
                   // Copy the array. Mutating it in place and passing the
                   // same reference back makes React bail out of the render,
                   // so the patch field below never mounts. See #3571405.
+                  const previous = additionalProjects[k];
                   const newProjects = [...additionalProjects];
                   newProjects[k] = {
+                    ...changedProject,
+                    id: previous.id,
                     version: changedVersion,
-                    patches: [],
-                    ...changedProject
+                    // Only a different project invalidates the patches. A
+                    // version change keeps them, matching the root project.
+                    patches:
+                      previous.shortname === changedProject.shortname
+                        ? previous.patches
+                        : []
                   };
                   setAdditionalProjects(newProjects);
                 }
