@@ -65,7 +65,10 @@ function AdditionalProjects() {
                     changedProject.shortname ||
                   additionalProjects[k].version !== changedVersion
                 ) {
-                  const newProjects = additionalProjects;
+                  // Copy the array. Mutating it in place and passing the
+                  // same reference back makes React bail out of the render,
+                  // so the patch field below never mounts. See #3571405.
+                  const newProjects = [...additionalProjects];
                   newProjects[k] = {
                     version: changedVersion,
                     patches: [],
