@@ -6,6 +6,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 The source for [simplytest.me](https://simplytest.me): a Drupal site that launches throwaway Drupal evaluation sandboxes on Tugboat. Users pick a project (module, theme, distribution, or core), a version, and optional extras; the site provisions a Tugboat preview that lives for 2 hours.
 
+## Where work is tracked
+
+Code and pull requests live on GitHub at [simplytestme/website](https://github.com/simplytestme/website). GitHub issues are disabled.
+
+Issues live in the Drupal.org issue queue at [drupal.org/project/issues/simplytest](https://www.drupal.org/project/issues/simplytest), which `composer.json` declares as the support URL. These have not migrated to GitLab issues, so `glab` does not apply. `git.drupalcode.org/project/simplytest` is listed as the source but is not where development happens, and there are no issue forks or merge requests.
+
+So: read and update issues with the `drupalorg-cli` skill. Open and merge PRs on GitHub with `gh`. Reference the Drupal.org issue number in the PR title or body when a change traces back to one.
+
 ## Commands
 
 ```bash
