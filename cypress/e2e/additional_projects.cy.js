@@ -78,6 +78,32 @@ describe('Tests additional projects and version constraints', () => {
     cy.get('#additional_project_0 input[type=url]').should('have.value', patchUrl)
   })
 
+  // #3494635: the format hint is rendered once per Patches instance, so the
+  // root project and each additional project must not share an id.
+  it('should give each patch field its own format hint', function () {
+    cy.pickProject('Password Policy')
+    cy.toggleAdvancedOptions()
+    cy.get('button').contains('Add another project').click();
+    cy.get('#additional_project_0').getByLabel('Additional project name')
+      .type('Password Policy')
+      .wait(100)
+      .type(' Pwned')
+      .wait(2000)
+      .type('{downArrow}{enter}')
+    cy.wait(400)
+
+    cy.get('input[type=url]').then(($inputs) => {
+      const hintIds = [...$inputs].map((input) =>
+        input.getAttribute('aria-describedby')
+      )
+      expect(hintIds).to.have.length(2)
+      expect(new Set(hintIds).size, 'distinct hint ids').to.eq(2)
+      hintIds.forEach((hintId) => {
+        cy.get(`[id="${hintId}"]`).should('have.length', 1).and('be.visible')
+      })
+    })
+  })
+
   // Rows used to key on the shortname, which is "" until a project is picked,
   // so two empty rows shared a key. React tolerates that here because the row
   // ids come from the map index, so this does not reproduce a visible failure.

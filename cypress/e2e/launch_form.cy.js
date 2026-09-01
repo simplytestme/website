@@ -49,6 +49,24 @@ describe('Test the launch form', function () {
     cy.get('#project_patch_1').get('button').contains('×').click();
     cy.get('#project_patch_0').get('button').contains('×').click();
   })
+  // #3494635: the placeholder was the only hint about the expected format, and
+  // it disappears the moment you type. The description below the field does not.
+  it('should keep the patch format hint visible while typing', function () {
+    cy.pickProject('Pathauto')
+    cy.toggleAdvancedOptions()
+    cy.getByLabel('Project patch 0')
+      .type('https://www.drupal.org/files/issues/2020-12-07/3185080-3.patch')
+
+    // useId() puts colons in the id, so this cannot be a `#id` selector.
+    cy.getByLabel('Project patch 0')
+      .invoke('attr', 'aria-describedby')
+      .then((hintId) => {
+        expect(hintId, 'the patch field describes itself').to.be.a('string')
+        cy.get(`[id="${hintId}"]`)
+          .should('be.visible')
+          .and('contain', 'https://www.drupal.org/files/')
+      })
+  })
   it('should adjust available core versions based on compatibility', function () {
     cy.pickProject('Pathauto')
     cy.getByLabel('Version')
