@@ -106,6 +106,7 @@ function AdditionalProjects() {
           </div>
           {project.shortname ? (
             <Patches
+              idPrefix={`additional_project_${k}_patch`}
               patches={project.patches}
               setPatches={updatedPatches => {
                 const newProjects = [...additionalProjects];

@@ -79,7 +79,11 @@ function AdvancedOptions() {
             title="Patches"
             description="Apply patch files from drupal.org issues before the site is built."
           >
-            <Patches patches={patches} setPatches={setPatches} />
+            <Patches
+              patches={patches}
+              setPatches={setPatches}
+              idPrefix="project_patch"
+            />
           </OptionGroup>
 
           <OptionGroup
