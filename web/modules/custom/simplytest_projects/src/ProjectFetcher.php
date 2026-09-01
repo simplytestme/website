@@ -186,11 +186,25 @@ class ProjectFetcher {
       $project = SimplytestProject::create($data);
       $project->save();
     }
-    catch (EntityValidationException) {
-      // @todo decide how to handle this error if we got a dupe save.
-    }
-    catch (EntityStorageException) {
-      // @todo decide how to handle this error if we got a dupe save, somehow.
+    catch (EntityValidationException | EntityStorageException $e) {
+      // Entity storage wraps whatever preSave() threw, so unpack it to tell
+      // a duplicate apart from a real storage failure.
+      $validation = $e instanceof EntityValidationException ? $e : $e->getPrevious();
+      if ($validation instanceof EntityValidationException) {
+        // A concurrent request imported the project first. It exists, which
+        // is all the caller needs; the stored data is as fresh as ours.
+        $this->logger->notice('Skipped saving %project: it was imported concurrently.', [
+          '%project' => $shortname,
+        ]);
+        return $data;
+      }
+      // The project did not persist: callers must not report success, or the
+      // client believes in a project the autocomplete will never find.
+      $this->logger->error('Failed to save project %project: %message', [
+        '%project' => $shortname,
+        '%message' => $e->getMessage(),
+      ]);
+      return NULL;
     }
     return $data;
   }
