@@ -35,7 +35,7 @@ function Patches({ patches, setPatches, idPrefix }) {
         // eslint-disable-next-line react/no-array-index-key
         <div key={k} id={`${idPrefix}_${k}`} className="flex w-full flex-row gap-2.5">
           <label className="sr-only" htmlFor={`${idPrefix}_url_${k}`}>
-            Project patch {k}
+            Project patch {k + 1}
           </label>
           <input
             id={`${idPrefix}_url_${k}`}
@@ -53,7 +53,7 @@ function Patches({ patches, setPatches, idPrefix }) {
           <button
             className={removeButton}
             type="button"
-            aria-label={`Remove patch ${k}`}
+            aria-label={`Remove patch ${k + 1}`}
             onClick={() => removeExtraPatch(k)}
           >
             <span aria-hidden="true">×</span>

@@ -15,7 +15,7 @@ describe('Autofil of launch form from query parameters', function () {
       .should('have.value', 'Drupal core')
     cy.getByLabel('Version')
       .should('have.value', '9.3.x-dev')
-    cy.getByLabel('Project patch 0')
+    cy.getByLabel('Project patch 1')
       .should('have.value', 'https://www.drupal.org/files/issues/2021-05-16/3214191-2.patch')
   })
 

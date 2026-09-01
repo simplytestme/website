@@ -98,7 +98,7 @@ function AdditionalProjects() {
             <button
               className={removeButton}
               type="button"
-              aria-label={`Remove additional project ${k}`}
+              aria-label={`Remove additional project ${k + 1}`}
               onClick={() => removeExtraProject(k)}
             >
               <span aria-hidden="true">×</span>
