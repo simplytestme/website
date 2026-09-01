@@ -98,7 +98,7 @@ function AdditionalProjects() {
             <button
               className={removeButton}
               type="button"
-              aria-label={`Remove additional project ${k}`}
+              aria-label={`Remove additional project ${k + 1}`}
               onClick={() => removeExtraProject(k)}
             >
               <span aria-hidden="true">×</span>
@@ -106,6 +106,7 @@ function AdditionalProjects() {
           </div>
           {project.shortname ? (
             <Patches
+              idPrefix={`additional_project_${k}_patch`}
               patches={project.patches}
               setPatches={updatedPatches => {
                 const newProjects = [...additionalProjects];

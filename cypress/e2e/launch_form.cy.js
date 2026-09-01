@@ -41,24 +41,28 @@ describe('Test the launch form', function () {
   it('should allow me to attach a patch to my project', function () {
     cy.pickProject('Pathauto')
     cy.toggleAdvancedOptions()
-    cy.getByLabel('Project patch 0')
+    cy.getByLabel('Project patch 1')
       .type('https://www.drupal.org/files/issues/2020-12-07/3185080-3.patch')
     cy.wait(200);
     cy.get('button').contains('Add another patch').click();
-    cy.getByLabel('Project patch 1');
-    cy.get('#project_patch_1').get('button').contains('×').click();
-    cy.get('#project_patch_0').get('button').contains('×').click();
+    cy.getByLabel('Project patch 2');
+    // Select the remove buttons by accessible name. `cy.get()` always queries
+    // from the document root, so the old `cy.get('#project_patch_1').get(...)`
+    // was not scoped to that row and clicked the first × on the page twice.
+    cy.get('button[aria-label="Remove patch 2"]').click();
+    cy.get('button[aria-label="Remove patch 1"]').click();
+    cy.get('input[type=url]').should('have.length', 1);
   })
   // #3494635: the placeholder was the only hint about the expected format, and
   // it disappears the moment you type. The description below the field does not.
   it('should keep the patch format hint visible while typing', function () {
     cy.pickProject('Pathauto')
     cy.toggleAdvancedOptions()
-    cy.getByLabel('Project patch 0')
+    cy.getByLabel('Project patch 1')
       .type('https://www.drupal.org/files/issues/2020-12-07/3185080-3.patch')
 
-    // useId() puts colons in the id, so this cannot be a `#id` selector.
-    cy.getByLabel('Project patch 0')
+    // Read the id off the field rather than hardcoding the hint's id here.
+    cy.getByLabel('Project patch 1')
       .invoke('attr', 'aria-describedby')
       .then((hintId) => {
         expect(hintId, 'the patch field describes itself').to.be.a('string')

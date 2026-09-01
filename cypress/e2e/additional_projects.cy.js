@@ -78,6 +78,32 @@ describe('Tests additional projects and version constraints', () => {
     cy.get('#additional_project_0 input[type=url]').should('have.value', patchUrl)
   })
 
+  // The patch field ids were hardcoded, so the root project and every
+  // additional project all rendered project_patch_url_0. The additional
+  // project's sr-only label pointed `for` at the root project's input.
+  it('should give every patch field a unique id its own label points at', function () {
+    cy.pickProject('Password Policy')
+    cy.toggleAdvancedOptions()
+    cy.get('button').contains('Add another project').click();
+    cy.get('#additional_project_0').getByLabel('Additional project name')
+      .type('Password Policy')
+      .wait(100)
+      .type(' Pwned')
+      .wait(2000)
+      .type('{downArrow}{enter}')
+    cy.wait(400)
+
+    cy.get('input[type=url]').then(($inputs) => {
+      const ids = [...$inputs].map((input) => input.id)
+      expect(ids, 'every patch input has an id').to.have.length(2).and.to.not.include('')
+      expect(new Set(ids).size, 'distinct patch input ids').to.eq(2)
+      ids.forEach((id) => {
+        cy.get(`[id="${id}"]`).should('have.length', 1)
+        cy.get(`label[for="${id}"]`).should('have.length', 1)
+      })
+    })
+  })
+
   // #3494635: the format hint is rendered once per Patches instance, so the
   // root project and each additional project must not share an id.
   it('should give each patch field its own format hint', function () {

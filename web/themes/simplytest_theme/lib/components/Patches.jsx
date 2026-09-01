@@ -1,14 +1,15 @@
-import React, { useId } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { btnDashed, removeButton } from "../ui";
 
 // NOTE: We receive patches and setPatches as props, since this component is
 // shared between the root project and any additional projects.
-function Patches({ patches, setPatches }) {
+function Patches({ patches, setPatches, idPrefix }) {
   // The launch form renders this component once for the root project and again
-  // for every additional project, so the hint below the fields needs an id that
-  // is unique per instance before aria-describedby can point at it.
-  const hintId = `${useId()}patch-hint`;
+  // for every additional project. Every id below is built from idPrefix so the
+  // instances do not collide: shared ids sent each additional project's label
+  // and aria-describedby to the root project's field instead of its own.
+  const hintId = `${idPrefix}_hint`;
 
   if (patches.length === 0) {
     patches.push("");
@@ -32,12 +33,12 @@ function Patches({ patches, setPatches }) {
         // peformance problem as we're constantly rebuilding the entire component
         // whenever someone types.
         // eslint-disable-next-line react/no-array-index-key
-        <div key={k} id={`project_patch_${k}`} className="flex w-full flex-row gap-2.5">
-          <label className="sr-only" htmlFor={`project_patch_url_${k}`}>
-            Project patch {k}
+        <div key={k} id={`${idPrefix}_${k}`} className="flex w-full flex-row gap-2.5">
+          <label className="sr-only" htmlFor={`${idPrefix}_url_${k}`}>
+            Project patch {k + 1}
           </label>
           <input
-            id={`project_patch_url_${k}`}
+            id={`${idPrefix}_url_${k}`}
             type="url"
             value={patch}
             onChange={event => {
@@ -52,7 +53,7 @@ function Patches({ patches, setPatches }) {
           <button
             className={removeButton}
             type="button"
-            aria-label={`Remove patch ${k}`}
+            aria-label={`Remove patch ${k + 1}`}
             onClick={() => removeExtraPatch(k)}
           >
             <span aria-hidden="true">×</span>
@@ -78,6 +79,9 @@ function Patches({ patches, setPatches }) {
 }
 Patches.propTypes = {
   patches: PropTypes.arrayOf(PropTypes.string).isRequired,
-  setPatches: PropTypes.func.isRequired
+  setPatches: PropTypes.func.isRequired,
+  // Must be unique across the page. There is no default on purpose: a shared
+  // fallback is exactly the collision this prop exists to prevent.
+  idPrefix: PropTypes.string.isRequired
 };
 export default Patches;
