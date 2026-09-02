@@ -11,23 +11,29 @@ function Patches({ patches, setPatches, idPrefix }) {
   // and aria-describedby to the root project's field instead of its own.
   const hintId = `${idPrefix}_hint`;
 
-  if (patches.length === 0) {
-    patches.push("");
-  }
+  // A project holds no patches until someone types, but it always shows one
+  // field so it is there the moment the project is selected. See #3571405.
+  //
+  // Derive that row instead of pushing it into `patches`. The prop is the
+  // parent's own state array, so `patches.push("")` wrote into React state
+  // during render. It happened to behave, because every read afterwards saw
+  // the same mutated array, but it left the component relying on that and gave
+  // the parent a state value it never set.
+  const rows = patches.length === 0 ? [""] : patches;
 
   function addPatch() {
-    setPatches([...patches, '']);
+    setPatches([...rows, '']);
   }
 
   function removeExtraPatch(k) {
-    const patchesCopy = patches.slice();
+    const patchesCopy = rows.slice();
     patchesCopy.splice(k, 1);
     setPatches(patchesCopy);
   }
 
   return (
     <div className="flex w-full flex-col items-start gap-3">
-      {patches.map((patch, k) => (
+      {rows.map((patch, k) => (
         // NOTE: we should not use `k`, but if we use `patch`, the value is
         // constantly modified onChange as the array is rebuilt. This is a major
         // peformance problem as we're constantly rebuilding the entire component
@@ -42,7 +48,7 @@ function Patches({ patches, setPatches, idPrefix }) {
             type="url"
             value={patch}
             onChange={event => {
-              const newPatches = [...patches];
+              const newPatches = [...rows];
               newPatches[k] = event.target.value;
               setPatches(newPatches);
             }}
