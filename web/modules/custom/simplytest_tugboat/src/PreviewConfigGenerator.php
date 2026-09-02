@@ -12,6 +12,35 @@ use Drupal\simplytest_projects\ProjectTypes;
  */
 final readonly class PreviewConfigGenerator {
 
+  /**
+   * The composer-patches requirement added to generated builds.
+   *
+   * Pinned on purpose. This used to arrive as a transitive dependency of
+   * szeidler/composer-patches-cli, which widened to `^1.7 || ^2.0` and silently
+   * moved every sandbox from 1.x to 2.x, changing how patches are applied.
+   *
+   * @see https://www.drupal.org/project/simplytest/issues/3588836
+   */
+  private const string COMPOSER_PATCHES = 'cweagans/composer-patches:^2.0';
+
+  /**
+   * Patcher configuration that falls back to GNU patch.
+   *
+   * composer-patches 2.x only ships git-based patchers, and `git apply` has no
+   * fuzz: a patch whose context drifted by a line is rejected outright. GNU
+   * patch still applies those, which is what sandboxes did before 2.x. It runs
+   * only after the git patchers have refused the patch.
+   *
+   * The arguments are templates. composer-patches fills the three `%s` with the
+   * patch depth, the package directory, and the downloaded patch file.
+   *
+   * @see \cweagans\Composer\Patcher\FreeformPatcher
+   */
+  private const array FREEFORM_PATCHER = [
+    'executable' => 'patch',
+    'dry_run_args' => '-p%s -d %s --dry-run --no-backup-if-mismatch -i %s',
+    'args' => '-p%s -d %s --no-backup-if-mismatch -i %s',
+  ];
 
   public function __construct(
     // @todo what if all builds were a plugin – so D7, D8, D9, Umami, Commerce?
@@ -69,11 +98,19 @@ final readonly class PreviewConfigGenerator {
       $this->getPatchingCommands($parameters),
     ];
 
+    // composer-patches only writes the patcher's own output when Composer is
+    // verbose. Without -v a rejected patch is reported as "No available patcher
+    // was able to apply patch ..." and nothing else, so nobody can tell whether
+    // the patch is stale, the depth is wrong, or the file no longer exists.
+    $composer_update = $this->hasPatches($parameters)
+      ? 'composer update --no-ansi -v'
+      : 'composer update --no-ansi';
+
     if ($parameters['major_version'] > 8) {
-      $build_commands[] = ['cd stm && composer update --no-ansi'];
+      $build_commands[] = ['cd stm && ' . $composer_update];
     }
     else if ($parameters['major_version'] === 8) {
-      $build_commands[] = ['cd "${DOCROOT}" && composer update --no-ansi'];
+      $build_commands[] = ['cd "${DOCROOT}" && ' . $composer_update];
     }
 
     $build_commands[] = ['echo "SIMPLYEST_STAGE_INSTALLING"'];
@@ -228,16 +265,6 @@ final readonly class PreviewConfigGenerator {
     return $commands;
   }
 
-  private function getComposerPatchCommand(string $project_name, string $patch, string $dir = 'stm') {
-    return sprintf(
-      'cd %s && composer patch-add drupal/%s "STM patch %s" "%s" --no-update',
-      $dir,
-      $project_name,
-      basename($patch),
-      $patch
-    );
-  }
-
   private function getLegacyPatchCommand($project_type, $project_name, $patch) {
     if ($project_type === ProjectTypes::CORE) {
       return sprintf('cd "${DOCROOT}" && curl %s | patch -p1', $patch);
@@ -270,55 +297,141 @@ final readonly class PreviewConfigGenerator {
   }
 
   private function getPatchingCommands(array $parameters) {
-    $commands = [];
-    // check if we need patching.
-    $empty = TRUE;
-    if (!empty($parameters['patches'])) {
-      $empty = FALSE;
-    } else {
-      foreach ($parameters['additionals'] as $additional) {
-        if (!empty($additional['patches'])) {
-          $empty = FALSE;
-        }
-      }
-    }
-    // bail if empty.
-    if ($empty) {
+    if (!$this->hasPatches($parameters)) {
       return [];
     }
-    // perform patching conditionally for major drupal version.
-    switch ($parameters['major_version']) {
-      case 7:
-        // Patch Drupal 7 to automatically redirect to the installer.
-        if ($parameters['perform_install'] === FALSE) {
-          $commands[] = $this->getLegacyPatchCommand(ProjectTypes::CORE, '', 'https://www.drupal.org/files/issues/2019-12-19/3077423-11.patch');
-        }
-        foreach ($parameters['patches'] as $patch) {
-          $commands[] = $this->getLegacyPatchCommand($parameters['project_type'], $parameters['project'], $patch);
-        }
-        foreach ($parameters['additionals'] as $additional) {
-          foreach ($additional['patches'] as $additional_patch) {
-            $commands[] = $this->getLegacyPatchCommand($additional['type'], $additional['shortname'], $additional_patch);
-          }
-        }
-        break;
-      default:
-        $composerWorkingDir = $parameters['major_version'] !== 8 ? 'stm' : '"${DOCROOT}"';
-        $commands[] = 'composer global config --no-interaction allow-plugins.szeidler/composer-patches-cli true';
-        $commands[] = 'composer global config --no-interaction allow-plugins.cweagans/composer-patches true';
-        $commands[] = 'composer global require szeidler/composer-patches-cli:~1.0';
-        $commands[] = 'cd ' . $composerWorkingDir .  ' && composer patch-enable --file="patches.json"';
-        foreach ($parameters['patches'] as $patch) {
-          $commands[] = $this->getComposerPatchCommand($parameters['project'], $patch, $composerWorkingDir);
-        }
-        foreach ($parameters['additionals'] as $additional) {
-          foreach ($additional['patches'] as $additional_patch) {
-            $commands[] = $this->getComposerPatchCommand($additional['shortname'], $additional_patch, $composerWorkingDir);
-          }
-        }
-        break;
+
+    if ($parameters['major_version'] === 7) {
+      return $this->getLegacyPatchingCommands($parameters);
     }
 
+    $dir = $parameters['major_version'] === 8 ? '"${DOCROOT}"' : 'stm';
+    // composer-patches is required into the build rather than installed
+    // globally so the version is ours to choose. Composer installs plugins
+    // ahead of everything else, so the patcher is active for the same
+    // `composer update` that installs the packages it patches.
+    return [
+      sprintf('cd %s && composer config --no-interaction allow-plugins.cweagans/composer-patches true', $dir),
+      sprintf('cd %s && composer config --no-interaction extra.composer-patches.patches-file patches.json', $dir),
+      sprintf('cd %s && composer require --no-update %s', $dir, self::COMPOSER_PATCHES),
+      sprintf('cd %s && echo %s > patches.json', $dir, escapeshellarg($this->getPatchesFile($parameters))),
+    ];
+  }
+
+  /**
+   * Builds the patches.json read by composer-patches.
+   *
+   * @param array<mixed> $parameters
+   *   The preview config parameters.
+   *
+   * @return string
+   *   The encoded patches file.
+   */
+  private function getPatchesFile(array $parameters): string {
+    $patches = [];
+    $package = 'drupal/' . $parameters['project'];
+    foreach ($parameters['patches'] as $patch) {
+      $patches[$package][] = $this->buildPatchDefinition($package, $patch);
+    }
+    foreach ($parameters['additionals'] as $additional) {
+      foreach ($additional['patches'] as $additional_patch) {
+        $package = 'drupal/' . $additional['shortname'];
+        $patches[$package][] = $this->buildPatchDefinition($package, $additional_patch);
+      }
+    }
+    return json_encode(['patches' => $patches], JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
+  }
+
+  /**
+   * Builds a single composer-patches patch definition.
+   *
+   * The expanded definition format is used rather than the compact
+   * `description: url` one because only the expanded format carries a depth and
+   * per-patch patcher configuration.
+   *
+   * @param string $package
+   *   The Composer package the patch applies to.
+   * @param string $url
+   *   The patch URL as submitted.
+   *
+   * @return array{description: string, url: string, depth: int, extra: array{freeform: array{executable: string, dry_run_args: string, args: string}}}
+   *   The patch definition.
+   */
+  private function buildPatchDefinition(string $package, string $url): array {
+    $url = $this->normalizePatchUrl($url);
+    return [
+      'description' => sprintf('STM patch %s', basename(parse_url($url, PHP_URL_PATH) ?: $url)),
+      'url' => $url,
+      // Patches for drupal/core are cut from the drupal/drupal monorepo, where
+      // the files live under core/. That prefix is not part of the package.
+      'depth' => $package === 'drupal/core' ? 2 : 1,
+      'extra' => ['freeform' => self::FREEFORM_PATCHER],
+    ];
+  }
+
+  /**
+   * Rewrites a GitLab merge request `.patch` URL to its `.diff` equivalent.
+   *
+   * `N.patch` is the whole commit series as an mbox, so applying it replays
+   * every commit in turn. Any file the series touches outside the patch depth
+   * aborts the entire apply. For drupal/core that includes anything committed
+   * to the repository root. `N.diff` is the same change squashed into one diff
+   * against the merge base, which is what a sandbox wants.
+   *
+   * @param string $url
+   *   The patch URL as submitted.
+   *
+   * @return string
+   *   The URL to fetch the patch from.
+   */
+  private function normalizePatchUrl(string $url): string {
+    return preg_replace('#(/-/merge_requests/\d+)\.patch($|\?)#', '$1.diff$2', $url) ?? $url;
+  }
+
+  /**
+   * Determines whether the build has any patches to apply.
+   *
+   * @param array<mixed> $parameters
+   *   The preview config parameters.
+   *
+   * @return bool
+   *   TRUE if the project or any additional project has a patch.
+   */
+  private function hasPatches(array $parameters): bool {
+    if (!empty($parameters['patches'])) {
+      return TRUE;
+    }
+    foreach ($parameters['additionals'] as $additional) {
+      if (!empty($additional['patches'])) {
+        return TRUE;
+      }
+    }
+    return FALSE;
+  }
+
+  /**
+   * Builds the patching commands for Drupal 7, which has no Composer build.
+   *
+   * @param array<mixed> $parameters
+   *   The preview config parameters.
+   *
+   * @return list<string>
+   *   The build commands.
+   */
+  private function getLegacyPatchingCommands(array $parameters): array {
+    $commands = [];
+    // Patch Drupal 7 to automatically redirect to the installer.
+    if ($parameters['perform_install'] === FALSE) {
+      $commands[] = $this->getLegacyPatchCommand(ProjectTypes::CORE, '', 'https://www.drupal.org/files/issues/2019-12-19/3077423-11.patch');
+    }
+    foreach ($parameters['patches'] as $patch) {
+      $commands[] = $this->getLegacyPatchCommand($parameters['project_type'], $parameters['project'], $patch);
+    }
+    foreach ($parameters['additionals'] as $additional) {
+      foreach ($additional['patches'] as $additional_patch) {
+        $commands[] = $this->getLegacyPatchCommand($additional['type'], $additional['shortname'], $additional_patch);
+      }
+    }
     return $commands;
   }
 
