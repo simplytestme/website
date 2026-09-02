@@ -1,0 +1,111 @@
+<?php declare(strict_types=1);
+
+namespace Drupal\Tests\simplytest_tugboat\Kernel;
+
+use Drupal\KernelTests\KernelTestBase;
+use Drupal\simplytest_projects\ProjectTypes;
+use Drupal\simplytest_tugboat\Controller\LaunchStatisticsController;
+use Drupal\simplytest_tugboat\LaunchRecorder;
+
+/**
+ * @group simplytest
+ * @group simplytest_tugboat
+ *
+ * @coversDefaultClass \Drupal\simplytest_tugboat\Controller\LaunchStatisticsController
+ */
+final class LaunchStatisticsControllerTest extends KernelTestBase {
+
+  protected static $modules = [
+    'system',
+    'tugboat',
+    'simplytest_ocd',
+    'simplytest_projects',
+    'simplytest_tugboat',
+  ];
+
+  protected function setUp(): void {
+    parent::setUp();
+    $this->installConfig(['system']);
+    $this->installSchema('simplytest_tugboat', LaunchRecorder::TABLE_NAME);
+  }
+
+  /**
+   * @covers ::report
+   */
+  public function testReportWithNoLaunches(): void {
+    $output = $this->renderReport();
+
+    self::assertStringContainsString('Launch statistics', $output);
+    self::assertStringContainsString('No launches recorded yet', $output);
+  }
+
+  /**
+   * @covers ::report
+   * @covers ::peak
+   */
+  public function testReportListsWhatWasLaunched(): void {
+    $this->record('token');
+    $this->record('token');
+    $this->record('webform');
+
+    $output = $this->renderReport();
+
+    self::assertStringNotContainsString('No launches recorded yet', $output);
+    self::assertStringContainsString('https://www.drupal.org/project/token', $output);
+    self::assertStringContainsString('https://www.drupal.org/project/webform', $output);
+    self::assertStringContainsString('Recording since', $output);
+  }
+
+  /**
+   * Failed launches stay out of the public numbers.
+   *
+   * @covers ::report
+   */
+  public function testReportExcludesFailedLaunches(): void {
+    $this->record('token', LaunchRecorder::STATUS_FAILED);
+
+    self::assertStringContainsString('No launches recorded yet', $this->renderReport());
+  }
+
+  /**
+   * The report is cached by time, never by tag.
+   *
+   * Tagging it would mean every launch invalidated the page, which is the one
+   * thing that would make a public report expensive to serve.
+   *
+   * @covers ::report
+   */
+  public function testReportIsCachedByTime(): void {
+    $build = LaunchStatisticsController::create($this->container)->report();
+
+    self::assertEquals(900, $build['#cache']['max-age']);
+    self::assertArrayNotHasKey('tags', $build['#cache']);
+  }
+
+  private function renderReport(): string {
+    $build = LaunchStatisticsController::create($this->container)->report();
+    return (string) $this->container->get('renderer')->renderRoot($build);
+  }
+
+  private function record(string $project, string $status = LaunchRecorder::STATUS_LAUNCHED): void {
+    $created = $this->container->get('datetime.time')->getRequestTime();
+    $this->container->get('database')->insert(LaunchRecorder::TABLE_NAME)
+      ->fields([
+        'created' => $created,
+        'created_date' => gmdate('Y-m-d', $created),
+        'status' => $status,
+        'preview_id' => 'preview-abc',
+        'project' => $project,
+        'project_type' => ProjectTypes::MODULE,
+        'project_version' => '8.x-1.0',
+        'core_version' => '10.3.0',
+        'install_profile' => 'standard',
+        'one_click_demo' => '',
+        'manual_install' => 0,
+        'patch_count' => 0,
+        'additional_count' => 0,
+      ])
+      ->execute();
+  }
+
+}

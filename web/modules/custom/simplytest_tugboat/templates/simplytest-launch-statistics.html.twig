@@ -1,0 +1,125 @@
+{#
+/**
+ * @file
+ * The public launch statistics report.
+ *
+ * Available variables:
+ * - window_days: How many days the breakdowns cover.
+ * - totals: Launch counts keyed by 'week', 'window' and 'all_time'.
+ * - daily: Per-day totals, oldest first, each with 'date' and 'total'.
+ * - daily_peak: The busiest day's total, used to scale the bars.
+ * - projects: Top projects, each with 'name' and 'total'.
+ * - core_versions: Top Drupal core releases, each with 'name' and 'total'.
+ * - install_profiles: Top install profiles, each with 'name' and 'total'.
+ * - project_types: Launches per project type, each with 'name' and 'total'.
+ * - first_recorded_at: Timestamp of the earliest recorded launch, or null.
+ *
+ * Bar widths and heights are inline styles on purpose: the values are computed
+ * per row, and Tailwind can only emit classes it can see at build time.
+ */
+#}
+<div class="px-6 pb-16 pt-10 lg:px-16">
+
+  <header class="max-w-2xl">
+    <h1 class="text-3xl font-extrabold tracking-[-0.02em] text-st-ink">Launch statistics</h1>
+    <p class="mt-3 text-[15px] leading-relaxed text-st-slate">
+      What people are evaluating on simplytest.me. Counts cover sandboxes that
+      built successfully. Nothing here identifies who launched anything.
+    </p>
+    {% if first_recorded_at %}
+      <p class="mt-2 font-mono text-[11px] uppercase tracking-[0.1em] text-st-faint">
+        Recording since {{ first_recorded_at|format_date('custom', 'F j, Y') }}
+      </p>
+    {% endif %}
+  </header>
+
+  {% if totals.all_time == 0 %}
+    <p class="mt-10 rounded-lg border border-dashed border-st-dash bg-st-field px-6 py-10 text-center text-[15px] text-st-muted">
+      No launches recorded yet. Check back once a few sandboxes have been built.
+    </p>
+  {% else %}
+
+    <dl class="mt-8 grid gap-4 sm:grid-cols-3">
+      {% set tiles = [
+        { label: 'Last 7 days', value: totals.week },
+        { label: 'Last ' ~ window_days ~ ' days', value: totals.window },
+        { label: 'All time', value: totals.all_time }
+      ] %}
+      {% for tile in tiles %}
+        <div class="rounded-xl border border-st-line bg-st-surface px-5 py-4 shadow-card">
+          <dt class="font-mono text-[11px] uppercase tracking-[0.1em] text-st-faint">{{ tile.label }}</dt>
+          <dd class="mt-1.5 text-3xl font-extrabold tracking-[-0.02em] text-st-ink">{{ tile.value|number_format }}</dd>
+        </div>
+      {% endfor %}
+    </dl>
+
+    <section class="mt-10 rounded-xl border border-st-line bg-white p-6 shadow-card">
+      <h2 class="text-sm font-semibold text-st-body">Launches per day</h2>
+      <div class="mt-5 flex h-40 items-end gap-[3px]" role="img"
+           aria-label="Daily launch counts for the last {{ window_days }} days.">
+        {% for day in daily %}
+          <div class="group relative flex-1 rounded-t-sm bg-st-accent-line hover:bg-st-accent"
+               style="height: {{ day.total > 0 ? (day.total / daily_peak * 100)|round : 2 }}%"
+               title="{{ day.date }}: {{ day.total }} launch{{ day.total == 1 ? '' : 'es' }}"></div>
+        {% endfor %}
+      </div>
+      <div class="mt-2 flex justify-between font-mono text-[11px] text-st-faint">
+        <span>{{ daily|first.date }}</span>
+        <span>Peak {{ daily_peak|number_format }}</span>
+        <span>{{ daily|last.date }}</span>
+      </div>
+    </section>
+
+    <div class="mt-6 grid gap-6 lg:grid-cols-2">
+
+      <section class="rounded-xl border border-st-line bg-white p-6 shadow-card">
+        <h2 class="text-sm font-semibold text-st-body">Most launched projects</h2>
+        <p class="mt-1 font-mono text-[11px] uppercase tracking-[0.1em] text-st-faint">Last {{ window_days }} days</p>
+        <ol class="mt-5 space-y-2.5">
+          {% for project in projects %}
+            <li>
+              <div class="flex items-baseline justify-between gap-4 text-[13px]">
+                <a href="https://www.drupal.org/project/{{ project.name }}"
+                   class="font-medium text-st-slate hover:text-st-accent-dark">{{ project.name }}</a>
+                <span class="font-mono text-st-muted">{{ project.total|number_format }}</span>
+              </div>
+              <div class="mt-1 h-1.5 rounded-full bg-st-hairline2">
+                <div class="h-1.5 rounded-full bg-st-accent"
+                     style="width: {{ (project.total / projects|first.total * 100)|round }}%"></div>
+              </div>
+            </li>
+          {% else %}
+            <li class="text-[13px] text-st-muted">Nothing launched in this window.</li>
+          {% endfor %}
+        </ol>
+      </section>
+
+      <div class="space-y-6">
+        {% set breakdowns = [
+          { title: 'Drupal core releases', rows: core_versions },
+          { title: 'Install profiles', rows: install_profiles },
+          { title: 'Project types', rows: project_types }
+        ] %}
+        {% for breakdown in breakdowns %}
+          <section class="rounded-xl border border-st-line bg-white p-6 shadow-card">
+            <h2 class="text-sm font-semibold text-st-body">{{ breakdown.title }}</h2>
+            <p class="mt-1 font-mono text-[11px] uppercase tracking-[0.1em] text-st-faint">Last {{ window_days }} days</p>
+            <dl class="mt-4 space-y-2 text-[13px]">
+              {% for row in breakdown.rows %}
+                <div class="flex items-baseline justify-between gap-4 border-b border-st-hairline2 pb-2 last:border-0 last:pb-0">
+                  <dt class="text-st-slate">{{ row.name }}</dt>
+                  <dd class="font-mono text-st-muted">{{ row.total|number_format }}</dd>
+                </div>
+              {% else %}
+                <div class="text-st-muted">Nothing launched in this window.</div>
+              {% endfor %}
+            </dl>
+          </section>
+        {% endfor %}
+      </div>
+
+    </div>
+
+  {% endif %}
+
+</div>
