@@ -53,6 +53,17 @@ describe('Test the launch form', function () {
     cy.get('button[aria-label="Remove patch 1"]').click();
     cy.get('input[type=url]').should('have.length', 1);
   })
+  // The test above types into the first field before adding a second, so it
+  // never covered adding one straight from the placeholder row. That row is
+  // derived rather than stored, which is the case most likely to break.
+  it('should add a second patch field before anything is typed', function () {
+    cy.pickProject('Pathauto')
+    cy.toggleAdvancedOptions()
+    cy.get('input[type=url]').should('have.length', 1);
+    cy.get('button').contains('Add another patch').click();
+    cy.getByLabel('Project patch 2');
+    cy.get('input[type=url]').should('have.length', 2);
+  })
   // #3494635: the placeholder was the only hint about the expected format, and
   // it disappears the moment you type. The description below the field does not.
   it('should keep the patch format hint visible while typing', function () {
