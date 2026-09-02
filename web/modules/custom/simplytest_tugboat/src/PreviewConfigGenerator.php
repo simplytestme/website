@@ -330,16 +330,44 @@ final readonly class PreviewConfigGenerator {
   private function getPatchesFile(array $parameters): string {
     $patches = [];
     $package = 'drupal/' . $parameters['project'];
-    foreach ($parameters['patches'] as $patch) {
+    foreach ($this->getSubmittedPatches($parameters['patches']) as $patch) {
       $patches[$package][] = $this->buildPatchDefinition($package, $patch);
     }
     foreach ($parameters['additionals'] as $additional) {
-      foreach ($additional['patches'] as $additional_patch) {
-        $package = 'drupal/' . $additional['shortname'];
+      $package = 'drupal/' . $additional['shortname'];
+      foreach ($this->getSubmittedPatches($additional['patches']) as $additional_patch) {
         $patches[$package][] = $this->buildPatchDefinition($package, $additional_patch);
       }
     }
     return json_encode(['patches' => $patches], JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
+  }
+
+  /**
+   * Returns the patch URLs a project was actually given.
+   *
+   * The launch form renders a patch field for every project whether or not it
+   * is used, so a submission carries an empty string for each project left
+   * unpatched. Those must not reach the build: composer-patches takes an empty
+   * URL at face value and fails the whole update with "$url must not be an
+   * empty string".
+   *
+   * @param array<mixed> $patches
+   *   The submitted patch values for one project.
+   *
+   * @return list<string>
+   *   The patch URLs to apply.
+   *
+   * @see https://www.drupal.org/project/simplytest/issues/3348026
+   */
+  private function getSubmittedPatches(array $patches): array {
+    $urls = [];
+    foreach ($patches as $patch) {
+      $patch = trim((string) $patch);
+      if ($patch !== '') {
+        $urls[] = $patch;
+      }
+    }
+    return $urls;
   }
 
   /**
@@ -398,11 +426,11 @@ final readonly class PreviewConfigGenerator {
    *   TRUE if the project or any additional project has a patch.
    */
   private function hasPatches(array $parameters): bool {
-    if (!empty($parameters['patches'])) {
+    if ($this->getSubmittedPatches($parameters['patches']) !== []) {
       return TRUE;
     }
     foreach ($parameters['additionals'] as $additional) {
-      if (!empty($additional['patches'])) {
+      if ($this->getSubmittedPatches($additional['patches']) !== []) {
         return TRUE;
       }
     }
@@ -424,11 +452,11 @@ final readonly class PreviewConfigGenerator {
     if ($parameters['perform_install'] === FALSE) {
       $commands[] = $this->getLegacyPatchCommand(ProjectTypes::CORE, '', 'https://www.drupal.org/files/issues/2019-12-19/3077423-11.patch');
     }
-    foreach ($parameters['patches'] as $patch) {
+    foreach ($this->getSubmittedPatches($parameters['patches']) as $patch) {
       $commands[] = $this->getLegacyPatchCommand($parameters['project_type'], $parameters['project'], $patch);
     }
     foreach ($parameters['additionals'] as $additional) {
-      foreach ($additional['patches'] as $additional_patch) {
+      foreach ($this->getSubmittedPatches($additional['patches']) as $additional_patch) {
         $commands[] = $this->getLegacyPatchCommand($additional['type'], $additional['shortname'], $additional_patch);
       }
     }

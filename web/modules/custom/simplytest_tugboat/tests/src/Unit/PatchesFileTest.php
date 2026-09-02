@@ -143,6 +143,63 @@ final class PatchesFileTest extends UnitTestCase {
   }
 
   /**
+   * The empty patch row the form always submits is not a patch.
+   *
+   * Reproduces the report: a project plus two additional projects, none of them
+   * patched. composer-patches takes the empty URL at face value and fails the
+   * whole update with "$url must not be an empty string".
+   *
+   * @see https://www.drupal.org/project/simplytest/issues/3348026
+   */
+  public function testEmptyPatchRowsAreIgnored(): void {
+    $commands = $this->getBuildCommands([
+      'project' => 'antibot',
+      'patches' => [''],
+      'additionals' => [
+        ['shortname' => 'gin', 'version' => '8.x-3.0', 'patches' => ['']],
+        ['shortname' => 'gin_login', 'version' => '8.x-2.1', 'patches' => ['']],
+      ],
+    ]);
+
+    self::assertContains('cd stm && composer update --no-ansi', $commands);
+    self::assertSame([], array_filter(
+      $commands,
+      static fn (string $command): bool => str_contains($command, 'patches.json')
+    ));
+  }
+
+  /**
+   * An empty row alongside a real patch drops only the empty row.
+   */
+  public function testEmptyRowsAreDroppedFromRealPatches(): void {
+    $patches = $this->getPatchesFile([
+      'patches' => [''],
+      'additionals' => [
+        [
+          'shortname' => 'pathauto',
+          'version' => '8.x-1.8',
+          'patches' => ['', 'https://www.drupal.org/files/issues/one.patch', ''],
+        ],
+      ],
+    ]);
+
+    self::assertSame(['drupal/pathauto'], array_keys($patches));
+    self::assertCount(1, $patches['drupal/pathauto']);
+  }
+
+  /**
+   * A field holding only whitespace is empty.
+   */
+  public function testWhitespaceOnlyPatchIsIgnored(): void {
+    $commands = $this->getBuildCommands(['patches' => ['   ']]);
+
+    self::assertSame([], array_filter(
+      $commands,
+      static fn (string $command): bool => str_contains($command, 'patches.json')
+    ));
+  }
+
+  /**
    * A build without patches does not install the patcher or go verbose.
    */
   public function testBuildWithoutPatches(): void {
