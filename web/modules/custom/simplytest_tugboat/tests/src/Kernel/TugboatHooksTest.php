@@ -51,6 +51,38 @@ final class TugboatHooksTest extends KernelTestBase {
   }
 
   /**
+   * The update hook creates the table on a site that is already installed.
+   *
+   * hook_schema() only runs when a module is first installed, so without this
+   * the production database never gets the table and every launch is logged as
+   * a recording failure.
+   *
+   * @covers ::simplytest_tugboat_update_10001
+   */
+  public function testUpdateInstallsTheTable(): void {
+    $schema = $this->container->get('database')->schema();
+    self::assertFalse($schema->tableExists(LaunchRecorder::TABLE_NAME));
+
+    simplytest_tugboat_update_10001();
+
+    self::assertTrue($schema->tableExists(LaunchRecorder::TABLE_NAME));
+  }
+
+  /**
+   * Running the update twice is harmless.
+   *
+   * @covers ::simplytest_tugboat_update_10001
+   */
+  public function testUpdateIsIdempotent(): void {
+    simplytest_tugboat_update_10001();
+    simplytest_tugboat_update_10001();
+
+    self::assertTrue(
+      $this->container->get('database')->schema()->tableExists(LaunchRecorder::TABLE_NAME)
+    );
+  }
+
+  /**
    * @covers ::simplytest_tugboat_theme
    */
   public function testThemeDefinition(): void {

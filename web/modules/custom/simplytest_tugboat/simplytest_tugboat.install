@@ -132,3 +132,15 @@ function simplytest_tugboat_schema(): array {
   ];
   return $schema;
 }
+
+/**
+ * Installs the `simplytest_launch_record` table.
+ */
+function simplytest_tugboat_update_10001(): void {
+  $db_schema = \Drupal::database()->schema();
+  if ($db_schema->tableExists(LaunchRecorder::TABLE_NAME)) {
+    return;
+  }
+  $our_schema = simplytest_tugboat_schema();
+  $db_schema->createTable(LaunchRecorder::TABLE_NAME, $our_schema[LaunchRecorder::TABLE_NAME]);
+}
