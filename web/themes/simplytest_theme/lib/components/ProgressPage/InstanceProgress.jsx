@@ -21,6 +21,53 @@ const STAGE_MARKERS = [
   "SIMPLYEST_STAGE_FINISHED"
 ];
 
+// How many lines of the log to put in front of someone whose build failed.
+const EXCERPT_LINES = 3;
+
+// After a fatal error Composer prints the synopsis of the command that failed
+// ("update [--with WITH] [--prefer-source] ..."). It is the last thing in the
+// log and says nothing about what went wrong, which is why the tail of the log
+// is the worst possible excerpt to show.
+const USAGE_SYNOPSIS = /^\s*[a-z][\w:-]*\s+\[[-<]/i;
+// Composer frames fatal errors as "In Patches.php line 288:", followed by the
+// exception class and the message.
+const EXCEPTION_HEADER = /^In .+ line \d+:$/;
+// git apply and patch say why a patch was rejected. They run before Composer
+// throws, so they sit above the exception rather than at the end of the log.
+const PATCH_DETAIL = /^(error: |Hunk #|\d+ out of \d+ hunk)/;
+// composer-patches gives up with this once every patcher has refused.
+const PATCH_FAILURE = /No available patcher was able to apply patch/;
+
+// Flatten the log into lines, dropping blanks and Composer's usage synopsis.
+function logLines(logs) {
+  return logs
+    .flatMap(log => (log.message || "").split("\n"))
+    .map(line => line.trimEnd())
+    .filter(line => line !== "" && !USAGE_SYNOPSIS.test(line));
+}
+
+// The lines that actually say what went wrong, rather than the last ones.
+function failureExcerpt(logs) {
+  const lines = logLines(logs);
+
+  let header = -1;
+  for (let i = lines.length - 1; i >= 0; i -= 1) {
+    if (EXCEPTION_HEADER.test(lines[i])) {
+      header = i;
+      break;
+    }
+  }
+  if (header === -1) {
+    return lines.slice(-EXCERPT_LINES);
+  }
+
+  const detail = lines
+    .slice(0, header)
+    .filter(line => PATCH_DETAIL.test(line))
+    .slice(-EXCERPT_LINES);
+  return [...detail, ...lines.slice(header, header + 1 + EXCERPT_LINES)];
+}
+
 // Index of the last stage whose marker appears in the log, or -1.
 function stageIndexFromLogs(logs) {
   let index = -1;
@@ -363,7 +410,10 @@ function InstanceProgress() {
   }
 
   if (failed) {
-    const excerpt = logs.slice(-3);
+    const excerpt = failureExcerpt(logs);
+    // Only blame the patch when the log says the patch is what failed. A build
+    // can carry patches and still fall over somewhere else entirely.
+    const patchFailed = logLines(logs).some(line => PATCH_FAILURE.test(line));
     return (
       <PageColumn>
         <PageHeading
@@ -371,8 +421,8 @@ function InstanceProgress() {
           eyebrowClass="text-st-danger"
           title="This one didn't build"
         >
-          {submission.patches.length > 0
-            ? "The patch couldn't be applied. That usually means it was written against a different version."
+          {patchFailed
+            ? "The patch couldn't be applied. That usually means it was written against a different version of the project."
             : "Something in this build didn't come together. The log below shows where it stopped."}
         </PageHeading>
 
@@ -384,9 +434,10 @@ function InstanceProgress() {
               </span>
             </div>
             <pre className="m-0 overflow-auto whitespace-pre-wrap px-5 py-[18px] font-mono text-[12.5px] leading-[1.75] text-st-danger-text">
-              {excerpt.map(log => (
-                <code className="block" key={log.id ?? log.message}>
-                  {log.message}
+              {excerpt.map((line, i) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <code className="block" key={`${i}-${line}`}>
+                  {line}
                 </code>
               ))}
             </pre>
