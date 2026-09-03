@@ -6,7 +6,7 @@ use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_tugboat\LaunchRecorder;
 
 /**
- * Covers the module's procedural hooks.
+ * Covers the module's schema and update hooks.
  *
  * @group simplytest
  * @group simplytest_tugboat
@@ -80,17 +80,6 @@ final class TugboatHooksTest extends KernelTestBase {
     self::assertTrue(
       $this->container->get('database')->schema()->tableExists(LaunchRecorder::TABLE_NAME)
     );
-  }
-
-  /**
-   * @covers ::simplytest_tugboat_theme
-   */
-  public function testThemeDefinition(): void {
-    $theme = simplytest_tugboat_theme();
-
-    self::assertArrayHasKey('simplytest_launch_statistics', $theme);
-    self::assertArrayHasKey('totals', $theme['simplytest_launch_statistics']['variables']);
-    self::assertArrayHasKey('projects', $theme['simplytest_launch_statistics']['variables']);
   }
 
 }

@@ -50,20 +50,23 @@ final readonly class LaunchStatisticsController implements ContainerInjectionInt
     $daily = $this->statistics->getDailyTotals(self::WINDOW_DAYS);
 
     return [
-      '#theme' => 'simplytest_launch_statistics',
-      '#window_days' => self::WINDOW_DAYS,
-      '#totals' => [
-        'week' => $this->statistics->getTotal(7),
-        'window' => $this->statistics->getTotal(self::WINDOW_DAYS),
-        'all_time' => $this->statistics->getTotal(),
+      '#type' => 'component',
+      '#component' => 'simplytest_tugboat:launch-statistics',
+      '#props' => [
+        'window_days' => self::WINDOW_DAYS,
+        'totals' => [
+          'week' => $this->statistics->getTotal(7),
+          'window' => $this->statistics->getTotal(self::WINDOW_DAYS),
+          'all_time' => $this->statistics->getTotal(),
+        ],
+        'daily' => $daily,
+        'daily_peak' => $this->peak($daily),
+        'projects' => $this->statistics->getTopProjects(self::WINDOW_DAYS, 20),
+        'core_versions' => $this->statistics->getTopCoreVersions(self::WINDOW_DAYS, 10),
+        'install_profiles' => $this->statistics->getTopInstallProfiles(self::WINDOW_DAYS, 10),
+        'project_types' => $this->statistics->getProjectTypes(self::WINDOW_DAYS),
+        'first_recorded_at' => $this->statistics->getFirstRecordedAt(),
       ],
-      '#daily' => $daily,
-      '#daily_peak' => $this->peak($daily),
-      '#projects' => $this->statistics->getTopProjects(self::WINDOW_DAYS, 20),
-      '#core_versions' => $this->statistics->getTopCoreVersions(self::WINDOW_DAYS, 10),
-      '#install_profiles' => $this->statistics->getTopInstallProfiles(self::WINDOW_DAYS, 10),
-      '#project_types' => $this->statistics->getProjectTypes(self::WINDOW_DAYS),
-      '#first_recorded_at' => $this->statistics->getFirstRecordedAt(),
       '#cache' => [
         'max-age' => self::MAX_AGE,
       ],
