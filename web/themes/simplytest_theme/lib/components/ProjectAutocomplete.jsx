@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useCombobox } from 'downshift';
-import PropTypes from 'prop-types';
 
 import { inputHero, inputPanel } from '../ui';
 import { debounce } from '../utils';
@@ -18,9 +17,9 @@ function fetchProjects(inputValue, callback) {
 }
 
 function ProjectAutocomplete({
-  initialProject,
+  initialProject = null,
   setSelectedItem,
-  additionalBtn,
+  additionalBtn = false,
 }) {
   const [inputItems, setInputItems] = useState([]);
   const [searched, setSearched] = useState(false);
@@ -193,15 +192,4 @@ function ProjectAutocomplete({
     </div>
   );
 }
-ProjectAutocomplete.defaultProps = {
-  initialProject: null,
-  additionalBtn: false,
-};
-ProjectAutocomplete.propTypes = {
-  initialProject: PropTypes.shape({
-    shortname: PropTypes.string.isRequired,
-  }),
-  setSelectedItem: PropTypes.func.isRequired,
-  additionalBtn: PropTypes.bool,
-};
 export default ProjectAutocomplete;

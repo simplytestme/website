@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
 
 import { useLauncher } from '../context/launcher';
 import AdditionalProjects from './AdditionalProjects';
@@ -24,12 +23,6 @@ function OptionGroup({ number, title, description, children }) {
     </section>
   );
 }
-OptionGroup.propTypes = {
-  number: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-};
 
 function AdvancedOptions() {
   const { canLaunch, patches, setPatches } = useLauncher();

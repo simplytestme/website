@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
 
-function CopyButton({ text, className, children }) {
+function CopyButton({ text, className = null, children }) {
   const [copied, setCopied] = useState(false);
   const timerRef = useRef(null);
   useEffect(() => () => clearTimeout(timerRef.current), []);
@@ -23,13 +22,5 @@ function CopyButton({ text, className, children }) {
     </button>
   );
 }
-CopyButton.propTypes = {
-  text: PropTypes.string.isRequired,
-  className: PropTypes.string,
-  children: PropTypes.node.isRequired,
-};
-CopyButton.defaultProps = {
-  className: null,
-};
 
 export default CopyButton;
