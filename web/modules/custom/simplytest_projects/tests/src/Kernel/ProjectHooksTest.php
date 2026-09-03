@@ -170,22 +170,6 @@ final class ProjectHooksTest extends KernelTestBase {
   }
 
   /**
-   * The public launch statistics report is shortened the same way.
-   *
-   * It lives in simplytest_tugboat but is served to anonymous visitors from
-   * the same caches, and would otherwise inherit the site-wide 32 days.
-   *
-   * @covers \Drupal\simplytest_projects\EventSubscriber\ModifyMaxAgeResponseSubscriber::onResponse
-   */
-  public function testMaxAgeIsShortenedOnTheStatisticsRoute(): void {
-    $response = self::publicResponse();
-    $this->dispatchResponse($response, 'simplytest_tugboat.statistics');
-
-    self::assertEquals(300, self::maxAge($response));
-    self::assertTrue($response->headers->hasCacheControlDirective('public'));
-  }
-
-  /**
    * The Surrogate-Control max-age is rewritten to the CDN lifetime.
    *
    * The fastly module copies Cache-Control into Surrogate-Control at priority

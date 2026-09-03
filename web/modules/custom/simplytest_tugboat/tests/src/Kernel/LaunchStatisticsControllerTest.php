@@ -68,18 +68,24 @@ final class LaunchStatisticsControllerTest extends KernelTestBase {
   }
 
   /**
-   * The report is cached by time, never by tag.
+   * The report is cached for a day, never by tag.
    *
-   * Tagging it would mean every launch invalidated the page, which is the one
-   * thing that would make a public report expensive to serve.
+   * Tagging it would mean every launch invalidated the page. The Expires
+   * header carries the same lifetime because the anonymous page cache ignores
+   * a render array's max-age and only reads that header.
    *
    * @covers ::report
    */
   public function testReportIsCachedByTime(): void {
+    $now = $this->container->get('datetime.time')->getRequestTime();
     $build = LaunchStatisticsController::create($this->container)->report();
 
-    self::assertEquals(900, $build['#cache']['max-age']);
+    self::assertEquals(86400, $build['#cache']['max-age']);
     self::assertArrayNotHasKey('tags', $build['#cache']);
+    self::assertEquals(
+      [['Expires', gmdate('D, d M Y H:i:s', $now + 86400) . ' GMT']],
+      $build['#attached']['http_header']
+    );
   }
 
   private function renderReport(): string {

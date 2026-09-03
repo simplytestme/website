@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
- * Shortens the browser max-age on the site's frequently changing routes.
+ * Shortens the browser max-age on this module's routes.
  *
  * Project and version data changes far more often than the site-wide
  * `system.performance` max-age of 32 days, so a browser that caches these
@@ -20,25 +20,9 @@ use Symfony\Component\HttpKernel\KernelEvents;
 final class ModifyMaxAgeResponseSubscriber implements EventSubscriberInterface {
 
   /**
-   * How long a browser may reuse one of these responses, in seconds.
+   * How long a browser may reuse a project response, in seconds.
    */
   private const int MAX_AGE = 300;
-
-  /**
-   * Route name prefix for this module's own routes.
-   */
-  private const string ROUTE_PREFIX = 'simplytest_projects';
-
-  /**
-   * Routes outside this module that need the same treatment.
-   *
-   * The launch statistics report is rebuilt on a similar cadence and is served
-   * to anonymous visitors through the same caches. These are matched by name
-   * only, so a route that is not registered simply never matches.
-   */
-  private const array EXTRA_ROUTES = [
-    'simplytest_tugboat.statistics',
-  ];
 
   #[\Override]
   public static function getSubscribedEvents(): array {
@@ -59,9 +43,8 @@ final class ModifyMaxAgeResponseSubscriber implements EventSubscriberInterface {
     if (!$response instanceof CacheableResponseInterface) {
       return;
     }
-    $route_name = (string) $event->getRequest()->attributes->get(RouteObjectInterface::ROUTE_NAME, '');
-    if (!str_starts_with($route_name, self::ROUTE_PREFIX)
-      && !in_array($route_name, self::EXTRA_ROUTES, TRUE)) {
+    $route_name = $event->getRequest()->attributes->get(RouteObjectInterface::ROUTE_NAME, '');
+    if (!str_starts_with((string) $route_name, 'simplytest_projects')) {
       return;
     }
     // Core marks a response `public` only once its request and response

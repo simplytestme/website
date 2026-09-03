@@ -2,6 +2,7 @@
 
 namespace Drupal\simplytest_tugboat\Controller;
 
+use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\simplytest_tugboat\LaunchStatistics;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -19,16 +20,20 @@ final readonly class LaunchStatisticsController implements ContainerInjectionInt
   private const int WINDOW_DAYS = 30;
 
   /**
-   * How long a rendered report stays fresh.
+   * How long a rendered report stays fresh, in seconds.
    *
-   * The page is anonymous and sits behind Fastly, so it is cached by time
-   * rather than by tag: tagging it would mean every launch invalidated the
-   * report, which is the one thing that would make it expensive to serve.
+   * The report is cached by time rather than by tag: tagging it would mean
+   * every launch invalidated the page, and nobody needs these numbers to be
+   * live. A day is plenty.
+   *
+   * This drives Drupal's own caches only. The browser and Fastly lifetimes
+   * come from the site-wide Cache-Control headers like every other page.
    */
-  private const int MAX_AGE = 900;
+  private const int MAX_AGE = 86400;
 
   public function __construct(
     private LaunchStatistics $statistics,
+    private TimeInterface $time,
   ) {
   }
 
@@ -37,7 +42,10 @@ final readonly class LaunchStatisticsController implements ContainerInjectionInt
    */
   #[\Override]
   public static function create(ContainerInterface $container): self {
-    return new self($container->get('simplytest_tugboat.launch_statistics'));
+    return new self(
+      $container->get('simplytest_tugboat.launch_statistics'),
+      $container->get('datetime.time'),
+    );
   }
 
   /**
@@ -69,6 +77,15 @@ final readonly class LaunchStatisticsController implements ContainerInjectionInt
       ],
       '#cache' => [
         'max-age' => self::MAX_AGE,
+      ],
+      // The dynamic page cache honours the max-age above, but the anonymous
+      // page cache ignores max-age altogether and keeps a page until a tag
+      // invalidates it. It does read the Expires header, so set one. Browsers
+      // and Fastly both prefer Cache-Control, so this changes nothing for them.
+      '#attached' => [
+        'http_header' => [
+          ['Expires', gmdate('D, d M Y H:i:s', $this->time->getRequestTime() + self::MAX_AGE) . ' GMT'],
+        ],
       ],
     ];
   }
