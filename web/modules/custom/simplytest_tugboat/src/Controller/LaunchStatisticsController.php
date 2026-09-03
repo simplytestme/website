@@ -4,6 +4,7 @@ namespace Drupal\simplytest_tugboat\Controller;
 
 use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\simplytest_ocd\OneClickDemoPluginManager;
 use Drupal\simplytest_tugboat\LaunchRecorder;
 use Drupal\simplytest_tugboat\LaunchStatistics;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -35,6 +36,7 @@ final readonly class LaunchStatisticsController implements ContainerInjectionInt
   public function __construct(
     private LaunchStatistics $statistics,
     private TimeInterface $time,
+    private OneClickDemoPluginManager $demos,
   ) {
   }
 
@@ -46,6 +48,7 @@ final readonly class LaunchStatisticsController implements ContainerInjectionInt
     return new self(
       $container->get('simplytest_tugboat.launch_statistics'),
       $container->get('datetime.time'),
+      $container->get('plugin.manager.oneclickdemo'),
     );
   }
 
@@ -70,6 +73,7 @@ final readonly class LaunchStatisticsController implements ContainerInjectionInt
         ],
         'daily' => $daily,
         'daily_peak' => $this->peak($daily),
+        'one_click_demos' => $this->labelDemos($this->statistics->getTopOneClickDemos(self::WINDOW_DAYS, 10)),
         'projects' => $this->statistics->getTopProjects(self::WINDOW_DAYS, 20),
         'core_versions' => $this->statistics->getTopCoreVersions(self::WINDOW_DAYS, 10),
         'install_profiles' => $this->statistics->getTopInstallProfiles(self::WINDOW_DAYS, 10),
@@ -90,6 +94,26 @@ final readonly class LaunchStatisticsController implements ContainerInjectionInt
         ],
       ],
     ];
+  }
+
+  /**
+   * Swaps demo plugin IDs for their titles.
+   *
+   * A demo that was removed since it was launched keeps its ID as the label,
+   * which is still better than dropping it from the count.
+   *
+   * @param list<array{name: string, total: int}> $demos
+   *   Demo tallies keyed by plugin ID.
+   *
+   * @return list<array{name: string, total: int}>
+   *   The same tallies, named by plugin title.
+   */
+  private function labelDemos(array $demos): array {
+    $definitions = $this->demos->getDefinitions();
+    foreach ($demos as &$demo) {
+      $demo['name'] = (string) ($definitions[$demo['name']]['title'] ?? $demo['name']);
+    }
+    return $demos;
   }
 
   /**

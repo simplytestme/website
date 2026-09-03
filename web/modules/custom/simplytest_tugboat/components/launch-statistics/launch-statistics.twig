@@ -9,6 +9,7 @@
  * - totals: Launch counts keyed by 'week', 'window' and 'all_time'.
  * - daily: Per-day totals, oldest first, each with 'date' and 'total'.
  * - daily_peak: The busiest day's total, used to scale the bars.
+ * - one_click_demos: Top one click demos, each with 'name' and 'total'.
  * - projects: Top projects, each with 'name' and 'total'.
  * - core_versions: Top Drupal core releases, each with 'name' and 'total'.
  * - install_profiles: Top install profiles, each with 'name' and 'total'.
@@ -73,27 +74,52 @@
 
     <div class="mt-6 grid gap-6 lg:grid-cols-2">
 
-      <section class="rounded-xl border border-st-line bg-white p-6 shadow-card">
-        <h2 class="text-sm font-semibold text-st-body">Most launched projects</h2>
-        <p class="mt-1 font-mono text-[11px] uppercase tracking-[0.1em] text-st-faint">Last {{ window_days }} days</p>
-        <ol class="mt-5 space-y-2.5">
-          {% for project in projects %}
-            <li>
-              <div class="flex items-baseline justify-between gap-4 text-[13px]">
-                <a href="https://www.drupal.org/project/{{ project.name }}"
-                   class="font-medium text-st-slate hover:text-st-accent-dark">{{ project.name }}</a>
-                <span class="font-mono text-st-muted">{{ project.total|number_format }}</span>
-              </div>
-              <div class="mt-1 h-1.5 rounded-full bg-st-hairline2">
-                <div class="h-1.5 rounded-full bg-st-accent"
-                     style="width: {{ (project.total / projects|first.total * 100)|round }}%"></div>
-              </div>
-            </li>
-          {% else %}
-            <li class="text-[13px] text-st-muted">Nothing launched in this window.</li>
-          {% endfor %}
-        </ol>
-      </section>
+      <div class="space-y-6">
+
+        <section class="rounded-xl border border-st-line bg-white p-6 shadow-card">
+          <h2 class="text-sm font-semibold text-st-body">One click demos</h2>
+          <p class="mt-1 font-mono text-[11px] uppercase tracking-[0.1em] text-st-faint">Last {{ window_days }} days</p>
+          <ol class="mt-5 space-y-2.5">
+            {% for demo in one_click_demos %}
+              <li>
+                <div class="flex items-baseline justify-between gap-4 text-[13px]">
+                  <span class="font-medium text-st-slate">{{ demo.name }}</span>
+                  <span class="font-mono text-st-muted">{{ demo.total|number_format }}</span>
+                </div>
+                <div class="mt-1 h-1.5 rounded-full bg-st-hairline2">
+                  <div class="h-1.5 rounded-full bg-st-accent"
+                       style="width: {{ (demo.total / one_click_demos|first.total * 100)|round }}%"></div>
+                </div>
+              </li>
+            {% else %}
+              <li class="text-[13px] text-st-muted">No demos launched in this window.</li>
+            {% endfor %}
+          </ol>
+        </section>
+
+        <section class="rounded-xl border border-st-line bg-white p-6 shadow-card">
+          <h2 class="text-sm font-semibold text-st-body">Most launched projects</h2>
+          <p class="mt-1 font-mono text-[11px] uppercase tracking-[0.1em] text-st-faint">Last {{ window_days }} days</p>
+          <ol class="mt-5 space-y-2.5">
+            {% for project in projects %}
+              <li>
+                <div class="flex items-baseline justify-between gap-4 text-[13px]">
+                  <a href="https://www.drupal.org/project/{{ project.name }}"
+                     class="font-medium text-st-slate hover:text-st-accent-dark">{{ project.name }}</a>
+                  <span class="font-mono text-st-muted">{{ project.total|number_format }}</span>
+                </div>
+                <div class="mt-1 h-1.5 rounded-full bg-st-hairline2">
+                  <div class="h-1.5 rounded-full bg-st-accent"
+                       style="width: {{ (project.total / projects|first.total * 100)|round }}%"></div>
+                </div>
+              </li>
+            {% else %}
+              <li class="text-[13px] text-st-muted">Nothing launched in this window.</li>
+            {% endfor %}
+          </ol>
+        </section>
+
+      </div>
 
       <div class="space-y-6">
         {% set breakdowns = [
