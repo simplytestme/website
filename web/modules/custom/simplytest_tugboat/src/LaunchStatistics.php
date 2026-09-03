@@ -51,6 +51,18 @@ final readonly class LaunchStatistics {
   }
 
   /**
+   * Returns the most launched one click demos, most launched first.
+   *
+   * Names are plugin IDs. A demo that has since been removed still has rows,
+   * so the caller decides how to label an ID it no longer recognises.
+   *
+   * @return list<array{name: string, total: int}>
+   */
+  public function getTopOneClickDemos(int $days, int $limit): array {
+    return $this->topBy('one_click_demo', $days, $limit);
+  }
+
+  /**
    * Returns the most used Drupal core releases, most used first.
    *
    * @return list<array{name: string, total: int}>
@@ -130,8 +142,9 @@ final readonly class LaunchStatistics {
     $query->addField('r', $column, 'name');
     $query->addExpression('COUNT(*)', 'total');
     $query->condition('created_date', $this->firstDay($days), '>=');
-    // One click demos leave the project columns empty, so they would otherwise
-    // group together under a blank label.
+    // One click demos leave the project columns empty and normal launches
+    // leave the demo column empty, so either would otherwise group together
+    // under a blank label.
     $query->condition($column, '', '<>');
     $query->groupBy("r.$column");
     $query->orderBy('total', 'DESC');

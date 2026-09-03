@@ -57,6 +57,25 @@ final class LaunchStatisticsControllerTest extends KernelTestBase {
   }
 
   /**
+   * Demos are listed by title, and a demo that no longer exists by its ID.
+   *
+   * @covers ::report
+   * @covers ::labelDemos
+   */
+  public function testReportListsOneClickDemosByTitle(): void {
+    $this->recordDemo('starshot');
+    $this->recordDemo('starshot');
+    $this->recordDemo('oneclickdemo_retired');
+
+    $output = $this->renderReport();
+
+    self::assertStringContainsString('Drupal CMS', $output);
+    self::assertStringNotContainsString('starshot', $output);
+    self::assertStringContainsString('oneclickdemo_retired', $output);
+    self::assertStringContainsString('Nothing launched in this window.', $output);
+  }
+
+  /**
    * Failed launches stay out of the public numbers.
    *
    * @covers ::report
@@ -93,19 +112,38 @@ final class LaunchStatisticsControllerTest extends KernelTestBase {
   }
 
   private function record(string $project, string $status = LaunchRecorder::STATUS_LAUNCHED): void {
+    $this->insert([
+      'project' => $project,
+      'project_type' => ProjectTypes::MODULE,
+      'project_version' => '8.x-1.0',
+      'core_version' => '10.3.0',
+      'install_profile' => 'standard',
+      'one_click_demo' => '',
+    ], $status);
+  }
+
+  private function recordDemo(string $plugin_id): void {
+    $this->insert([
+      'project' => '',
+      'project_type' => '',
+      'project_version' => '',
+      'core_version' => '',
+      'install_profile' => '',
+      'one_click_demo' => $plugin_id,
+    ], LaunchRecorder::STATUS_LAUNCHED);
+  }
+
+  /**
+   * @param array<string, string> $fields
+   */
+  private function insert(array $fields, string $status): void {
     $created = $this->container->get('datetime.time')->getRequestTime();
     $this->container->get('database')->insert(LaunchRecorder::TABLE_NAME)
-      ->fields([
+      ->fields($fields + [
         'created' => $created,
         'created_date' => gmdate('Y-m-d', $created),
         'status' => $status,
         'preview_id' => 'preview-abc',
-        'project' => $project,
-        'project_type' => ProjectTypes::MODULE,
-        'project_version' => '8.x-1.0',
-        'core_version' => '10.3.0',
-        'install_profile' => 'standard',
-        'one_click_demo' => '',
         'manual_install' => 0,
         'patch_count' => 0,
         'additional_count' => 0,

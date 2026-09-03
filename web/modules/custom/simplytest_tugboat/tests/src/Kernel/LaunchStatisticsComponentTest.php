@@ -54,6 +54,7 @@ final class LaunchStatisticsComponentTest extends KernelTestBase {
     $output = (string) $this->container->get('renderer')->renderRoot($build);
 
     self::assertStringContainsString('Launch statistics', $output);
+    self::assertStringContainsString('Drupal CMS', $output);
     self::assertStringContainsString('https://www.drupal.org/project/token', $output);
   }
 
@@ -145,6 +146,7 @@ final class LaunchStatisticsComponentTest extends KernelTestBase {
           ['date' => '2026-09-02', 'total' => 8],
         ],
         'daily_peak' => 8,
+        'one_click_demos' => [['name' => 'Drupal CMS', 'total' => 5]],
         'projects' => [['name' => 'token', 'total' => 12]],
         'core_versions' => [['name' => '10.3.0', 'total' => 12]],
         'install_profiles' => [['name' => 'standard', 'total' => 12]],

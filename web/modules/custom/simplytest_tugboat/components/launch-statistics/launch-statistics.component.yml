@@ -4,7 +4,7 @@ name: Launch statistics
 status: stable
 description: The public report of what people launch on simplytest.me.
 
-# The four tally props below repeat the same {name, total} shape. It is written
+# The five tally props below repeat the same {name, total} shape. It is written
 # out each time on purpose: only the props subtree is handed to the validator,
 # so a $ref pointing at a document-root definition cannot be resolved.
 props:
@@ -14,6 +14,7 @@ props:
     - totals
     - daily
     - daily_peak
+    - one_click_demos
     - projects
     - core_versions
     - install_profiles
@@ -58,6 +59,20 @@ props:
       title: Daily peak
       description: The busiest day's total, used to scale the bars. Never zero, so the template can divide by it.
       minimum: 1
+    one_click_demos:
+      type: array
+      title: One click demos
+      description: Demo launches, named by the demo's title rather than its plugin ID.
+      items:
+        type: object
+        required:
+          - name
+          - total
+        properties:
+          name:
+            type: string
+          total:
+            type: integer
     projects:
       type: array
       title: Most launched projects

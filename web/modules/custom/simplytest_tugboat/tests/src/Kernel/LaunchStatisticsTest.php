@@ -106,6 +106,28 @@ final class LaunchStatisticsTest extends KernelTestBase {
   }
 
   /**
+   * Demos are counted by plugin ID, and normal launches stay out of the list.
+   *
+   * @covers ::getTopOneClickDemos
+   * @covers ::topBy
+   */
+  public function testGetTopOneClickDemos(): void {
+    $this->record('token', daysAgo: 1);
+    $this->recordOneClickDemo('starshot', daysAgo: 1);
+    $this->recordOneClickDemo('starshot', daysAgo: 2);
+    $this->recordOneClickDemo('commerce', daysAgo: 1);
+    $this->recordOneClickDemo('umami', daysAgo: 40);
+
+    self::assertEquals(
+      [
+        ['name' => 'starshot', 'total' => 2],
+        ['name' => 'commerce', 'total' => 1],
+      ],
+      $this->statistics()->getTopOneClickDemos(30, 10)
+    );
+  }
+
+  /**
    * @covers ::getTopCoreVersions
    * @covers ::getTopInstallProfiles
    * @covers ::getProjectTypes
