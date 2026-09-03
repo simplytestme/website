@@ -1,0 +1,14 @@
+# Ignore everything, then allow the JavaScript this project owns. Core,
+# contrib and the vendor tree all carry their own formatting.
+**/*.*
+
+!eslint.config.mjs
+!cypress.config.js
+!postcss.config.js
+!tailwind.config.js
+!vite.config.js
+
+!web/themes/simplytest_theme/lib/**/*.js
+!web/themes/simplytest_theme/lib/**/*.jsx
+
+!cypress/**/*.js

@@ -8,7 +8,11 @@
     "build": "vite build",
     "watch": "vite build --watch",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:run": "cypress run",
+    "lint:eslint": "eslint web/themes/simplytest_theme/lib cypress *.js eslint.config.mjs",
+    "lint:prettier": "prettier --check .",
+    "lint": "npm run lint:eslint && npm run lint:prettier",
+    "fix": "prettier --write . && npm run lint:eslint -- --fix"
   },
   "dependencies": {
     "downshift": "^6.0.10",
@@ -17,11 +21,21 @@
     "react-dom": "^19.2.8"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@ianvs/prettier-plugin-sort-imports": "^4.7.1",
     "@vitejs/plugin-react": "^5.0.0",
     "autoprefixer": "^10.4.21",
     "cypress": "^13.6.6",
     "cypress-dotenv": "^2.0.0",
     "dotenv": "^16.4.5",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-chai-friendly": "^1.2.1",
+    "eslint-plugin-cypress": "^6.4.4",
+    "eslint-plugin-mocha": "^11.3.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.12.0",
     "postcss": "^8.4.45",
     "prettier": "3.9.6",
     "tailwindcss": "^3.4.10",
