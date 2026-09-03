@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { btnDashed, removeButton } from "../ui";
+import PropTypes from 'prop-types';
+
+import { btnDashed, removeButton } from '../ui';
 
 // NOTE: We receive patches and setPatches as props, since this component is
 // shared between the root project and any additional projects.
@@ -19,7 +19,7 @@ function Patches({ patches, setPatches, idPrefix }) {
   // during render. It happened to behave, because every read afterwards saw
   // the same mutated array, but it left the component relying on that and gave
   // the parent a state value it never set.
-  const rows = patches.length === 0 ? [""] : patches;
+  const rows = patches.length === 0 ? [''] : patches;
 
   function addPatch() {
     setPatches([...rows, '']);
@@ -38,8 +38,12 @@ function Patches({ patches, setPatches, idPrefix }) {
         // constantly modified onChange as the array is rebuilt. This is a major
         // peformance problem as we're constantly rebuilding the entire component
         // whenever someone types.
-        // eslint-disable-next-line react/no-array-index-key
-        <div key={k} id={`${idPrefix}_${k}`} className="flex w-full flex-row gap-2.5">
+
+        <div
+          key={k}
+          id={`${idPrefix}_${k}`}
+          className="flex w-full flex-row gap-2.5"
+        >
           <label className="sr-only" htmlFor={`${idPrefix}_url_${k}`}>
             Project patch {k + 1}
           </label>
@@ -47,7 +51,7 @@ function Patches({ patches, setPatches, idPrefix }) {
             id={`${idPrefix}_url_${k}`}
             type="url"
             value={patch}
-            onChange={event => {
+            onChange={(event) => {
               const newPatches = [...rows];
               newPatches[k] = event.target.value;
               setPatches(newPatches);
@@ -72,7 +76,7 @@ function Patches({ patches, setPatches, idPrefix }) {
         id={hintId}
         className="m-0 w-full break-words text-[13px] leading-normal text-st-muted"
       >
-        Paste the full URL of a patch file, like{" "}
+        Paste the full URL of a patch file, like{' '}
         <span className="font-mono">
           https://www.drupal.org/files/issues/3494635-12.patch
         </span>
@@ -88,6 +92,6 @@ Patches.propTypes = {
   setPatches: PropTypes.func.isRequired,
   // Must be unique across the page. There is no default on purpose: a shared
   // fallback is exactly the collision this prop exists to prevent.
-  idPrefix: PropTypes.string.isRequired
+  idPrefix: PropTypes.string.isRequired,
 };
 export default Patches;

@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { useLauncher } from "../context/launcher";
-import DrupalCoreVersionSelector from "./DrupalCoreVersionSelector";
-import Patches from "./Patches";
-import { ManualInstallCheckbox, SelectProfile } from "./InstallationOptions";
-import AdditionalProjects from "./AdditionalProjects";
+import { useState } from 'react';
+import PropTypes from 'prop-types';
+
+import { useLauncher } from '../context/launcher';
+import AdditionalProjects from './AdditionalProjects';
+import DrupalCoreVersionSelector from './DrupalCoreVersionSelector';
+import { ManualInstallCheckbox, SelectProfile } from './InstallationOptions';
+import Patches from './Patches';
 
 function OptionGroup({ number, title, description, children }) {
   return (
@@ -13,9 +14,13 @@ function OptionGroup({ number, title, description, children }) {
         <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-st-accent-dark">
           {number} · {title}
         </span>
-        <p className="m-0 text-[13px] leading-normal text-st-soft">{description}</p>
+        <p className="m-0 text-[13px] leading-normal text-st-soft">
+          {description}
+        </p>
       </div>
-      <div className="flex min-w-0 flex-1 flex-col items-start gap-3">{children}</div>
+      <div className="flex min-w-0 flex-1 flex-col items-start gap-3">
+        {children}
+      </div>
     </section>
   );
 }
@@ -23,7 +28,7 @@ OptionGroup.propTypes = {
   number: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 function AdvancedOptions() {
@@ -52,7 +57,7 @@ function AdvancedOptions() {
             aria-hidden="true"
             className="inline-block h-[18px] w-[18px] rounded-full border border-st-button-line text-center text-[10px] leading-4"
           >
-            {expanded ? "▴" : "▾"}
+            {expanded ? '▴' : '▾'}
           </span>
         </button>
         <span className="hidden font-mono text-[11px] text-st-faint md:inline">

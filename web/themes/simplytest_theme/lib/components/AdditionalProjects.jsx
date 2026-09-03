@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { useLauncher } from "../context/launcher";
-import ProjectSelection from "./ProjectSelection";
-import Patches from "./Patches";
-import { btnDashed, removeButton } from "../ui";
+import { useState } from 'react';
+
+import { useLauncher } from '../context/launcher';
+import { btnDashed, removeButton } from '../ui';
+import Patches from './Patches';
+import ProjectSelection from './ProjectSelection';
 
 let rowIdCounter = 0;
 function nextRowId() {
@@ -15,7 +16,7 @@ function AdditionalProjects() {
     additionalProjects,
     setAdditionalProjects,
     drupalVersion,
-    selectedVersion
+    selectedVersion,
   } = useLauncher();
   const [additionalBtn, setAdditionalBtn] = useState(false);
 
@@ -27,11 +28,11 @@ function AdditionalProjects() {
         // would otherwise both key on "". The launcher strips this before
         // the payload goes to the backend, which rejects unknown properties.
         id: nextRowId(),
-        title: "",
-        shortname: "",
-        version: "",
-        patches: []
-      }
+        title: '',
+        shortname: '',
+        version: '',
+        patches: [],
+      },
     ]);
     setAdditionalBtn(true);
   }
@@ -55,11 +56,11 @@ function AdditionalProjects() {
               appliedCoreConstraint={drupalVersion}
               rootProjectVersion={selectedVersion}
               initialDefaultProject={
-                project.shortname !== ""
+                project.shortname !== ''
                   ? {
                       shortname: project.shortname,
                       title: project.title,
-                      type: project.type
+                      type: project.type,
                     }
                   : null
               }
@@ -89,7 +90,7 @@ function AdditionalProjects() {
                     patches:
                       previous.shortname === changedProject.shortname
                         ? previous.patches
-                        : []
+                        : [],
                   };
                   setAdditionalProjects(newProjects);
                 }
@@ -108,7 +109,7 @@ function AdditionalProjects() {
             <Patches
               idPrefix={`additional_project_${k}_patch`}
               patches={project.patches}
-              setPatches={updatedPatches => {
+              setPatches={(updatedPatches) => {
                 const newProjects = [...additionalProjects];
                 newProjects[k].patches = updatedPatches;
                 setAdditionalProjects(newProjects);
@@ -117,7 +118,11 @@ function AdditionalProjects() {
           ) : null}
         </div>
       ))}
-      <button type="button" className={btnDashed} onClick={addAdditionalProject}>
+      <button
+        type="button"
+        className={btnDashed}
+        onClick={addAdditionalProject}
+      >
         + Add another project
       </button>
     </div>

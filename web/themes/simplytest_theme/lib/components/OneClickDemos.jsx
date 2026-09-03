@@ -1,36 +1,40 @@
-import React, { useState, useEffect } from "react";
-import { fetchWithCallback } from "../utils";
-import { btnPrimarySm, btnSecondarySm } from "../ui";
+import { useEffect, useState } from 'react';
+
+import { btnPrimarySm, btnSecondarySm } from '../ui';
+import { fetchWithCallback } from '../utils';
 
 function doLaunch(demo, setProcessing, setErrors) {
   setProcessing(demo.id);
   fetch(`/one-click-demos/${demo.id}`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json"
-    }
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
   })
-    .then(res => {
+    .then((res) => {
       res
         .json()
-        .then(json => {
+        .then((json) => {
           if (res.ok) {
             // The title lets the progress page name the build.
-            const params = new URLSearchParams({ demo: demo.id, title: demo.title });
+            const params = new URLSearchParams({
+              demo: demo.id,
+              title: demo.title,
+            });
             window.location.href = `${json.progress}?${params.toString()}`;
           } else {
-            setProcessing("");
+            setProcessing('');
             setErrors([json.message]);
           }
         })
-        .catch(error => {
-          setProcessing("");
+        .catch((error) => {
+          setProcessing('');
           setErrors([error.message]);
         });
     })
-    .catch(error => {
-      setProcessing("");
+    .catch((error) => {
+      setProcessing('');
       setErrors([error.message]);
     });
 }
@@ -44,7 +48,14 @@ function Spinner() {
       viewBox="0 0 24 24"
       aria-hidden="true"
     >
-      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+      <circle
+        className="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        strokeWidth="4"
+      />
       <path
         className="opacity-75"
         fill="currentColor"
@@ -59,11 +70,13 @@ function TilePreview({ caption, accent }) {
     <div
       className={
         accent
-          ? "flex h-[108px] items-center justify-center border-b border-[#dcebf7] bg-[repeating-linear-gradient(135deg,#eaf4fc_0_8px,#f6fbff_8px_16px)]"
-          : "flex h-[108px] items-center justify-center border-b border-st-line bg-[repeating-linear-gradient(135deg,#eef2f6_0_8px,#f8fafc_8px_16px)]"
+          ? 'flex h-[108px] items-center justify-center border-b border-[#dcebf7] bg-[repeating-linear-gradient(135deg,#eaf4fc_0_8px,#f6fbff_8px_16px)]'
+          : 'flex h-[108px] items-center justify-center border-b border-st-line bg-[repeating-linear-gradient(135deg,#eef2f6_0_8px,#f8fafc_8px_16px)]'
       }
     >
-      <span className="font-mono text-[10px] tracking-[0.08em] text-st-faint">{caption}</span>
+      <span className="font-mono text-[10px] tracking-[0.08em] text-st-faint">
+        {caption}
+      </span>
     </div>
   );
 }
@@ -74,24 +87,31 @@ function DemoTile({ demo, processing, setProcessing, setErrors }) {
     <div
       className={
         recommended
-          ? "flex flex-col overflow-hidden rounded-[14px] border border-st-accent bg-white shadow-tile"
-          : "flex flex-col overflow-hidden rounded-[14px] border border-st-line2 bg-white"
+          ? 'flex flex-col overflow-hidden rounded-[14px] border border-st-accent bg-white shadow-tile'
+          : 'flex flex-col overflow-hidden rounded-[14px] border border-st-line2 bg-white'
       }
     >
-      <TilePreview caption={`screenshot: ${demo.title.toLowerCase()}`} accent={recommended} />
+      <TilePreview
+        caption={`screenshot: ${demo.title.toLowerCase()}`}
+        accent={recommended}
+      />
       <div className="flex flex-1 flex-col gap-2.5 p-5">
         {recommended && (
           <span className="self-start rounded bg-st-accent px-2 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-white">
             Recommended
           </span>
         )}
-        <h3 className="m-0 text-lg font-bold tracking-[-0.015em] text-st-body">{demo.title}</h3>
-        <p className="m-0 flex-1 text-[13.5px] leading-[1.55] text-st-muted">{demo.description}</p>
+        <h3 className="m-0 text-lg font-bold tracking-[-0.015em] text-st-body">
+          {demo.title}
+        </h3>
+        <p className="m-0 flex-1 text-[13.5px] leading-[1.55] text-st-muted">
+          {demo.description}
+        </p>
         <button
           type="button"
-          disabled={processing !== ""}
+          disabled={processing !== ''}
           className={`${recommended ? btnPrimarySm : btnSecondarySm} mt-1.5 flex items-center justify-center gap-2`}
-          onClick={event => {
+          onClick={(event) => {
             event.preventDefault();
             doLaunch(demo, setProcessing, setErrors);
           }}
@@ -109,14 +129,20 @@ function SiteTemplatesTile() {
   return (
     <div className="flex flex-col overflow-hidden rounded-[14px] border border-dashed border-st-dash bg-st-field">
       <div className="grid h-[108px] flex-none grid-cols-2 grid-rows-2 gap-1 border-b border-st-line2 p-3">
-        {[0, 1, 2, 3].map(i => (
-          <div key={i} className="rounded-[3px] bg-[repeating-linear-gradient(135deg,#e4edf5_0_6px,#f2f7fb_6px_12px)]" />
+        {[0, 1, 2, 3].map((i) => (
+          <div
+            key={i}
+            className="rounded-[3px] bg-[repeating-linear-gradient(135deg,#e4edf5_0_6px,#f2f7fb_6px_12px)]"
+          />
         ))}
       </div>
       <div className="flex flex-1 flex-col gap-2.5 p-5">
-        <h3 className="m-0 text-lg font-bold tracking-[-0.015em] text-st-body">Site templates</h3>
+        <h3 className="m-0 text-lg font-bold tracking-[-0.015em] text-st-body">
+          Site templates
+        </h3>
         <p className="m-0 flex-1 text-[13.5px] leading-[1.55] text-st-muted">
-          Prebuilt starting points for common site types. Pick one and launch it.
+          Prebuilt starting points for common site types. Pick one and launch
+          it.
         </p>
         <span className="font-mono text-[11px] text-st-faint">coming soon</span>
         <button
@@ -134,9 +160,9 @@ function SiteTemplatesTile() {
 
 function OneClickDemos({ setErrors }) {
   const [demos, setDemos] = useState([]);
-  const [processing, setProcessing] = useState("");
+  const [processing, setProcessing] = useState('');
   useEffect(() => {
-    fetchWithCallback("/one-click-demos", setDemos);
+    fetchWithCallback('/one-click-demos', setDemos);
   }, []);
 
   return (
@@ -149,11 +175,12 @@ function OneClickDemos({ setErrors }) {
           </h2>
         </div>
         <p className="m-0 mb-1 max-w-[300px] text-sm text-st-soft sm:text-right">
-          Nothing to configure. Each one launches fully installed with demo content.
+          Nothing to configure. Each one launches fully installed with demo
+          content.
         </p>
       </div>
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
-        {demos.map(demo => (
+        {demos.map((demo) => (
           <DemoTile
             key={demo.id}
             demo={demo}

@@ -1,7 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
-import BuildLog from "./BuildLog";
-import CopyButton from "./CopyButton";
-import { btnPrimary, btnSecondary, btnSecondarySm } from "../../ui";
+import { useEffect, useMemo, useState } from 'react';
+
+import { btnPrimary, btnSecondary, btnSecondarySm } from '../../ui';
+import BuildLog from './BuildLog';
+import CopyButton from './CopyButton';
 
 // How long to wait between polls. The backend caches computed state for the
 // same window, so polling faster than this only returns cached answers.
@@ -14,11 +15,11 @@ const SANDBOX_LIFETIME_MS = 2 * 60 * 60 * 1000;
 // Stage markers echoed into the build log by the preview config.
 // @see \Drupal\simplytest_tugboat\PreviewConfigGenerator
 const STAGE_MARKERS = [
-  "SIMPLYEST_STAGE_DOWNLOAD",
-  "SIMPLYEST_STAGE_PATCHING",
-  "SIMPLYEST_STAGE_INSTALLING",
-  "SIMPLYEST_STAGE_FINALIZE",
-  "SIMPLYEST_STAGE_FINISHED"
+  'SIMPLYEST_STAGE_DOWNLOAD',
+  'SIMPLYEST_STAGE_PATCHING',
+  'SIMPLYEST_STAGE_INSTALLING',
+  'SIMPLYEST_STAGE_FINALIZE',
+  'SIMPLYEST_STAGE_FINISHED',
 ];
 
 // How many lines of the log to put in front of someone whose build failed.
@@ -41,9 +42,9 @@ const PATCH_FAILURE = /No available patcher was able to apply patch/;
 // Flatten the log into lines, dropping blanks and Composer's usage synopsis.
 function logLines(logs) {
   return logs
-    .flatMap(log => (log.message || "").split("\n"))
-    .map(line => line.trimEnd())
-    .filter(line => line !== "" && !USAGE_SYNOPSIS.test(line));
+    .flatMap((log) => (log.message || '').split('\n'))
+    .map((line) => line.trimEnd())
+    .filter((line) => line !== '' && !USAGE_SYNOPSIS.test(line));
 }
 
 // The lines that actually say what went wrong, rather than the last ones.
@@ -63,7 +64,7 @@ function failureExcerpt(logs) {
 
   const detail = lines
     .slice(0, header)
-    .filter(line => PATCH_DETAIL.test(line))
+    .filter((line) => PATCH_DETAIL.test(line))
     .slice(-EXCERPT_LINES);
   return [...detail, ...lines.slice(header, header + 1 + EXCERPT_LINES)];
 }
@@ -71,15 +72,15 @@ function failureExcerpt(logs) {
 // Index of the last stage whose marker appears in the log, or -1.
 function stageIndexFromLogs(logs) {
   let index = -1;
-  logs.forEach(log => {
-    const message = log.message || "";
+  logs.forEach((log) => {
+    const message = log.message || '';
     STAGE_MARKERS.forEach((marker, i) => {
       if (message.startsWith(marker) && i > index) {
         index = i;
       }
     });
     // Previews built before the FINISHED marker existed only log this line.
-    if (message.includes("(simplytest) is ready")) {
+    if (message.includes('(simplytest) is ready')) {
       index = STAGE_MARKERS.length - 1;
     }
   });
@@ -91,13 +92,13 @@ function stageIndexFromLogs(logs) {
 function readSubmission() {
   const params = new URLSearchParams(window.location.search);
   return {
-    project: params.get("project"),
-    version: params.get("version"),
-    title: params.get("title"),
-    core: params.get("core"),
-    profile: params.get("profile"),
-    demo: params.get("demo"),
-    patches: params.getAll("patch")
+    project: params.get('project'),
+    version: params.get('version'),
+    title: params.get('title'),
+    core: params.get('core'),
+    profile: params.get('profile'),
+    demo: params.get('demo'),
+    patches: params.getAll('patch'),
   };
 }
 
@@ -106,22 +107,22 @@ function summaryLine(submission) {
     submission.project,
     submission.version,
     submission.core ? `core ${submission.core}` : null,
-    submission.profile
+    submission.profile,
   ].filter(Boolean);
   if (parts.length === 0 && submission.title) {
     return submission.title.toLowerCase();
   }
-  return parts.join(" · ").toLowerCase();
+  return parts.join(' · ').toLowerCase();
 }
 
 function prefillUrl(submission, { includePatches = true } = {}) {
   const params = new URLSearchParams();
-  params.set("project", submission.project);
+  params.set('project', submission.project);
   if (submission.version) {
-    params.set("version", submission.version);
+    params.set('version', submission.version);
   }
   if (includePatches) {
-    submission.patches.forEach(patch => params.append("patch", patch));
+    submission.patches.forEach((patch) => params.append('patch', patch));
   }
   return `/?${params.toString()}`;
 }
@@ -133,7 +134,7 @@ function formatDuration(from, to) {
     return null;
   }
   const seconds = Math.round((end - start) / 1000);
-  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
+  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
 }
 
 function formatExpiry(createdAt) {
@@ -142,43 +143,54 @@ function formatExpiry(createdAt) {
     return null;
   }
   const expires = new Date(created + SANDBOX_LIFETIME_MS);
-  const time = expires.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
-  const prefix = expires.toDateString() === new Date().toDateString() ? "Today at" : "At";
+  const time = expires.toLocaleTimeString([], {
+    hour: 'numeric',
+    minute: '2-digit',
+  });
+  const prefix =
+    expires.toDateString() === new Date().toDateString() ? 'Today at' : 'At';
   return `${prefix} ${time} — two hours from launch. Anything you build here is deleted then.`;
 }
 
 function buildSteps(submission, stageIndex, jobStarted) {
-  const projectLabel = [submission.title || submission.project, submission.version]
+  const projectLabel = [
+    submission.title || submission.project,
+    submission.version,
+  ]
     .filter(Boolean)
-    .join(" ");
+    .join(' ');
   const patchCount = submission.patches.length;
   const labels = [
-    "Queued and assigned a server",
-    submission.core ? `Downloading Drupal core ${submission.core}` : "Downloading Drupal core",
-    (projectLabel ? `Installing ${projectLabel}` : "Installing your project") +
-      (patchCount > 0 ? ` and applying ${patchCount} ${patchCount === 1 ? "patch" : "patches"}` : ""),
+    'Queued and assigned a server',
+    submission.core
+      ? `Downloading Drupal core ${submission.core}`
+      : 'Downloading Drupal core',
+    (projectLabel ? `Installing ${projectLabel}` : 'Installing your project') +
+      (patchCount > 0
+        ? ` and applying ${patchCount} ${patchCount === 1 ? 'patch' : 'patches'}`
+        : ''),
     submission.profile
       ? `Running the ${submission.profile} installer`
-      : "Running the installer",
-    "Starting your sandbox"
+      : 'Running the installer',
+    'Starting your sandbox',
   ];
   // Marker N appears when stage N starts: earlier steps are done, N is active.
   // Step 0 has no marker; it is done once the job produces any log output.
   return labels.map((label, i) => {
     const stepStage = i - 1;
-    let status = "pending";
+    let status = 'pending';
     if (stageIndex > stepStage || (i === 0 && jobStarted)) {
-      status = "done";
+      status = 'done';
     }
     if (stageIndex === stepStage || (i === 0 && !jobStarted)) {
-      status = "current";
+      status = 'current';
     }
     return { label, status };
   });
 }
 
 function StepRow({ step }) {
-  if (step.status === "done") {
+  if (step.status === 'done') {
     return (
       <div className="flex items-center gap-3 px-3.5 py-3">
         <span className="flex h-5 w-5 flex-none items-center justify-center rounded-full bg-st-accent text-[11px] text-white">
@@ -188,12 +200,16 @@ function StepRow({ step }) {
       </div>
     );
   }
-  if (step.status === "current") {
+  if (step.status === 'current') {
     return (
       <div className="flex items-center gap-3 rounded-lg border border-st-accent-line bg-white px-3.5 py-3">
         <span className="h-5 w-5 flex-none animate-spin rounded-full border-2 border-st-accent-line border-t-st-accent" />
-        <span className="flex-1 text-sm font-semibold text-st-body">{step.label}</span>
-        <span className="font-mono text-[11px] text-st-accent-dark">running</span>
+        <span className="flex-1 text-sm font-semibold text-st-body">
+          {step.label}
+        </span>
+        <span className="font-mono text-[11px] text-st-accent-dark">
+          running
+        </span>
       </div>
     );
   }
@@ -229,7 +245,9 @@ function SummaryFooter({ submission, children }) {
   const line = summaryLine(submission);
   return (
     <div className="flex items-center gap-5">
-      {line && <span className="font-mono text-[11px] text-st-faint">{line}</span>}
+      {line && (
+        <span className="font-mono text-[11px] text-st-faint">{line}</span>
+      )}
       {children}
     </div>
   );
@@ -241,9 +259,9 @@ function InstanceProgress() {
   const [state, setState] = useState({
     progress: 0,
     url: null,
-    logs: []
+    logs: [],
   });
-  const submission = useMemo(readSubmission, []);
+  const submission = useMemo(() => readSubmission(), []);
 
   useEffect(() => {
     const { stateUrl } = drupalSettings;
@@ -251,7 +269,7 @@ function InstanceProgress() {
     let stopped = false;
     let failures = 0;
 
-    const schedule = delay => {
+    const schedule = (delay) => {
       if (!stopped) {
         timeoutId = setTimeout(poll, delay);
       }
@@ -275,10 +293,10 @@ function InstanceProgress() {
       } catch (e) {
         failures += 1;
         if (failures >= MAX_FAILURES) {
-          setState(prev => ({
+          setState((prev) => ({
             ...prev,
             message:
-              "We can't check on your sandbox right now. Reload the page to try again."
+              "We can't check on your sandbox right now. Reload the page to try again.",
           }));
           setError(true);
           return;
@@ -292,15 +310,15 @@ function InstanceProgress() {
       setState(json);
       // A preview means the job finished; a failed job never becomes one.
       // Either way the state is final and polling must stop.
-      if (json.type === "preview") {
-        if (json.url && json.state === "ready") {
+      if (json.type === 'preview') {
+        if (json.url && json.state === 'ready') {
           setTimeout(() => {
             window.location.href = json.url;
           }, 3000);
         }
         return;
       }
-      if (json.state === "failed") {
+      if (json.state === 'failed') {
         return;
       }
       schedule(POLL_INTERVAL);
@@ -315,23 +333,25 @@ function InstanceProgress() {
     };
   }, []);
 
-  const failed = state.state === "failed";
-  const ready = state.type === "preview" && state.state === "ready" && state.url;
+  const failed = state.state === 'failed';
+  const ready =
+    state.type === 'preview' && state.state === 'ready' && state.url;
 
   // A failed build lands with the log open.
-  useEffect(
-    () => {
-      if (failed) {
-        setLogOpen(true);
-      }
-    },
-    [failed]
-  );
+  useEffect(() => {
+    if (failed) {
+      setLogOpen(true);
+    }
+  }, [failed]);
 
   if (error) {
     return (
       <PageColumn>
-        <PageHeading eyebrow="Sandbox unavailable" eyebrowClass="text-st-danger" title="We lost track of this one">
+        <PageHeading
+          eyebrow="Sandbox unavailable"
+          eyebrowClass="text-st-danger"
+          title="We lost track of this one"
+        >
           {state.message}
         </PageHeading>
         <div>
@@ -351,7 +371,7 @@ function InstanceProgress() {
     return (
       <PageColumn>
         <PageHeading
-          eyebrow={duration ? `Ready in ${duration}` : "Ready"}
+          eyebrow={duration ? `Ready in ${duration}` : 'Ready'}
           eyebrowClass="text-st-success"
           title="Your sandbox is ready"
         >
@@ -366,13 +386,18 @@ function InstanceProgress() {
             <CopyButton className={btnSecondary} text={state.url}>
               Copy link
             </CopyButton>
-            <a href={state.url} className={`${btnPrimary} whitespace-nowrap px-[22px] py-3.5 text-center text-[15px]`}>
+            <a
+              href={state.url}
+              className={`${btnPrimary} whitespace-nowrap px-[22px] py-3.5 text-center text-[15px]`}
+            >
               Open sandbox
             </a>
           </div>
           {expiry && (
             <div className="flex items-center gap-2.5 border-t border-st-accent-divider pt-4">
-              <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-st-accent-dark">Expires</span>
+              <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-st-accent-dark">
+                Expires
+              </span>
               <span className="text-sm text-st-slate">{expiry}</span>
             </div>
           )}
@@ -381,7 +406,9 @@ function InstanceProgress() {
         {submission.project && (
           <div className="flex items-center justify-between gap-6 rounded-xl border border-st-line px-5 py-[18px]">
             <div className="flex flex-col gap-1">
-              <span className="text-sm font-semibold text-st-body">Want to keep this one?</span>
+              <span className="text-sm font-semibold text-st-body">
+                Want to keep this one?
+              </span>
               <span className="text-[13px] text-st-soft">
                 Launch the same setup again any time with a shareable link.
               </span>
@@ -401,10 +428,12 @@ function InstanceProgress() {
             className="text-[13px] font-semibold text-st-accent hover:text-st-accent-dark"
             onClick={() => setLogOpen(!logOpen)}
           >
-            {logOpen ? "Hide build log" : "View build log"}
+            {logOpen ? 'Hide build log' : 'View build log'}
           </button>
         </SummaryFooter>
-        {logOpen && <BuildLog logs={logs} open onToggle={() => setLogOpen(false)} />}
+        {logOpen && (
+          <BuildLog logs={logs} open onToggle={() => setLogOpen(false)} />
+        )}
       </PageColumn>
     );
   }
@@ -413,7 +442,7 @@ function InstanceProgress() {
     const excerpt = failureExcerpt(logs);
     // Only blame the patch when the log says the patch is what failed. A build
     // can carry patches and still fall over somewhere else entirely.
-    const patchFailed = logLines(logs).some(line => PATCH_FAILURE.test(line));
+    const patchFailed = logLines(logs).some((line) => PATCH_FAILURE.test(line));
     return (
       <PageColumn>
         <PageHeading
@@ -435,7 +464,6 @@ function InstanceProgress() {
             </div>
             <pre className="m-0 overflow-auto whitespace-pre-wrap px-5 py-[18px] font-mono text-[12.5px] leading-[1.75] text-st-danger-text">
               {excerpt.map((line, i) => (
-                // eslint-disable-next-line react/no-array-index-key
                 <code className="block" key={`${i}-${line}`}>
                   {line}
                 </code>
@@ -447,7 +475,10 @@ function InstanceProgress() {
         <div className="flex flex-wrap items-center gap-3">
           {submission.project ? (
             <>
-              <a href={prefillUrl(submission)} className={`${btnPrimary} px-[22px] py-3.5 text-[15px]`}>
+              <a
+                href={prefillUrl(submission)}
+                className={`${btnPrimary} px-[22px] py-3.5 text-[15px]`}
+              >
                 Edit and try again
               </a>
               {submission.patches.length > 0 && (
@@ -460,13 +491,20 @@ function InstanceProgress() {
               )}
             </>
           ) : (
-            <a href="/" className={`${btnPrimary} px-[22px] py-3.5 text-[15px]`}>
+            <a
+              href="/"
+              className={`${btnPrimary} px-[22px] py-3.5 text-[15px]`}
+            >
               Start over
             </a>
           )}
         </div>
 
-        <BuildLog logs={logs} open={logOpen} onToggle={() => setLogOpen(!logOpen)} />
+        <BuildLog
+          logs={logs}
+          open={logOpen}
+          onToggle={() => setLogOpen(!logOpen)}
+        />
 
         <SummaryFooter submission={submission}>
           <a
@@ -483,16 +521,19 @@ function InstanceProgress() {
   // Still building.
   const stageIndex = stageIndexFromLogs(logs);
   const steps = buildSteps(submission, stageIndex, logs.length > 0);
-  const currentStep = steps.find(step => step.status === "current");
+  const currentStep = steps.find((step) => step.status === 'current');
   const name = submission.title || submission.project;
   return (
     <PageColumn>
       <PageHeading
         eyebrow="Building · about a minute"
         eyebrowClass="text-st-accent-dark"
-        title={name ? `Setting up your ${name} sandbox` : "Setting up your sandbox"}
+        title={
+          name ? `Setting up your ${name} sandbox` : 'Setting up your sandbox'
+        }
       >
-        Keep this tab open. We&rsquo;ll send you straight there when it&rsquo;s ready.
+        Keep this tab open. We&rsquo;ll send you straight there when it&rsquo;s
+        ready.
       </PageHeading>
 
       <div className="flex flex-col gap-2.5">
@@ -504,22 +545,31 @@ function InstanceProgress() {
         </div>
         <div className="flex items-center justify-between">
           <span className="text-sm font-semibold text-st-slate">
-            {currentStep ? currentStep.label : "Working…"}
+            {currentStep ? currentStep.label : 'Working…'}
           </span>
-          <span className="font-mono text-[13px] text-st-accent-dark">{state.progress}%</span>
+          <span className="font-mono text-[13px] text-st-accent-dark">
+            {state.progress}%
+          </span>
         </div>
       </div>
 
       <div className="flex flex-col gap-0.5 rounded-xl border border-st-line bg-st-surface p-2">
-        {steps.map(step => (
+        {steps.map((step) => (
           <StepRow key={step.label} step={step} />
         ))}
       </div>
 
-      <BuildLog logs={logs} open={logOpen} onToggle={() => setLogOpen(!logOpen)} />
+      <BuildLog
+        logs={logs}
+        open={logOpen}
+        onToggle={() => setLogOpen(!logOpen)}
+      />
 
       <SummaryFooter submission={submission}>
-        <a href="/" className="text-[13px] font-semibold text-st-accent hover:text-st-accent-dark">
+        <a
+          href="/"
+          className="text-[13px] font-semibold text-st-accent hover:text-st-accent-dark"
+        >
           Start over
         </a>
       </SummaryFooter>

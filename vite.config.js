@@ -1,7 +1,7 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
 
-const theme = "web/themes/simplytest_theme";
+const theme = 'web/themes/simplytest_theme';
 
 // The bundle is loaded as a plain script by Drupal libraries
 // (simplytest_theme.libraries.yml), so it builds as a self-contained IIFE:
@@ -9,7 +9,7 @@ const theme = "web/themes/simplytest_theme";
 export default defineConfig({
   // Assets are referenced relative to the emitted CSS/JS inside dist/, not
   // from the site root.
-  base: "",
+  base: '',
   plugins: [react()],
   build: {
     outDir: `${theme}/dist`,
@@ -21,10 +21,10 @@ export default defineConfig({
     rollupOptions: {
       input: `${theme}/lib/app.jsx`,
       output: {
-        format: "iife",
-        entryFileNames: "app.js",
-        assetFileNames: "[name][extname]"
-      }
-    }
-  }
+        format: 'iife',
+        entryFileNames: 'app.js',
+        assetFileNames: '[name][extname]',
+      },
+    },
+  },
 });
