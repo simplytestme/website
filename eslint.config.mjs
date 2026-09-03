@@ -77,11 +77,6 @@ export default defineConfig([
       'mocha/no-top-level-hooks': 'off',
       'mocha/max-top-level-suites': 'off',
       'mocha/no-exclusive-tests': 'error',
-      // The specs wait on fixed timers and chain actions in ways Cypress
-      // documents as flaky. Replacing those with assertions is a job of its
-      // own, so surface them without failing the build until then.
-      'cypress/no-unnecessary-waiting': 'warn',
-      'cypress/unsafe-to-chain-command': 'warn',
     },
   },
   // The Cypress entry point is the one ES module in that tree.

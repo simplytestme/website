@@ -60,9 +60,8 @@ describe('Test the launch form', function () {
     cy.getByLabel('Project patch 1').type(
       'https://www.drupal.org/files/issues/2020-12-07/3185080-3.patch',
     );
-    cy.wait(200);
     cy.get('button').contains('Add another patch').click();
-    cy.getByLabel('Project patch 2');
+    cy.get('input[type=url]').should('have.length', 2);
     // Select the remove buttons by accessible name. `cy.get()` always queries
     // from the document root, so the old `cy.get('#project_patch_1').get(...)`
     // was not scoped to that row and clicked the first × on the page twice.
@@ -130,14 +129,12 @@ describe('Test the launch form', function () {
     // Default Drupal 8 has Umami.
     cy.getByLabel('Version').select('8.x-1.6');
     cy.getByLabel('Drupal core').should('have.value', '8.9.20');
-    cy.wait(100);
     cy.getByLabel('Install profile').contains('Minimal');
     cy.getByLabel('Install profile').contains('Standard');
     cy.getByLabel('Install profile').contains('Umami Demo');
 
     // Drupal < 8.6 doesn't have Umami
     cy.getByLabel('Drupal core').select('8.5.9');
-    cy.wait(100);
     cy.getByLabel('Install profile').contains('Minimal');
     cy.getByLabel('Install profile').contains('Standard');
     cy.getByLabel('Install profile').contains('Umami Demo').should('not.exist');
@@ -145,7 +142,6 @@ describe('Test the launch form', function () {
     // Drupal 9 has Umami.
     cy.getByLabel('Version').select('8.x-1.11');
     cy.getByLabel('Drupal core').select('9.5.0');
-    cy.wait(100);
     cy.getByLabel('Install profile').contains('Minimal');
     cy.getByLabel('Install profile').contains('Standard');
     cy.getByLabel('Install profile').contains('Umami Demo');
