@@ -149,6 +149,30 @@ final class LaunchStatisticsTest extends KernelTestBase {
   }
 
   /**
+   * A window is whole calendar days, so the chart always sums to the total.
+   *
+   * A launch seven days ago sits inside a rolling seven times 24 hour window
+   * but on the day before a seven day chart starts. Counting it in the total
+   * and not in the chart would leave the page disagreeing with itself.
+   *
+   * @covers ::getTotal
+   * @covers ::getDailyTotals
+   * @covers ::getTopProjects
+   */
+  public function testWindowsAreWholeCalendarDays(): void {
+    $this->record('token', daysAgo: 0);
+    $this->record('token', daysAgo: 6);
+    $this->record('token', daysAgo: 7);
+
+    $statistics = $this->statistics();
+    $daily = $statistics->getDailyTotals(7);
+
+    self::assertEquals(2, $statistics->getTotal(7));
+    self::assertEquals(2, array_sum(array_column($daily, 'total')));
+    self::assertEquals([['name' => 'token', 'total' => 2]], $statistics->getTopProjects(7, 10));
+  }
+
+  /**
    * @covers ::getFirstRecordedAt
    */
   public function testGetFirstRecordedAt(): void {

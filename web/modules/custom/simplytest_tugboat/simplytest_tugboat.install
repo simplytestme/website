@@ -34,7 +34,7 @@ function simplytest_tugboat_schema(): array {
         'default' => 0,
       ],
       'created_date' => [
-        'description' => 'UTC calendar day of the launch, as YYYY-MM-DD. Denormalised from created so that per-day counts group without a database-specific date function.',
+        'description' => 'UTC calendar day of the launch, as YYYY-MM-DD. Denormalised from created so that every report window is a run of whole days and per-day counts group without a database-specific date function.',
         'type' => 'varchar_ascii',
         'length' => 10,
         'not null' => TRUE,

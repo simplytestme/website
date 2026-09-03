@@ -13,6 +13,10 @@ use Drupal\Core\Database\Query\SelectInterface;
  * recorded, but a report of "what people launch" should not be padded with
  * sandboxes that never came up.
  *
+ * A window of N days means the last N UTC calendar days, today included, so
+ * that the headline totals, the breakdowns and the per-day chart all describe
+ * the same set of launches.
+ *
  * @see \Drupal\simplytest_tugboat\LaunchRecorder
  */
 final readonly class LaunchStatistics {
@@ -24,7 +28,7 @@ final readonly class LaunchStatistics {
   }
 
   /**
-   * Counts successful launches, optionally within the last N days.
+   * Counts successful launches, optionally within the last N calendar days.
    *
    * @param int|null $days
    *   How many days back to count, or NULL for every launch on record.
@@ -32,7 +36,7 @@ final readonly class LaunchStatistics {
   public function getTotal(?int $days = NULL): int {
     $query = $this->baseQuery();
     if ($days !== NULL) {
-      $query->condition('created', $this->since($days), '>=');
+      $query->condition('created_date', $this->firstDay($days), '>=');
     }
     return (int) $query->countQuery()->execute()->fetchField();
   }
@@ -85,7 +89,7 @@ final readonly class LaunchStatistics {
     $results = $this->baseQuery();
     $results->addField('r', 'created_date', 'date');
     $results->addExpression('COUNT(*)', 'total');
-    $results->condition('created', $this->since($days), '>=');
+    $results->condition('created_date', $this->firstDay($days), '>=');
     $results->groupBy('r.created_date');
     $totals = $results->execute()->fetchAllKeyed();
 
@@ -125,7 +129,7 @@ final readonly class LaunchStatistics {
     $query = $this->baseQuery();
     $query->addField('r', $column, 'name');
     $query->addExpression('COUNT(*)', 'total');
-    $query->condition('created', $this->since($days), '>=');
+    $query->condition('created_date', $this->firstDay($days), '>=');
     // One click demos leave the project columns empty, so they would otherwise
     // group together under a blank label.
     $query->condition($column, '', '<>');
@@ -149,8 +153,11 @@ final readonly class LaunchStatistics {
       ->condition('status', LaunchRecorder::STATUS_LAUNCHED);
   }
 
-  private function since(int $days): int {
-    return $this->time->getRequestTime() - ($days * 86400);
+  /**
+   * Returns the earliest UTC calendar day inside a window of N days.
+   */
+  private function firstDay(int $days): string {
+    return gmdate('Y-m-d', $this->time->getRequestTime() - (($days - 1) * 86400));
   }
 
 }
