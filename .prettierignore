@@ -6,7 +6,7 @@
 !cypress.config.js
 !postcss.config.js
 !tailwind.config.js
-!vite.config.js
+!vite.config.mjs
 
 !web/themes/simplytest_theme/lib/**/*.js
 !web/themes/simplytest_theme/lib/**/*.jsx
