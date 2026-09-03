@@ -1,8 +1,9 @@
-import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { LauncherProvider } from './context/launcher';
-import InstanceProgress from './components/ProgressPage/InstanceProgress';
+
 import Launcher from './components/Launcher/Launcher';
+import InstanceProgress from './components/ProgressPage/InstanceProgress';
+import { LauncherProvider } from './context/launcher';
+
 import './tailwind.pcss';
 
 const launcherMount = document.getElementById('launcher_mount');
@@ -11,7 +12,7 @@ if (launcherMount) {
   root.render(
     <LauncherProvider>
       <Launcher />
-    </LauncherProvider>
+    </LauncherProvider>,
   );
 }
 

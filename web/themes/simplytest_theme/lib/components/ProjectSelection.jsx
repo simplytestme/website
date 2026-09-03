@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import ProjectAutocomplete from "./ProjectAutocomplete";
-import VersionSelector from "./VersionSelector";
+import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+
+import ProjectAutocomplete from './ProjectAutocomplete';
+import VersionSelector from './VersionSelector';
 
 function ProjectSelection({
   onChange,
@@ -9,27 +10,24 @@ function ProjectSelection({
   additionalBtn,
   initialDefaultProject,
   initialDefaultVersion,
-  rootProjectVersion
+  rootProjectVersion,
 }) {
   const [project, setProject] = useState(initialDefaultProject);
-  const [version, setVersion] = useState(initialDefaultVersion || "");
+  const [version, setVersion] = useState(initialDefaultVersion || '');
 
-  useEffect(
-    () => {
-      setProject(initialDefaultProject);
-      setVersion(initialDefaultVersion || "");
-    },
-    [initialDefaultProject, initialDefaultVersion]
-  );
+  useEffect(() => {
+    setProject(initialDefaultProject);
+    setVersion(initialDefaultVersion || '');
+  }, [initialDefaultProject, initialDefaultVersion]);
 
-  useEffect(
-    () => {
-      if (project && version) {
-        onChange(project, version);
-      }
-    },
-    [project, version]
-  );
+  useEffect(() => {
+    if (project && version) {
+      onChange(project, version);
+    }
+    // Fires when the selection changes, not when the parent re-renders with
+    // a new onChange identity.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [project, version]);
 
   return (
     <div className="flex flex-1 flex-col gap-3.5 lg:flex-row lg:items-end">
@@ -56,16 +54,16 @@ ProjectSelection.defaultProps = {
   additionalBtn: false,
   initialDefaultProject: null,
   initialDefaultVersion: null,
-  rootProjectVersion: null
+  rootProjectVersion: null,
 };
 ProjectSelection.propTypes = {
   onChange: PropTypes.func.isRequired,
   appliedCoreConstraint: PropTypes.string,
   additionalBtn: PropTypes.bool,
   initialDefaultProject: PropTypes.shape({
-    shortname: PropTypes.string.isRequired
+    shortname: PropTypes.string.isRequired,
   }),
   initialDefaultVersion: PropTypes.string,
-  rootProjectVersion: PropTypes.string
+  rootProjectVersion: PropTypes.string,
 };
 export default ProjectSelection;

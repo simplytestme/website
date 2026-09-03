@@ -2,35 +2,45 @@ describe('Autofil of launch form from query parameters', function () {
   it('should prefill the form from a given user input', function () {
     cy.visit('/project/drupal/9.3.x', {
       qs: {
-        'patch': [
+        patch: [
           'https://www.drupal.org/files/issues/2021-05-16/3214191-2.patch',
-        ]
-      }
-    })
-    cy.location('pathname').should('contain', '/configure')
-    cy.location('search').should('contain', 'project=drupal')
-    cy.location('search').should('contain', 'version=9.3.x')
-    cy.location('search').should('contain', 'patch=https%3A//www.drupal.org/files/issues/2021-05-16/3214191-2.patch')
-    cy.getByLabel('Module, theme or distribution')
-      .should('have.value', 'Drupal core')
-    cy.getByLabel('Version')
-      .should('have.value', '9.3.x-dev')
-    cy.getByLabel('Project patch 1')
-      .should('have.value', 'https://www.drupal.org/files/issues/2021-05-16/3214191-2.patch')
-  })
+        ],
+      },
+    });
+    cy.location('pathname').should('contain', '/configure');
+    cy.location('search').should('contain', 'project=drupal');
+    cy.location('search').should('contain', 'version=9.3.x');
+    cy.location('search').should(
+      'contain',
+      'patch=https%3A//www.drupal.org/files/issues/2021-05-16/3214191-2.patch',
+    );
+    cy.getByLabel('Module, theme or distribution').should(
+      'have.value',
+      'Drupal core',
+    );
+    cy.getByLabel('Version').should('have.value', '9.3.x-dev');
+    cy.getByLabel('Project patch 1').should(
+      'have.value',
+      'https://www.drupal.org/files/issues/2021-05-16/3214191-2.patch',
+    );
+  });
 
   it('imports an unknown project from a configure deep link', function () {
     // The deep link is explicit intent, so a project the site does not know
     // yet is looked up on Drupal.org automatically.
     cy.visit('/', {
       qs: {
-        'project': 'pathauto',
-        'version': '8.x-1.14',
-      }
-    })
-    cy.getByLabel('Module, theme or distribution', { timeout: 10000 })
-      .should('have.value', 'Pathauto')
-    cy.getByLabel('Version', { timeout: 10000 })
-      .should('have.value', '8.x-1.14')
-  })
-})
+        project: 'pathauto',
+        version: '8.x-1.14',
+      },
+    });
+    cy.getByLabel('Module, theme or distribution', { timeout: 10000 }).should(
+      'have.value',
+      'Pathauto',
+    );
+    cy.getByLabel('Version', { timeout: 10000 }).should(
+      'have.value',
+      '8.x-1.14',
+    );
+  });
+});

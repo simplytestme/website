@@ -1,4 +1,4 @@
-import React, { useContext, createContext, useState, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from 'react';
 
 const launcherContext = createContext();
 
@@ -17,65 +17,61 @@ export function LauncherProvider({ children }) {
   const [canLaunch, setCanLaunch] = useState(false);
 
   function setMainProject(project, version) {
-    setSelectedProject(project)
-    setSelectedVersion(version)
+    setSelectedProject(project);
+    setSelectedVersion(version);
     // @todo in the future, maybe we need to have a reducer that can set all of
     //   this. Like when we refactor the fact the main project version and
     //   project data are two state values.
     if (project.shortname === 'drupal') {
       // @todo this is somehow picking the old project version if changes from
       //    contrib to core.
-      setDrupalVersion(version)
+      setDrupalVersion(version);
     }
   }
   useEffect(() => {
     const { search } = window.location;
     const searchParams = new URLSearchParams(search);
 
-    if (searchParams.has("project") && searchParams.has("version")) {
+    if (searchParams.has('project') && searchParams.has('version')) {
       setMainProject(
-        { shortname: searchParams.get("project") },
-        searchParams.get("version")
+        { shortname: searchParams.get('project') },
+        searchParams.get('version'),
       );
-    } else if (searchParams.has("project")) {
+    } else if (searchParams.has('project')) {
       setSelectedProject({
-        shortname: searchParams.get("project")
+        shortname: searchParams.get('project'),
       });
     }
-    if (searchParams.has("patch")) {
-      setPatches(searchParams.getAll("patch"));
+    if (searchParams.has('patch')) {
+      setPatches(searchParams.getAll('patch'));
     }
   }, []);
 
-  useEffect(
-    () => {
-      if (selectedProject && selectedProject.type === "Distribution") {
-        setInstallProfile(selectedProject.shortname);
-      }
-    },
-    [selectedProject, setInstallProfile]
-  );
-  useEffect(
-    () => {
-      setCanLaunch(selectedProject && selectedVersion);
-    },
-    [selectedVersion, selectedProject]
-  );
+  useEffect(() => {
+    if (selectedProject && selectedProject.type === 'Distribution') {
+      setInstallProfile(selectedProject.shortname);
+    }
+  }, [selectedProject, setInstallProfile]);
+  useEffect(() => {
+    setCanLaunch(selectedProject && selectedVersion);
+  }, [selectedVersion, selectedProject]);
 
   function getLaunchPayload() {
     return {
       project: {
         version: selectedVersion,
         patches,
-        ...selectedProject
+        ...selectedProject,
       },
       drupalVersion,
       installProfile,
       manualInstall,
       // `id` only keys the rows in the UI. The backend builds typed data from
       // this payload and throws on properties it does not define.
-      additionalProjects: additionalProjects.map(({ id, ...project }) => project),
-    }
+      additionalProjects: additionalProjects.map(
+        ({ id, ...project }) => project,
+      ),
+    };
   }
 
   return (
@@ -95,7 +91,7 @@ export function LauncherProvider({ children }) {
         canLaunch,
         additionalProjects,
         setAdditionalProjects,
-        getLaunchPayload
+        getLaunchPayload,
       }}
     >
       {children}

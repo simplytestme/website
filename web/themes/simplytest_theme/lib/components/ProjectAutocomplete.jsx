@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { useCombobox } from "downshift";
-import { debounce } from "../utils";
-import { inputHero, inputPanel } from "../ui";
+import { useEffect, useState } from 'react';
+import { useCombobox } from 'downshift';
+import PropTypes from 'prop-types';
+
+import { inputHero, inputPanel } from '../ui';
+import { debounce } from '../utils';
 
 function fetchProjects(inputValue, callback) {
   fetch(`/simplytest/projects/autocomplete?string=${inputValue}`)
-    .then(res => res.json())
-    .then(json => {
+    .then((res) => res.json())
+    .then((json) => {
       if (!Array.isArray(json)) {
         callback([]);
       } else {
@@ -19,7 +20,7 @@ function fetchProjects(inputValue, callback) {
 function ProjectAutocomplete({
   initialProject,
   setSelectedItem,
-  additionalBtn
+  additionalBtn,
 }) {
   const [inputItems, setInputItems] = useState([]);
   const [searched, setSearched] = useState(false);
@@ -37,10 +38,10 @@ function ProjectAutocomplete({
     inputValue,
     setInputValue,
     selectItem,
-    closeMenu
+    closeMenu,
   } = useCombobox({
     items: inputItems,
-    itemToString: item => (item ? item.title : ""),
+    itemToString: (item) => (item ? item.title : ''),
     onSelectedItemChange: ({ selectedItem }) => {
       setSelectedItem(selectedItem);
     },
@@ -48,25 +49,28 @@ function ProjectAutocomplete({
       setLookup(null);
       setSearched(false);
       debounce(() => {
-        fetchProjects(value, items => {
+        fetchProjects(value, (items) => {
           setInputItems(items);
           setSearched(true);
         });
       })();
-    }
+    },
   });
 
   // The autocomplete only searches projects the site already knows about.
   // Anything else needs an explicit lookup against Drupal.org.
   function lookupOnDrupalOrg(name) {
-    setLookup("looking");
-    fetch("/simplytest/projects/lookup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({ name })
+    setLookup('looking');
+    fetch('/simplytest/projects/lookup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({ name }),
     })
-      .then(res =>
-        res.json().then(json => {
+      .then((res) =>
+        res.json().then((json) => {
           if (res.ok) {
             setLookup(null);
             setInputItems([json]);
@@ -75,12 +79,15 @@ function ProjectAutocomplete({
             selectItem(json);
             closeMenu();
           } else {
-            setLookup({ message: json.message || "The lookup failed. Try again in a minute." });
+            setLookup({
+              message:
+                json.message || 'The lookup failed. Try again in a minute.',
+            });
           }
-        })
+        }),
       )
       .catch(() => {
-        setLookup({ message: "The lookup failed. Try again in a minute." });
+        setLookup({ message: 'The lookup failed. Try again in a minute.' });
       });
   }
 
@@ -88,31 +95,31 @@ function ProjectAutocomplete({
   // from it's shortname, and then set it's title as the input.
   // Downshift doesn't have a way to manually set the selected item without
   // forcing a component to control the selected item at all times.
-  useEffect(
-    () => {
-      if (initialProject && initialProject.shortname) {
-        fetchProjects(initialProject.shortname, items => {
-          setInputItems(items);
-          const matches = items.filter(
-            item => item.shortname === initialProject.shortname
-          );
-          if (matches.length === 1) {
-            setInputValue(matches[0].title);
-          }
-          else if (items.length === 0 && !initialProject.title) {
-            // A deep link (?project=…) to a project the site does not know
-            // yet. The link is explicit intent, so run the lookup for it —
-            // additional-project rows always carry a title and never end up
-            // here.
-            lookupOnDrupalOrg(initialProject.shortname);
-          }
-        });
-      }
-    },
-    [initialProject]
-  );
+  useEffect(() => {
+    if (initialProject && initialProject.shortname) {
+      fetchProjects(initialProject.shortname, (items) => {
+        setInputItems(items);
+        const matches = items.filter(
+          (item) => item.shortname === initialProject.shortname,
+        );
+        if (matches.length === 1) {
+          setInputValue(matches[0].title);
+        } else if (items.length === 0 && !initialProject.title) {
+          // A deep link (?project=…) to a project the site does not know
+          // yet. The link is explicit intent, so run the lookup for it —
+          // additional-project rows always carry a title and never end up
+          // here.
+          lookupOnDrupalOrg(initialProject.shortname);
+        }
+      });
+    }
+    // Only a new initial project should trigger this. The Downshift setter
+    // and the lookup helper are recreated on every render and must not.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialProject]);
 
-  const showLookup = searched && inputItems.length === 0 && inputValue.trim().length >= 3;
+  const showLookup =
+    searched && inputItems.length === 0 && inputValue.trim().length >= 3;
 
   return (
     <div className="relative flex-1">
@@ -127,7 +134,7 @@ function ProjectAutocomplete({
       )}
       <div
         {...getComboboxProps({
-          className: "relative"
+          className: 'relative',
         })}
       >
         <input
@@ -140,21 +147,25 @@ function ProjectAutocomplete({
       <ul
         {...getMenuProps({
           className: isOpen
-            ? "absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-[10px] border border-st-field-line bg-white p-0 shadow-card"
-            : ""
+            ? 'absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-[10px] border border-st-field-line bg-white p-0 shadow-card'
+            : '',
         })}
       >
         {isOpen &&
           inputItems.map((item, index) => (
             <li
               className={`cursor-default select-none list-none px-3.5 py-3 ${
-                highlightedIndex === index ? "bg-st-accent-tint" : ""
+                highlightedIndex === index ? 'bg-st-accent-tint' : ''
               }`}
               key={item.shortname}
               {...getItemProps({ item, index })}
             >
-              <span className="block text-sm font-semibold text-st-body">{item.title}</span>
-              <span className="block font-mono text-[11px] text-st-faint">{item.shortname}</span>
+              <span className="block text-sm font-semibold text-st-body">
+                {item.title}
+              </span>
+              <span className="block font-mono text-[11px] text-st-faint">
+                {item.shortname}
+              </span>
             </li>
           ))}
         {isOpen && showLookup && (
@@ -168,10 +179,12 @@ function ProjectAutocomplete({
                 Look up “{inputValue.trim()}” on drupal.org
               </button>
             )}
-            {lookup === "looking" && (
-              <span className="text-sm text-st-muted">Checking drupal.org…</span>
+            {lookup === 'looking' && (
+              <span className="text-sm text-st-muted">
+                Checking drupal.org…
+              </span>
             )}
-            {lookup !== null && lookup !== "looking" && (
+            {lookup !== null && lookup !== 'looking' && (
               <span className="text-sm text-st-muted">{lookup.message}</span>
             )}
           </li>
@@ -182,13 +195,13 @@ function ProjectAutocomplete({
 }
 ProjectAutocomplete.defaultProps = {
   initialProject: null,
-  additionalBtn: false
+  additionalBtn: false,
 };
 ProjectAutocomplete.propTypes = {
   initialProject: PropTypes.shape({
-    shortname: PropTypes.string.isRequired
+    shortname: PropTypes.string.isRequired,
   }),
   setSelectedItem: PropTypes.func.isRequired,
-  additionalBtn: PropTypes.bool
+  additionalBtn: PropTypes.bool,
 };
 export default ProjectAutocomplete;

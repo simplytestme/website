@@ -26,23 +26,22 @@
 
 // Copied from https://glebbahmutov.com/cypress-examples/6.8.0/recipes/form-input-by-label.html#simple-custom-command
 Cypress.Commands.add('getByLabel', (label, options = {}) => {
-  return cy.contains('label', label, options)
+  return cy
+    .contains('label', label, options)
     .invoke('attr', 'for')
     .then((id) => cy.get('#' + id, options));
-})
+});
 Cypress.Commands.add('toggleAdvancedOptions', () => {
-  return cy.contains('button', 'Advanced options').click()
-})
+  return cy.contains('button', 'Advanced options').click();
+});
 
-Cypress.Commands.add('pickProject', input => {
-  cy.intercept('GET', '**/simplytest/projects/autocomplete**').as('autocomplete');
+Cypress.Commands.add('pickProject', (input) => {
+  cy.intercept('GET', '**/simplytest/projects/autocomplete**').as(
+    'autocomplete',
+  );
 
-  cy.getByLabel('Module, theme or distribution')
-    .type(input);
+  cy.getByLabel('Module, theme or distribution').type(input);
   cy.wait('@autocomplete');
 
-  cy.get('[role="option"]')
-    .contains(input)
-    .should('be.visible')
-    .click();
-})
+  cy.get('[role="option"]').contains(input).should('be.visible').click();
+});

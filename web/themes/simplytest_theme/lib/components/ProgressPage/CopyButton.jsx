@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import PropTypes from "prop-types";
+import { useEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 
 function CopyButton({ text, className, children }) {
   const [copied, setCopied] = useState(false);
@@ -19,17 +19,17 @@ function CopyButton({ text, className, children }) {
 
   return (
     <button type="button" className={className} onClick={onClick}>
-      {copied ? "Copied!" : children}
+      {copied ? 'Copied!' : children}
     </button>
   );
 }
 CopyButton.propTypes = {
   text: PropTypes.string.isRequired,
   className: PropTypes.string,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 CopyButton.defaultProps = {
-  className: null
+  className: null,
 };
 
 export default CopyButton;
