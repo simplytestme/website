@@ -10,6 +10,16 @@ use Drupal\Core\TypedData\ListDataDefinition;
 final class InstanceLaunchDefinition extends ComplexDataDefinitionBase {
 
   /**
+   * The install profiles a launch may ask for.
+   *
+   * These are the options the launch form offers, in
+   * web/themes/simplytest_theme/lib/components/InstallationOptions.jsx. The
+   * value is interpolated into the sandbox's `drush si` command and shown on
+   * the public launch statistics, so nothing else may get through.
+   */
+  public const array INSTALL_PROFILES = ['standard', 'minimal', 'demo_umami'];
+
+  /**
    * {@inheritdoc}
    */
   #[\Override]
@@ -26,14 +36,18 @@ final class InstanceLaunchDefinition extends ComplexDataDefinitionBase {
       ->addConstraint('ComplexData')
       ->setRequired(TRUE);
     $properties['drupalVersion'] = DataDefinition::create('string')
-      // @todo add a custom constraint validating a legit version.
       ->setLabel(new TranslatableMarkup('Drupal version'))
       ->addConstraint('NotBlank')
-      ->addConstraint('PrimitiveType');
+      ->addConstraint('PrimitiveType')
+      ->addConstraint('CoreVersion');
     $properties['installProfile'] = DataDefinition::create('string')
       ->setLabel(new TranslatableMarkup('Install profile'))
-      ->addConstraint('NotBlank')
       ->addConstraint('PrimitiveType')
+      // Rejects a blank value as well, so NotBlank would only repeat it.
+      ->addConstraint('Choice', [
+        'choices' => self::INSTALL_PROFILES,
+        'message' => 'The install profile must be one of ' . implode(', ', self::INSTALL_PROFILES) . '.',
+      ])
       ->setRequired(TRUE);
     $properties['manualInstall'] = DataDefinition::create('boolean')
       ->setLabel(new TranslatableMarkup('Manual installation'))
