@@ -4,6 +4,7 @@ namespace Drupal\simplytest_tugboat\Controller;
 
 use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\simplytest_tugboat\LaunchRecorder;
 use Drupal\simplytest_tugboat\LaunchStatistics;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -20,11 +21,11 @@ final readonly class LaunchStatisticsController implements ContainerInjectionInt
   private const int WINDOW_DAYS = 30;
 
   /**
-   * How long a rendered report stays fresh, in seconds.
+   * How long a rendered report stays fresh without a launch, in seconds.
    *
-   * The report is cached by time rather than by tag: tagging it would mean
-   * every launch invalidated the page, and nobody needs these numbers to be
-   * live. A day is plenty.
+   * A launch invalidates the report through its cache tag. The lifetime is
+   * for the days nobody launches anything: the breakdowns are a rolling
+   * window, so the page still has to roll over at midnight.
    *
    * This drives Drupal's own caches only. The browser and Fastly lifetimes
    * come from the site-wide Cache-Control headers like every other page.
@@ -76,6 +77,7 @@ final readonly class LaunchStatisticsController implements ContainerInjectionInt
         'first_recorded_at' => $this->statistics->getFirstRecordedAt(),
       ],
       '#cache' => [
+        'tags' => [LaunchRecorder::CACHE_TAG],
         'max-age' => self::MAX_AGE,
       ],
       // The dynamic page cache honours the max-age above, but the anonymous

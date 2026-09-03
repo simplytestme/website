@@ -3,6 +3,7 @@
 namespace Drupal\Tests\simplytest_tugboat\Unit;
 
 use Drupal\Component\Datetime\TimeInterface;
+use Drupal\Core\Cache\CacheTagsInvalidatorInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\simplytest_tugboat\LaunchRecord;
 use Drupal\simplytest_tugboat\LaunchRecorder;
@@ -23,6 +24,8 @@ final class LaunchRecorderErrorTest extends UnitTestCase {
   use ProphecyTrait;
 
   /**
+   * Nothing was written, so nothing rendered from the table is stale either.
+   *
    * @covers ::recordLaunch
    * @covers ::write
    */
@@ -43,10 +46,14 @@ final class LaunchRecorderErrorTest extends UnitTestCase {
       ]
     )->shouldBeCalledOnce();
 
+    $invalidator = $this->prophesize(CacheTagsInvalidatorInterface::class);
+    $invalidator->invalidateTags([LaunchRecorder::CACHE_TAG])->shouldNotBeCalled();
+
     $recorder = new LaunchRecorder(
       $database->reveal(),
       $time->reveal(),
-      $logger->reveal()
+      $logger->reveal(),
+      $invalidator->reveal()
     );
 
     $recorder->recordLaunch(
@@ -84,7 +91,8 @@ final class LaunchRecorderErrorTest extends UnitTestCase {
       ['@project' => 'umami', '@message' => 'nope']
     )->shouldBeCalledOnce();
 
-    $recorder = new LaunchRecorder($database->reveal(), $time->reveal(), $logger->reveal());
+    $invalidator = $this->prophesize(CacheTagsInvalidatorInterface::class);
+    $recorder = new LaunchRecorder($database->reveal(), $time->reveal(), $logger->reveal(), $invalidator->reveal());
     $recorder->recordFailure(LaunchRecord::forOneClickDemo('umami'));
   }
 

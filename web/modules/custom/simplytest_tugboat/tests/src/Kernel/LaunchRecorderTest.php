@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\simplytest_tugboat\Kernel;
 
+use Drupal\Core\Cache\Cache;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_projects\ProjectTypes;
 use Drupal\simplytest_tugboat\LaunchRecord;
@@ -97,6 +98,21 @@ final class LaunchRecorderTest extends KernelTestBase {
     self::assertEquals('', $row->project);
     self::assertEquals('', $row->core_version);
     self::assertEquals('preview-ocd', $row->preview_id);
+  }
+
+  /**
+   * Writing a row invalidates whatever was rendered from the table.
+   *
+   * @covers ::recordLaunch
+   * @covers ::write
+   */
+  public function testRecordLaunchInvalidatesCacheTag(): void {
+    $cache = $this->container->get('cache.default');
+    $cache->set('report', 'stale', Cache::PERMANENT, [LaunchRecorder::CACHE_TAG]);
+
+    $this->recorder()->recordLaunch(LaunchRecord::forOneClickDemo('umami'), 'preview-ocd');
+
+    self::assertFalse($cache->get('report'));
   }
 
   /**
