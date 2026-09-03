@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import CopyButton from './CopyButton';
 
 function BuildLog({ logs, open, onToggle }) {
@@ -48,14 +46,5 @@ function BuildLog({ logs, open, onToggle }) {
     </div>
   );
 }
-BuildLog.propTypes = {
-  logs: PropTypes.arrayOf(
-    PropTypes.shape({
-      message: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-  open: PropTypes.bool.isRequired,
-  onToggle: PropTypes.func.isRequired,
-};
 
 export default BuildLog;

@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import { btnDashed, removeButton } from '../ui';
 
 // NOTE: We receive patches and setPatches as props, since this component is
@@ -87,11 +85,4 @@ function Patches({ patches, setPatches, idPrefix }) {
     </div>
   );
 }
-Patches.propTypes = {
-  patches: PropTypes.arrayOf(PropTypes.string).isRequired,
-  setPatches: PropTypes.func.isRequired,
-  // Must be unique across the page. There is no default on purpose: a shared
-  // fallback is exactly the collision this prop exists to prevent.
-  idPrefix: PropTypes.string.isRequired,
-};
 export default Patches;

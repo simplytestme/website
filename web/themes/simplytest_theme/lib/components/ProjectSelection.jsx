@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 
 import ProjectAutocomplete from './ProjectAutocomplete';
 import VersionSelector from './VersionSelector';
 
 function ProjectSelection({
   onChange,
-  appliedCoreConstraint,
-  additionalBtn,
-  initialDefaultProject,
-  initialDefaultVersion,
-  rootProjectVersion,
+  appliedCoreConstraint = null,
+  additionalBtn = false,
+  initialDefaultProject = null,
+  initialDefaultVersion = null,
+  rootProjectVersion = null,
 }) {
   const [project, setProject] = useState(initialDefaultProject);
   const [version, setVersion] = useState(initialDefaultVersion || '');
@@ -49,21 +48,4 @@ function ProjectSelection({
     </div>
   );
 }
-ProjectSelection.defaultProps = {
-  appliedCoreConstraint: null,
-  additionalBtn: false,
-  initialDefaultProject: null,
-  initialDefaultVersion: null,
-  rootProjectVersion: null,
-};
-ProjectSelection.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  appliedCoreConstraint: PropTypes.string,
-  additionalBtn: PropTypes.bool,
-  initialDefaultProject: PropTypes.shape({
-    shortname: PropTypes.string.isRequired,
-  }),
-  initialDefaultVersion: PropTypes.string,
-  rootProjectVersion: PropTypes.string,
-};
 export default ProjectSelection;
