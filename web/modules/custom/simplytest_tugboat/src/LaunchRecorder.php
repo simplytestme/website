@@ -3,6 +3,7 @@
 namespace Drupal\simplytest_tugboat;
 
 use Drupal\Component\Datetime\TimeInterface;
+use Drupal\Core\Cache\CacheTagsInvalidatorInterface;
 use Drupal\Core\Database\Connection;
 use Psr\Log\LoggerInterface;
 
@@ -18,6 +19,15 @@ final readonly class LaunchRecorder {
   public const string TABLE_NAME = 'simplytest_launch_record';
 
   /**
+   * Invalidated whenever a row is written.
+   *
+   * Launch records are not entities, so there is no list cache tag to reuse.
+   * Anything rendered from the table should carry this tag so the next launch
+   * clears it.
+   */
+  public const string CACHE_TAG = 'simplytest_launch_records';
+
+  /**
    * Tugboat accepted the launch and returned a preview.
    */
   public const string STATUS_LAUNCHED = 'launched';
@@ -31,6 +41,7 @@ final readonly class LaunchRecorder {
     private Connection $database,
     private TimeInterface $time,
     private LoggerInterface $logger,
+    private CacheTagsInvalidatorInterface $cacheTagsInvalidator,
   ) {
   }
 
@@ -85,7 +96,12 @@ final readonly class LaunchRecorder {
         '@project' => $record->project !== '' ? $record->project : $record->oneClickDemo,
         '@message' => $e->getMessage(),
       ]);
+      return;
     }
+    // A failed launch does not change the public report, but "the table
+    // changed, so the tag is invalidated" is a simpler rule than tracking
+    // which statuses each report reads.
+    $this->cacheTagsInvalidator->invalidateTags([self::CACHE_TAG]);
   }
 
 }
