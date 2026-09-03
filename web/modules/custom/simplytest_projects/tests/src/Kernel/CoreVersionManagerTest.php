@@ -90,6 +90,19 @@ final class CoreVersionManagerTest extends KernelTestBase {
   }
 
   /**
+   * @covers ::hasVersion
+   */
+  public function testHasVersion(): void {
+    self::assertFalse($this->sut->hasVersion('11.2.3'));
+
+    $this->sut->updateData(11);
+
+    self::assertTrue($this->sut->hasVersion('11.2.3'));
+    self::assertFalse($this->sut->hasVersion('11.2'));
+    self::assertFalse($this->sut->hasVersion('not a release'));
+  }
+
+  /**
    * @dataProvider coreVersionData
    * @covers ::updateData
    * @covers ::getVersions

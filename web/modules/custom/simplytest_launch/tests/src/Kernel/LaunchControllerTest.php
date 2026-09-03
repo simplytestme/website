@@ -45,6 +45,19 @@ final class LaunchControllerTest extends KernelTestBase {
     $this->config('tugboat.settings')
       ->set('repository_id', 'kerneltestrepo')
       ->save();
+
+    // The core release every launch below asks for.
+    $this->container->get('database')->insert(CoreVersionManager::TABLE_NAME)
+      ->fields([
+        'version' => '9.3.2',
+        'major' => 9,
+        'minor' => 3,
+        'patch' => 2,
+        'extra' => '',
+        'vcs_label' => '9.3.2',
+        'insecure' => 0,
+      ])
+      ->execute();
   }
 
   /**
@@ -160,7 +173,7 @@ final class LaunchControllerTest extends KernelTestBase {
         'version' => '8.x-1.9',
       ],
       'drupalVersion' => '9.3.2',
-      'installProfile' => 'umami',
+      'installProfile' => 'demo_umami',
       'manualInstall' => '0',
     ]));
 
@@ -209,12 +222,69 @@ final class LaunchControllerTest extends KernelTestBase {
         'version' => '8.x-99.0',
       ],
       'drupalVersion' => '9.3.2',
-      'installProfile' => 'umami',
+      'installProfile' => 'demo_umami',
       'manualInstall' => '0',
     ]));
 
     self::assertEquals(422, $response->getStatusCode());
     self::assertStringContainsString('8.x-99.0', (string) $response->getContent());
+  }
+
+  /**
+   * Only a known core release may be launched.
+   *
+   * The form only offers stored releases, but the endpoint takes any JSON, and
+   * the value would otherwise reach the sandbox build and the public
+   * statistics untouched.
+   *
+   * @covers ::launchProject
+   * @covers \Drupal\simplytest_launch\Plugin\Validation\Constraint\CoreVersionConstraintValidator::validate
+   */
+  public function testLaunchProjectWithUnknownCoreVersion(): void {
+    $response = $this->handle($this->launchRequest([
+      'project' => [
+        'shortname' => 'token',
+        'type' => 'module',
+        'sandbox' => FALSE,
+        'version' => '8.x-1.9',
+      ],
+      'drupalVersion' => 'not a real core version',
+      'installProfile' => 'standard',
+      'manualInstall' => '0',
+    ]));
+
+    self::assertEquals(422, $response->getStatusCode());
+    $data = Json::decode((string) $response->getContent());
+    self::assertContains(
+      'drupalVersion: There is no Drupal core release with the version not a real core version.',
+      $data['errors']
+    );
+  }
+
+  /**
+   * Only the install profiles the form offers may be launched.
+   *
+   * @covers ::launchProject
+   */
+  public function testLaunchProjectWithUnknownInstallProfile(): void {
+    $response = $this->handle($this->launchRequest([
+      'project' => [
+        'shortname' => 'token',
+        'type' => 'module',
+        'sandbox' => FALSE,
+        'version' => '8.x-1.9',
+      ],
+      'drupalVersion' => '9.3.2',
+      'installProfile' => 'buy pills at example dot com',
+      'manualInstall' => '0',
+    ]));
+
+    self::assertEquals(422, $response->getStatusCode());
+    $data = Json::decode((string) $response->getContent());
+    self::assertContains(
+      'installProfile: The install profile must be one of standard, minimal, demo_umami.',
+      $data['errors']
+    );
   }
 
   /**
@@ -244,7 +314,7 @@ final class LaunchControllerTest extends KernelTestBase {
         'version' => '8.x-1.9',
       ],
       'drupalVersion' => '9.3.2',
-      'installProfile' => 'umami',
+      'installProfile' => 'demo_umami',
       'manualInstall' => '0',
     ]));
   }

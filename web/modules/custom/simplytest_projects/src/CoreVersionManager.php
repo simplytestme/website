@@ -57,6 +57,19 @@ final readonly class CoreVersionManager {
   }
 
   /**
+   * Whether a release is one we know about.
+   *
+   * @param string $version
+   *   The release, as the launch form submits it.
+   */
+  public function hasVersion(string $version): bool {
+    $query = $this->database->select(self::TABLE_NAME);
+    $query->addField(self::TABLE_NAME, 'version');
+    $query->condition('version', $version);
+    return $query->countQuery()->execute()->fetchField() > 0;
+  }
+
+  /**
    * Gets core versions satisfying a core compatibility constraint.
    *
    * @return array
