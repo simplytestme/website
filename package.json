@@ -15,7 +15,7 @@
     "fix": "prettier --write . && npm run lint:eslint -- --fix"
   },
   "dependencies": {
-    "downshift": "^6.0.10",
+    "downshift": "^9.4.0",
     "react": "^19.1.1",
     "react-dom": "^19.2.8"
   },
