@@ -18,7 +18,7 @@ export default defineConfig({
     // One stylesheet for the whole site; Drupal attaches it as the theme's
     // global library rather than the JS injecting it.
     cssCodeSplit: false,
-    rollupOptions: {
+    rolldownOptions: {
       input: `${theme}/lib/app.jsx`,
       output: {
         format: 'iife',

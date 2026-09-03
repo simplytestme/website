@@ -86,7 +86,8 @@ export default defineConfig([
       sourceType: 'module',
     },
   },
-  // Build tooling at the repo root. Vite's config is the one ES module.
+  // Build tooling at the repo root. Vite's config is the one ES module,
+  // which its .mjs extension says.
   {
     files: ['*.js', '*.mjs'],
     languageOptions: {
