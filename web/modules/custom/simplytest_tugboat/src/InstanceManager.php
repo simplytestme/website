@@ -50,6 +50,13 @@ class InstanceManager implements InstanceManagerInterface {
   protected $previewConfigGenerator;
 
   /**
+   * The launch recorder.
+   *
+   * @var \Drupal\simplytest_tugboat\LaunchRecorder
+   */
+  protected $launchRecorder;
+
+  /**
    * Constructs an InstanceManager object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -60,13 +67,18 @@ class InstanceManager implements InstanceManagerInterface {
    *   The module handler service.
    * @param \Drupal\tugboat\TugboatClient $tugboat_client
    *   The Tugboat client.
+   * @param \Drupal\simplytest_tugboat\PreviewConfigGenerator $preview_config_generator
+   *   The preview config generator.
+   * @param \Drupal\simplytest_tugboat\LaunchRecorder $launch_recorder
+   *   The launch recorder.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, LoggerChannelInterface $logger, ModuleHandlerInterface $module_handler, TugboatClient $tugboat_client, PreviewConfigGenerator $preview_config_generator) {
+  public function __construct(ConfigFactoryInterface $config_factory, LoggerChannelInterface $logger, ModuleHandlerInterface $module_handler, TugboatClient $tugboat_client, PreviewConfigGenerator $preview_config_generator, LaunchRecorder $launch_recorder) {
     $this->tugboatSettings = $config_factory->get('tugboat.settings');
     $this->logger = $logger;
     $this->moduleHandler = $module_handler;
     $this->tugboatClient = $tugboat_client;
     $this->previewConfigGenerator = $preview_config_generator;
+    $this->launchRecorder = $launch_recorder;
   }
 
   /**
@@ -117,6 +129,7 @@ class InstanceManager implements InstanceManagerInterface {
       $context = $ocd['base_preview_name'];
       // @todo Should one-click-demos _really_ have parameters? they're one click.
       $config = $this->previewConfigGenerator->oneClickDemo($submission['oneclickdemo'], []);
+      $record = LaunchRecord::forOneClickDemo($submission['oneclickdemo']);
     }
     else {
       // @todo this is a hack to load the project type to make further
@@ -152,20 +165,32 @@ class InstanceManager implements InstanceManagerInterface {
         'major_version' => (int) $major_version,
       ];
 
-      // Make the context and write the record.
       $context = "drupal$major_version";
       $config = $this->previewConfigGenerator->generate($parameters);
+      $record = LaunchRecord::fromPreviewParameters($parameters);
     }
 
-    $base_preview_id = $this->loadPreviewId($context, TRUE);
-    $tugboat_request = $this->tugboatClient->requestWithApiKey('POST', 'previews', [
-      'ref' => $this->tugboatSettings->get('repository_base') ?: 'master',
-      'config' => $config,
-      'name' => 'simplytest',
-      'repo' => $this->tugboatSettings->get('repository_id'),
-      'base' => $base_preview_id,
-    ]);
-    $response = Json::decode((string) $tugboat_request->getBody());
+    // Everything from here on talks to Tugboat, so it is the part that can
+    // fail. Record either outcome: a failed launch leaves nothing behind on
+    // Tugboat, so this is the only place the failure is ever visible.
+    try {
+      $base_preview_id = $this->loadPreviewId($context, TRUE);
+      $tugboat_request = $this->tugboatClient->requestWithApiKey('POST', 'previews', [
+        'ref' => $this->tugboatSettings->get('repository_base') ?: 'master',
+        'config' => $config,
+        'name' => 'simplytest',
+        'repo' => $this->tugboatSettings->get('repository_id'),
+        'base' => $base_preview_id,
+      ]);
+      $response = Json::decode((string) $tugboat_request->getBody());
+    }
+    catch (\Throwable $e) {
+      $this->launchRecorder->recordFailure($record);
+      throw $e;
+    }
+
+    $this->launchRecorder->recordLaunch($record, (string) $response['preview']);
+
     return [
       'meta' => [
         'headers' => $tugboat_request->getHeaders(),

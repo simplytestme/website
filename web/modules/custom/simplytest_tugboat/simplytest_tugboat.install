@@ -1,0 +1,146 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the simplytest_tugboat module.
+ */
+
+declare(strict_types=1);
+
+use Drupal\simplytest_tugboat\LaunchRecorder;
+
+/**
+ * Implements hook_schema().
+ *
+ * @return array<string, mixed>
+ *   The table definitions.
+ */
+function simplytest_tugboat_schema(): array {
+  $schema = [];
+  $schema[LaunchRecorder::TABLE_NAME] = [
+    'description' => 'One row per instance launch handed to Tugboat.',
+    'fields' => [
+      'id' => [
+        'description' => 'Primary key.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'created' => [
+        'description' => 'Unix timestamp of the launch.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'created_date' => [
+        'description' => 'UTC calendar day of the launch, as YYYY-MM-DD. Denormalised from created so that every report window is a run of whole days and per-day counts group without a database-specific date function.',
+        'type' => 'varchar_ascii',
+        'length' => 10,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'status' => [
+        'description' => 'Whether Tugboat accepted the launch. One of the LaunchRecorder::STATUS_* constants.',
+        'type' => 'varchar_ascii',
+        'length' => 16,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'preview_id' => [
+        'description' => 'The Tugboat preview ID, for joining back to the Tugboat API. Empty for a failed launch.',
+        'type' => 'varchar_ascii',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'project' => [
+        'description' => 'Shortname of the launched project. Empty for a one click demo.',
+        'type' => 'varchar_ascii',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'project_type' => [
+        'description' => 'Project type of the launched project, as a ProjectTypes constant.',
+        'type' => 'varchar_ascii',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'project_version' => [
+        'description' => 'Release the project was launched at.',
+        'type' => 'varchar_ascii',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'core_version' => [
+        'description' => 'Drupal core release the sandbox was built on.',
+        'type' => 'varchar_ascii',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'install_profile' => [
+        'description' => 'Install profile selected for the sandbox.',
+        'type' => 'varchar_ascii',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'one_click_demo' => [
+        'description' => 'One click demo plugin ID, when the launch came from a demo link.',
+        'type' => 'varchar_ascii',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'manual_install' => [
+        'description' => 'Whether the user asked to run the installer themselves.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'size' => 'tiny',
+      ],
+      'patch_count' => [
+        'description' => 'How many patches were applied. The URLs are deliberately not stored.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'size' => 'small',
+      ],
+      'additional_count' => [
+        'description' => 'How many additional projects were added to the sandbox.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'size' => 'small',
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      // Every report filters on status first, then narrows by time or groups
+      // by one of the dimensions below.
+      'status_created' => ['status', 'created'],
+      'status_day' => ['status', 'created_date'],
+      'status_project' => ['status', 'project'],
+    ],
+  ];
+  return $schema;
+}
+
+/**
+ * Installs the `simplytest_launch_record` table.
+ */
+function simplytest_tugboat_update_10001(): void {
+  $db_schema = \Drupal::database()->schema();
+  if ($db_schema->tableExists(LaunchRecorder::TABLE_NAME)) {
+    return;
+  }
+  $our_schema = simplytest_tugboat_schema();
+  $db_schema->createTable(LaunchRecorder::TABLE_NAME, $our_schema[LaunchRecorder::TABLE_NAME]);
+}

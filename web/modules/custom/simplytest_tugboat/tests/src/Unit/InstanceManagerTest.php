@@ -11,6 +11,7 @@ use Drupal\Core\Http\ClientFactory;
 use Drupal\Core\Logger\LoggerChannel;
 use Drupal\simplytest_ocd\OneClickDemoPluginManager;
 use Drupal\simplytest_tugboat\InstanceManager;
+use Drupal\simplytest_tugboat\LaunchRecorder;
 use Drupal\simplytest_tugboat\PreviewConfigGenerator;
 use Drupal\Tests\UnitTestCase;
 use Drupal\tugboat\TugboatClient;
@@ -53,7 +54,8 @@ final class InstanceManagerTest extends UnitTestCase {
       new LoggerChannel('foo'),
       $this->prophesize(ModuleHandlerInterface::class)->reveal(),
       $this->tugboatClient,
-      $preview_config_generator
+      $preview_config_generator,
+      $this->prophesize(LaunchRecorder::class)->reveal()
     );
   }
 

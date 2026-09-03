@@ -1,0 +1,118 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+
+name: Launch statistics
+status: stable
+description: The public report of what people launch on simplytest.me.
+
+# The four tally props below repeat the same {name, total} shape. It is written
+# out each time on purpose: only the props subtree is handed to the validator,
+# so a $ref pointing at a document-root definition cannot be resolved.
+props:
+  type: object
+  required:
+    - window_days
+    - totals
+    - daily
+    - daily_peak
+    - projects
+    - core_versions
+    - install_profiles
+    - project_types
+  properties:
+    window_days:
+      type: integer
+      title: Window
+      description: How many days the breakdowns cover.
+    totals:
+      type: object
+      title: Totals
+      description: Successful launch counts over each headline period.
+      required:
+        - week
+        - window
+        - all_time
+      properties:
+        week:
+          type: integer
+        window:
+          type: integer
+        all_time:
+          type: integer
+    daily:
+      type: array
+      title: Daily totals
+      description: One entry per calendar day, oldest first, quiet days included.
+      items:
+        type: object
+        required:
+          - date
+          - total
+        properties:
+          date:
+            type: string
+            description: UTC calendar day, as YYYY-MM-DD.
+          total:
+            type: integer
+    daily_peak:
+      type: integer
+      title: Daily peak
+      description: The busiest day's total, used to scale the bars. Never zero, so the template can divide by it.
+      minimum: 1
+    projects:
+      type: array
+      title: Most launched projects
+      items:
+        type: object
+        required:
+          - name
+          - total
+        properties:
+          name:
+            type: string
+          total:
+            type: integer
+    core_versions:
+      type: array
+      title: Drupal core releases
+      items:
+        type: object
+        required:
+          - name
+          - total
+        properties:
+          name:
+            type: string
+          total:
+            type: integer
+    install_profiles:
+      type: array
+      title: Install profiles
+      items:
+        type: object
+        required:
+          - name
+          - total
+        properties:
+          name:
+            type: string
+          total:
+            type: integer
+    project_types:
+      type: array
+      title: Project types
+      items:
+        type: object
+        required:
+          - name
+          - total
+        properties:
+          name:
+            type: string
+          total:
+            type: integer
+    first_recorded_at:
+      type:
+        - integer
+        - "null"
+      title: First recorded at
+      description: Unix timestamp of the earliest recorded launch, or null when nothing is recorded yet.

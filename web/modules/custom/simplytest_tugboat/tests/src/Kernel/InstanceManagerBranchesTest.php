@@ -9,6 +9,7 @@ use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
 use Drupal\simplytest_projects\ProjectTypes;
 use Drupal\simplytest_projects\ProjectVersionManager;
+use Drupal\simplytest_tugboat\LaunchRecorder;
 use Drupal\simplytest_tugboat\InstanceManagerInterface;
 
 /**
@@ -36,6 +37,7 @@ final class InstanceManagerBranchesTest extends KernelTestBase {
     $this->installEntitySchema('simplytest_project');
     $this->installSchema('simplytest_projects', CoreVersionManager::TABLE_NAME);
     $this->installSchema('simplytest_projects', ProjectVersionManager::TABLE_NAME);
+    $this->installSchema('simplytest_tugboat', LaunchRecorder::TABLE_NAME);
 
     $this->createProject('token', ProjectTypes::MODULE);
     $this->createProject('pathauto', ProjectTypes::MODULE);
@@ -171,6 +173,78 @@ final class InstanceManagerBranchesTest extends KernelTestBase {
       $result['tugboat']['job_url'],
     );
     self::assertArrayHasKey('headers', $result['meta']);
+  }
+
+  /**
+   * Every launch is recorded, so the report knows what people evaluate.
+   *
+   * @covers ::launchInstance
+   */
+  public function testLaunchIsRecorded(): void {
+    $submission = $this->submission();
+    $submission['project']['patches'] = ['https://www.drupal.org/files/issues/example.patch'];
+    $this->sut->launchInstance($submission);
+
+    $record = $this->loadOnlyRecord();
+    self::assertEquals(LaunchRecorder::STATUS_LAUNCHED, $record->status);
+    self::assertEquals('abc123', $record->preview_id);
+    self::assertEquals('token', $record->project);
+    self::assertEquals(ProjectTypes::MODULE, $record->project_type);
+    self::assertEquals('8.x-1.9', $record->project_version);
+    self::assertEquals('9.3.2', $record->core_version);
+    self::assertEquals('standard', $record->install_profile);
+    self::assertEquals(1, (int) $record->patch_count);
+  }
+
+  /**
+   * A one click demo is recorded by plugin ID, with no project details.
+   *
+   * @covers ::launchInstance
+   */
+  public function testOneClickDemoIsRecorded(): void {
+    $this->sut->launchInstance([
+      'oneclickdemo' => 'oneclickdemo_umami',
+      'manualInstall' => FALSE,
+    ]);
+
+    $record = $this->loadOnlyRecord();
+    self::assertEquals(LaunchRecorder::STATUS_LAUNCHED, $record->status);
+    self::assertEquals('oneclickdemo_umami', $record->one_click_demo);
+    self::assertEquals('', $record->project);
+  }
+
+  /**
+   * A launch Tugboat never accepted is still recorded, as a failure.
+   *
+   * @covers ::launchInstance
+   */
+  public function testFailedLaunchIsRecorded(): void {
+    // This repository ID makes the Tugboat API fail in the mocked middleware.
+    $this->config('tugboat.settings')->set('repository_id', 'brokenrepo')->save();
+
+    try {
+      $this->sut->launchInstance($this->submission());
+      self::fail('Expected the Tugboat request to fail.');
+    }
+    catch (\Throwable) {
+      // The exception still has to reach the caller, which is what turns into
+      // the 503 the launcher shows.
+    }
+
+    $record = $this->loadOnlyRecord();
+    self::assertEquals(LaunchRecorder::STATUS_FAILED, $record->status);
+    self::assertEquals('', $record->preview_id);
+    self::assertEquals('token', $record->project);
+  }
+
+  private function loadOnlyRecord(): \stdClass {
+    $records = $this->container->get('database')
+      ->select(LaunchRecorder::TABLE_NAME, 'r')
+      ->fields('r')
+      ->execute()
+      ->fetchAll();
+    self::assertCount(1, $records);
+    return $records[0];
   }
 
   /**

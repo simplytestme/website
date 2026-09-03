@@ -14,3 +14,11 @@ simplytest_tugboat.state:
   requirements:
     _access: 'TRUE'
     _format: 'json'
+
+simplytest_tugboat.statistics:
+  path: '/statistics'
+  defaults:
+    _title: 'Launch statistics'
+    _controller: '\Drupal\simplytest_tugboat\Controller\LaunchStatisticsController::report'
+  requirements:
+    _access: 'TRUE'

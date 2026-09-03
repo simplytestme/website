@@ -13,6 +13,7 @@ use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
 use Drupal\simplytest_projects\ProjectTypes;
 use Drupal\simplytest_projects\ProjectVersionManager;
+use Drupal\simplytest_tugboat\LaunchRecorder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
@@ -40,6 +41,7 @@ final class LaunchControllerTest extends KernelTestBase {
     $this->installEntitySchema('simplytest_project');
     $this->installSchema('simplytest_projects', CoreVersionManager::TABLE_NAME);
     $this->installSchema('simplytest_projects', ProjectVersionManager::TABLE_NAME);
+    $this->installSchema('simplytest_tugboat', LaunchRecorder::TABLE_NAME);
     $this->installConfig(['simplytest_launch']);
 
     $this->config('tugboat.settings')
