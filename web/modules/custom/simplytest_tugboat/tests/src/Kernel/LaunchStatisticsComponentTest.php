@@ -2,19 +2,21 @@
 
 namespace Drupal\Tests\simplytest_tugboat\Kernel;
 
+use Drupal\Core\Plugin\Component;
+use Drupal\Core\Render\Component\Exception\InvalidComponentException;
+use Drupal\Core\Theme\Component\ComponentValidator;
 use Drupal\KernelTests\KernelTestBase;
-use Twig\Error\RuntimeError;
 
 /**
  * The report component enforces the shape of the data it is handed.
  *
- * Schemas are mandatory for components provided by modules, and props are
- * validated inside an assert(), so these expectations hold in tests and in
- * development and are compiled out in production.
+ * Schemas are mandatory for components provided by modules. During rendering
+ * the props are validated inside an assert(), which means the check is only
+ * live where zend.assertions is on: locally yes, in CI and production no.
  *
- * Twig wraps the validation failure in a RuntimeError, so the assertions below
- * match on the message rather than the inner exception class. The message is
- * what a developer actually sees, and it names the offending prop path.
+ * So the rejection cases call the validator directly rather than rendering.
+ * Going through the render pipeline would only prove the schema on a developer
+ * machine, and would pass vacuously everywhere else.
  *
  * @group simplytest
  * @group simplytest_tugboat
@@ -38,10 +40,10 @@ final class LaunchStatisticsComponentTest extends KernelTestBase {
    * The component is discovered from the module without any module enabled.
    */
   public function testComponentIsDiscovered(): void {
-    $component = $this->container->get('plugin.manager.sdc')
-      ->find('simplytest_tugboat:launch-statistics');
-
-    self::assertEquals('simplytest_tugboat', $component->getPluginDefinition()['provider']);
+    self::assertEquals(
+      'simplytest_tugboat',
+      $this->component()->getPluginDefinition()['provider']
+    );
   }
 
   /**
@@ -56,39 +58,46 @@ final class LaunchStatisticsComponentTest extends KernelTestBase {
   }
 
   /**
+   * Valid props pass validation.
+   */
+  public function testValidPropsValidate(): void {
+    self::assertTrue($this->validate($this->build()['#props']));
+  }
+
+  /**
    * A daily entry missing its total is rejected rather than rendered blank.
    */
   public function testDailyEntryMissingTotalIsRejected(): void {
-    $build = $this->build();
-    $build['#props']['daily'] = [['date' => '2026-09-02']];
+    $props = $this->build()['#props'];
+    $props['daily'] = [['date' => '2026-09-02']];
 
-    $this->expectException(RuntimeError::class);
+    $this->expectException(InvalidComponentException::class);
     $this->expectExceptionMessage('[daily[0].total] The property total is required');
-    $this->container->get('renderer')->renderRoot($build);
+    $this->validate($props);
   }
 
   /**
    * A tally with a string count is rejected.
    */
   public function testTallyWithNonIntegerTotalIsRejected(): void {
-    $build = $this->build();
-    $build['#props']['projects'] = [['name' => 'token', 'total' => 'three']];
+    $props = $this->build()['#props'];
+    $props['projects'] = [['name' => 'token', 'total' => 'three']];
 
-    $this->expectException(RuntimeError::class);
+    $this->expectException(InvalidComponentException::class);
     $this->expectExceptionMessage('[projects[0].total] String value found, but an integer is required');
-    $this->container->get('renderer')->renderRoot($build);
+    $this->validate($props);
   }
 
   /**
    * A missing required prop is rejected.
    */
   public function testMissingRequiredPropIsRejected(): void {
-    $build = $this->build();
-    unset($build['#props']['totals']);
+    $props = $this->build()['#props'];
+    unset($props['totals']);
 
-    $this->expectException(RuntimeError::class);
+    $this->expectException(InvalidComponentException::class);
     $this->expectExceptionMessage('[totals] The property totals is required');
-    $this->container->get('renderer')->renderRoot($build);
+    $this->validate($props);
   }
 
   /**
@@ -101,6 +110,24 @@ final class LaunchStatisticsComponentTest extends KernelTestBase {
 
     $output = (string) $this->container->get('renderer')->renderRoot($build);
     self::assertStringContainsString('No launches recorded yet', $output);
+  }
+
+  /**
+   * Validates props against the component schema.
+   *
+   * @param array<string, mixed> $props
+   *   The props to validate.
+   *
+   * @throws \Drupal\Core\Render\Component\Exception\InvalidComponentException
+   */
+  private function validate(array $props): bool {
+    $component = $this->component();
+    return $this->container->get(ComponentValidator::class)->validateProps($props, $component);
+  }
+
+  private function component(): Component {
+    return $this->container->get('plugin.manager.sdc')
+      ->find('simplytest_tugboat:launch-statistics');
   }
 
   /**
