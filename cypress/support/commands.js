@@ -35,6 +35,21 @@ Cypress.Commands.add('toggleAdvancedOptions', () => {
   return cy.contains('button', 'Advanced options').click();
 });
 
+// Picks a project in one additional project row. The row's version select
+// only renders once the project's releases have loaded, so waiting for it is
+// how a caller knows the pick has settled.
+Cypress.Commands.add('pickAdditionalProject', (rowId, input) => {
+  cy.intercept('GET', '**/simplytest/projects/autocomplete**').as(
+    'autocomplete',
+  );
+  cy.get(`#${rowId}`).within(() => {
+    cy.getByLabel('Additional project name').type(input);
+    cy.wait('@autocomplete');
+    cy.contains('[role="option"]', input).should('be.visible').click();
+    cy.get('select').should('exist');
+  });
+});
+
 Cypress.Commands.add('pickProject', (input) => {
   cy.intercept('GET', '**/simplytest/projects/autocomplete**').as(
     'autocomplete',

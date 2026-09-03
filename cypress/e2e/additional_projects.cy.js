@@ -15,15 +15,8 @@ describe('Tests additional projects and version constraints', () => {
     cy.getByLabel('Version').should('have.value', '4.0.3');
     cy.toggleAdvancedOptions();
     cy.get('button').contains('Add another project').click();
-    cy.get('#additional_project_0')
-      .getByLabel('Additional project name')
-      .type('Password Policy')
-      .wait(100)
-      .type(' Pwned')
-      .wait(2000)
-      .type('{downArrow}{enter}');
+    cy.pickAdditionalProject('additional_project_0', 'Password Policy Pwned');
 
-    cy.wait(400);
     cy.get('#additional_project_0 select').should('have.value', '2.0.1');
   });
 
@@ -34,15 +27,8 @@ describe('Tests additional projects and version constraints', () => {
     cy.pickProject('Password Policy');
     cy.toggleAdvancedOptions();
     cy.get('button').contains('Add another project').click();
-    cy.get('#additional_project_0')
-      .getByLabel('Additional project name')
-      .type('Password Policy')
-      .wait(100)
-      .type(' Pwned')
-      .wait(2000)
-      .type('{downArrow}{enter}');
+    cy.pickAdditionalProject('additional_project_0', 'Password Policy Pwned');
 
-    cy.wait(400);
     cy.get('#additional_project_0 input[type=url]')
       .should('exist')
       .and('have.value', '');
@@ -56,14 +42,7 @@ describe('Tests additional projects and version constraints', () => {
     cy.pickProject('Password Policy');
     cy.toggleAdvancedOptions();
     cy.get('button').contains('Add another project').click();
-    cy.get('#additional_project_0')
-      .getByLabel('Additional project name')
-      .type('Password Policy')
-      .wait(100)
-      .type(' Pwned')
-      .wait(2000)
-      .type('{downArrow}{enter}');
-    cy.wait(400);
+    cy.pickAdditionalProject('additional_project_0', 'Password Policy Pwned');
 
     cy.get('#additional_project_0 input[type=url]').type(patchUrl);
 
@@ -75,8 +54,8 @@ describe('Tests additional projects and version constraints', () => {
         .find((value) => value && value !== current);
       expect(other, 'a second release to switch to').to.be.a('string');
       cy.get('#additional_project_0 select').select(other);
+      cy.get('#additional_project_0 select').should('have.value', other);
     });
-    cy.wait(400);
 
     cy.get('#additional_project_0 input[type=url]').should(
       'have.value',
@@ -91,26 +70,21 @@ describe('Tests additional projects and version constraints', () => {
     cy.pickProject('Password Policy');
     cy.toggleAdvancedOptions();
     cy.get('button').contains('Add another project').click();
-    cy.get('#additional_project_0')
-      .getByLabel('Additional project name')
-      .type('Password Policy')
-      .wait(100)
-      .type(' Pwned')
-      .wait(2000)
-      .type('{downArrow}{enter}');
-    cy.wait(400);
+    cy.pickAdditionalProject('additional_project_0', 'Password Policy Pwned');
 
-    cy.get('input[type=url]').then(($inputs) => {
-      const ids = [...$inputs].map((input) => input.id);
-      expect(ids, 'every patch input has an id')
-        .to.have.length(2)
-        .and.to.not.include('');
-      expect(new Set(ids).size, 'distinct patch input ids').to.eq(2);
-      ids.forEach((id) => {
-        cy.get(`[id="${id}"]`).should('have.length', 1);
-        cy.get(`label[for="${id}"]`).should('have.length', 1);
+    cy.get('input[type=url]')
+      .should('have.length', 2)
+      .then(($inputs) => {
+        const ids = [...$inputs].map((input) => input.id);
+        expect(ids, 'every patch input has an id')
+          .to.have.length(2)
+          .and.to.not.include('');
+        expect(new Set(ids).size, 'distinct patch input ids').to.eq(2);
+        ids.forEach((id) => {
+          cy.get(`[id="${id}"]`).should('have.length', 1);
+          cy.get(`label[for="${id}"]`).should('have.length', 1);
+        });
       });
-    });
   });
 
   // #3494635: the format hint is rendered once per Patches instance, so the
@@ -119,25 +93,20 @@ describe('Tests additional projects and version constraints', () => {
     cy.pickProject('Password Policy');
     cy.toggleAdvancedOptions();
     cy.get('button').contains('Add another project').click();
-    cy.get('#additional_project_0')
-      .getByLabel('Additional project name')
-      .type('Password Policy')
-      .wait(100)
-      .type(' Pwned')
-      .wait(2000)
-      .type('{downArrow}{enter}');
-    cy.wait(400);
+    cy.pickAdditionalProject('additional_project_0', 'Password Policy Pwned');
 
-    cy.get('input[type=url]').then(($inputs) => {
-      const hintIds = [...$inputs].map((input) =>
-        input.getAttribute('aria-describedby'),
-      );
-      expect(hintIds).to.have.length(2);
-      expect(new Set(hintIds).size, 'distinct hint ids').to.eq(2);
-      hintIds.forEach((hintId) => {
-        cy.get(`[id="${hintId}"]`).should('have.length', 1).and('be.visible');
+    cy.get('input[type=url]')
+      .should('have.length', 2)
+      .then(($inputs) => {
+        const hintIds = [...$inputs].map((input) =>
+          input.getAttribute('aria-describedby'),
+        );
+        expect(hintIds).to.have.length(2);
+        expect(new Set(hintIds).size, 'distinct hint ids').to.eq(2);
+        hintIds.forEach((hintId) => {
+          cy.get(`[id="${hintId}"]`).should('have.length', 1).and('be.visible');
+        });
       });
-    });
   });
 
   // Rows used to key on the shortname, which is "" until a project is picked,
@@ -167,14 +136,7 @@ describe('Tests additional projects and version constraints', () => {
     cy.pickProject('Password Policy');
     cy.toggleAdvancedOptions();
     cy.get('button').contains('Add another project').click();
-    cy.get('#additional_project_0')
-      .getByLabel('Additional project name')
-      .type('Password Policy')
-      .wait(100)
-      .type(' Pwned')
-      .wait(2000)
-      .type('{downArrow}{enter}');
-    cy.wait(400);
+    cy.pickAdditionalProject('additional_project_0', 'Password Policy Pwned');
 
     cy.get('button').contains('Launch sandbox').click();
 
