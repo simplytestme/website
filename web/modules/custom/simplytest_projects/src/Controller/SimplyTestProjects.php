@@ -74,7 +74,7 @@ class SimplyTestProjects implements ContainerInjectionInterface {
   public function autocompleteProjects(Request $request) {
     $matches = [];
     if ($string = $request->query->get('string')) {
-      $matches = $this->projectFetcher->searchFromProjects($string);
+      $matches = $this->projectFetcher->searchFromProjects((string) $string);
     }
     return new JsonResponse($matches);
   }

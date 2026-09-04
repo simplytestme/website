@@ -494,21 +494,6 @@ parameters:
 			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
 
 		-
-			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectFetcher\\:\\:searchFromProjects\\(\\) has parameter \\$string with no type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
-
-		-
-			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectFetcher\\:\\:searchFromProjects\\(\\) has parameter \\$types with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
-
-		-
-			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectFetcher\\:\\:searchFromProjects\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
-
-		-
 			message: "#^Strict comparison using \\=\\=\\= between string and false will always evaluate to false\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php

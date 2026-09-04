@@ -240,6 +240,48 @@ final class ProjectFetcherTest extends KernelTestBase {
   }
 
   /**
+   * The project actually asked for outranks more popular partial matches.
+   *
+   * @covers ::searchFromProjects
+   */
+  public function testSearchRanksExactMatchFirst(): void {
+    $this->createProject('ai_provider_openai', 'OpenAI Provider', usage: 900);
+    $this->createProject('openai_client', 'OpenAI Client', usage: 700);
+    $this->createProject('openai', 'OpenAI', usage: 100);
+    $this->createProject('tmgmt_openai', 'TMGMT OpenAI', usage: 50);
+
+    // Exact shortname, then shortname prefix, then the rest by usage.
+    self::assertEquals(
+      ['openai', 'openai_client', 'ai_provider_openai', 'tmgmt_openai'],
+      array_column($this->sut->searchFromProjects('openai'), 'shortname'),
+    );
+    // An exact title counts too, whatever the case.
+    self::assertEquals('openai', $this->sut->searchFromProjects('OpenAI')[0]['shortname']);
+    // The exact match survives a range cap it would otherwise fall past.
+    self::assertEquals(['openai'], array_column($this->sut->searchFromProjects('openai', 1), 'shortname'));
+    // `rank` is an ordering detail, not part of the result.
+    self::assertArrayNotHasKey('rank', $this->sut->searchFromProjects('openai')[0]);
+  }
+
+  /**
+   * A search typed like a title still finds the shortname.
+   *
+   * @covers ::searchFromProjects
+   */
+  public function testSearchNormalizesShortname(): void {
+    $this->createProject('menu_link_attributes', 'Menu Link Attributes', usage: 900);
+    $this->createProject('link_attributes', 'Link Attributes widget', usage: 100);
+
+    foreach (['Link attributes', 'link-attributes', 'link_attributes'] as $search) {
+      self::assertEquals(
+        ['link_attributes', 'menu_link_attributes'],
+        array_column($this->sut->searchFromProjects($search), 'shortname'),
+        "Searching for '$search'",
+      );
+    }
+  }
+
+  /**
    * @covers ::searchFromProjects
    */
   public function testSearchFromProjectsFiltersByType(): void {
