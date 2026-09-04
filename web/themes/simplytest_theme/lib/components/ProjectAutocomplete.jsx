@@ -31,7 +31,6 @@ function ProjectAutocomplete({
     getLabelProps,
     getMenuProps,
     getInputProps,
-    getComboboxProps,
     highlightedIndex,
     getItemProps,
     inputValue,
@@ -73,8 +72,8 @@ function ProjectAutocomplete({
           if (res.ok) {
             setLookup(null);
             setInputItems([json]);
-            // selectItem() alone leaves the menu open; close it so the
-            // selection reads as done.
+            // selectItem() fills the input but leaves the menu open; close
+            // it so the selection reads as done.
             selectItem(json);
             closeMenu();
           } else {
@@ -119,6 +118,9 @@ function ProjectAutocomplete({
 
   const showLookup =
     searched && inputItems.length === 0 && inputValue.trim().length >= 3;
+  // Clicking the input toggles the menu even when there is nothing to list,
+  // so only draw the panel when it has rows.
+  const menuVisible = isOpen && (inputItems.length > 0 || showLookup);
 
   return (
     <div className="relative flex-1">
@@ -131,11 +133,7 @@ function ProjectAutocomplete({
           Module, theme or distribution
         </label>
       )}
-      <div
-        {...getComboboxProps({
-          className: 'relative',
-        })}
-      >
+      <div className="relative">
         <input
           {...getInputProps()}
           type="text"
@@ -145,7 +143,7 @@ function ProjectAutocomplete({
       </div>
       <ul
         {...getMenuProps({
-          className: isOpen
+          className: menuVisible
             ? 'absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-[10px] border border-st-field-line bg-white p-0 shadow-card'
             : '',
         })}
@@ -173,7 +171,7 @@ function ProjectAutocomplete({
               <button
                 type="button"
                 className="text-sm font-semibold text-st-accent-dark hover:text-st-accent"
-                onClick={lookupOnDrupalOrg}
+                onClick={() => lookupOnDrupalOrg(inputValue.trim())}
               >
                 Look up “{inputValue.trim()}” on drupal.org
               </button>

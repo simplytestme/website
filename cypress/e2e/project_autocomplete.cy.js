@@ -67,3 +67,21 @@ describe('Project autocomplete and explicit lookup', () => {
       .should('eq', 400);
   });
 });
+
+describe('Look up on drupal.org button', () => {
+  it('imports the typed project and selects it', () => {
+    cy.intercept('POST', '**/simplytest/projects/lookup').as('lookup');
+    cy.visit('/');
+    // A real project a fresh install does not know about.
+    cy.getByLabel('Module, theme or distribution').type('metatag');
+    cy.contains('button', 'Look up “metatag” on drupal.org').click();
+    cy.wait('@lookup').its('request.body').should('deep.equal', {
+      name: 'metatag',
+    });
+    cy.getByLabel('Module, theme or distribution').should(
+      'have.value',
+      'Metatag',
+    );
+    cy.getByLabel('Version').should('exist');
+  });
+});
