@@ -35,7 +35,7 @@ npm run cypress:run             # E2E tests; CI installs the site first and
                                 # serves it with PHP's built-in server
 ```
 
-CI (`.github/workflows/main.yml`) runs five jobs on every push and PR to `main`: `site:install`, `phpstan`, `rector`, `phpunit` (with the coverage gate), and `cypress`.
+CI (`.github/workflows/main.yml`) runs seven jobs on every push and PR to `main`: `site:install`, `config:status` (installs `main`, swaps in the branch, runs `updatedb`, and fails if `config/sync` needs re-exporting), `phpstan`, `rector`, `phpunit` (with the coverage gate), `cypress`, and `lint`.
 
 ## Architecture
 
