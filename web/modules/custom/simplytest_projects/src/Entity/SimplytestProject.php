@@ -23,6 +23,7 @@ use Drupal\simplytest_projects\Exception\EntityValidationException;
  *   fieldable = TRUE,
  *   admin_permission = "administer simplytest projects",
  *   handlers = {
+ *     "storage_schema" = "Drupal\simplytest_projects\SimplytestProjectStorageSchema",
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "list_builder" = "Drupal\simplytest_projects\SimplytestProjectListBuilder",
  *     "access" = "Drupal\Core\Entity\EntityAccessControlHandler",

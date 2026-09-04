@@ -12,6 +12,7 @@ use Drupal\Core\Database\Database;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\ProjectVersionManager;
+use Drupal\simplytest_projects\SimplytestProjectStorageSchema;
 
 /**
  * Implements hook_schema().
@@ -207,4 +208,15 @@ function simplytest_projects_update_9006(): void {
   $database->delete('queue')
     ->condition('name', 'simplytest_projects_project_refresher')
     ->execute();
+}
+
+/**
+ * Adds indexes on simplytest_project.shortname and .timestamp.
+ */
+function simplytest_projects_update_9007(): void {
+  $update_manager = \Drupal::entityDefinitionUpdateManager();
+  $entity_type = $update_manager->getEntityType('simplytest_project');
+  assert($entity_type !== NULL);
+  $entity_type->setHandlerClass('storage_schema', SimplytestProjectStorageSchema::class);
+  $update_manager->updateEntityType($entity_type);
 }
