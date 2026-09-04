@@ -261,28 +261,46 @@ class ProjectFetcher {
   /**
    * Searches from the list of existing projects.
    *
-   * @param $string
+   * @param string $string
    *  The prefix string to search projects for.
    * @param int $range
    *  Maximum number of results to return.
-   * @param array $types
+   * @param list<string>|null $types
    *  An array of project types to filter for.
    *
-   * @return array
-   *  An array of standard objects containing:
-   *   - title: The human readable project title.
-   *   - type: The projects type.
-   *   - shortname: The project machine/shortname.
-   *   - sandbox: Whether it's a sandbox.
+   * @return list<array{title: string, shortname: string, type: string}>
+   *  The matching projects, best match first.
    */
-  public function searchFromProjects($string, $range = 100, $types = NULL) {
+  public function searchFromProjects(string $string, int $range = 100, ?array $types = NULL): array {
+    $needle = strtolower(trim($string));
+    // Typed the way a title reads ("Link attributes") but compared against
+    // the shortname (link_attributes).
+    $shortname = str_replace([' ', '-'], '_', $needle);
+
     $query = $this->connection->select('simplytest_project', 'p')
       ->fields('p', [
         'title',
         'shortname',
         'type',
         'sandbox',
-      ])
+      ]);
+    // An exact match outranks everything, then shortnames that start with
+    // the search, then the rest by popularity. Sorting by usage alone let a
+    // popular partial match ("ai_provider_openai") bury the project actually
+    // asked for ("openai"), or push it past the range cap entirely.
+    // SUBSTR instead of LIKE so the expression needs no ESCAPE clause,
+    // which MySQL and SQLite spell differently.
+    $query->addExpression(
+      'CASE WHEN p.shortname = :exact_shortname OR LOWER(p.title) = :exact_title THEN 0 WHEN SUBSTR(p.shortname, 1, ' . strlen($shortname) . ') = :prefix THEN 1 ELSE 2 END',
+      'rank',
+      [
+        ':exact_shortname' => $shortname,
+        ':exact_title' => $needle,
+        ':prefix' => $shortname,
+      ],
+    );
+    $query
+      ->orderBy('rank', 'ASC')
       ->orderBy('usage', 'DESC')
       ->orderBy('sandbox', 'ASC')
       ->range(0, $range);
@@ -290,6 +308,7 @@ class ProjectFetcher {
     $title_or_shortname = new Condition('OR');
     $title_or_shortname->condition('title', '%' . $this->connection->escapeLike($string) . '%', 'LIKE');
     $title_or_shortname->condition('shortname', '%' . $this->connection->escapeLike($string) . '%', 'LIKE');
+    $title_or_shortname->condition('shortname', '%' . $this->connection->escapeLike($shortname) . '%', 'LIKE');
     $query->condition($title_or_shortname);
 
     if ($types) {
@@ -304,7 +323,7 @@ class ProjectFetcher {
 
     $projects = [];
     foreach ($results as $result) {
-      unset($result->sandbox);
+      unset($result->sandbox, $result->rank);
       $projects[] = (array) $result;
     }
 
