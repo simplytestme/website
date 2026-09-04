@@ -8,7 +8,6 @@ use Drupal\Core\Database\Connection;
 use Drupal\simplytest_tugboat\LaunchRecord;
 use Drupal\simplytest_tugboat\LaunchRecorder;
 use Drupal\Tests\UnitTestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -21,8 +20,6 @@ use Psr\Log\LoggerInterface;
  */
 final class LaunchRecorderErrorTest extends UnitTestCase {
 
-  use ProphecyTrait;
-
   /**
    * Nothing was written, so nothing rendered from the table is stale either.
    *
@@ -30,31 +27,29 @@ final class LaunchRecorderErrorTest extends UnitTestCase {
    * @covers ::write
    */
   public function testInsertFailureIsLoggedNotThrown(): void {
-    $database = $this->prophesize(Connection::class);
-    $database->insert(LaunchRecorder::TABLE_NAME)
-      ->willThrow(new \RuntimeException('the table is gone'));
+    $database = $this->createMock(Connection::class);
+    $database->method('insert')
+      ->with(LaunchRecorder::TABLE_NAME)
+      ->willThrowException(new \RuntimeException('the table is gone'));
 
-    $time = $this->prophesize(TimeInterface::class);
-    $time->getRequestTime()->willReturn(1756771200);
+    $time = $this->createMock(TimeInterface::class);
+    $time->method('getRequestTime')->willReturn(1756771200);
 
-    $logger = $this->prophesize(LoggerInterface::class);
-    $logger->error(
-      'Could not record the launch of @project: @message',
-      [
-        '@project' => 'token',
-        '@message' => 'the table is gone',
-      ]
-    )->shouldBeCalledOnce();
+    $logger = $this->createMock(LoggerInterface::class);
+    $logger->expects($this->once())
+      ->method('error')
+      ->with(
+        'Could not record the launch of @project: @message',
+        [
+          '@project' => 'token',
+          '@message' => 'the table is gone',
+        ]
+      );
 
-    $invalidator = $this->prophesize(CacheTagsInvalidatorInterface::class);
-    $invalidator->invalidateTags([LaunchRecorder::CACHE_TAG])->shouldNotBeCalled();
+    $invalidator = $this->createMock(CacheTagsInvalidatorInterface::class);
+    $invalidator->expects($this->never())->method('invalidateTags');
 
-    $recorder = new LaunchRecorder(
-      $database->reveal(),
-      $time->reveal(),
-      $logger->reveal(),
-      $invalidator->reveal()
-    );
+    $recorder = new LaunchRecorder($database, $time, $logger, $invalidator);
 
     $recorder->recordLaunch(
       LaunchRecord::fromPreviewParameters([
@@ -78,21 +73,24 @@ final class LaunchRecorderErrorTest extends UnitTestCase {
    * @covers ::write
    */
   public function testOneClickDemoFailureIsLoggedByPluginId(): void {
-    $database = $this->prophesize(Connection::class);
-    $database->insert(LaunchRecorder::TABLE_NAME)
-      ->willThrow(new \RuntimeException('nope'));
+    $database = $this->createMock(Connection::class);
+    $database->method('insert')
+      ->with(LaunchRecorder::TABLE_NAME)
+      ->willThrowException(new \RuntimeException('nope'));
 
-    $time = $this->prophesize(TimeInterface::class);
-    $time->getRequestTime()->willReturn(1756771200);
+    $time = $this->createMock(TimeInterface::class);
+    $time->method('getRequestTime')->willReturn(1756771200);
 
-    $logger = $this->prophesize(LoggerInterface::class);
-    $logger->error(
-      'Could not record the launch of @project: @message',
-      ['@project' => 'umami', '@message' => 'nope']
-    )->shouldBeCalledOnce();
+    $logger = $this->createMock(LoggerInterface::class);
+    $logger->expects($this->once())
+      ->method('error')
+      ->with(
+        'Could not record the launch of @project: @message',
+        ['@project' => 'umami', '@message' => 'nope']
+      );
 
-    $invalidator = $this->prophesize(CacheTagsInvalidatorInterface::class);
-    $recorder = new LaunchRecorder($database->reveal(), $time->reveal(), $logger->reveal(), $invalidator->reveal());
+    $invalidator = $this->createMock(CacheTagsInvalidatorInterface::class);
+    $recorder = new LaunchRecorder($database, $time, $logger, $invalidator);
     $recorder->recordFailure(LaunchRecord::forOneClickDemo('umami'));
   }
 
