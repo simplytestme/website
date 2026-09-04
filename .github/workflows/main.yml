@@ -86,8 +86,25 @@ jobs:
             tools: composer:v2
       - name: Install dependencies from main
         run: composer install
+      # settings.local.php is gitignored, so the database connection survives
+      # the second checkout. settings.php is tracked, and anything site:install
+      # wrote there would be reverted. Written inline because this step runs
+      # on main, before the pull request's files exist.
       - name: Database settings
-        run: cp .github/ci.settings.php web/sites/default/settings.local.php
+        run: |
+          cat > web/sites/default/settings.local.php <<'EOF'
+          <?php
+          $databases['default']['default'] = [
+            'driver' => 'mysql',
+            'database' => 'db',
+            'username' => 'root',
+            'password' => '',
+            'host' => '127.0.0.1',
+            'port' => getenv('DB_PORT') ?: 3306,
+            'prefix' => '',
+          ];
+          $settings['hash_salt'] = 'ci';
+          EOF
       - name: Install Simplytest from main
         run: php vendor/bin/drush site:install simplytest --account-pass=admin --yes
         env:
