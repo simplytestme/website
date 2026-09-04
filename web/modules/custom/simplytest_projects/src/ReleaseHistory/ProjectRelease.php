@@ -29,7 +29,7 @@ final class ProjectRelease {
   }
 
   public function isInsecure(): bool {
-    return in_array('Insecure', $this->data['terms']['Release type'], TRUE);
+    return in_array('Insecure', $this->data['terms']['Release type'] ?? [], TRUE);
   }
 
   public function isCoreCompatible(string $core_version): bool {

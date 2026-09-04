@@ -22,6 +22,13 @@ tasks:
         command: vendor/bin/drush deploy
         service: cli
     - run:
+        command: |
+          if [[ "${LAGOON_ENVIRONMENT_TYPE}" != "production" ]]; then
+              vendor/bin/drush simplytest:projects:seed
+          fi
+        name: Seed starter projects on non-production environments.
+        service: cli
+    - run:
         command: php scripts/github/deployment.php
         name: Push a deployment and success status
         service: cli
@@ -33,25 +40,6 @@ environments:
               insecure: Redirect
               tls-acme: "true"
           - www.simplytest.me:
-              insecure: Redirect
-              tls-acme: "true"
-    cronjobs:
-      - name: drush cron
-        schedule: "*/30 * * * *"
-        command: drush cron
-        service: cli
-      - name: simplytest_projects_project_refresher
-        schedule: "*/10 * * * *"
-        command: drush queue:run simplytest_projects_project_refresher --items-limit 250
-        service: cli
-  # todo remove
-  prod:
-    routes:
-      - nginx:
-          - beta.simplytest.me:
-              insecure: Redirect
-              tls-acme: "true"
-          - dev.simplytest.me:
               insecure: Redirect
               tls-acme: "true"
     cronjobs:

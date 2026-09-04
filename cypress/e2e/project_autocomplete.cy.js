@@ -1,55 +1,87 @@
-describe('Project autocomplete imports missing projects', () => {
-  const autocompleteQueries = [
-    {
-      'query': 'Pathauto',
-      'result': {
-        'title' : 'Pathauto',
-        'shortname' : 'pathauto',
-        'type' : 'Module',
-      }
-    },
-    {
-      'query': 'Password Policy',
-      'result': {
-        'title' : 'Password Policy',
-        'shortname' : 'password_policy',
-        'type' : 'Module',
-      }
-    },
-    {
-      'query': 'token',
-      'result': {
-        'title' : 'Token',
-        'shortname' : 'token',
-        'type' : 'Module',
-      }
-    },
-    {
-      'query': 'Bootstrap',
-      'result': {
-        'title' : 'Bootstrap',
-        'shortname' : 'bootstrap',
-        'type' : 'Theme',
-      }
-    },
-    {
-      'query': 'Password Pol',
-      'result': {
-        'title' : 'Password Policy',
-        'shortname' : 'password_policy',
-        'type' : 'Module',
-      }
-    },
-  ]
+describe('Project autocomplete and explicit lookup', () => {
+  it('does not import projects on its own', () => {
+    // A real Drupal.org project that a fresh install does not know about
+    // returns an empty list: the autocomplete never imports on its own.
+    // (Assumes a freshly installed site, which CI provides.)
+    cy.request('/simplytest/projects/autocomplete?string=honeypot').should(
+      (response) => {
+        expect(response.status).to.eq(200);
+        expect(response.body).to.eql([]);
+      },
+    );
+  });
 
-  it('autocomplete imports projects dynamically ', () => {
-    autocompleteQueries.forEach((example) => {
-      cy.request('/simplytest/projects/autocomplete?string=' + example.query)
-        .should(response => {
-          expect(response.status).to.eq(200)
-          expect(response.body[0]).to.eql(example.result)
-        })
+  it('imports a project through the explicit lookup endpoint', () => {
+    const lookups = [
+      {
+        name: 'Pathauto',
+        result: {
+          title: 'Pathauto',
+          shortname: 'pathauto',
+          type: 'Module',
+        },
+      },
+      {
+        name: 'Password Policy',
+        result: {
+          title: 'Password Policy',
+          shortname: 'password_policy',
+          type: 'Module',
+        },
+      },
+      {
+        name: 'token',
+        result: {
+          title: 'Token',
+          shortname: 'token',
+          type: 'Module',
+        },
+      },
+    ];
+    lookups.forEach((example) => {
+      cy.request('POST', '/simplytest/projects/lookup', {
+        name: example.name,
+      }).should((response) => {
+        expect(response.status).to.eq(200);
+        expect(response.body).to.eql(example.result);
+      });
+    });
+
+    // Once imported, the autocomplete finds them locally.
+    cy.request('/simplytest/projects/autocomplete?string=Password Pol').should(
+      (response) => {
+        expect(response.status).to.eq(200);
+        expect(response.body[0].shortname).to.eql('password_policy');
+      },
+    );
+  });
+
+  it('rejects lookups for names that are not projects', () => {
+    cy.request({
+      method: 'POST',
+      url: '/simplytest/projects/lookup',
+      body: { name: 'not/a/project!' },
+      failOnStatusCode: false,
     })
-  })
+      .its('status')
+      .should('eq', 400);
+  });
+});
 
-})
+describe('Look up on drupal.org button', () => {
+  it('imports the typed project and selects it', () => {
+    cy.intercept('POST', '**/simplytest/projects/lookup').as('lookup');
+    cy.visit('/');
+    // A real project a fresh install does not know about.
+    cy.getByLabel('Module, theme or distribution').type('metatag');
+    cy.contains('button', 'Look up “metatag” on drupal.org').click();
+    cy.wait('@lookup').its('request.body').should('deep.equal', {
+      name: 'metatag',
+    });
+    cy.getByLabel('Module, theme or distribution').should(
+      'have.value',
+      'Metatag',
+    );
+    cy.getByLabel('Version').should('exist');
+  });
+});

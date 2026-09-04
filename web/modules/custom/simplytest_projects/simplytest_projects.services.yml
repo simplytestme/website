@@ -9,7 +9,7 @@ services:
     arguments: ['@http_client', '@logger.channel.simplytest_projects', '@entity_type.manager', '@database', '@simplytest_projects.project_version_manager', '@cache.data', '@lock']
   simplytest_projects.core_version_manager:
     class: Drupal\simplytest_projects\CoreVersionManager
-    arguments: [ '@database', '@http_client', '@state' ]
+    arguments: [ '@database', '@simpleyest_projects.release_history_fetcher' ]
 
   simpleyest_projects.release_history_fetcher:
     class: Drupal\simplytest_projects\ReleaseHistory\Fetcher
@@ -17,6 +17,10 @@ services:
   simplytest_projects.project_version_manager:
     class: Drupal\simplytest_projects\ProjectVersionManager
     arguments: [ '@database', '@simpleyest_projects.release_history_fetcher' ]
+
+  simplytest_projects.seeder:
+    class: Drupal\simplytest_projects\ProjectSeeder
+    arguments: ['@entity_type.manager', '@simplytest_projects.project_version_manager', '@logger.channel.simplytest_projects']
 
   simplytest_projects.importer:
     class: Drupal\simplytest_projects\ProjectImporter
@@ -26,3 +30,8 @@ services:
     class: Drupal\simplytest_projects\EventSubscriber\ModifyMaxAgeResponseSubscriber
     tags:
       - { name: event_subscriber }
+
+  simplytest_projects.http_middleware.retry:
+    class: Drupal\simplytest_projects\Http\Middleware\RetryMiddlewareFactory
+    tags:
+      - { name: http_client_middleware }

@@ -30,9 +30,10 @@
     "require": {
         "php": "^8.3",
         "amazeeio/drupal_integrations": "^0.5.0",
+        "caseyamcl/guzzle_retry_middleware": "^2.13",
         "composer/installers": "^2.2",
         "composer/semver": "^3.0",
-        "cweagans/composer-patches": "^1.7",
+        "cweagans/composer-patches": "^2.0",
         "drupal/core-composer-scaffold": "^10",
         "drupal/core-recommended": "^10",
         "drupal/fastly": "^4.0",
@@ -67,16 +68,24 @@
             "php-http/discovery": true,
             "phpstan/extension-installer": true,
             "tbachert/spi": true
+        },
+        "audit": {
+            "block-insecure": false
         }
     },
     "scripts": {
         "tests": "php vendor/bin/phpunit web/modules/custom",
-        "compile": "npm run build"
+        "compile": "npm run build",
+        "test:coverage": [
+            "@putenv XDEBUG_MODE=coverage",
+            "mkdir -p private/coverage",
+            "php vendor/bin/phpunit web/modules/custom --coverage-clover=$PWD/private/coverage/clover.xml --coverage-text",
+            "php scripts/coverage-check.php private/coverage/clover.xml 85"
+        ]
     },
     "extra": {
         "composer-exit-on-patch-failure": true,
-        "patches": {
-        },
+        "patches": {},
         "drupal-scaffold": {
             "locations": {
                 "web-root": "web/"

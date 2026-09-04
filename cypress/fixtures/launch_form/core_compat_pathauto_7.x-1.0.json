@@ -1,0 +1,1030 @@
+{
+  "list": [
+    {
+      "version": "7.103",
+      "major": "7",
+      "minor": "103",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.103",
+      "insecure": "0"
+    },
+    {
+      "version": "7.102",
+      "major": "7",
+      "minor": "102",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.102",
+      "insecure": "0"
+    },
+    {
+      "version": "7.101",
+      "major": "7",
+      "minor": "101",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.101",
+      "insecure": "1"
+    },
+    {
+      "version": "7.100",
+      "major": "7",
+      "minor": "100",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.100",
+      "insecure": "1"
+    },
+    {
+      "version": "7.99",
+      "major": "7",
+      "minor": "99",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.99",
+      "insecure": "1"
+    },
+    {
+      "version": "7.98",
+      "major": "7",
+      "minor": "98",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.98",
+      "insecure": "1"
+    },
+    {
+      "version": "7.97",
+      "major": "7",
+      "minor": "97",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.97",
+      "insecure": "1"
+    },
+    {
+      "version": "7.96",
+      "major": "7",
+      "minor": "96",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.96",
+      "insecure": "1"
+    },
+    {
+      "version": "7.95",
+      "major": "7",
+      "minor": "95",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.95",
+      "insecure": "1"
+    },
+    {
+      "version": "7.94",
+      "major": "7",
+      "minor": "94",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.94",
+      "insecure": "1"
+    },
+    {
+      "version": "7.93",
+      "major": "7",
+      "minor": "93",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.93",
+      "insecure": "1"
+    },
+    {
+      "version": "7.92",
+      "major": "7",
+      "minor": "92",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.92",
+      "insecure": "1"
+    },
+    {
+      "version": "7.91",
+      "major": "7",
+      "minor": "91",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.91",
+      "insecure": "1"
+    },
+    {
+      "version": "7.90",
+      "major": "7",
+      "minor": "90",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.90",
+      "insecure": "1"
+    },
+    {
+      "version": "7.89",
+      "major": "7",
+      "minor": "89",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.89",
+      "insecure": "1"
+    },
+    {
+      "version": "7.88",
+      "major": "7",
+      "minor": "88",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.88",
+      "insecure": "1"
+    },
+    {
+      "version": "7.87",
+      "major": "7",
+      "minor": "87",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.87",
+      "insecure": "1"
+    },
+    {
+      "version": "7.86",
+      "major": "7",
+      "minor": "86",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.86",
+      "insecure": "1"
+    },
+    {
+      "version": "7.85",
+      "major": "7",
+      "minor": "85",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.85",
+      "insecure": "1"
+    },
+    {
+      "version": "7.84",
+      "major": "7",
+      "minor": "84",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.84",
+      "insecure": "1"
+    },
+    {
+      "version": "7.83",
+      "major": "7",
+      "minor": "83",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.83",
+      "insecure": "1"
+    },
+    {
+      "version": "7.82",
+      "major": "7",
+      "minor": "82",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.82",
+      "insecure": "1"
+    },
+    {
+      "version": "7.81",
+      "major": "7",
+      "minor": "81",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.81",
+      "insecure": "1"
+    },
+    {
+      "version": "7.80",
+      "major": "7",
+      "minor": "80",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.80",
+      "insecure": "1"
+    },
+    {
+      "version": "7.79",
+      "major": "7",
+      "minor": "79",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.79",
+      "insecure": "1"
+    },
+    {
+      "version": "7.78",
+      "major": "7",
+      "minor": "78",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.78",
+      "insecure": "1"
+    },
+    {
+      "version": "7.77",
+      "major": "7",
+      "minor": "77",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.77",
+      "insecure": "1"
+    },
+    {
+      "version": "7.76",
+      "major": "7",
+      "minor": "76",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.76",
+      "insecure": "1"
+    },
+    {
+      "version": "7.75",
+      "major": "7",
+      "minor": "75",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.75",
+      "insecure": "1"
+    },
+    {
+      "version": "7.74",
+      "major": "7",
+      "minor": "74",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.74",
+      "insecure": "1"
+    },
+    {
+      "version": "7.73",
+      "major": "7",
+      "minor": "73",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.73",
+      "insecure": "1"
+    },
+    {
+      "version": "7.72",
+      "major": "7",
+      "minor": "72",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.72",
+      "insecure": "1"
+    },
+    {
+      "version": "7.71",
+      "major": "7",
+      "minor": "71",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.71",
+      "insecure": "1"
+    },
+    {
+      "version": "7.70",
+      "major": "7",
+      "minor": "70",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.70",
+      "insecure": "1"
+    },
+    {
+      "version": "7.69",
+      "major": "7",
+      "minor": "69",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.69",
+      "insecure": "1"
+    },
+    {
+      "version": "7.68",
+      "major": "7",
+      "minor": "68",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.68",
+      "insecure": "1"
+    },
+    {
+      "version": "7.67",
+      "major": "7",
+      "minor": "67",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.67",
+      "insecure": "1"
+    },
+    {
+      "version": "7.66",
+      "major": "7",
+      "minor": "66",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.66",
+      "insecure": "1"
+    },
+    {
+      "version": "7.65",
+      "major": "7",
+      "minor": "65",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.65",
+      "insecure": "1"
+    },
+    {
+      "version": "7.64",
+      "major": "7",
+      "minor": "64",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.64",
+      "insecure": "1"
+    },
+    {
+      "version": "7.63",
+      "major": "7",
+      "minor": "63",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.63",
+      "insecure": "1"
+    },
+    {
+      "version": "7.62",
+      "major": "7",
+      "minor": "62",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.62",
+      "insecure": "1"
+    },
+    {
+      "version": "7.61",
+      "major": "7",
+      "minor": "61",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.61",
+      "insecure": "1"
+    },
+    {
+      "version": "7.60",
+      "major": "7",
+      "minor": "60",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.60",
+      "insecure": "1"
+    },
+    {
+      "version": "7.59",
+      "major": "7",
+      "minor": "59",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.59",
+      "insecure": "1"
+    },
+    {
+      "version": "7.58",
+      "major": "7",
+      "minor": "58",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.58",
+      "insecure": "1"
+    },
+    {
+      "version": "7.57",
+      "major": "7",
+      "minor": "57",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.57",
+      "insecure": "1"
+    },
+    {
+      "version": "7.56",
+      "major": "7",
+      "minor": "56",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.56",
+      "insecure": "1"
+    },
+    {
+      "version": "7.55",
+      "major": "7",
+      "minor": "55",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.55",
+      "insecure": "1"
+    },
+    {
+      "version": "7.54",
+      "major": "7",
+      "minor": "54",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.54",
+      "insecure": "1"
+    },
+    {
+      "version": "7.53",
+      "major": "7",
+      "minor": "53",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.53",
+      "insecure": "1"
+    },
+    {
+      "version": "7.52",
+      "major": "7",
+      "minor": "52",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.52",
+      "insecure": "1"
+    },
+    {
+      "version": "7.51",
+      "major": "7",
+      "minor": "51",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.51",
+      "insecure": "1"
+    },
+    {
+      "version": "7.50",
+      "major": "7",
+      "minor": "50",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.50",
+      "insecure": "1"
+    },
+    {
+      "version": "7.44",
+      "major": "7",
+      "minor": "44",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.44",
+      "insecure": "1"
+    },
+    {
+      "version": "7.43",
+      "major": "7",
+      "minor": "43",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.43",
+      "insecure": "1"
+    },
+    {
+      "version": "7.42",
+      "major": "7",
+      "minor": "42",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.42",
+      "insecure": "1"
+    },
+    {
+      "version": "7.41",
+      "major": "7",
+      "minor": "41",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.41",
+      "insecure": "1"
+    },
+    {
+      "version": "7.40",
+      "major": "7",
+      "minor": "40",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.40",
+      "insecure": "1"
+    },
+    {
+      "version": "7.39",
+      "major": "7",
+      "minor": "39",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.39",
+      "insecure": "1"
+    },
+    {
+      "version": "7.38",
+      "major": "7",
+      "minor": "38",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.38",
+      "insecure": "1"
+    },
+    {
+      "version": "7.37",
+      "major": "7",
+      "minor": "37",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.37",
+      "insecure": "1"
+    },
+    {
+      "version": "7.36",
+      "major": "7",
+      "minor": "36",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.36",
+      "insecure": "1"
+    },
+    {
+      "version": "7.35",
+      "major": "7",
+      "minor": "35",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.35",
+      "insecure": "1"
+    },
+    {
+      "version": "7.34",
+      "major": "7",
+      "minor": "34",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.34",
+      "insecure": "1"
+    },
+    {
+      "version": "7.33",
+      "major": "7",
+      "minor": "33",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.33",
+      "insecure": "1"
+    },
+    {
+      "version": "7.32",
+      "major": "7",
+      "minor": "32",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.32",
+      "insecure": "1"
+    },
+    {
+      "version": "7.31",
+      "major": "7",
+      "minor": "31",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.31",
+      "insecure": "1"
+    },
+    {
+      "version": "7.30",
+      "major": "7",
+      "minor": "30",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.30",
+      "insecure": "1"
+    },
+    {
+      "version": "7.29",
+      "major": "7",
+      "minor": "29",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.29",
+      "insecure": "1"
+    },
+    {
+      "version": "7.28",
+      "major": "7",
+      "minor": "28",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.28",
+      "insecure": "1"
+    },
+    {
+      "version": "7.27",
+      "major": "7",
+      "minor": "27",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.27",
+      "insecure": "1"
+    },
+    {
+      "version": "7.26",
+      "major": "7",
+      "minor": "26",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.26",
+      "insecure": "1"
+    },
+    {
+      "version": "7.25",
+      "major": "7",
+      "minor": "25",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.25",
+      "insecure": "1"
+    },
+    {
+      "version": "7.24",
+      "major": "7",
+      "minor": "24",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.24",
+      "insecure": "1"
+    },
+    {
+      "version": "7.23",
+      "major": "7",
+      "minor": "23",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.23",
+      "insecure": "1"
+    },
+    {
+      "version": "7.22",
+      "major": "7",
+      "minor": "22",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.22",
+      "insecure": "1"
+    },
+    {
+      "version": "7.21",
+      "major": "7",
+      "minor": "21",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.21",
+      "insecure": "1"
+    },
+    {
+      "version": "7.20",
+      "major": "7",
+      "minor": "20",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.20",
+      "insecure": "1"
+    },
+    {
+      "version": "7.19",
+      "major": "7",
+      "minor": "19",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.19",
+      "insecure": "1"
+    },
+    {
+      "version": "7.18",
+      "major": "7",
+      "minor": "18",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.18",
+      "insecure": "1"
+    },
+    {
+      "version": "7.17",
+      "major": "7",
+      "minor": "17",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.17",
+      "insecure": "1"
+    },
+    {
+      "version": "7.16",
+      "major": "7",
+      "minor": "16",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.16",
+      "insecure": "1"
+    },
+    {
+      "version": "7.15",
+      "major": "7",
+      "minor": "15",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.15",
+      "insecure": "1"
+    },
+    {
+      "version": "7.14",
+      "major": "7",
+      "minor": "14",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.14",
+      "insecure": "1"
+    },
+    {
+      "version": "7.13",
+      "major": "7",
+      "minor": "13",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.13",
+      "insecure": "1"
+    },
+    {
+      "version": "7.12",
+      "major": "7",
+      "minor": "12",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.12",
+      "insecure": "1"
+    },
+    {
+      "version": "7.11",
+      "major": "7",
+      "minor": "11",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.11",
+      "insecure": "1"
+    },
+    {
+      "version": "7.10",
+      "major": "7",
+      "minor": "10",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.10",
+      "insecure": "1"
+    },
+    {
+      "version": "7.9",
+      "major": "7",
+      "minor": "9",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.9",
+      "insecure": "1"
+    },
+    {
+      "version": "7.8",
+      "major": "7",
+      "minor": "8",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.8",
+      "insecure": "1"
+    },
+    {
+      "version": "7.7",
+      "major": "7",
+      "minor": "7",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.7",
+      "insecure": "1"
+    },
+    {
+      "version": "7.6",
+      "major": "7",
+      "minor": "6",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.6",
+      "insecure": "1"
+    },
+    {
+      "version": "7.5",
+      "major": "7",
+      "minor": "5",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.5",
+      "insecure": "1"
+    },
+    {
+      "version": "7.4",
+      "major": "7",
+      "minor": "4",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.4",
+      "insecure": "1"
+    },
+    {
+      "version": "7.3",
+      "major": "7",
+      "minor": "3",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.3",
+      "insecure": "1"
+    },
+    {
+      "version": "7.2",
+      "major": "7",
+      "minor": "2",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.2",
+      "insecure": "1"
+    },
+    {
+      "version": "7.1",
+      "major": "7",
+      "minor": "1",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.1",
+      "insecure": "1"
+    },
+    {
+      "version": "7.0",
+      "major": "7",
+      "minor": "0",
+      "patch": null,
+      "extra": null,
+      "vcs_label": "7.0",
+      "insecure": "1"
+    },
+    {
+      "version": "7.0-alpha1",
+      "major": "7",
+      "minor": "0",
+      "patch": null,
+      "extra": "alpha1",
+      "vcs_label": "7.0-alpha1",
+      "insecure": "1"
+    },
+    {
+      "version": "7.0-alpha2",
+      "major": "7",
+      "minor": "0",
+      "patch": null,
+      "extra": "alpha2",
+      "vcs_label": "7.0-alpha2",
+      "insecure": "1"
+    },
+    {
+      "version": "7.0-alpha3",
+      "major": "7",
+      "minor": "0",
+      "patch": null,
+      "extra": "alpha3",
+      "vcs_label": "7.0-alpha3",
+      "insecure": "1"
+    },
+    {
+      "version": "7.0-alpha4",
+      "major": "7",
+      "minor": "0",
+      "patch": null,
+      "extra": "alpha4",
+      "vcs_label": "7.0-alpha4",
+      "insecure": "1"
+    },
+    {
+      "version": "7.0-alpha5",
+      "major": "7",
+      "minor": "0",
+      "patch": null,
+      "extra": "alpha5",
+      "vcs_label": "7.0-alpha5",
+      "insecure": "1"
+    },
+    {
+      "version": "7.0-alpha6",
+      "major": "7",
+      "minor": "0",
+      "patch": null,
+      "extra": "alpha6",
+      "vcs_label": "7.0-alpha6",
+      "insecure": "1"
+    },
+    {
+      "version": "7.0-alpha7",
+      "major": "7",
+      "minor": "0",
+      "patch": null,
+      "extra": "alpha7",
+      "vcs_label": "7.0-alpha7",
+      "insecure": "1"
+    },
+    {
+      "version": "7.0-beta1",
+      "major": "7",
+      "minor": "0",
+      "patch": null,
+      "extra": "beta1",
+      "vcs_label": "7.0-beta1",
+      "insecure": "1"
+    },
+    {
+      "version": "7.0-beta2",
+      "major": "7",
+      "minor": "0",
+      "patch": null,
+      "extra": "beta2",
+      "vcs_label": "7.0-beta2",
+      "insecure": "1"
+    },
+    {
+      "version": "7.0-beta3",
+      "major": "7",
+      "minor": "0",
+      "patch": null,
+      "extra": "beta3",
+      "vcs_label": "7.0-beta3",
+      "insecure": "1"
+    },
+    {
+      "version": "7.0-rc1",
+      "major": "7",
+      "minor": "0",
+      "patch": null,
+      "extra": "rc1",
+      "vcs_label": "7.0-rc-1",
+      "insecure": "1"
+    },
+    {
+      "version": "7.0-rc2",
+      "major": "7",
+      "minor": "0",
+      "patch": null,
+      "extra": "rc2",
+      "vcs_label": "7.0-rc-2",
+      "insecure": "1"
+    },
+    {
+      "version": "7.0-rc3",
+      "major": "7",
+      "minor": "0",
+      "patch": null,
+      "extra": "rc3",
+      "vcs_label": "7.0-rc-3",
+      "insecure": "1"
+    },
+    {
+      "version": "7.0-rc4",
+      "major": "7",
+      "minor": "0",
+      "patch": null,
+      "extra": "rc4",
+      "vcs_label": "7.0-rc-4",
+      "insecure": "1"
+    },
+    {
+      "version": "7.x-dev",
+      "major": "7",
+      "minor": "0",
+      "patch": null,
+      "extra": "dev",
+      "vcs_label": "7.x",
+      "insecure": "0"
+    }
+  ]
+}

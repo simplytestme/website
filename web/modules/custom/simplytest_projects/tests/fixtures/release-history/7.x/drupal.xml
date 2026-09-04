@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns:dc="http://purl.org/dc/elements/1.1/">
+<title>Drupal core</title>
+<short_name>drupal</short_name>
+<dc:creator>Drupal</dc:creator>
+<api_version>7.x</api_version>
+<project_status>published</project_status>
+<link>https://www.drupal.org/project/drupal</link>
+<releases>
+<release><name>drupal 7.103</name><version>7.103</version><tag>7.103</tag><status>published</status><date>1750000000</date><terms><term><name>Release type</name><value>Bug fixes</value></term></terms></release>
+<release><name>drupal 7.95</name><version>7.95</version><tag>7.95</tag><status>published</status><date>1680000000</date><terms><term><name>Release type</name><value>Insecure</value></term></terms></release>
+<release><name>drupal 7.x-dev</name><version>7.x-dev</version><tag>7.x</tag><status>published</status><date>1750100000</date></release>
+</releases>
+</project>

@@ -16,12 +16,15 @@ class SimplytestProjectEntityForm extends ContentEntityForm {
   #[\Override]
   public function save(array $form, FormStateInterface $form_state) {
     $entity = &$this->entity;
+
+    $status = parent::save($form, $form_state);
+
+    // The ID is only assigned once the entity has been saved, so the message
+    // parameters have to be built afterwards.
     $message_params = [
       '%entity_label' => $entity->id(),
       '%content_entity_label' => $entity->getEntityType()->getLabel()->render(),
     ];
-
-    $status = parent::save($form, $form_state);
 
     match ($status) {
         SAVED_NEW => $this->messenger()->addMessage($this->t('Created %content_entity_label entity:  %entity_label.', $message_params)),

@@ -9,6 +9,7 @@ use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
 use Drupal\simplytest_projects\ProjectTypes;
 use Drupal\simplytest_projects\ProjectVersionManager;
+use Drupal\simplytest_tugboat\LaunchRecorder;
 
 /**
  * @group simplytest
@@ -33,6 +34,7 @@ final class InstanceManagerTest extends KernelTestBase {
     $this->installEntitySchema('simplytest_project');
     $this->installSchema('simplytest_projects', CoreVersionManager::TABLE_NAME);
     $this->installSchema('simplytest_projects', ProjectVersionManager::TABLE_NAME);
+    $this->installSchema('simplytest_tugboat', LaunchRecorder::TABLE_NAME);
 
     SimplytestProject::create([
       'title' => 'Token',
@@ -111,8 +113,7 @@ final class InstanceManagerTest extends KernelTestBase {
                 'composer -n create-project drupal/recommended-project:9.3.2 stm --no-install',
                 'cd stm && composer config minimum-stability dev',
                 'cd stm && composer config prefer-stable true',
-                'cd stm && composer require --dev --no-install drupal/core:9.3.2 drupal/core-dev:9.3.2',
-                'cd stm && composer require --dev --no-install phpspec/prophecy-phpunit:^2',
+                'cd stm && composer require --dev --no-install drupal/core:9.3.2',
                 'cd stm && composer require --no-install drush/drush',
                 'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"',
                 'echo "SIMPLYEST_STAGE_DOWNLOAD"',

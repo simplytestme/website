@@ -89,7 +89,11 @@ class Resources implements ContainerInjectionInterface {
       'id' => $definition['id'],
       'title' => $definition['title'],
       'base_preview_name' => $definition['base_preview_name'],
+      'description' => $definition['description'] ?? '',
+      'weight' => $definition['weight'] ?? 0,
+      'recommended' => $definition['recommended'] ?? FALSE,
     ], $this->manager->getDefinitions()));
+    usort($ocds, static fn(array $a, array $b) => $a['weight'] <=> $b['weight']);
 
     $response = new CacheableJsonResponse($ocds);
     $response->getCacheableMetadata()->addCacheableDependency($this->manager);

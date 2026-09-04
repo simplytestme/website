@@ -11,6 +11,7 @@ use Drupal\Core\Lock\LockBackendInterface;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
 use Drupal\simplytest_projects\Exception\EntityValidationException;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Drupal\Component\Serialization\Json;
 use Psr\Log\LoggerInterface;
 
@@ -44,12 +45,31 @@ class ProjectFetcher {
   public function fetchProject(string $shortname): ?array {
     // Sanitize shortname for use in lock key: allow only lowercase letters, numbers, and underscores.
     $sanitized_shortname = preg_replace('/[^a-z0-9_]/', '_', strtolower($shortname));
-    if (!$this->lock->acquire("fetch_project_$sanitized_shortname")) {
+    $lock_key = "fetch_project_$sanitized_shortname";
+    if (!$this->lock->acquire($lock_key)) {
       // Could not acquire lock, another process is already fetching this project.
       // @todo Use `wait` and check if it exists. This seems like something
       //   the caller should implement?
       return NULL;
     }
+    // Whatever happens past this point - a transport error, a malformed
+    // payload, an entity save failure - the lock has to be released, or every
+    // retry within the lock timeout is refused for no reason.
+    try {
+      return $this->doFetchProject($shortname);
+    }
+    finally {
+      $this->lock->release($lock_key);
+    }
+  }
+
+  /**
+   * Fetches and stores the project while fetchProject() holds the lock.
+   *
+   * @return array{title: string, shortname: string, sandbox: bool, type: string, creator: string|null, usage: int}|null
+   *   The saved project data, or NULL if the project could not be fetched.
+   */
+  private function doFetchProject(string $shortname): ?array {
     // Ensure the shortname is always lowercase. The Drupal.org API is not
     // case-sensitive, but other APIs are.
     $shortname = strtolower($shortname);
@@ -57,7 +77,16 @@ class ProjectFetcher {
     if ($cache = $this->cache->get($cid)) {
       $result = $cache->data;
     } else {
-      $response = $this->httpClient->get(DrupalUrls::ORG_API . 'node.json?field_project_machine_name=' . urlencode($shortname));
+      try {
+        $response = $this->httpClient->get(DrupalUrls::ORG_API . 'node.json?field_project_machine_name=' . urlencode($shortname));
+      }
+      catch (GuzzleException $exception) {
+        $this->logger->warning('Failed to fetch initial data for %project: %message', [
+          '%project' => $shortname,
+          '%message' => $exception->getMessage(),
+        ]);
+        return NULL;
+      }
       $result = (string) $response->getBody();
       if ($response->getStatusCode() === 200) {
         $this->cache->set($cid, $result, strtotime('+1 day'), ['project_fetch']);
@@ -77,13 +106,11 @@ class ProjectFetcher {
       $this->logger->warning('Failed to parse initial data for %project (json decode).', [
         '%project' => $shortname,
       ]);
-      $this->lock->release("fetch_project_$sanitized_shortname");
       return NULL;
     }
 
     // Did we find the project we searched for?
     if (count($data['list']) === 0 || !isset($data['list'][0])) {
-      $this->lock->release("fetch_project_$sanitized_shortname");
       return NULL;
     }
     $project_data = $data['list'][0];
@@ -97,7 +124,6 @@ class ProjectFetcher {
       $this->logger->warning('Failed to get initial data for %project (no project title).', [
         '%project' => $shortname,
       ]);
-      $this->lock->release("fetch_project_$sanitized_shortname");
       return NULL;
     }
     $title = $project_data['title'];
@@ -107,7 +133,6 @@ class ProjectFetcher {
       $this->logger->warning('Failed to get initial data for %project (no project type).', [
         '%project' => $shortname,
       ]);
-      $this->lock->release("fetch_project_$sanitized_shortname");
       return NULL;
     }
     $type_term = $project_data['type'];
@@ -120,17 +145,15 @@ class ProjectFetcher {
         '%project' => $shortname,
         '@term' => $type_term,
       ]);
-      $this->lock->release("fetch_project_$sanitized_shortname");
       return NULL;
     }
 
     // Get author name from project url.
     if ($sandbox) {
       if (!isset($project_data['url'])) {
-        $this->logger->warning('Failed to scrap user name from "%url".', [
-          '%url' => $project_data['url'],
+        $this->logger->warning('Failed to scrap user name for %project, the project node has no URL.', [
+          '%project' => $shortname,
         ]);
-        $this->lock->release("fetch_project_$sanitized_shortname");
         return NULL;
       }
       $url_parts = explode('/', (string) $project_data['url']);
@@ -163,14 +186,25 @@ class ProjectFetcher {
       $project = SimplytestProject::create($data);
       $project->save();
     }
-    catch (EntityValidationException) {
-      // @todo decide how to handle this error if we got a dupe save.
-    }
-    catch (EntityStorageException) {
-      // @todo decide how to handle this error if we got a dupe save, somehow.
-    }
-    finally {
-      $this->lock->release("fetch_project_$sanitized_shortname");
+    catch (EntityValidationException | EntityStorageException $e) {
+      // Entity storage wraps whatever preSave() threw, so unpack it to tell
+      // a duplicate apart from a real storage failure.
+      $validation = $e instanceof EntityValidationException ? $e : $e->getPrevious();
+      if ($validation instanceof EntityValidationException) {
+        // A concurrent request imported the project first. It exists, which
+        // is all the caller needs; the stored data is as fresh as ours.
+        $this->logger->notice('Skipped saving %project: it was imported concurrently.', [
+          '%project' => $shortname,
+        ]);
+        return $data;
+      }
+      // The project did not persist: callers must not report success, or the
+      // client believes in a project the autocomplete will never find.
+      $this->logger->error('Failed to save project %project: %message', [
+        '%project' => $shortname,
+        '%message' => $e->getMessage(),
+      ]);
+      return NULL;
     }
     return $data;
   }
@@ -198,6 +232,10 @@ class ProjectFetcher {
       ->accessCheck(FALSE)
       ->condition('shortname', $shortname)
       ->execute();
+
+    if ($project_ids === []) {
+      return FALSE;
+    }
 
     $project = SimplytestProject::load(reset($project_ids));
 
@@ -271,73 +309,6 @@ class ProjectFetcher {
     }
 
     return $projects;
-  }
-
-  /**
-   * Fetch all the versions of a project.
-   *
-   * @param $project
-   * @return array
-   */
-  public function fetchProjectVersions($project) {
-    $versions = [
-      'branches' => [],
-      'tags' => [],
-    ];
-    if ($versions_data = $this->fetchVersions($project)) {
-      if ($versions_data !== FALSE) {
-        if (isset($versions_data['tags'])) {
-          $version_groups = [];
-          usort($versions_data['tags'], 'version_compare');
-          foreach ($versions_data['tags'] as $tag) {
-            // Support for legacy versioning and semantic versioning.
-            if (strpos((string) $tag, '.x-') === 1) {
-              $api_version = 'Drupal ' . $tag[0];
-            }
-            // Find out major / api version for structure.
-            elseif (is_numeric($tag[0])) {
-              $api_version = $tag[0] . '.x';
-            }
-            else {
-              // Prefixed with space to get it sorted to the bottom.
-              $api_version = 'Other';
-            }
-            $version_groups[$api_version][] = $tag;
-          }
-          foreach ($version_groups as $api_version => $tags) {
-            // This is kind of messy and duplicative, but it works for now.
-            $drupal_major_version = '';
-            $first_tag = $tags[0];
-            if (strpos((string) $first_tag, '.x-') === 1) {
-              $drupal_major_version = $first_tag[0];
-            } else {
-              // Assume all semver is D9.
-              $drupal_major_version = '9';
-            }
-            $versions['tags'][] = [
-              'grouping' => $api_version,
-              'major' => $drupal_major_version,
-              'tags' => array_reverse($tags)
-            ];
-          }
-        }
-        if (isset($versions_data['heads'])) {
-          foreach ($versions_data['heads'] as $version) {
-            if (strpos((string) $version, '.x-') === 1) {
-              $drupal_major_version = $version[0];
-            } else {
-              // Assume all semver is D9.
-              $drupal_major_version = '9';
-            }
-            $versions['branches'][] = [
-              'major' => $drupal_major_version,
-              'branch' => $version,
-            ];
-          }
-        }
-      }
-    }
-    return $versions;
   }
 
 }

@@ -23,13 +23,13 @@ jobs:
         ports:
           - 9515
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
           echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -50,13 +50,13 @@ jobs:
     runs-on: ubuntu-latest
     name: phpstan
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
           echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -74,15 +74,15 @@ jobs:
         run: php vendor/bin/phpstan.phar
   rector:
     runs-on: ubuntu-latest
-    name: phpstan
+    name: rector
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
           echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -113,13 +113,13 @@ jobs:
           - 3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
           echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -129,7 +129,7 @@ jobs:
         with:
             php-version: 8.3
             extensions: dom, curl, libxml, mbstring, zip, pdo, mysql, pdo_mysql, bcmath, soap, intl, gd, exif, iconv
-            coverage: none
+            coverage: xdebug
             tools: composer:v2
       - name: Install dependencies
         run: composer install
@@ -139,13 +139,22 @@ jobs:
         run: |
           mkdir -p web/sites/simpletest
           chmod 777 web/sites/simpletest
-      - name: PHPUnit
-        run: php vendor/bin/phpunit web/modules/custom
+      # Every custom-module test is a Unit or Kernel test, so the one PHPUnit
+      # run produces the coverage report as well. The invocation and the
+      # threshold live in the composer script, so local runs and CI agree.
+      - name: PHPUnit with coverage
+        run: composer test:coverage
         env:
           SYMFONY_DEPRECATIONS_HELPER: weak
           SIMPLETEST_DB: mysql://root:@127.0.0.1:${{ job.services.mysql.ports[3306] }}/db
           SIMPLETEST_BASE_URL: http://127.0.0.1:8080
           MINK_DRIVER_ARGS_WEBDRIVER: '["chrome", {"browserName":"chrome","chromeOptions":{"args":["--disable-gpu","--headless", "--no-sandbox"]}}, "http://127.0.0.1:${{ job.services.chromedriver.ports[9515] }}"]'
+      # Keep the report around for inspection when the threshold fails.
+      - uses: actions/upload-artifact@v7
+        if: ${{ always() }}
+        with:
+          name: coverage-clover
+          path: private/coverage/clover.xml
   cypress:
     runs-on: ubuntu-latest
     name: cypress
@@ -163,17 +172,17 @@ jobs:
         ports:
           - 9515
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: "Install Node"
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: "18"
+          node-version: "22"
 
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
           echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -184,7 +193,7 @@ jobs:
         id: npm-cache-dir
         shell: bash
         run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         id: npm-cache
         with:
           path: ${{ steps.npm-cache-dir.outputs.dir }}
@@ -218,7 +227,18 @@ jobs:
       - name: debug watchdog
         run: vendor/bin/drush watchdog:show --format=json --count=20
         if: ${{ failure() }}
-      - uses: actions/upload-artifact@v4
+      - name: debug versions endpoint
+        run: |
+          echo "--- versions endpoint body:"
+          curl -s http://127.0.0.1:8080/simplytest/project/pathauto/versions | head -c 500; echo
+          echo "--- stored release rows:"
+          vendor/bin/drush sql:query "SELECT COUNT(*) FROM simplytest_project_versions WHERE short_name='pathauto'"
+          echo "--- project rows:"
+          vendor/bin/drush sql:query "SELECT id, shortname, timestamp FROM simplytest_project"
+          echo "--- page_cache status:"
+          vendor/bin/drush pm:list --status=enabled --filter=page --format=list || true
+        if: ${{ failure() }}
+      - uses: actions/upload-artifact@v7
         if: ${{ failure() }}
         with:
           name: cypress
@@ -226,3 +246,18 @@ jobs:
             cypress/screenshots
             cypress/results
             cypress/videos
+
+  lint:
+    runs-on: ubuntu-latest
+    name: lint
+    steps:
+      - uses: actions/checkout@v7
+      - name: "Install Node"
+        uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Install NPM dependencies
+        run: npm ci
+      - name: ESLint and Prettier
+        run: npm run lint

@@ -25,52 +25,50 @@ trait MockedReleaseHttpClientTrait {
   }
 
   public function __invoke(): \Closure {
-    return function () {
-      return function (RequestInterface $request): PromiseInterface {
-        $this->requests[] = $request;
+    return fn() => function (RequestInterface $request): PromiseInterface {
+      $this->requests[] = $request;
 
-        $uri = (string) $request->getUri();
+      $uri = (string) $request->getUri();
 
-        if ($uri === 'https://updates.drupal.org/release-history/pathauto/current') {
-          if ($request->hasHeader('If-Modified-Since')) {
-            return self::notModifiedResponse();
-          }
-          $fixture = file_get_contents(__DIR__ . '/../../fixtures/release-history/current/pathauto.xml');
-          return new FulfilledPromise(new Response(200, ['Last-Modified' => 'Wed, 21 Apr 2021 00:36:14 GMT'], $fixture));
-        }
-
-        if ($uri === 'https://updates.drupal.org/release-history/pathauto/7.x') {
-          if ($request->hasHeader('If-Modified-Since')) {
-            return self::notModifiedResponse();
-          }
-          $fixture = file_get_contents(__DIR__ . '/../../fixtures/release-history/7.x/pathauto.xml');
-          return new FulfilledPromise(new Response(200, ['Last-Modified' => 'Wed, 21 Apr 2021 00:36:14 GMT'], $fixture));
-        }
-
-        if ($uri === 'https://updates.drupal.org/release-history/drupalbin/current') {
-          $fixture = file_get_contents(__DIR__ . '/../../fixtures/release-history/current/drupalbin.xml');
-          return new FulfilledPromise(new Response(200, ['Last-Modified' => 'Wed, 21 Apr 2021 00:36:14 GMT'], $fixture));
-        }
-
-        if ($uri === 'https://updates.drupal.org/release-history/drupalbin/7.x') {
-          $fixture = file_get_contents(__DIR__ . '/../../fixtures/release-history/7.x/drupalbin.xml');
-          return new FulfilledPromise(new Response(200, ['Last-Modified' => 'Wed, 21 Apr 2021 00:36:14 GMT'], $fixture));
-        }
-
-        if ($uri === 'https://updates.drupal.org/release-history/bootstrap/current') {
-          if ($request->hasHeader('If-Modified-Since')) {
-            return self::notModifiedResponse();
-          }
-          $fixture = file_get_contents(__DIR__ . '/../../fixtures/release-history/current/bootstrap.xml');
-          return new FulfilledPromise(new Response(200, ['Last-Modified' => 'Wed, 21 Apr 2021 00:36:14 GMT'], $fixture));
-        }
-        if ($uri === 'https://updates.drupal.org/release-history/bootstrap/7.x') {
-          // Not mocked, skip.
+      if ($uri === 'https://updates.drupal.org/release-history/pathauto/current') {
+        if ($request->hasHeader('If-Modified-Since')) {
           return self::notModifiedResponse();
         }
+        $fixture = file_get_contents(__DIR__ . '/../../fixtures/release-history/current/pathauto.xml');
+        return new FulfilledPromise(new Response(200, ['Last-Modified' => 'Wed, 21 Apr 2021 00:36:14 GMT'], $fixture));
+      }
 
-        throw new \RuntimeException('Mocked request tried to escape: ' . $request->getUri());
-      };
+      if ($uri === 'https://updates.drupal.org/release-history/pathauto/7.x') {
+        if ($request->hasHeader('If-Modified-Since')) {
+          return self::notModifiedResponse();
+        }
+        $fixture = file_get_contents(__DIR__ . '/../../fixtures/release-history/7.x/pathauto.xml');
+        return new FulfilledPromise(new Response(200, ['Last-Modified' => 'Wed, 21 Apr 2021 00:36:14 GMT'], $fixture));
+      }
+
+      if ($uri === 'https://updates.drupal.org/release-history/drupalbin/current') {
+        $fixture = file_get_contents(__DIR__ . '/../../fixtures/release-history/current/drupalbin.xml');
+        return new FulfilledPromise(new Response(200, ['Last-Modified' => 'Wed, 21 Apr 2021 00:36:14 GMT'], $fixture));
+      }
+
+      if ($uri === 'https://updates.drupal.org/release-history/drupalbin/7.x') {
+        $fixture = file_get_contents(__DIR__ . '/../../fixtures/release-history/7.x/drupalbin.xml');
+        return new FulfilledPromise(new Response(200, ['Last-Modified' => 'Wed, 21 Apr 2021 00:36:14 GMT'], $fixture));
+      }
+
+      if ($uri === 'https://updates.drupal.org/release-history/bootstrap/current') {
+        if ($request->hasHeader('If-Modified-Since')) {
+          return self::notModifiedResponse();
+        }
+        $fixture = file_get_contents(__DIR__ . '/../../fixtures/release-history/current/bootstrap.xml');
+        return new FulfilledPromise(new Response(200, ['Last-Modified' => 'Wed, 21 Apr 2021 00:36:14 GMT'], $fixture));
+      }
+      if ($uri === 'https://updates.drupal.org/release-history/bootstrap/7.x') {
+        // Not mocked, skip.
+        return self::notModifiedResponse();
+      }
+
+      throw new \RuntimeException('Mocked request tried to escape: ' . $request->getUri());
     };
   }
 

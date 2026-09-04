@@ -29,9 +29,13 @@ final readonly class ProjectVersionManager {
 
   public function updateData(string $project): void {
     $invalidate_caches = FALSE;
+    // A conditional fetch is only valid while the previous fetch's rows are
+    // still stored; without them a 304 would leave the project permanently
+    // versionless.
+    $force = $this->getAllReleases($project) === [];
     foreach (['current', '7.x'] as $channel) {
       try {
-        $release_xml = $this->fetcher->getProjectData($project, $channel);
+        $release_xml = $this->fetcher->getProjectData($project, $channel, force: $force);
       }
       catch (ReleaseHistoryNotModifiedException) {
         // The release history has not been modified, so skip processing.

@@ -111,61 +111,6 @@ parameters:
 			path: web/modules/custom/simplytest_launch/tests/src/Kernel/TypedData/InstanceLaunchDefinitionTest.php
 
 		-
-			message: "#^Function simplytest_messages_preprocess_region\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_messages/simplytest_messages.module
-
-		-
-			message: "#^Function simplytest_messages_preprocess_region\\(\\) has parameter \\$variables with no type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_messages/simplytest_messages.module
-
-		-
-			message: "#^Method Drupal\\\\simplytest_messages\\\\Form\\\\SettingsForm\\:\\:buildForm\\(\\) has parameter \\$form with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_messages/src/Form/SettingsForm.php
-
-		-
-			message: "#^Method Drupal\\\\simplytest_messages\\\\Form\\\\SettingsForm\\:\\:buildForm\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_messages/src/Form/SettingsForm.php
-
-		-
-			message: "#^Method Drupal\\\\simplytest_messages\\\\Form\\\\SettingsForm\\:\\:getEditableConfigNames\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_messages/src/Form/SettingsForm.php
-
-		-
-			message: "#^Method Drupal\\\\simplytest_messages\\\\Form\\\\SettingsForm\\:\\:submitForm\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_messages/src/Form/SettingsForm.php
-
-		-
-			message: "#^Method Drupal\\\\simplytest_messages\\\\Form\\\\SettingsForm\\:\\:submitForm\\(\\) has parameter \\$form with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_messages/src/Form/SettingsForm.php
-
-		-
-			message: "#^Method Drupal\\\\simplytest_messages\\\\Plugin\\\\Block\\\\MessageBlock\\:\\:__construct\\(\\) has parameter \\$configuration with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_messages/src/Plugin/Block/MessageBlock.php
-
-		-
-			message: "#^Method Drupal\\\\simplytest_messages\\\\Plugin\\\\Block\\\\MessageBlock\\:\\:build\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_messages/src/Plugin/Block/MessageBlock.php
-
-		-
-			message: "#^Method Drupal\\\\simplytest_messages\\\\Plugin\\\\Block\\\\MessageBlock\\:\\:create\\(\\) has parameter \\$configuration with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_messages/src/Plugin/Block/MessageBlock.php
-
-		-
-			message: "#^Unsafe usage of new static\\(\\)\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_messages/src/Plugin/Block/MessageBlock.php
-
-		-
 			message: "#^Class Drupal\\\\simplytest_ocd\\\\OneClickDemoPluginManager referenced with incorrect case\\: Drupal\\\\simplytest_ocd\\\\OneCLickDemoPluginManager\\.$#"
 			count: 2
 			path: web/modules/custom/simplytest_ocd/src/Controller/Resources.php
@@ -434,11 +379,6 @@ parameters:
 			path: web/modules/custom/simplytest_projects/src/Entity/SimplytestProjectInterface.php
 
 		-
-			message: "#^Method Drupal\\\\simplytest_projects\\\\EventSubscriber\\\\ModifyMaxAgeResponseSubscriber\\:\\:onResponse\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/EventSubscriber/ModifyMaxAgeResponseSubscriber.php
-
-		-
 			message: "#^Call to function assert\\(\\) with true will always evaluate to true\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/src/Exception/EntityValidationException.php
@@ -524,11 +464,6 @@ parameters:
 			path: web/modules/custom/simplytest_projects/src/Form/SimplytestProjectEntityForm.php
 
 		-
-			message: "#^Dead catch \\- Drupal\\\\simplytest_projects\\\\Exception\\\\EntityValidationException is never thrown in the try block\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/Plugin/QueueWorker/ProjectRefresher.php
-
-		-
 			message: "#^Method Drupal\\\\simplytest_projects\\\\Plugin\\\\QueueWorker\\\\ProjectRefresher\\:\\:__construct\\(\\) has parameter \\$configuration with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/src/Plugin/QueueWorker/ProjectRefresher.php
@@ -545,16 +480,6 @@ parameters:
 
 		-
 			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectFetcher\\:\\:fetchProject\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
-
-		-
-			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectFetcher\\:\\:fetchProjectVersions\\(\\) has parameter \\$project with no type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
-
-		-
-			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectFetcher\\:\\:fetchProjectVersions\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
 
@@ -580,11 +505,6 @@ parameters:
 
 		-
 			message: "#^Method Drupal\\\\simplytest_projects\\\\ProjectFetcher\\:\\:searchFromProjects\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
-
-		-
-			message: "#^Strict comparison using \\!\\=\\= between non\\-empty\\-array and false will always evaluate to true\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/src/ProjectFetcher.php
 
@@ -739,11 +659,6 @@ parameters:
 			path: web/modules/custom/simplytest_projects/tests/modules/simplytest_projects_test/src/MockedHttpMiddleware.php
 
 		-
-			message: "#^Method Drupal\\\\simplytest_projects_test\\\\MockedHttpMiddleware\\:\\:__invoke\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/tests/modules/simplytest_projects_test/src/MockedHttpMiddleware.php
-
-		-
 			message: "#^Method Drupal\\\\Tests\\\\simplytest_projects\\\\Kernel\\\\ControllerTest\\:\\:alter\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/tests/src/Kernel/ControllerTest.php
@@ -880,11 +795,6 @@ parameters:
 
 		-
 			message: "#^Method Drupal\\\\simplytest_tugboat\\\\PreviewConfigGenerator\\:\\:generate\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_tugboat/src/PreviewConfigGenerator.php
-
-		-
-			message: "#^Method Drupal\\\\simplytest_tugboat\\\\PreviewConfigGenerator\\:\\:getComposerPatchCommand\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_tugboat/src/PreviewConfigGenerator.php
 
@@ -1058,167 +968,4 @@ parameters:
 			count: 1
 			path: web/modules/custom/simplytest_tugboat/tests/src/Unit/TugboatConfigTestBase.php
 
-		-
-			message: "#^Call to an undefined method Drupal\\\\file\\\\Entity\\\\File\\:\\:url\\(\\)\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
-
-		-
-			message: "#^Function _simplytest_theme_images\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
-
-		-
-			message: "#^Function _simplytest_theme_images\\(\\) has parameter \\$variables with no type specified\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
-
-		-
-			message: "#^Function _simplytest_theme_settings\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
-
-		-
-			message: "#^Function _simplytest_theme_settings\\(\\) has parameter \\$form with no type specified\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
-
-		-
-			message: "#^Function _simplytest_theme_settings\\(\\) has parameter \\$form_state with no type specified\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
-
-		-
-			message: "#^Function file_default_scheme not found\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
-
-		-
-			message: "#^Function file_load not found\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
-
-		-
-			message: "#^Function kint not found\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
-
-		-
-			message: "#^Function simplytest_theme_form_system_theme_settings_alter\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
-
-		-
-			message: "#^Function simplytest_theme_form_system_theme_settings_alter\\(\\) has parameter \\$form with no type specified\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
-
-		-
-			message: "#^Function simplytest_theme_form_system_theme_settings_alter\\(\\) has parameter \\$form_state with no type specified\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
-
-		-
-			message: "#^Function simplytest_theme_preprocess_node\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
-
-		-
-			message: "#^Function simplytest_theme_preprocess_node\\(\\) has parameter \\$variables with no type specified\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
-
-		-
-			message: "#^Function simplytest_theme_preprocess_page\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
-
-		-
-			message: "#^Function simplytest_theme_preprocess_page\\(\\) has parameter \\$node with no type specified\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
-
-		-
-			message: "#^Function simplytest_theme_preprocess_page\\(\\) has parameter \\$variables with no type specified\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/simplytest-theme-casper-based.php
-
-		-
-			message: "#^Function simplytest_theme_preprocess_page\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/simplytest_theme.theme
-
-		-
-			message: "#^Function simplytest_theme_preprocess_page\\(\\) has parameter \\$variables with no type specified\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/simplytest_theme.theme
-
-		-
-			message: "#^Function file_load not found\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/src/Form/SimplyTestCallbacks.php
-
-		-
-			message: "#^Method Drupal\\\\simplytest_theme\\\\Form\\\\SimplyTestCallbacks\\:\\:addSimplyTestFile\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/src/Form/SimplyTestCallbacks.php
-
-		-
-			message: "#^Method Drupal\\\\simplytest_theme\\\\Form\\\\SimplyTestCallbacks\\:\\:addSimplyTestFile\\(\\) has parameter \\$file with no type specified\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/src/Form/SimplyTestCallbacks.php
-
-		-
-			message: "#^Method Drupal\\\\simplytest_theme\\\\Form\\\\SimplyTestCallbacks\\:\\:addSimplyTestFile\\(\\) has parameter \\$type with no type specified\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/src/Form/SimplyTestCallbacks.php
-
-		-
-			message: "#^Method Drupal\\\\simplytest_theme\\\\Form\\\\SimplyTestCallbacks\\:\\:saveConfig\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/src/Form/SimplyTestCallbacks.php
-
-		-
-			message: "#^Method Drupal\\\\simplytest_theme\\\\Form\\\\SimplyTestCallbacks\\:\\:saveConfig\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/src/Form/SimplyTestCallbacks.php
-
-		-
-			message: "#^Method Drupal\\\\simplytest_theme\\\\Form\\\\SimplyTestCallbacks\\:\\:submitSettings\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/src/Form/SimplyTestCallbacks.php
-
-		-
-			message: "#^Method Drupal\\\\simplytest_theme\\\\Form\\\\SimplyTestCallbacks\\:\\:submitSettings\\(\\) has parameter \\$form with no type specified\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/src/Form/SimplyTestCallbacks.php
-
-		-
-			message: "#^Parameter \\#4 \\$id of method Drupal\\\\file\\\\FileUsage\\\\DatabaseFileUsageBackend\\:\\:add\\(\\) expects string, int given\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/src/Form/SimplyTestCallbacks.php
-
-		-
-			message: "#^Function _simplytest_theme_header_bg_validate\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/theme-settings.php
-
-		-
-			message: "#^Function _simplytest_theme_header_bg_validate\\(\\) has parameter \\$element with no type specified\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/theme-settings.php
-
-		-
-			message: "#^Function simplytest_theme_form_system_theme_settings_alter\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/theme-settings.php
-
-		-
-			message: "#^Function simplytest_theme_form_system_theme_settings_alter\\(\\) has parameter \\$form with no type specified\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/theme-settings.php
-
-		-
-			message: "#^Function simplytest_theme_form_system_theme_settings_alter\\(\\) has parameter \\$form_id with no type specified\\.$#"
-			count: 1
-			path: web/themes/simplytest_theme/theme-settings.php
+	

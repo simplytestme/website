@@ -37,7 +37,6 @@ module:
   purge_ui: 0
   queue_unique: 0
   simplytest_launch: 0
-  simplytest_messages: 0
   simplytest_ocd: 0
   simplytest_projects: 0
   simplytest_tugboat: 0

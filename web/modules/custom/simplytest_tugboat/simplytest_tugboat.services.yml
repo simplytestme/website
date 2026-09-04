@@ -10,6 +10,19 @@ services:
       - '@module_handler'
       - '@tugboat.client'
       - '@simplytest_tugboat.preview_config_generator'
+      - '@simplytest_tugboat.launch_recorder'
   simplytest_tugboat.preview_config_generator:
     class: Drupal\simplytest_tugboat\PreviewConfigGenerator
     arguments: ['@plugin.manager.oneclickdemo']
+  simplytest_tugboat.launch_recorder:
+    class: Drupal\simplytest_tugboat\LaunchRecorder
+    arguments:
+      - '@database'
+      - '@datetime.time'
+      - '@logger.channel.simplytest_tugboat'
+      - '@cache_tags.invalidator'
+  simplytest_tugboat.launch_statistics:
+    class: Drupal\simplytest_tugboat\LaunchStatistics
+    arguments:
+      - '@database'
+      - '@datetime.time'

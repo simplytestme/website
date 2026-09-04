@@ -3,22 +3,27 @@
 namespace Drupal\simplytest_projects\Plugin\QueueWorker;
 
 use Drupal\Component\Datetime\TimeInterface;
-use Drupal\Component\Serialization\Json;
+use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Queue\QueueWorkerBase;
 use Drupal\Core\Queue\SuspendQueueException;
-use Drupal\simplytest_projects\DrupalUrls;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
 use Drupal\simplytest_projects\Exception\EntityValidationException;
 use Drupal\simplytest_projects\ProjectVersionManager;
-use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\ServerException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Defines 'simplytest_projects_project_refresher' queue worker.
+ *
+ * Refreshes only release data, from updates.drupal.org. The worker
+ * deliberately makes no www.drupal.org API requests: refreshing the usage
+ * count per project generated tens of thousands of requests a day and got
+ * simplytest's IPs blocked. Usage only orders autocomplete results, and
+ * relative popularity changes far too slowly to be worth that traffic.
  *
  * The `cron` key is purposely ommitted so that the queue is not processed
  * by cron. The queue should be processed on its own using the Drush command
@@ -37,7 +42,6 @@ class ProjectRefresher extends QueueWorkerBase implements ContainerFactoryPlugin
     $plugin_definition,
     private readonly EntityTypeManagerInterface $entityTypeManager,
     private readonly ProjectVersionManager $projectVersionManager,
-    private readonly Client $httpClient,
     private readonly LoggerInterface $logger,
     private readonly TimeInterface $time,
   ) {
@@ -55,7 +59,6 @@ class ProjectRefresher extends QueueWorkerBase implements ContainerFactoryPlugin
       $plugin_definition,
       $container->get('entity_type.manager'),
       $container->get('simplytest_projects.project_version_manager'),
-      $container->get('http_client'),
       $container->get('logger.channel.simplytest_projects'),
       $container->get('datetime.time'),
     );
@@ -71,38 +74,30 @@ class ProjectRefresher extends QueueWorkerBase implements ContainerFactoryPlugin
       $this->logger->error("Could not load project ID `$data` for project refresh.");
       return;
     }
-    // @todo project fetcher does this, but also saves the project.
-    //    eventually reduce this duplication
-    try {
-      $result = $this->httpClient->get(DrupalUrls::ORG_API . 'node.json?field_project_machine_name=' . urlencode($project->getShortname()));
-      $data = Json::decode($result->getBody());
-      $project_data = $data['list'][0];
 
-      $project->set('usage', array_reduce(
-        $project_data['project_usage'] ?? [0],
-        static fn (int $carry, $usage) => $carry + (int) $usage, 0
-      ));
+    try {
+      $this->projectVersionManager->updateData($project->getShortname());
     }
-    catch (ServerException) {
+    catch (ServerException | ConnectException) {
       $this->logger->warning("Suspending project refresh queue, Drupal.org may be down.");
       throw new SuspendQueueException('Drupal.org API may be down.');
     }
-    catch (\Exception) {
-      // @todo do anything else?
-    }
-
-    $this->projectVersionManager->updateData($project->getShortname());
 
     $project->set('timestamp', $this->time->getRequestTime());
     try {
       $project->save();
     }
-    catch (EntityValidationException $e) {
-      $this->logger->error("Validation errors when saving project {$project->label()}: {$e->getMessage()}");
+    catch (EntityStorageException $e) {
+      // Entity storage wraps whatever preSave() threw, so the validation
+      // exception arrives as the previous exception rather than directly.
+      $validation_exception = $e->getPrevious();
+      if (!$validation_exception instanceof EntityValidationException) {
+        throw $e;
+      }
       $this->logger->error(sprintf(
         "Validation errors when saving project %s: %s",
         $project->label(),
-        implode('|', $e->getViolationMessages())
+        implode('|', $validation_exception->getViolationMessages())
       ));
     }
   }

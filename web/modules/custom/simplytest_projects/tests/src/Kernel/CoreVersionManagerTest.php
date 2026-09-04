@@ -2,15 +2,10 @@
 
 namespace Drupal\Tests\simplytest_projects\Kernel;
 
-use Drupal\Core\Cache\NullBackend;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
-use Drupal\Core\KeyValueStore\KeyValueMemoryFactory;
-use Drupal\Core\Lock\NullLockBackend;
-use Drupal\Core\State\State;
 use Drupal\KernelTests\KernelTestBase;
-use GuzzleHttp\Promise\FulfilledPromise;
 use Drupal\simplytest_projects\CoreVersionManager;
-use GuzzleHttp\Client;
+use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
@@ -51,55 +46,60 @@ final class CoreVersionManagerTest extends KernelTestBase {
   }
 
   public function __invoke(): \Closure {
-    return function () {
-      return function (RequestInterface $request): PromiseInterface {
-        $this->requests[] = $request;
-        if ($request->getMethod() === 'HEAD' && $request->getUri()->getHost() === 'updates.drupal.org') {
-          if ($request->hasHeader('If-Modified-Since')) {
-            return new FulfilledPromise(new Response(304, [], ''));
-          }
-          return new FulfilledPromise(new Response(200, ['Last-Modified' => 'Wed, 21 Apr 2021 00:36:14 GMT'], ''));
+    return fn() => function (RequestInterface $request): PromiseInterface {
+      $this->requests[] = $request;
+      $uri = $request->getUri();
+      $matches = [];
+      if ($uri->getHost() === 'updates.drupal.org' && preg_match('#^/release-history/drupal/(current|7\.x)$#', $uri->getPath(), $matches) === 1) {
+        // Like the real server: a 304 when the client sends the timestamp it
+        // was last handed, since the fixture never changes.
+        if ($request->hasHeader('If-Modified-Since')) {
+          return new FulfilledPromise(new Response(304, [], ''));
         }
+        $fixture = file_get_contents(__DIR__ . "/../../fixtures/release-history/{$matches[1]}/drupal.xml");
+        return new FulfilledPromise(new Response(200, ['Last-Modified' => 'Wed, 21 Apr 2021 00:36:14 GMT'], $fixture));
+      }
 
-        $path = $request->getUri()->getPath();
-        if ($path === '/api-d7/node.json') {
-          $query = [];
-          parse_str($request->getUri()->getQuery(), $query);
-          if ($query['type'] === 'project_release' && $query['field_release_project'] === '3060') {
-            $version = $query['field_release_version_major'] ?? '';
-            $fixture_file = __DIR__ . "/../../fixtures/node/project_release/core-$version.json";
-            if (file_exists($fixture_file)) {
-              $fixture = file_get_contents($fixture_file);
-              if ($query['page'] === '1') {
-                $decoded_fixture = \json_decode($fixture, TRUE, 512, JSON_THROW_ON_ERROR);
-                // Prevent infinite looping for pagination logic.
-                unset($decoded_fixture['next']);
-                $fixture = \json_encode($decoded_fixture, JSON_THROW_ON_ERROR);
-              }
-              return new FulfilledPromise(new Response(200, ['Content-Type' => 'application/json'], $fixture));
-            }
-          }
-        }
-
-        throw new \RuntimeException("Mocked request tried to escape: {$request->getMethod()} {$request->getUri()}");
-      };
+      throw new \RuntimeException("Mocked request tried to escape: {$request->getMethod()} {$request->getUri()}");
     };
   }
 
-  public function testPreflightCheck(): void {
-    $state = new State(new KeyValueMemoryFactory(), new NullBackend('state'), new NullLockBackend());
-    $sut = new CoreVersionManager(
-      $this->container->get('database'),
-      $this->container->get('http_client'),
-      $state
+  /**
+   * Core release data comes from updates.drupal.org, conditionally.
+   *
+   * @covers ::updateData
+   */
+  public function testConditionalRequests(): void {
+    $this->sut->updateData(8);
+    self::assertCount(1, $this->requests);
+    // The "current" channel carries every Drupal 8+ major in one document.
+    self::assertNotEmpty($this->sut->getVersions(9));
+    self::assertNotEmpty($this->sut->getVersions(10));
+    self::assertNotEmpty($this->sut->getVersions(11));
+
+    // A later call for another major short-circuits on the 304.
+    $this->sut->updateData(11);
+    self::assertCount(2, $this->requests);
+    self::assertNotEmpty($this->sut->getVersions(11));
+
+    // The If-Modified-Since state is scoped to this consumer, so the project
+    // version manager reading the same feed cannot starve it.
+    self::assertNotNull(
+      $this->container->get('state')->get('release_history_last_modified:drupal:current:core_versions')
     );
-    $sut->updateData(7);
-    self::assertCount(3, $this->requests);
-    self::assertNotNull($state->get('release_history_last_modified:drupal:7'));
-    $last_modified = $state->get('release_history_last_modified:drupal:7');
-    $sut->updateData(7);
-    self::assertEquals($last_modified, $state->get('release_history_last_modified:drupal:7'));
-    self::assertCount(4, $this->requests);
+  }
+
+  /**
+   * @covers ::hasVersion
+   */
+  public function testHasVersion(): void {
+    self::assertFalse($this->sut->hasVersion('11.2.3'));
+
+    $this->sut->updateData(11);
+
+    self::assertTrue($this->sut->hasVersion('11.2.3'));
+    self::assertFalse($this->sut->hasVersion('11.2'));
+    self::assertFalse($this->sut->hasVersion('not a release'));
   }
 
   /**
@@ -119,7 +119,7 @@ final class CoreVersionManagerTest extends KernelTestBase {
   public function testReleaseData(int $major_version, int $expected_count, array $expected_result_sample): void {
     $this->sut->updateData($major_version);
     $results = $this->sut->getVersions($major_version);
-    $this->assertGreaterThanOrEqual($expected_count, $results);
+    $this->assertCount($expected_count, $results);
     // NOTE: We do the array map because assertContains performs a strict check
     // and strict checks against objects always fail if they are not literally
     // the same object.
@@ -127,7 +127,7 @@ final class CoreVersionManagerTest extends KernelTestBase {
   }
 
   public function coreVersionData(): \Generator {
-    yield [9, 33, [
+    yield [9, 2, [
       'version' => '9.4.0',
       'major' => '9',
       'minor' => '4',
@@ -136,7 +136,7 @@ final class CoreVersionManagerTest extends KernelTestBase {
       'vcs_label' => '9.4.0',
       'insecure' => '1',
     ]];
-    yield [7, 9, [
+    yield [7, 3, [
       'version' => '7.95',
       'major' => '7',
       'minor' => '95',
@@ -154,18 +154,26 @@ final class CoreVersionManagerTest extends KernelTestBase {
       'vcs_label' => '10.3.x',
       'insecure' => '0',
     ]];
+    yield [8, 2, [
+      'version' => '8.0.0-rc4',
+      'major' => '8',
+      'minor' => '0',
+      'patch' => '0',
+      'extra' => 'rc4',
+      'vcs_label' => '8.0.0-rc4',
+      'insecure' => '0',
+    ]];
   }
 
   public function testGetWithCompatibility() {
     $this->sut->updateData(7);
     $this->sut->updateData(8);
-    $this->sut->updateData(9);
 
-    $this->assertGreaterThanOrEqual(90, $this->sut->getWithCompatibility('7.x'));
-    $this->assertCount(0, $this->sut->getWithCompatibility('^10.0'));
-    $this->assertGreaterThanOrEqual(33, $this->sut->getWithCompatibility('^9'));
-    $this->assertGreaterThanOrEqual(14, $this->sut->getWithCompatibility('^8.9.1'));
-    $this->assertGreaterThanOrEqual(200, $this->sut->getWithCompatibility('8.x'));
+    $this->assertCount(3, $this->sut->getWithCompatibility('7.x'));
+    $this->assertCount(2, $this->sut->getWithCompatibility('^11'));
+    $this->assertCount(1, $this->sut->getWithCompatibility('^10.6'));
+    $this->assertCount(0, $this->sut->getWithCompatibility('^12.0'));
+    $this->assertCount(2, $this->sut->getWithCompatibility('^9'));
   }
 
 }

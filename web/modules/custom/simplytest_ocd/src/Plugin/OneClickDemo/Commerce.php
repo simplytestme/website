@@ -7,8 +7,10 @@ namespace Drupal\simplytest_ocd\Plugin\OneClickDemo;
  *
  * @OneClickDemo(
  *   id = "oneclickdemo_commerce",
- *   title = @Translation("Commerce Kickstart Demo"),
- *   base_preview_name = "commerce"
+ *   title = @Translation("Commerce Kickstart"),
+ *   base_preview_name = "commerce",
+ *   description = @Translation("A working storefront on Drupal Commerce: catalog, cart and checkout."),
+ *   weight = 1,
  * )
  */
 class Commerce extends OneClickDemoBase {
