@@ -47,6 +47,14 @@ function logLines(logs) {
     .filter((line) => line !== '' && !USAGE_SYNOPSIS.test(line));
 }
 
+// composer-patches 2.x aborts the build when no patcher will take a patch, so
+// this usually shows up on a failed job. It can still land on a successful one:
+// 1.x skipped refused patches by default, and the pinned major has drifted out
+// from under us once already.
+function patchFailed(logs) {
+  return logLines(logs || []).some((line) => PATCH_FAILURE.test(line));
+}
+
 // The lines that actually say what went wrong, rather than the last ones.
 function failureExcerpt(logs) {
   const lines = logLines(logs);
@@ -311,7 +319,10 @@ function InstanceProgress() {
       // A preview means the job finished; a failed job never becomes one.
       // Either way the state is final and polling must stop.
       if (json.type === 'preview') {
-        if (json.url && json.state === 'ready') {
+        // Whoever passed a patch is here for the patch. A sandbox built without
+        // it is not what they asked for, so hold the page and let them read the
+        // log rather than dropping them into a site that looks fine.
+        if (json.url && json.state === 'ready' && !patchFailed(json.logs)) {
           setTimeout(() => {
             window.location.href = json.url;
           }, 3000);
@@ -336,13 +347,16 @@ function InstanceProgress() {
   const failed = state.state === 'failed';
   const ready =
     state.type === 'preview' && state.state === 'ready' && state.url;
+  // Built and running, but without the patch that was asked for.
+  const patchSkipped = Boolean(ready) && patchFailed(state.logs);
 
-  // A failed build lands with the log open.
+  // A failed build lands with the log open, and so does a skipped patch: the
+  // log is the only place that names the patch that was refused.
   useEffect(() => {
-    if (failed) {
+    if (failed || patchSkipped) {
       setLogOpen(true);
     }
-  }, [failed]);
+  }, [failed, patchSkipped]);
 
   if (error) {
     return (
@@ -368,14 +382,31 @@ function InstanceProgress() {
   if (ready) {
     const duration = formatDuration(state.createdAt, state.updatedAt);
     const expiry = formatExpiry(state.createdAt);
+    const readyEyebrow = duration ? `Ready in ${duration}` : 'Ready';
     return (
       <PageColumn>
         <PageHeading
-          eyebrow={duration ? `Ready in ${duration}` : 'Ready'}
-          eyebrowClass="text-st-success"
-          title="Your sandbox is ready"
+          eyebrow={patchSkipped ? 'Built without the patch' : readyEyebrow}
+          eyebrowClass={patchSkipped ? 'text-st-danger' : 'text-st-success'}
+          title={
+            patchSkipped
+              ? 'Your sandbox is ready, but the patch is not in it'
+              : 'Your sandbox is ready'
+          }
         >
-          Opening it in a moment. You&rsquo;re signed in as an administrator.
+          {patchSkipped ? (
+            <>
+              The build came up, but the patch was refused, so this sandbox is
+              running unpatched. The log below names the patch and says why. We
+              have not opened it for you &mdash; the link is there if you want
+              it anyway.
+            </>
+          ) : (
+            <>
+              Opening it in a moment. You&rsquo;re signed in as an
+              administrator.
+            </>
+          )}
         </PageHeading>
 
         <div className="flex flex-col gap-4 rounded-[14px] border border-st-accent-line bg-st-accent-tint2 p-6">
@@ -402,6 +433,17 @@ function InstanceProgress() {
             </div>
           )}
         </div>
+
+        {patchSkipped && submission.project && (
+          <div className="flex flex-wrap items-center gap-3">
+            <a
+              href={prefillUrl(submission)}
+              className={`${btnSecondary} px-5 py-3.5 text-[15px]`}
+            >
+              Fix the patch and rebuild
+            </a>
+          </div>
+        )}
 
         {submission.project && (
           <div className="flex items-center justify-between gap-6 rounded-xl border border-st-line px-5 py-[18px]">
