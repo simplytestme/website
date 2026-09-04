@@ -6,7 +6,6 @@ use Drupal\simplytest_ocd\OneClickDemoPluginManager;
 use Drupal\simplytest_projects\ProjectTypes;
 use Drupal\simplytest_tugboat\PreviewConfigGenerator;
 use Drupal\Tests\UnitTestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
  * Tests the patches.json handed to composer-patches.
@@ -15,8 +14,6 @@ use Prophecy\PhpUnit\ProphecyTrait;
  * @group simplytest_tugboat
  */
 final class PatchesFileTest extends UnitTestCase {
-
-  use ProphecyTrait;
 
   /**
    * Merge request patches are fetched as a squashed diff.
@@ -244,7 +241,7 @@ final class PatchesFileTest extends UnitTestCase {
    */
   private function getBuildCommands(array $overrides): array {
     $generator = new PreviewConfigGenerator(
-      $this->prophesize(OneClickDemoPluginManager::class)->reveal()
+      $this->createMock(OneClickDemoPluginManager::class)
     );
     $config = $generator->generate($overrides + [
       'perform_install' => TRUE,

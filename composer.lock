@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5b08ac912cfb2b82ab077115955e5e40",
+    "content-hash": "5dd43f14f94f5051c39d570747822cb9",
     "packages": [
         {
             "name": "amazeeio/drupal_integrations",
@@ -7544,30 +7544,29 @@
         },
         {
             "name": "doctrine/instantiator",
-            "version": "2.0.0",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "c6222283fa3f4ac679f8b9ced9a4e23f163e80d0"
+                "reference": "23da848e1a2308728fe5fdddabf4be17ff9720c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/c6222283fa3f4ac679f8b9ced9a4e23f163e80d0",
-                "reference": "c6222283fa3f4ac679f8b9ced9a4e23f163e80d0",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/23da848e1a2308728fe5fdddabf4be17ff9720c7",
+                "reference": "23da848e1a2308728fe5fdddabf4be17ff9720c7",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.1"
+                "php": "^8.4"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^11",
+                "doctrine/coding-standard": "^14",
                 "ext-pdo": "*",
                 "ext-phar": "*",
                 "phpbench/phpbench": "^1.2",
-                "phpstan/phpstan": "^1.9.4",
-                "phpstan/phpstan-phpunit": "^1.3",
-                "phpunit/phpunit": "^9.5.27",
-                "vimeo/psalm": "^5.4"
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpunit/phpunit": "^10.5.58"
             },
             "type": "library",
             "autoload": {
@@ -7594,7 +7593,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/instantiator/issues",
-                "source": "https://github.com/doctrine/instantiator/tree/2.0.0"
+                "source": "https://github.com/doctrine/instantiator/tree/2.1.0"
             },
             "funding": [
                 {
@@ -7610,7 +7609,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-12-30T00:23:10+00:00"
+            "time": "2026-01-05T06:47:08+00:00"
         },
         {
             "name": "drupal/coder",
@@ -7762,65 +7761,6 @@
                 "source": "https://github.com/protocolbuffers/protobuf-php/tree/v5.36.0"
             },
             "time": "2026-08-20T13:06:50+00:00"
-        },
-        {
-            "name": "jangregor/phpstan-prophecy",
-            "version": "1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Jan0707/phpstan-prophecy.git",
-                "reference": "5ee56c7db1d58f0578c82a35e3c1befe840e85a9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Jan0707/phpstan-prophecy/zipball/5ee56c7db1d58f0578c82a35e3c1befe840e85a9",
-                "reference": "5ee56c7db1d58f0578c82a35e3c1befe840e85a9",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1 || ^8.0",
-                "phpstan/phpstan": "^1.0.0"
-            },
-            "conflict": {
-                "phpspec/prophecy": "<1.7.0 || >=2.0.0",
-                "phpunit/phpunit": "<6.0.0 || >=12.0.0"
-            },
-            "require-dev": {
-                "ergebnis/composer-normalize": "^2.1.1",
-                "ergebnis/license": "^1.0.0",
-                "ergebnis/php-cs-fixer-config": "~2.2.0",
-                "phpspec/prophecy": "^1.7.0",
-                "phpunit/phpunit": "^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0"
-            },
-            "type": "phpstan-extension",
-            "extra": {
-                "phpstan": {
-                    "includes": [
-                        "extension.neon"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "JanGregor\\Prophecy\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jan Gregor Emge-Triebel",
-                    "email": "jan@jangregor.me"
-                }
-            ],
-            "description": "Provides a phpstan/phpstan extension for phpspec/prophecy",
-            "support": {
-                "issues": "https://github.com/Jan0707/phpstan-prophecy/issues",
-                "source": "https://github.com/Jan0707/phpstan-prophecy/tree/1.0.2"
-            },
-            "time": "2024-04-03T08:15:54+00:00"
         },
         {
             "name": "justinrainbow/json-schema",

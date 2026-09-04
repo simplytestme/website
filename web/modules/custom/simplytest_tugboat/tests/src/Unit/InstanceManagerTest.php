@@ -2,10 +2,13 @@
 
 namespace Drupal\Tests\simplytest_tugboat\Unit;
 
+use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Component\Serialization\Json;
 use Drupal\Component\Utility\Crypt;
+use Drupal\Core\Cache\CacheTagsInvalidatorInterface;
 use Drupal\Core\Config\Config;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Database\Connection;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Http\ClientFactory;
 use Drupal\Core\Logger\LoggerChannel;
@@ -17,11 +20,8 @@ use Drupal\Tests\UnitTestCase;
 use Drupal\tugboat\TugboatClient;
 use GuzzleHttp\HandlerStack;
 use Psr\Log\NullLogger;
-use Prophecy\PhpUnit\ProphecyTrait;
 
 final class InstanceManagerTest extends UnitTestCase {
-
-  use ProphecyTrait;
 
   private InstanceManager $instanceManager;
   private TugboatClient $tugboatClient;
@@ -33,29 +33,42 @@ final class InstanceManagerTest extends UnitTestCase {
     }
     parent::setUp();
 
-    $config_factory = $this->prophesize(ConfigFactoryInterface::class);
-    $tugboat_settings = $this->prophesize(Config::class);
-    $tugboat_settings->get('token')->willReturn(getenv('TUGBOAT_API_KEY'));
-    $tugboat_settings->get('repository_id')->willReturn(getenv('TUGBOAT_REPOSITORY_ID'));
-    $tugboat_settings->get('repository_base')->willReturn('master');
-    $config_factory->get('tugboat.settings')->willReturn($tugboat_settings->reveal());
+    $tugboat_settings = $this->createMock(Config::class);
+    $tugboat_settings->method('get')->willReturnMap([
+      ['token', getenv('TUGBOAT_API_KEY')],
+      ['repository_id', getenv('TUGBOAT_REPOSITORY_ID')],
+      ['repository_base', 'master'],
+    ]);
+    $config_factory = $this->createMock(ConfigFactoryInterface::class);
+    $config_factory->method('get')
+      ->with('tugboat.settings')
+      ->willReturn($tugboat_settings);
 
     $this->tugboatClient = new TugboatClient(
       new ClientFactory(HandlerStack::create()),
-      $config_factory->reveal()
+      $config_factory
     );
 
     $preview_config_generator = new PreviewConfigGenerator(
-      $this->prophesize(OneClickDemoPluginManager::class)->reveal()
+      $this->createMock(OneClickDemoPluginManager::class)
+    );
+
+    // LaunchRecorder is final, so it cannot be mocked. It swallows any
+    // database failure, so mocked dependencies keep it out of the way.
+    $launch_recorder = new LaunchRecorder(
+      $this->createMock(Connection::class),
+      $this->createMock(TimeInterface::class),
+      new NullLogger(),
+      $this->createMock(CacheTagsInvalidatorInterface::class)
     );
 
     $this->instanceManager = new InstanceManager(
-      $config_factory->reveal(),
+      $config_factory,
       new LoggerChannel('foo'),
-      $this->prophesize(ModuleHandlerInterface::class)->reveal(),
+      $this->createMock(ModuleHandlerInterface::class),
       $this->tugboatClient,
       $preview_config_generator,
-      $this->prophesize(LaunchRecorder::class)->reveal()
+      $launch_recorder
     );
   }
 
