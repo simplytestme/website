@@ -50,7 +50,7 @@ Kernel tests mock all HTTP traffic through `MockedHttpMiddleware` in the `simply
 
 The install profile is `web/profiles/simplytest`, a distribution with `config_install_path: '../config/sync'` — site configuration lives in `config/sync/` at the repo root. After config changes, export with `drush config:export`.
 
-The frontend launch form is React 19 (`downshift` for autocomplete), living in the theme at `web/themes/simplytest_theme/lib`, styled with Tailwind (tokens in `tailwind.config.js`) and built with Vite (`vite.config.js`, repo root). `npm run build` emits `dist/app.js`, `dist/style.css`, and the self-hosted fonts. The header, hero, and footer are hardcoded Twig in the theme — no block or theme-settings configuration.
+The frontend launch form is React 19 (`downshift` for autocomplete), living in the theme at `web/themes/simplytest_theme/lib`, styled with Tailwind (tokens in `tailwind.config.js`) and built with Vite (`vite.config.mjs`, repo root). `npm run build` emits `dist/app.js`, `dist/style.css`, and the self-hosted fonts. The header, hero, and footer are hardcoded Twig in the theme — no block or theme-settings configuration.
 
 ## Quality gates
 
