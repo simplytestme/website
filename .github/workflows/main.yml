@@ -46,6 +46,68 @@ jobs:
         run: composer install
       - name: Install Simplytest
         run: php vendor/bin/drush site:install simplytest --account-pass=admin --db-url=mysql://root:@127.0.0.1:${{ job.services.mysql.ports[3306] }}/db --yes
+  config:
+    runs-on: ubuntu-latest
+    name: config:status
+    # Installs the site from main, then swaps in the pull request's code and
+    # runs its update hooks. A dependency update that rewrites config (a new
+    # schema key, a post-update hook) leaves the database out of step with
+    # config/sync, and config:import --diff --no prints the diff and fails.
+    # The fix is to re-export config on the pull request.
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: db
+        ports:
+          - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v6
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+      - uses: shivammathur/setup-php@v2
+        with:
+            php-version: 8.3
+            extensions: dom, curl, libxml, mbstring, zip, pdo, mysql, pdo_mysql, bcmath, soap, intl, gd, exif, iconv
+            coverage: none
+            tools: composer:v2
+      - name: Install dependencies from main
+        run: composer install
+      - name: Database settings
+        run: cp .github/ci.settings.php web/sites/default/settings.local.php
+      - name: Install Simplytest from main
+        run: php vendor/bin/drush site:install simplytest --account-pass=admin --yes
+        env:
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+
+      # clean: false keeps vendor/ and settings.local.php; both are ignored.
+      - name: Check out the pull request
+        uses: actions/checkout@v7
+        with:
+          clean: false
+      - name: Install dependencies from the pull request
+        run: composer install
+      - name: Run update hooks
+        run: php vendor/bin/drush updatedb --yes
+        env:
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+      - name: Fail on config differences
+        run: php vendor/bin/drush config:import --diff --no
+        env:
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
   phpstan:
     runs-on: ubuntu-latest
     name: phpstan
