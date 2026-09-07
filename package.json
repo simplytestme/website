@@ -24,7 +24,7 @@
     "@ianvs/prettier-plugin-sort-imports": "^4.7.1",
     "@vitejs/plugin-react": "^6.1.1",
     "autoprefixer": "^10.4.21",
-    "cypress": "^13.6.6",
+    "cypress": "^16.0.0",
     "cypress-dotenv": "^2.0.0",
     "dotenv": "^16.4.5",
     "eslint": "^9.39.5",
