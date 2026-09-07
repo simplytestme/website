@@ -1259,16 +1259,16 @@
         },
         {
             "name": "drupal/core",
-            "version": "10.6.15",
+            "version": "10.6.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core.git",
-                "reference": "5ed8482668b6eb406e41b800a71b4b13f6740394"
+                "reference": "39bf90c31c7773e6a0d23344bd3bd6b865216b35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core/zipball/5ed8482668b6eb406e41b800a71b4b13f6740394",
-                "reference": "5ed8482668b6eb406e41b800a71b4b13f6740394",
+                "url": "https://api.github.com/repos/drupal/core/zipball/39bf90c31c7773e6a0d23344bd3bd6b865216b35",
+                "reference": "39bf90c31c7773e6a0d23344bd3bd6b865216b35",
                 "shasum": ""
             },
             "require": {
@@ -1428,13 +1428,13 @@
             ],
             "description": "Drupal is an open source content management platform powering millions of websites and applications.",
             "support": {
-                "source": "https://github.com/drupal/core/tree/10.6.15"
+                "source": "https://github.com/drupal/core/tree/10.6.16"
             },
-            "time": "2026-08-06T09:45:38+00:00"
+            "time": "2026-09-03T07:58:27+00:00"
         },
         {
             "name": "drupal/core-composer-scaffold",
-            "version": "10.6.15",
+            "version": "10.6.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core-composer-scaffold.git",
@@ -1478,22 +1478,22 @@
                 "drupal"
             ],
             "support": {
-                "source": "https://github.com/drupal/core-composer-scaffold/tree/10.6.15"
+                "source": "https://github.com/drupal/core-composer-scaffold/tree/10.6.16"
             },
             "time": "2024-08-22T14:31:30+00:00"
         },
         {
             "name": "drupal/core-recommended",
-            "version": "10.6.15",
+            "version": "10.6.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core-recommended.git",
-                "reference": "9cc5cb2a58e9dc0e2aec634308ceb406443fb5a7"
+                "reference": "1c200efd3c2089228d968c556660cb6158d74e66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core-recommended/zipball/9cc5cb2a58e9dc0e2aec634308ceb406443fb5a7",
-                "reference": "9cc5cb2a58e9dc0e2aec634308ceb406443fb5a7",
+                "url": "https://api.github.com/repos/drupal/core-recommended/zipball/1c200efd3c2089228d968c556660cb6158d74e66",
+                "reference": "1c200efd3c2089228d968c556660cb6158d74e66",
                 "shasum": ""
             },
             "require": {
@@ -1501,7 +1501,7 @@
                 "composer/semver": "~3.4.4",
                 "doctrine/deprecations": "~1.1.5",
                 "doctrine/lexer": "~2.1.1",
-                "drupal/core": "10.6.15",
+                "drupal/core": "10.6.16",
                 "egulias/email-validator": "~4.0.4",
                 "masterminds/html5": "~2.10.0",
                 "mck89/peast": "~v1.17.4",
@@ -1550,9 +1550,9 @@
             ],
             "description": "Core and its dependencies with known-compatible minor versions. Require this project INSTEAD OF drupal/core.",
             "support": {
-                "source": "https://github.com/drupal/core-recommended/tree/10.6.15"
+                "source": "https://github.com/drupal/core-recommended/tree/10.6.16"
             },
-            "time": "2026-08-06T09:45:38+00:00"
+            "time": "2026-09-03T07:58:27+00:00"
         },
         {
             "name": "drupal/fastly",
@@ -7665,7 +7665,7 @@
         },
         {
             "name": "drupal/core-dev",
-            "version": "10.6.15",
+            "version": "10.6.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core-dev.git",
@@ -7715,22 +7715,22 @@
             ],
             "description": "require-dev dependencies from drupal/drupal; use in addition to drupal/core-recommended to run tests from drupal/core.",
             "support": {
-                "source": "https://github.com/drupal/core-dev/tree/10.6.15"
+                "source": "https://github.com/drupal/core-dev/tree/10.6.16"
             },
             "time": "2026-05-20T15:35:08+00:00"
         },
         {
             "name": "google/protobuf",
-            "version": "v5.36.0",
+            "version": "v5.36.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/protocolbuffers/protobuf-php.git",
-                "reference": "9c105104b54709ecd902494ab340ed2122789b2d"
+                "reference": "d64d16befba8632967f604b9644c0bb8f64cfbc3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/protocolbuffers/protobuf-php/zipball/9c105104b54709ecd902494ab340ed2122789b2d",
-                "reference": "9c105104b54709ecd902494ab340ed2122789b2d",
+                "url": "https://api.github.com/repos/protocolbuffers/protobuf-php/zipball/d64d16befba8632967f604b9644c0bb8f64cfbc3",
+                "reference": "d64d16befba8632967f604b9644c0bb8f64cfbc3",
                 "shasum": ""
             },
             "require": {
@@ -7759,22 +7759,22 @@
                 "proto"
             ],
             "support": {
-                "source": "https://github.com/protocolbuffers/protobuf-php/tree/v5.36.0"
+                "source": "https://github.com/protocolbuffers/protobuf-php/tree/v5.36.1"
             },
-            "time": "2026-08-20T13:06:50+00:00"
+            "time": "2026-08-31T22:07:31+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
-            "version": "6.11.0",
+            "version": "6.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jsonrainbow/json-schema.git",
-                "reference": "7e420a943a6fbc95e60e3cf67acfbee85b3b4da7"
+                "reference": "8ef236a1a37df364b518b7411a4b5bb95b040d79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jsonrainbow/json-schema/zipball/7e420a943a6fbc95e60e3cf67acfbee85b3b4da7",
-                "reference": "7e420a943a6fbc95e60e3cf67acfbee85b3b4da7",
+                "url": "https://api.github.com/repos/jsonrainbow/json-schema/zipball/8ef236a1a37df364b518b7411a4b5bb95b040d79",
+                "reference": "8ef236a1a37df364b518b7411a4b5bb95b040d79",
                 "shasum": ""
             },
             "require": {
@@ -7824,9 +7824,9 @@
             ],
             "support": {
                 "issues": "https://github.com/jsonrainbow/json-schema/issues",
-                "source": "https://github.com/jsonrainbow/json-schema/tree/6.11.0"
+                "source": "https://github.com/jsonrainbow/json-schema/tree/6.12.0"
             },
-            "time": "2026-08-21T10:30:42+00:00"
+            "time": "2026-09-04T12:54:20+00:00"
         },
         {
             "name": "lullabot/mink-selenium2-driver",
