@@ -32,7 +32,7 @@ function Launcher() {
   const [errors, setErrors] = useState([]);
   const [submitting, setSubmitting] = useState(false);
   const {
-    canLaunch,
+    canSubmit,
     getLaunchPayload,
     selectedProject,
     selectedVersion,
@@ -114,7 +114,7 @@ function Launcher() {
             />
             <button
               className={`${btnPrimary} whitespace-nowrap`}
-              disabled={!canLaunch || submitting}
+              disabled={!canSubmit || submitting}
             >
               {submitting ? 'Launching…' : 'Launch sandbox'}
             </button>

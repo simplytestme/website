@@ -56,6 +56,19 @@ export function LauncherProvider({ children }) {
     setCanLaunch(selectedProject && selectedVersion);
   }, [selectedVersion, selectedProject]);
 
+  // "Add another project" inserts an empty row. Submitting with one posts empty
+  // strings, and the backend answers with the raw constraint messages
+  // ("additionalProjects.0.shortname: This value should not be blank.") that
+  // #3265514 reported as cryptic. Hold the submit button until every row names
+  // a project and a version. Dropping incomplete rows from the payload instead
+  // would launch a sandbox missing a project the user believes they added.
+  //
+  // Kept separate from `canLaunch`, which gates the advanced options panel: an
+  // incomplete row must not collapse the panel that row lives in.
+  const canSubmit =
+    Boolean(canLaunch) &&
+    additionalProjects.every((project) => project.shortname && project.version);
+
   function getLaunchPayload() {
     return {
       project: {
@@ -89,6 +102,7 @@ export function LauncherProvider({ children }) {
         manualInstall,
         setManualInstall,
         canLaunch,
+        canSubmit,
         additionalProjects,
         setAdditionalProjects,
         getLaunchPayload,
