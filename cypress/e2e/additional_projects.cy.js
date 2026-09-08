@@ -148,4 +148,28 @@ describe('Tests additional projects and version constraints', () => {
         expect(projects[0].shortname).to.eq('password_policy_pwned');
       });
   });
+
+  // #3265514: an empty row used to submit, and the backend answered with raw
+  // constraint messages naming a property path. The button holds instead.
+  it('should not launch while an additional project is incomplete', function () {
+    cy.pickProject('Password Policy');
+    cy.get('button').contains('Launch sandbox').should('be.enabled');
+
+    cy.toggleAdvancedOptions();
+    cy.get('button').contains('Add another project').click();
+    cy.get('button').contains('Launch sandbox').should('be.disabled');
+
+    cy.pickAdditionalProject('additional_project_0', 'Password Policy Pwned');
+    cy.get('button').contains('Launch sandbox').should('be.enabled');
+  });
+
+  it('should launch again once an incomplete additional project is removed', function () {
+    cy.pickProject('Password Policy');
+    cy.toggleAdvancedOptions();
+    cy.get('button').contains('Add another project').click();
+    cy.get('button').contains('Launch sandbox').should('be.disabled');
+
+    cy.get('[aria-label="Remove additional project 1"]').click();
+    cy.get('button').contains('Launch sandbox').should('be.enabled');
+  });
 });
