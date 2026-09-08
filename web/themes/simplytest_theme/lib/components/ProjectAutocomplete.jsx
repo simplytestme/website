@@ -116,8 +116,19 @@ function ProjectAutocomplete({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialProject]);
 
-  const showLookup =
-    searched && inputItems.length === 0 && inputValue.trim().length >= 3;
+  // The search matches substrings, so a project the site does not know about
+  // still returns its neighbours: "fox" finds foxycart and spreadfirefox but
+  // not fox itself. Offering the lookup only on an empty list made every such
+  // project unreachable, so offer it whenever nothing matches exactly.
+  // Normalized the way searchFromProjects() normalizes, so "Fox Drush" and
+  // "fox-drush" count as the same typed name the backend would compare.
+  const needle = inputValue.trim().toLowerCase();
+  const needleShortname = needle.replace(/[ -]/g, '_');
+  const hasExactMatch = inputItems.some(
+    (item) =>
+      item.shortname === needleShortname || item.title.toLowerCase() === needle,
+  );
+  const showLookup = searched && !hasExactMatch && needle.length >= 3;
   // Clicking the input toggles the menu even when there is nothing to list,
   // so only draw the panel when it has rows.
   const menuVisible = isOpen && (inputItems.length > 0 || showLookup);
