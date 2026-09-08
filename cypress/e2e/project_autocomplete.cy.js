@@ -84,4 +84,41 @@ describe('Look up on drupal.org button', () => {
     );
     cy.getByLabel('Version').should('exist');
   });
+
+  // The search matches substrings, so an unknown project whose name is
+  // contained in another project's name returned that neighbour and nothing
+  // else. A non-empty list used to suppress the lookup, leaving no way to
+  // reach the project actually asked for. Reported for "fox", which found
+  // foxycart and spreadfirefox but offered no way to reach fox.
+  it('offers the lookup when no result matches exactly', () => {
+    cy.request('POST', '/simplytest/projects/lookup', { name: 'pathauto' });
+    cy.visit('/');
+    cy.getByLabel('Module, theme or distribution').type('path');
+
+    // The substring match is listed, and the lookup is still offered.
+    cy.contains('[role="option"]', 'Pathauto').should('be.visible');
+    cy.contains('button', 'Look up “path” on drupal.org').should('be.visible');
+  });
+
+  it('drops the lookup once a result matches exactly', () => {
+    cy.request('POST', '/simplytest/projects/lookup', { name: 'pathauto' });
+    cy.visit('/');
+    cy.getByLabel('Module, theme or distribution').type('pathauto');
+
+    cy.contains('[role="option"]', 'Pathauto').should('be.visible');
+    cy.contains('button', 'Look up').should('not.exist');
+  });
+
+  it('treats a typed title as the shortname it normalizes to', () => {
+    cy.request('POST', '/simplytest/projects/lookup', {
+      name: 'password_policy',
+    });
+    cy.visit('/');
+    // Spaces normalize to underscores the way searchFromProjects() does, so
+    // this is an exact match on password_policy and needs no lookup.
+    cy.getByLabel('Module, theme or distribution').type('password policy');
+
+    cy.contains('[role="option"]', 'Password Policy').should('be.visible');
+    cy.contains('button', 'Look up').should('not.exist');
+  });
 });
