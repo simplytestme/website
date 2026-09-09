@@ -30,7 +30,6 @@ class Umami extends OneClickDemoBase {
   #[\Override]
   public function getSetupCommands(array $parameters): array {
     $commands[] = 'echo "memory_limit = 512M" >> /usr/local/etc/php/conf.d/my-php.ini';
-    $commands[] = 'a2enmod headers rewrite';
     $commands[] = 'rm -rf "${DOCROOT}"';
     // Pin to Drupal ^10 for now, until ^11 is supported.
     $commands[] = 'composer -n create-project drupal/recommended-project stm --no-install';
