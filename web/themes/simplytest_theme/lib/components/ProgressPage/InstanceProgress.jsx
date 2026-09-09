@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { btnPrimary, btnSecondary, btnSecondarySm } from '../../ui';
 import BuildLog from './BuildLog';
 import CopyButton from './CopyButton';
+import TugboatCallout from './TugboatCallout';
 
 // How long to wait between polls. The backend caches computed state for the
 // same window, so polling faster than this only returns cached answers.
@@ -600,6 +601,8 @@ function InstanceProgress() {
           <StepRow key={step.label} step={step} />
         ))}
       </div>
+
+      <TugboatCallout />
 
       <BuildLog
         logs={logs}
