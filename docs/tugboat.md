@@ -23,11 +23,19 @@ This allows executing `InstanceManagerTest` for running sample builds via a test
 ## Base previews
 
 Every sandbox builds on a base preview: a preview that already ran the init
-stage (PHP extensions, Apache modules, tooling, a warm Composer cache for that
-core release line). There is one per supported core major (`base-drupal7`
-through `base-drupal11`) and one per one click demo (`base-umami`,
-`base-commerce`). The launch code finds them by name and picks the newest one
-that is ready to build on.
+stage. There is one per supported core major (`base-drupal7` through
+`base-drupal11`) and one per one click demo (`base-umami`, `base-commerce`).
+The launch code finds them by name and picks the newest one that is ready to
+build on.
+
+A base has PHP extensions, Apache modules, and tooling installed. For Drupal 9
+and later it also holds a complete `recommended-project` at the line's newest
+release, in `stm`, which is where a sandbox builds. A sandbox that asks for
+that release reuses the project and only adds what the launch needs, which
+cuts the build and the snapshot Tugboat takes afterwards to about a third. Any
+other release, including dev releases, builds from scratch as before. The
+build log says which happened: look for "Reusing Drupal X from the base
+preview".
 
 The bases are created through the Tugboat API with generated config, not from
 branches in the backing repository. On production, cron starts a fresh set once
