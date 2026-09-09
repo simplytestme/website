@@ -7,6 +7,12 @@
         <span class="eyebrow text-st-accent-dark">Free Drupal sandboxes</span>
         <h1 class="m-0 text-[40px] font-extrabold leading-[1.04] tracking-[-0.035em] text-st-ink lg:text-6xl" style="text-wrap: pretty;">Test drive Drupal without installing anything.</h1>
         <p class="m-0 max-w-[620px] text-[19px] leading-relaxed text-st-sub" style="text-wrap: pretty;">Choose a ready-made site or any project on drupal.org. We build you a real, running Drupal in about a minute.</p>
+        {# Tugboat builds and hosts every sandbox. Say so where people first
+           land, since nothing else on the site names the platform. #}
+        <a href="https://www.tugboatqa.com/" class="group mt-1 flex w-fit items-center gap-3.5 rounded-full border border-st-tugboat-line bg-white/70 py-2 pl-4 pr-2.5 text-st-slate hover:border-st-tugboat hover:text-st-tugboat">
+          <span class="font-mono text-[11px] uppercase tracking-[0.12em]">Every sandbox is built on</span>
+          <img src="{{ base_path ~ directory }}/images/tugboat.svg" alt="Tugboat" class="h-[22px]">
+        </a>
       </div>
     </div>
   </div>

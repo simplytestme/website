@@ -39,6 +39,12 @@ module.exports = {
           'danger-bg': '#fdf6f5',
           'danger-line': '#f1cfca',
           'danger-text': '#6b2a22',
+          // Tugboat brand palette, lifted from their logo, for the "built on
+          // Tugboat" callouts.
+          tugboat: '#31758e',
+          'tugboat-mid': '#8eb3c1',
+          'tugboat-line': '#d4e5eb',
+          'tugboat-tint': '#f1f7f9',
         },
       },
       fontFamily: {
