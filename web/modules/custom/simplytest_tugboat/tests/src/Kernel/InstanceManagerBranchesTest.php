@@ -80,22 +80,49 @@ final class InstanceManagerBranchesTest extends KernelTestBase {
   }
 
   /**
-   * A one-click demo builds its config from the plugin, not the submission.
+   * A one-click demo is a clone of its base preview, which is the demo.
    *
    * @covers ::launchInstance
    */
   public function testLaunchOneClickDemo(): void {
-    $this->sut->launchInstance([
+    $this->config('tugboat.settings')->set('sandbox_lifetime', 7200)->save();
+    $result = $this->sut->launchInstance([
       'oneclickdemo' => 'oneclickdemo_umami',
       'manualInstall' => FALSE,
     ]);
 
-    $payload = $this->container->get('state')->get('https://api.tugboatqa.com/v3/previews');
-    self::assertEquals('base-umami-id', $payload['base']);
-    self::assertEquals('kerneltestrepo', $payload['repo']);
+    $state = $this->container->get('state');
+    self::assertNull($state->get('https://api.tugboatqa.com/v3/previews'));
+    $payload = $state->get('https://api.tugboatqa.com/v3/previews/base-umami-id/clone');
+    // The progress page looks for this name in the ready line.
+    self::assertEquals('simplytest', $payload['name']);
+    $expected = $this->container->get('datetime.time')->getRequestTime() + 7200;
+    self::assertEquals($expected, strtotime((string) $payload['expires']));
 
-    $commands = $payload['config']['services']['php']['commands']['build'];
-    self::assertContains('cd ${DOCROOT} && ../vendor/bin/drush si demo_umami --db-url=mysql://tugboat:tugboat@mysql:3306/tugboat --account-name=admin --account-pass=admin -y', $commands);
+    self::assertEquals('clone123', $result['tugboat']['preview_id']);
+    self::assertEquals('cj123', $result['tugboat']['job_id']);
+    self::assertEquals(['https://api.tugboatqa.com/v3/previews/clone123'], $result['tugboat']['job_url']);
+    self::assertEquals('clone123', $this->loadOnlyRecord()->preview_id);
+  }
+
+  /**
+   * A demo with no usable base is built from scratch, from the plugin.
+   *
+   * @covers ::launchInstance
+   */
+  public function testLaunchOneClickDemoWithoutBase(): void {
+    // The mocked repository has no base-starshot preview.
+    $this->sut->launchInstance([
+      'oneclickdemo' => 'starshot',
+      'manualInstall' => FALSE,
+    ]);
+
+    $payload = $this->container->get('state')->get('https://api.tugboatqa.com/v3/previews');
+    self::assertEquals('none', $payload['base']);
+    self::assertEquals('kerneltestrepo', $payload['repo']);
+    $commands = implode("\n", $payload['config']['services']['php']['commands']['build']);
+    self::assertStringContainsString('composer create-project drupal/cms', $commands);
+    self::assertStringContainsString('drush si ', $commands);
   }
 
   /**

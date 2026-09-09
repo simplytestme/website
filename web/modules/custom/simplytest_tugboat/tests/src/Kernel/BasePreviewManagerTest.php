@@ -42,9 +42,8 @@ final class BasePreviewManagerTest extends KernelTestBase {
    * @covers ::names
    */
   public function testNames(): void {
-    // Starshot shares the drupal10 base, so it must not appear twice.
     self::assertEquals(
-      ['drupal7', 'drupal8', 'drupal9', 'drupal10', 'drupal11', 'commerce', 'umami'],
+      ['drupal7', 'drupal8', 'drupal9', 'drupal10', 'drupal11', 'commerce', 'starshot', 'umami'],
       $this->sut->names(),
     );
   }

@@ -2,6 +2,7 @@
 
 namespace Drupal\simplytest_tugboat;
 
+use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Component\Serialization\Json;
 use Drupal\Component\Utility\Crypt;
 use Drupal\Core\Config\ConfigFactoryInterface;
@@ -73,8 +74,10 @@ class InstanceManager implements InstanceManagerInterface {
    *   The launch recorder.
    * @param \Drupal\simplytest_tugboat\BasePreviewManager $basePreviews
    *   The base preview manager.
+   * @param \Drupal\Component\Datetime\TimeInterface $time
+   *   The time service.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, LoggerChannelInterface $logger, ModuleHandlerInterface $module_handler, TugboatClient $tugboat_client, PreviewConfigGenerator $preview_config_generator, LaunchRecorder $launch_recorder, protected BasePreviewManager $basePreviews) {
+  public function __construct(ConfigFactoryInterface $config_factory, LoggerChannelInterface $logger, ModuleHandlerInterface $module_handler, TugboatClient $tugboat_client, PreviewConfigGenerator $preview_config_generator, LaunchRecorder $launch_recorder, protected BasePreviewManager $basePreviews, protected TimeInterface $time) {
     $this->tugboatSettings = $config_factory->get('tugboat.settings');
     $this->logger = $logger;
     $this->moduleHandler = $module_handler;
@@ -162,13 +165,24 @@ class InstanceManager implements InstanceManagerInterface {
     // Tugboat, so this is the only place the failure is ever visible.
     try {
       $base_preview_id = $this->loadPreviewId($context);
-      $tugboat_request = $this->tugboatClient->requestWithApiKey('POST', 'previews', [
-        'ref' => $this->tugboatSettings->get('repository_base') ?: 'master',
-        'config' => $config,
-        'name' => 'simplytest',
-        'repo' => $this->tugboatSettings->get('repository_id'),
-        'base' => $base_preview_id,
-      ]);
+      if ($record->oneClickDemo !== '' && $base_preview_id !== 'none') {
+        // A demo's base preview is the installed demo, so the launch is a
+        // copy of its snapshot: ready in seconds, with nothing to build.
+        // Without a base the demo is built from scratch like a sandbox.
+        $tugboat_request = $this->tugboatClient->requestWithApiKey('POST', "previews/$base_preview_id/clone", [
+          'name' => 'simplytest',
+          'expires' => date(\DateTimeInterface::RFC3339, $this->time->getRequestTime() + (int) $this->tugboatSettings->get('sandbox_lifetime')),
+        ]);
+      }
+      else {
+        $tugboat_request = $this->tugboatClient->requestWithApiKey('POST', 'previews', [
+          'ref' => $this->tugboatSettings->get('repository_base') ?: 'master',
+          'config' => $config,
+          'name' => 'simplytest',
+          'repo' => $this->tugboatSettings->get('repository_id'),
+          'base' => $base_preview_id,
+        ]);
+      }
       $response = Json::decode((string) $tugboat_request->getBody());
     }
     catch (\Throwable $e) {

@@ -186,6 +186,12 @@ final readonly class PreviewConfigGenerator {
     $images = $major === NULL
       ? self::ONE_CLICK_DEMO_IMAGES
       : $this->images($major);
+    if ($major === NULL) {
+      $demo = $this->demoForBase($name);
+      if ($demo === NULL) {
+        throw new \InvalidArgumentException("No base preview is defined for '$name'.");
+      }
+    }
 
     // The image is bare here, so nothing needs to be checked first. Composer
     // is only ever updated here: a daily base is fresh enough, and it keeps
@@ -197,10 +203,11 @@ final readonly class PreviewConfigGenerator {
       'composer self-update',
       self::ALLOW_ADVISORIES,
     ];
-    // Drupal 7 and 8 sandboxes are git checkouts and get nothing here. A demo
-    // installs whatever is current, so its base only warms the Composer cache.
+    // Nothing about a demo depends on the launch, so its base is the whole
+    // demo, installed. A launch clones it, which takes seconds. Drupal 7 and 8
+    // sandboxes are git checkouts and get nothing here.
     if ($major === NULL) {
-      $init[] = 'composer -n create-project drupal/recommended-project /tmp/warm-cache && cd /tmp/warm-cache && composer -n require drush/drush && rm -rf /tmp/warm-cache';
+      $init = [...$init, ...$this->demoCommands($demo, [])];
     }
     elseif ($major > 8) {
       // The same steps a sandbox runs for itself, at the line's newest
@@ -275,27 +282,6 @@ final readonly class PreviewConfigGenerator {
     $one_click_demo = $this->oneClickDemoManager->createInstance($demo_id);
     assert($one_click_demo instanceof OneClickDemoInterface);
 
-    // @todo all things should be build plugins, normalize with ::generate.
-    $build_commands = [
-      self::ENVIRONMENT,
-      $one_click_demo->getSetupCommands($parameters),
-      ['echo "SIMPLYEST_STAGE_DOWNLOAD"'],
-      $one_click_demo->getDownloadCommands($parameters),
-      ['echo "SIMPLYEST_STAGE_PATCHING"'],
-      $one_click_demo->getPatchingCommands($parameters),
-      [
-        'cd stm && composer update --no-ansi',
-        'echo "SIMPLYEST_STAGE_INSTALLING"',
-        'cd "${DOCROOT}" && chmod -R 777 sites/default',
-      ],
-      $one_click_demo->getInstallingCommands($parameters),
-      [
-        'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.logging error_level verbose -y',
-        'chown -R www-data:www-data "${DOCROOT}"/sites/default/files',
-        'echo "SIMPLYEST_STAGE_FINALIZE"',
-      ],
-    ];
-
     return [
       'services' => [
         'php' => [
@@ -303,7 +289,7 @@ final readonly class PreviewConfigGenerator {
           'default' => TRUE,
           'depends' => 'mysql',
           'commands' => [
-            'build' => array_merge(...$build_commands),
+            'build' => [...self::ENVIRONMENT, ...$this->demoCommands($one_click_demo, $parameters)],
           ],
         ],
         'mysql' => [
@@ -311,6 +297,52 @@ final readonly class PreviewConfigGenerator {
         ],
       ],
     ];
+  }
+
+  /**
+   * Everything that turns a bare environment into an installed demo.
+   *
+   * Shared between the demo's base preview, where it runs during init, and
+   * the from-scratch build a launch falls back to when no base is usable.
+   *
+   * @param array<string, mixed> $parameters
+   *
+   * @return list<string>
+   */
+  private function demoCommands(OneClickDemoInterface $demo, array $parameters): array {
+    // @todo all things should be build plugins, normalize with ::generate.
+    return array_merge(
+      $demo->getSetupCommands($parameters),
+      ['echo "SIMPLYEST_STAGE_DOWNLOAD"'],
+      $demo->getDownloadCommands($parameters),
+      ['echo "SIMPLYEST_STAGE_PATCHING"'],
+      $demo->getPatchingCommands($parameters),
+      [
+        'cd stm && composer update --no-ansi',
+        'echo "SIMPLYEST_STAGE_INSTALLING"',
+        'cd "${DOCROOT}" && chmod -R 777 sites/default',
+      ],
+      $demo->getInstallingCommands($parameters),
+      [
+        'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.logging error_level verbose -y',
+        'chown -R www-data:www-data "${DOCROOT}"/sites/default/files',
+        'echo "SIMPLYEST_STAGE_FINALIZE"',
+      ],
+    );
+  }
+
+  /**
+   * The demo plugin whose base preview carries a name.
+   */
+  private function demoForBase(string $name): ?OneClickDemoInterface {
+    foreach ($this->oneClickDemoManager->getDefinitions() as $id => $definition) {
+      if ($definition['base_preview_name'] === $name) {
+        $demo = $this->oneClickDemoManager->createInstance($id);
+        assert($demo instanceof OneClickDemoInterface);
+        return $demo;
+      }
+    }
+    return NULL;
   }
 
   private function getSetupCommands(array $parameters) {

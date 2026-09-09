@@ -37,6 +37,12 @@ other release, including dev releases, builds from scratch as before. The
 build log says which happened: look for "Reusing Drupal X from the base
 preview".
 
+A one click demo's base is the whole demo, installed. Nothing about a demo
+depends on the launch, so launching one clones the base's snapshot, which
+Tugboat does in about ten seconds with nothing to build. The clone is given the
+`sandbox_lifetime` expiry from `tugboat.settings`. When no usable base exists
+the demo is built from scratch, which takes a few minutes.
+
 The bases are created through the Tugboat API with generated config, not from
 branches in the backing repository. On production, cron starts a fresh set once
 a day and deletes a replaced base once no sandbox builds on it anymore. A build

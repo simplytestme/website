@@ -314,6 +314,15 @@ final readonly class MockedHttpMiddleware {
       ));
     }
 
+    if (preg_match('#https://api\.tugboatqa\.com/v3/previews/[^/]+/clone$#', $uri) === 1 && $request->getMethod() === 'POST') {
+      $this->state->set($uri, Json::decode((string) $request->getBody()));
+      return new FulfilledPromise(new Response(
+        202,
+        ['Content-Location' => 'https://api.tugboatqa.com/v3/previews/clone123'],
+        Json::encode(['preview' => 'clone123', 'job' => 'cj123']),
+      ));
+    }
+
     if (preg_match('#https://api\.tugboatqa\.com/v3/previews/([^/]+)$#', $uri, $matches) === 1 && $request->getMethod() === 'DELETE') {
       // Every delete is recorded, in order, so a test can see what went.
       $deleted = $this->state->get('tugboat.deleted_previews', []);

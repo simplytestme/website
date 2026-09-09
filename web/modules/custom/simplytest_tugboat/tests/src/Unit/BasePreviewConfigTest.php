@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\simplytest_tugboat\Unit;
 
+use Drupal\simplytest_ocd\OneClickDemoInterface;
 use Drupal\simplytest_ocd\OneClickDemoPluginManager;
 use Drupal\simplytest_tugboat\PreviewConfigGenerator;
 use Drupal\Tests\UnitTestCase;
@@ -22,7 +23,17 @@ final class BasePreviewConfigTest extends UnitTestCase {
 
   protected function setUp(): void {
     parent::setUp();
-    $this->sut = new PreviewConfigGenerator($this->createMock(OneClickDemoPluginManager::class));
+    $umami = $this->createMock(OneClickDemoInterface::class);
+    $umami->method('getSetupCommands')->willReturn(['rm -rf "${DOCROOT}"']);
+    $umami->method('getDownloadCommands')->willReturn([]);
+    $umami->method('getPatchingCommands')->willReturn([]);
+    $umami->method('getInstallingCommands')->willReturn(['drush si demo_umami']);
+    $demos = $this->createMock(OneClickDemoPluginManager::class);
+    $demos->method('getDefinitions')->willReturn([
+      'oneclickdemo_umami' => ['base_preview_name' => 'umami'],
+    ]);
+    $demos->method('createInstance')->with('oneclickdemo_umami')->willReturn($umami);
+    $this->sut = new PreviewConfigGenerator($demos);
   }
 
   /**
@@ -52,8 +63,8 @@ final class BasePreviewConfigTest extends UnitTestCase {
     yield 'drupal9' => ['drupal9', 'tugboatqa/php:8.1-apache', 'tugboatqa/mysql:5'];
     yield 'drupal10' => ['drupal10', 'tugboatqa/php:8.2-apache', 'tugboatqa/mysql:5'];
     yield 'drupal11' => ['drupal11', 'tugboatqa/php:apache', 'tugboatqa/mysql:8'];
+    // Only umami is mocked as a demo here; every demo uses the same images.
     yield 'umami' => ['umami', 'tugboatqa/php:8.3-apache', 'tugboatqa/mysql:8'];
-    yield 'commerce' => ['commerce', 'tugboatqa/php:8.3-apache', 'tugboatqa/mysql:8'];
   }
 
   /**
@@ -94,10 +105,29 @@ final class BasePreviewConfigTest extends UnitTestCase {
 
     self::assertStringContainsString('drupal/recommended-project:^9 stm', $init($this->sut->basePreview('drupal9')));
     self::assertStringContainsString('drupal/recommended-project:^11 stm', $init($this->sut->basePreview('drupal11')));
-    // A demo installs whatever core is current, so its base only warms the
-    // Composer cache.
-    self::assertStringContainsString('drupal/recommended-project /tmp', $init($this->sut->basePreview('umami')));
-    self::assertStringNotContainsString(' stm', $init($this->sut->basePreview('umami')));
+  }
+
+  /**
+   * A demo's base is the installed demo, so a launch can clone it.
+   *
+   * @covers ::basePreview
+   */
+  public function testDemoBaseIsTheInstalledDemo(): void {
+    $init = $this->sut->basePreview('umami')['services']['php']['commands']['init'];
+
+    // The environment comes first, then everything the demo plugin does.
+    self::assertEquals('docker-php-ext-install bcmath', $init[0]);
+    self::assertContains('drush si demo_umami', $init);
+    self::assertContains('echo "SIMPLYEST_STAGE_FINALIZE"', $init);
+    self::assertGreaterThan(array_search('rm -rf "${DOCROOT}"', $init, TRUE), array_search('drush si demo_umami', $init, TRUE));
+  }
+
+  /**
+   * @covers ::basePreview
+   */
+  public function testUnknownBaseIsRefused(): void {
+    $this->expectException(\InvalidArgumentException::class);
+    $this->sut->basePreview('nonsense');
   }
 
   /**

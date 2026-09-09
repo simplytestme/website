@@ -8,7 +8,7 @@ namespace Drupal\simplytest_ocd\Plugin\OneClickDemo;
  * @OneClickDemo(
  *   id = "starshot",
  *   title = @Translation("Drupal CMS"),
- *   base_preview_name = "drupal10",
+ *   base_preview_name = "starshot",
  *   description = @Translation("The new default Drupal, with smart defaults and installable recipes."),
  *   weight = 0,
  *   recommended = TRUE,
