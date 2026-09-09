@@ -78,10 +78,11 @@ final readonly class BasePreviewManager {
    */
   public function names(): array {
     $names = array_map(static fn (int $major): string => "drupal$major", self::MAJOR_VERSIONS);
-    foreach ($this->oneClickDemoManager->getDefinitions() as $definition) {
-      $names[] = $definition['base_preview_name'];
-    }
-    return array_values(array_unique($names));
+    // Plugin discovery order follows the filesystem, so the demos are sorted
+    // to keep the order the same everywhere.
+    $demos = array_column($this->oneClickDemoManager->getDefinitions(), 'base_preview_name');
+    sort($demos);
+    return array_values(array_unique([...$names, ...$demos]));
   }
 
   /**
