@@ -13,6 +13,7 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Http\ClientFactory;
 use Drupal\Core\Logger\LoggerChannel;
 use Drupal\simplytest_ocd\OneClickDemoPluginManager;
+use Drupal\simplytest_tugboat\BasePreviewManager;
 use Drupal\simplytest_tugboat\InstanceManager;
 use Drupal\simplytest_tugboat\LaunchRecorder;
 use Drupal\simplytest_tugboat\PreviewConfigGenerator;
@@ -49,8 +50,14 @@ final class InstanceManagerTest extends UnitTestCase {
       $config_factory
     );
 
-    $preview_config_generator = new PreviewConfigGenerator(
-      $this->createMock(OneClickDemoPluginManager::class)
+    $one_click_demo_manager = $this->createMock(OneClickDemoPluginManager::class);
+    $preview_config_generator = new PreviewConfigGenerator($one_click_demo_manager);
+    $base_previews = new BasePreviewManager(
+      $config_factory,
+      $this->tugboatClient,
+      $preview_config_generator,
+      $one_click_demo_manager,
+      new NullLogger(),
     );
 
     // LaunchRecorder is final, so it cannot be mocked. It swallows any
@@ -68,7 +75,8 @@ final class InstanceManagerTest extends UnitTestCase {
       $this->createMock(ModuleHandlerInterface::class),
       $this->tugboatClient,
       $preview_config_generator,
-      $launch_recorder
+      $launch_recorder,
+      $base_previews,
     );
   }
 

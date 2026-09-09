@@ -42,6 +42,17 @@ final readonly class PreviewConfigGenerator {
     'args' => '-p%s -d %s --no-backup-if-mismatch -i %s',
   ];
 
+  /**
+   * The Docker images every one click demo builds on.
+   *
+   * Shared between the demo config and its base preview, since a sandbox only
+   * inherits a base preview when both use the same images.
+   */
+  private const array ONE_CLICK_DEMO_IMAGES = [
+    'php' => 'tugboatqa/php:8.3-apache',
+    'mysql' => 'tugboatqa/mysql:8',
+  ];
+
   public function __construct(
     // @todo what if all builds were a plugin – so D7, D8, D9, Umami, Commerce?
     private OneClickDemoPluginManager $oneClickDemoManager
@@ -58,22 +69,7 @@ final readonly class PreviewConfigGenerator {
    *   The preview config.
    */
   public function generate(array $parameters): array {
-    // @todo make these configurable in #3236528
-    // @see https://www.drupal.org/project/simplytest/issues/
-    $image_name = match($parameters['major_version']) {
-      7, 8 => 'tugboatqa/php:7.4-apache',
-      9 => 'tugboatqa/php:8.1-apache',
-      10 => 'tugboatqa/php:8.2-apache',
-      // Defaults to the latest PHP version.
-      default => 'tugboatqa/php:apache'
-    };
-
-    if ($parameters['major_version'] > 10) {
-      $mysql_version = '8';
-    }
-    else {
-      $mysql_version = '5';
-    }
+    ['php' => $image_name, 'mysql' => $mysql_image] = $this->images($parameters['major_version']);
 
     // Rename drupal to core so that it becomes drupal/core as a package name.
     // Have core version match the selected project version, as they user may
@@ -135,10 +131,90 @@ final readonly class PreviewConfigGenerator {
           ],
         ],
         'mysql' => [
-          'image' => "tugboatqa/mysql:$mysql_version",
+          'image' => $mysql_image,
         ],
       ],
     ];
+  }
+
+  /**
+   * Generates the config for a base preview.
+   *
+   * A base preview only runs the init stage. Sandboxes built on top of it
+   * inherit that filesystem and run their own build commands, so anything here
+   * is work every sandbox would otherwise repeat: PHP extensions, Apache
+   * modules, tooling, and a warm Composer cache for the core release line.
+   *
+   * @param string $name
+   *   The base preview name, as used by the launch code: `drupal10`, `umami`.
+   *
+   * @return array<string, mixed>
+   *   The preview config.
+   */
+  public function basePreview(string $name): array {
+    $major = self::majorVersionFromBaseName($name);
+    $images = $major === NULL
+      ? self::ONE_CLICK_DEMO_IMAGES
+      : $this->images($major);
+
+    $init = [
+      'docker-php-ext-install bcmath',
+      'a2enmod headers rewrite',
+      'wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
+      'composer self-update',
+    ];
+    // Drupal 7 and 8 sandboxes are git checkouts, so there is no Composer
+    // cache worth warming. Everything else resolves the same core release line
+    // on every launch, and that download is most of a sandbox's build time.
+    if ($major === NULL || $major > 8) {
+      $constraint = $major === NULL ? '' : ":^$major";
+      $init[] = sprintf('composer -n create-project drupal/recommended-project%s /tmp/warm-cache && cd /tmp/warm-cache && composer -n require drush/drush && rm -rf /tmp/warm-cache', $constraint);
+    }
+
+    return [
+      'services' => [
+        'php' => [
+          'image' => $images['php'],
+          'default' => TRUE,
+          'depends' => 'mysql',
+          'commands' => [
+            'init' => $init,
+          ],
+        ],
+        'mysql' => [
+          'image' => $images['mysql'],
+        ],
+      ],
+    ];
+  }
+
+  /**
+   * Reads the core major version out of a `drupalN` base preview name.
+   */
+  public static function majorVersionFromBaseName(string $name): ?int {
+    if (preg_match('/^drupal(\d+)$/', $name, $matches) !== 1) {
+      return NULL;
+    }
+    return (int) $matches[1];
+  }
+
+  /**
+   * The Docker images for a core major version.
+   *
+   * @return array{php: string, mysql: string}
+   */
+  private function images(int $major_version): array {
+    // @todo make these configurable in #3236528
+    // @see https://www.drupal.org/project/simplytest/issues/
+    $php = match($major_version) {
+      7, 8 => 'tugboatqa/php:7.4-apache',
+      9 => 'tugboatqa/php:8.1-apache',
+      10 => 'tugboatqa/php:8.2-apache',
+      // Defaults to the latest PHP version.
+      default => 'tugboatqa/php:apache'
+    };
+    $mysql = $major_version > 10 ? 'tugboatqa/mysql:8' : 'tugboatqa/mysql:5';
+    return ['php' => $php, 'mysql' => $mysql];
   }
 
   /**
@@ -180,7 +256,7 @@ final readonly class PreviewConfigGenerator {
     return [
       'services' => [
         'php' => [
-          'image' => 'tugboatqa/php:8.3-apache',
+          'image' => self::ONE_CLICK_DEMO_IMAGES['php'],
           'default' => TRUE,
           'depends' => 'mysql',
           'commands' => [
@@ -188,7 +264,7 @@ final readonly class PreviewConfigGenerator {
           ],
         ],
         'mysql' => [
-          'image' => 'tugboatqa/mysql:8',
+          'image' => self::ONE_CLICK_DEMO_IMAGES['mysql'],
         ],
       ],
     ];

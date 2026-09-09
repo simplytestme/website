@@ -48,6 +48,28 @@ final readonly class MockedHttpMiddleware {
     'notfound' => 'not_found',
   ];
 
+  /**
+   * The previews in the mocked Tugboat repository.
+   *
+   * The newest usable preview per base is the `-id` one, so the launch tests
+   * get a predictable base. The others exercise how the base preview manager
+   * picks and prunes: an older build still carrying a sandbox, one that is
+   * stale, one still building, one that failed, and a sandbox that is not a
+   * base at all.
+   */
+  private const array TUGBOAT_PREVIEWS = [
+    ['name' => 'base-drupal7', 'id' => 'base-drupal7-id', 'state' => 'suspended', 'createdAt' => '2019-09-12T13:41:19.395Z', 'children' => []],
+    ['name' => 'base-drupal9', 'id' => 'base-drupal9-building-id', 'state' => 'building', 'createdAt' => '2024-03-01T00:00:00.000Z', 'children' => []],
+    ['name' => 'base-drupal9', 'id' => 'base-drupal9-stale-id', 'state' => 'ready', 'createdAt' => '2024-01-01T00:00:00.000Z', 'children' => []],
+    ['name' => 'base-drupal9', 'id' => 'base-drupal9-id', 'state' => 'ready', 'createdAt' => '2024-02-01T00:00:00.000Z', 'children' => []],
+    ['name' => 'base-drupal9', 'id' => 'base-drupal9-busy-id', 'state' => 'ready', 'createdAt' => '2023-12-01T00:00:00.000Z', 'children' => ['sandbox-id']],
+    ['name' => 'base-drupal10', 'id' => 'base-drupal10-failed-id', 'state' => 'failed', 'createdAt' => '2024-03-01T00:00:00.000Z', 'children' => []],
+    ['name' => 'base-drupal10', 'id' => 'base-drupal10-id', 'state' => 'ready', 'createdAt' => '2024-02-01T00:00:00.000Z', 'children' => []],
+    ['name' => 'base-umami', 'id' => 'base-umami-id', 'state' => 'ready', 'createdAt' => '2024-02-01T00:00:00.000Z', 'children' => []],
+    ['name' => 'base-commerce', 'id' => 'base-commerce-id', 'state' => 'ready', 'createdAt' => '2024-02-01T00:00:00.000Z', 'children' => []],
+    ['name' => 'master', 'id' => 'sandbox-id', 'state' => 'ready', 'createdAt' => '2024-02-02T00:00:00.000Z', 'children' => []],
+  ];
+
   public function __construct(private StateInterface $state) {
   }
 
@@ -271,23 +293,33 @@ final readonly class MockedHttpMiddleware {
     // to fail loudly rather than return the base previews.
     if (preg_match('#/v3/repos/[^/]+/previews$#', $uri) === 1 && $request->getMethod() === 'GET') {
       $this->state->set($uri, (string) $request->getBody());
-      return new FulfilledPromise(new Response(200, [], Json::encode([
-        ['provider_label' => 'base-drupal7', 'id' => 'base-drupal7-id'],
-        ['provider_label' => 'base-drupal9', 'id' => 'base-drupal9-id'],
-        ['provider_label' => 'base-drupal10', 'id' => 'base-drupal10-id'],
-        ['provider_label' => 'base-umami', 'id' => 'base-umami-id'],
-        ['provider_label' => 'base-commerce', 'id' => 'base-commerce-id'],
-        ['provider_label' => 'base-starshot', 'id' => 'base-starshot-id'],
-      ])));
+      return new FulfilledPromise(new Response(200, [], Json::encode(self::TUGBOAT_PREVIEWS)));
     }
 
     if ($uri === 'https://api.tugboatqa.com/v3/previews' && $request->getMethod() === 'POST') {
-      $this->state->set($uri, Json::decode((string) $request->getBody()));
+      $payload = Json::decode((string) $request->getBody());
+      $this->state->set($uri, $payload);
+      // The same reserved repository ID, for a create that Tugboat refuses.
+      if (($payload['repo'] ?? '') === 'brokenrepo') {
+        return new RejectedPromise(new ServerException(
+          'Tugboat is unreachable',
+          $request,
+          new Response(500, [], 'Internal server error'),
+        ));
+      }
       return new FulfilledPromise(new Response(
         200,
         ['Content-Location' => 'https://api.tugboatqa.com/v3/previews/abc123'],
         Json::encode(['preview' => 'abc123', 'job' => 'ac123']),
       ));
+    }
+
+    if (preg_match('#https://api\.tugboatqa\.com/v3/previews/([^/]+)$#', $uri, $matches) === 1 && $request->getMethod() === 'DELETE') {
+      // Every delete is recorded, in order, so a test can see what went.
+      $deleted = $this->state->get('tugboat.deleted_previews', []);
+      $deleted[] = ['id' => $matches[1], 'payload' => Json::decode((string) $request->getBody())];
+      $this->state->set('tugboat.deleted_previews', $deleted);
+      return new FulfilledPromise(new Response(204));
     }
 
     $matches = [];
