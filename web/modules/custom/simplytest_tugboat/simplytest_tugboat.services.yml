@@ -12,6 +12,7 @@ services:
       - '@simplytest_tugboat.preview_config_generator'
       - '@simplytest_tugboat.launch_recorder'
       - '@simplytest_tugboat.base_preview_manager'
+      - '@datetime.time'
   simplytest_tugboat.base_preview_manager:
     class: Drupal\simplytest_tugboat\BasePreviewManager
     arguments:

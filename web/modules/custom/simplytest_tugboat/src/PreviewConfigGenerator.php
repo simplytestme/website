@@ -157,12 +157,23 @@ final readonly class PreviewConfigGenerator {
   }
 
   /**
+   * Where the Drupal project lives, in the base preview and the sandbox.
+   */
+  private const string PROJECT_DIR = '${TUGBOAT_ROOT}/stm';
+
+  /**
    * Generates the config for a base preview.
    *
    * A base preview only runs the init stage. Sandboxes built on top of it
    * inherit that filesystem and run their own build commands, so anything here
    * is work every sandbox would otherwise repeat: PHP extensions, Apache
-   * modules, tooling, and a warm Composer cache for the core release line.
+   * modules, tooling, and for each core release line a complete project at
+   * its newest release.
+   *
+   * The project is the part that matters. Tugboat snapshots a sandbox after
+   * its build, and that snapshot takes about as long as writing core and
+   * vendor did, on top of the Composer time. A sandbox that finds the release
+   * it wants already in place skips both.
    *
    * @param string $name
    *   The base preview name, as used by the launch code: `drupal10`, `umami`.
@@ -175,6 +186,12 @@ final readonly class PreviewConfigGenerator {
     $images = $major === NULL
       ? self::ONE_CLICK_DEMO_IMAGES
       : $this->images($major);
+    if ($major === NULL) {
+      $demo = $this->demoForBase($name);
+      if ($demo === NULL) {
+        throw new \InvalidArgumentException("No base preview is defined for '$name'.");
+      }
+    }
 
     // The image is bare here, so nothing needs to be checked first. Composer
     // is only ever updated here: a daily base is fresh enough, and it keeps
@@ -186,12 +203,22 @@ final readonly class PreviewConfigGenerator {
       'composer self-update',
       self::ALLOW_ADVISORIES,
     ];
-    // Drupal 7 and 8 sandboxes are git checkouts, so there is no Composer
-    // cache worth warming. Everything else resolves the same core release line
-    // on every launch, and that download is most of a sandbox's build time.
-    if ($major === NULL || $major > 8) {
-      $constraint = $major === NULL ? '' : ":^$major";
-      $init[] = sprintf('composer -n create-project drupal/recommended-project%s /tmp/warm-cache && cd /tmp/warm-cache && composer -n require drush/drush && rm -rf /tmp/warm-cache', $constraint);
+    // Nothing about a demo depends on the launch, so its base is the whole
+    // demo, installed. A launch clones it, which takes seconds. Drupal 7 and 8
+    // sandboxes are git checkouts and get nothing here.
+    if ($major === NULL) {
+      $init = [...$init, ...$this->demoCommands($demo, [])];
+    }
+    elseif ($major > 8) {
+      // The same steps a sandbox runs for itself, at the line's newest
+      // release, so a sandbox asking for that release finds nothing to do.
+      $init[] = 'rm -rf "${DOCROOT}"';
+      $init[] = sprintf('cd "${TUGBOAT_ROOT}" && composer -n create-project drupal/recommended-project:^%d stm --no-install', $major);
+      $init[] = 'cd "' . self::PROJECT_DIR . '" && composer config minimum-stability dev';
+      $init[] = 'cd "' . self::PROJECT_DIR . '" && composer config prefer-stable true';
+      $init[] = 'cd "' . self::PROJECT_DIR . '" && composer require --no-install drush/drush';
+      $init[] = 'cd "' . self::PROJECT_DIR . '" && composer update --no-ansi';
+      $init[] = 'ln -snf "' . self::PROJECT_DIR . '/web" "${DOCROOT}"';
     }
 
     return [
@@ -255,27 +282,6 @@ final readonly class PreviewConfigGenerator {
     $one_click_demo = $this->oneClickDemoManager->createInstance($demo_id);
     assert($one_click_demo instanceof OneClickDemoInterface);
 
-    // @todo all things should be build plugins, normalize with ::generate.
-    $build_commands = [
-      self::ENVIRONMENT,
-      $one_click_demo->getSetupCommands($parameters),
-      ['echo "SIMPLYEST_STAGE_DOWNLOAD"'],
-      $one_click_demo->getDownloadCommands($parameters),
-      ['echo "SIMPLYEST_STAGE_PATCHING"'],
-      $one_click_demo->getPatchingCommands($parameters),
-      [
-        'cd stm && composer update --no-ansi',
-        'echo "SIMPLYEST_STAGE_INSTALLING"',
-        'cd "${DOCROOT}" && chmod -R 777 sites/default',
-      ],
-      $one_click_demo->getInstallingCommands($parameters),
-      [
-        'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.logging error_level verbose -y',
-        'chown -R www-data:www-data "${DOCROOT}"/sites/default/files',
-        'echo "SIMPLYEST_STAGE_FINALIZE"',
-      ],
-    ];
-
     return [
       'services' => [
         'php' => [
@@ -283,7 +289,7 @@ final readonly class PreviewConfigGenerator {
           'default' => TRUE,
           'depends' => 'mysql',
           'commands' => [
-            'build' => array_merge(...$build_commands),
+            'build' => [...self::ENVIRONMENT, ...$this->demoCommands($one_click_demo, $parameters)],
           ],
         ],
         'mysql' => [
@@ -293,22 +299,76 @@ final readonly class PreviewConfigGenerator {
     ];
   }
 
+  /**
+   * Everything that turns a bare environment into an installed demo.
+   *
+   * Shared between the demo's base preview, where it runs during init, and
+   * the from-scratch build a launch falls back to when no base is usable.
+   *
+   * @param array<string, mixed> $parameters
+   *
+   * @return list<string>
+   */
+  private function demoCommands(OneClickDemoInterface $demo, array $parameters): array {
+    // @todo all things should be build plugins, normalize with ::generate.
+    return array_merge(
+      $demo->getSetupCommands($parameters),
+      ['echo "SIMPLYEST_STAGE_DOWNLOAD"'],
+      $demo->getDownloadCommands($parameters),
+      ['echo "SIMPLYEST_STAGE_PATCHING"'],
+      $demo->getPatchingCommands($parameters),
+      [
+        'cd stm && composer update --no-ansi',
+        'echo "SIMPLYEST_STAGE_INSTALLING"',
+        'cd "${DOCROOT}" && chmod -R 777 sites/default',
+      ],
+      $demo->getInstallingCommands($parameters),
+      [
+        'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.logging error_level verbose -y',
+        'chown -R www-data:www-data "${DOCROOT}"/sites/default/files',
+        'echo "SIMPLYEST_STAGE_FINALIZE"',
+      ],
+    );
+  }
+
+  /**
+   * The demo plugin whose base preview carries a name.
+   */
+  private function demoForBase(string $name): ?OneClickDemoInterface {
+    foreach ($this->oneClickDemoManager->getDefinitions() as $id => $definition) {
+      if ($definition['base_preview_name'] === $name) {
+        $demo = $this->oneClickDemoManager->createInstance($id);
+        assert($demo instanceof OneClickDemoInterface);
+        return $demo;
+      }
+    }
+    return NULL;
+  }
+
   private function getSetupCommands(array $parameters) {
     $commands = [];
     if ($parameters['major_version'] > 8) {
-      $commands[] = 'rm -rf "${DOCROOT}"';
-      $commands[] = sprintf('composer -n create-project drupal/recommended-project:%s stm --no-install', $parameters['drupal_core_version']);
-      $commands[] = 'cd stm && composer config minimum-stability dev';
-      $commands[] = 'cd stm && composer config prefer-stable true';
-      // We need to require drupal/core and drupal/core-dev at the requested
-      // Drupal core version, otherwise `composer update` could bump the
-      // versions to the latest available one.
-      $commands[] = sprintf('cd stm && composer require --dev --no-install drupal/core:%1$s', $parameters['drupal_core_version']);
-      // The phpspec/prophecy-phpunit check was added in 9.1.6
-      // @see https://www.drupal.org/i/3182653
-      // @see https://git.drupalcode.org/project/drupal/-/commit/94d0c1f
-      $commands[] = 'cd stm && composer require --no-install drush/drush';
-      $commands[] = 'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"';
+      $version = $parameters['drupal_core_version'];
+      // The base preview holds the line's newest release, already installed.
+      // When that is the release asked for, the project is reused as is and
+      // the sandbox only adds what the launch itself needs. Anything else,
+      // including a dev release or no base at all, builds from scratch.
+      $create = [
+        'rm -rf "${DOCROOT}" "' . self::PROJECT_DIR . '"',
+        sprintf('cd "${TUGBOAT_ROOT}" && composer -n create-project drupal/recommended-project:%s stm --no-install', $version),
+        'cd "' . self::PROJECT_DIR . '" && composer config minimum-stability dev',
+        'cd "' . self::PROJECT_DIR . '" && composer config prefer-stable true',
+        // The phpspec/prophecy-phpunit check was added in 9.1.6
+        // @see https://www.drupal.org/i/3182653
+        // @see https://git.drupalcode.org/project/drupal/-/commit/94d0c1f
+        'cd "' . self::PROJECT_DIR . '" && composer require --no-install drush/drush',
+        'ln -snf "' . self::PROJECT_DIR . '/web" "${DOCROOT}"',
+      ];
+      $installed = sprintf('$(cd "%s" 2>/dev/null && composer show drupal/core --format=json 2>/dev/null | jq -r \'.versions[0]\')', self::PROJECT_DIR);
+      $commands[] = sprintf('[ "%s" = "%s" ] && echo "Reusing Drupal %2$s from the base preview" || (%s)', $installed, $version, implode(' && ', $create));
+      // Pin core to the requested release either way, otherwise `composer
+      // update` could bump it to whatever is newest.
+      $commands[] = sprintf('cd "' . self::PROJECT_DIR . '" && composer require --dev --no-install drupal/core:%s', $version);
     }
     // Legacy non-composer build.
     else {

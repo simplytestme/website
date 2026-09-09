@@ -245,7 +245,9 @@ final readonly class BasePreviewManager {
       // A preview built from a branch is named after the branch, which is how
       // the bases built the old way still match.
       'name' => (string) ($preview['name'] ?? ''),
-      'state' => (string) ($preview['state'] ?? 'ready'),
+      // A suspended preview reports the state it was suspended in, which is
+      // how a failed build shows up: suspended, from failed.
+      'state' => (string) ($preview['suspended'] ?? $preview['state'] ?? 'ready'),
       'createdAt' => (string) ($preview['createdAt'] ?? ''),
       'children' => array_values($preview['children'] ?? []),
     ], $previews);

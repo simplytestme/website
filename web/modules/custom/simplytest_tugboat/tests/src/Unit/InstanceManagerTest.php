@@ -77,6 +77,7 @@ final class InstanceManagerTest extends UnitTestCase {
       $preview_config_generator,
       $launch_recorder,
       $base_previews,
+      $this->createMock(TimeInterface::class),
     );
   }
 

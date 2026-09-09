@@ -42,9 +42,8 @@ final class BasePreviewManagerTest extends KernelTestBase {
    * @covers ::names
    */
   public function testNames(): void {
-    // Starshot shares the drupal10 base, so it must not appear twice.
     self::assertEquals(
-      ['drupal7', 'drupal8', 'drupal9', 'drupal10', 'drupal11', 'commerce', 'umami'],
+      ['drupal7', 'drupal8', 'drupal9', 'drupal10', 'drupal11', 'commerce', 'starshot', 'umami'],
       $this->sut->names(),
     );
   }
@@ -61,6 +60,8 @@ final class BasePreviewManagerTest extends KernelTestBase {
     self::assertEquals('base-drupal10-id', $this->sut->findUsable('drupal10'));
     // A suspended base is still a base.
     self::assertEquals('base-drupal7-id', $this->sut->findUsable('drupal7'));
+    // Unless it was suspended because the build failed.
+    self::assertNull($this->sut->findUsable('drupal8'));
     // Nothing on Tugboat carries this name.
     self::assertNull($this->sut->findUsable('drupal11'));
     // A sandbox is never a base, whatever its name.
@@ -120,9 +121,9 @@ final class BasePreviewManagerTest extends KernelTestBase {
   public function testPrune(): void {
     $deleted = $this->sut->prune();
 
-    self::assertEquals(['base-drupal9-stale-id', 'base-drupal10-failed-id'], $deleted);
+    self::assertEquals(['base-drupal8-failed-id', 'base-drupal9-stale-id', 'base-drupal10-failed-id'], $deleted);
     $requests = $this->container->get('state')->get('tugboat.deleted_previews');
-    self::assertEquals(['base-drupal9-stale-id', 'base-drupal10-failed-id'], array_column($requests, 'id'));
+    self::assertEquals(['base-drupal8-failed-id', 'base-drupal9-stale-id', 'base-drupal10-failed-id'], array_column($requests, 'id'));
     // Tugboat refuses to delete a base preview without this.
     foreach ($requests as $request) {
       self::assertEquals(['force' => TRUE], $request['payload']);
