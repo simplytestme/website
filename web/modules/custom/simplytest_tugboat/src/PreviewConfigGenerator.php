@@ -36,6 +36,16 @@ final readonly class PreviewConfigGenerator {
    *
    * @see \cweagans\Composer\Patcher\FreeformPatcher
    */
+  /**
+   * Stops Composer refusing releases that have security advisories.
+   *
+   * Composer 2.10 blocks any package version with a known advisory, and the
+   * Tugboat images ship it. Installing an old core release is the point of a
+   * sandbox, so the block is turned off globally, where the base preview and
+   * the sandbox built on it both see it.
+   */
+  private const string ALLOW_ADVISORIES = 'composer config --global policy.advisories.block false';
+
   private const array FREEFORM_PATCHER = [
     'executable' => 'patch',
     'dry_run_args' => '-p%s -d %s --dry-run --no-backup-if-mismatch -i %s',
@@ -87,7 +97,7 @@ final readonly class PreviewConfigGenerator {
         'a2enmod headers rewrite',
         'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
       ],
-      ['composer self-update'],
+      ['composer self-update', self::ALLOW_ADVISORIES],
       $this->getSetupCommands($parameters),
       $this->getDownloadCommands($parameters),
       ['echo "SIMPLYEST_STAGE_PATCHING"'],
@@ -162,6 +172,7 @@ final readonly class PreviewConfigGenerator {
       'a2enmod headers rewrite',
       'wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
       'composer self-update',
+      self::ALLOW_ADVISORIES,
     ];
     // Drupal 7 and 8 sandboxes are git checkouts, so there is no Composer
     // cache worth warming. Everything else resolves the same core release line
@@ -234,7 +245,7 @@ final readonly class PreviewConfigGenerator {
 
     // @todo all things should be build plugins, normalize with ::generate.
     $build_commands = [
-      ['composer self-update'],
+      ['composer self-update', self::ALLOW_ADVISORIES],
       $one_click_demo->getSetupCommands($parameters),
       ['echo "SIMPLYEST_STAGE_DOWNLOAD"'],
       $one_click_demo->getDownloadCommands($parameters),

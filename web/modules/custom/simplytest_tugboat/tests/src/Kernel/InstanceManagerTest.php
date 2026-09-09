@@ -109,6 +109,7 @@ final class InstanceManagerTest extends KernelTestBase {
                 'a2enmod headers rewrite',
                 'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
                 'composer self-update',
+                'composer config --global policy.advisories.block false',
                 'rm -rf "${DOCROOT}"',
                 'composer -n create-project drupal/recommended-project:9.3.2 stm --no-install',
                 'cd stm && composer config minimum-stability dev',

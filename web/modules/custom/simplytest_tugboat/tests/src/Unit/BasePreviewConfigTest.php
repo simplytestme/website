@@ -69,6 +69,7 @@ final class BasePreviewConfigTest extends UnitTestCase {
       'a2enmod headers rewrite',
       'wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
       'composer self-update',
+      'composer config --global policy.advisories.block false',
       'composer -n create-project drupal/recommended-project:^10 /tmp/warm-cache && cd /tmp/warm-cache && composer -n require drush/drush && rm -rf /tmp/warm-cache',
     ], $init);
   }
