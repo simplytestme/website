@@ -71,8 +71,10 @@ class InstanceManager implements InstanceManagerInterface {
    *   The preview config generator.
    * @param \Drupal\simplytest_tugboat\LaunchRecorder $launch_recorder
    *   The launch recorder.
+   * @param \Drupal\simplytest_tugboat\BasePreviewManager $basePreviews
+   *   The base preview manager.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, LoggerChannelInterface $logger, ModuleHandlerInterface $module_handler, TugboatClient $tugboat_client, PreviewConfigGenerator $preview_config_generator, LaunchRecorder $launch_recorder) {
+  public function __construct(ConfigFactoryInterface $config_factory, LoggerChannelInterface $logger, ModuleHandlerInterface $module_handler, TugboatClient $tugboat_client, PreviewConfigGenerator $preview_config_generator, LaunchRecorder $launch_recorder, protected BasePreviewManager $basePreviews) {
     $this->tugboatSettings = $config_factory->get('tugboat.settings');
     $this->logger = $logger;
     $this->moduleHandler = $module_handler;
@@ -85,30 +87,15 @@ class InstanceManager implements InstanceManagerInterface {
    * {@inheritdoc}
    */
   #[\Override]
-  public function loadPreviewId($context, $base = TRUE) {
-    $branch_name = $base ? "base-$context" : $context;
-    $repository_id = $this->tugboatSettings->get('repository_id');
-    $response = $this->tugboatClient->requestWithApiKey('GET', "repos/{$repository_id}/previews");
-    $previews = Json::decode((string) $response->getBody());
-    $max_id = 'none';
-
-    // Find the most recent preview ID for the base.
-    foreach ($previews as $preview) {
-      if ($preview['provider_label'] !== $branch_name) {
-        continue;
-      }
-      $max_id = $preview['id'];
-      break;
+  public function loadPreviewId(string $context): string {
+    $preview_id = $this->basePreviews->findUsable($context);
+    if ($preview_id === NULL) {
+      // The sandbox still builds, from scratch. It is slower, and worth
+      // knowing about, but not worth refusing the launch.
+      $this->logger->error('No base preview for @context; building without one.', ['@context' => $context]);
+      return 'none';
     }
-
-    // Log an error if ID not found
-    if (empty($max_id)) {
-      $message = $base
-        ? "No base preview for: <em>$context</em>"
-        : "No preview for: <em>$context</em>";
-      $this->logger->error($message);
-    }
-    return $max_id;
+    return $preview_id;
   }
 
   /**
@@ -174,7 +161,7 @@ class InstanceManager implements InstanceManagerInterface {
     // fail. Record either outcome: a failed launch leaves nothing behind on
     // Tugboat, so this is the only place the failure is ever visible.
     try {
-      $base_preview_id = $this->loadPreviewId($context, TRUE);
+      $base_preview_id = $this->loadPreviewId($context);
       $tugboat_request = $this->tugboatClient->requestWithApiKey('POST', 'previews', [
         'ref' => $this->tugboatSettings->get('repository_base') ?: 'master',
         'config' => $config,

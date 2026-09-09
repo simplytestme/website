@@ -18,9 +18,7 @@ class Commerce extends OneClickDemoBase {
   #[\Override]
   public function getSetupCommands(array $parameters): array {
     return [
-      'docker-php-ext-install bcmath',
       'echo "memory_limit = 512M" >> /usr/local/etc/php/conf.d/my-php.ini',
-      'a2enmod headers rewrite',
       'rm -rf "${DOCROOT}"',
     ];
   }

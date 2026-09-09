@@ -41,10 +41,10 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install bcmath',
+              'php -m | grep -qi bcmath || docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
-              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
-              'composer self-update',
+              'command -v yq > /dev/null || (wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq)',
+              'composer config --global policy.advisories.block false',
               'rm -rf "${DOCROOT}"',
               'composer -n create-project drupal/recommended-project:9.3.2 stm --no-install',
               'cd stm && composer config minimum-stability dev',
@@ -98,10 +98,10 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install bcmath',
+              'php -m | grep -qi bcmath || docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
-              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
-              'composer self-update',
+              'command -v yq > /dev/null || (wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq)',
+              'composer config --global policy.advisories.block false',
               'rm -rf "${DOCROOT}"',
               'composer -n create-project drupal/recommended-project:9.3.2 stm --no-install',
               'cd stm && composer config minimum-stability dev',
@@ -159,10 +159,10 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install bcmath',
+              'php -m | grep -qi bcmath || docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
-              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
-              'composer self-update',
+              'command -v yq > /dev/null || (wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq)',
+              'composer config --global policy.advisories.block false',
               'rm -rf "${DOCROOT}"',
               'composer -n create-project drupal/recommended-project:9.3.2 stm --no-install',
               'cd stm && composer config minimum-stability dev',
@@ -214,10 +214,10 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install bcmath',
+              'php -m | grep -qi bcmath || docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
-              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
-              'composer self-update',
+              'command -v yq > /dev/null || (wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq)',
+              'composer config --global policy.advisories.block false',
               'rm -rf "${DOCROOT}"',
               'composer -n create-project drupal/recommended-project:9.3.2 stm --no-install',
               'cd stm && composer config minimum-stability dev',
@@ -279,10 +279,10 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install bcmath',
+              'php -m | grep -qi bcmath || docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
-              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
-              'composer self-update',
+              'command -v yq > /dev/null || (wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq)',
+              'composer config --global policy.advisories.block false',
               'rm -rf "${DOCROOT}"',
               'composer -n create-project drupal/recommended-project:9.3.2 stm --no-install',
               'cd stm && composer config minimum-stability dev',
@@ -338,10 +338,10 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install bcmath',
+              'php -m | grep -qi bcmath || docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
-              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
-              'composer self-update',
+              'command -v yq > /dev/null || (wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq)',
+              'composer config --global policy.advisories.block false',
               'rm -rf "${DOCROOT}"',
               'composer -n create-project drupal/recommended-project:9.3.2 stm --no-install',
               'cd stm && composer config minimum-stability dev',
@@ -402,10 +402,10 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install bcmath',
+              'php -m | grep -qi bcmath || docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
-              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
-              'composer self-update',
+              'command -v yq > /dev/null || (wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq)',
+              'composer config --global policy.advisories.block false',
               'rm -rf "${DOCROOT}"',
               'composer -n create-project drupal/recommended-project:9.3.2 stm --no-install',
               'cd stm && composer config minimum-stability dev',
@@ -459,10 +459,10 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install bcmath',
+              'php -m | grep -qi bcmath || docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
-              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
-              'composer self-update',
+              'command -v yq > /dev/null || (wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq)',
+              'composer config --global policy.advisories.block false',
               'rm -rf "${DOCROOT}"',
               'composer -n create-project drupal/recommended-project:9.1.5 stm --no-install',
               'cd stm && composer config minimum-stability dev',
@@ -514,10 +514,10 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install bcmath',
+              'php -m | grep -qi bcmath || docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
-              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
-              'composer self-update',
+              'command -v yq > /dev/null || (wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq)',
+              'composer config --global policy.advisories.block false',
               'rm -rf "${DOCROOT}"',
               'composer -n create-project drupal/recommended-project:9.3.x-dev stm --no-install',
               'cd stm && composer config minimum-stability dev',
@@ -568,10 +568,10 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install bcmath',
+              'php -m | grep -qi bcmath || docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
-              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
-              'composer self-update',
+              'command -v yq > /dev/null || (wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq)',
+              'composer config --global policy.advisories.block false',
               'rm -rf "${DOCROOT}"',
               'composer -n create-project drupal/recommended-project:9.1.9 stm --no-install',
               'cd stm && composer config minimum-stability dev',
@@ -622,10 +622,10 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install bcmath',
+              'php -m | grep -qi bcmath || docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
-              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
-              'composer self-update',
+              'command -v yq > /dev/null || (wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq)',
+              'composer config --global policy.advisories.block false',
               'rm -rf "${DOCROOT}"',
               'composer -n create-project drupal/recommended-project:9.3.2 stm --no-install',
               'cd stm && composer config minimum-stability dev',
@@ -692,10 +692,10 @@ final class Drupal9ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install bcmath',
+              'php -m | grep -qi bcmath || docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
-              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
-              'composer self-update',
+              'command -v yq > /dev/null || (wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq)',
+              'composer config --global policy.advisories.block false',
               'rm -rf "${DOCROOT}"',
               'composer -n create-project drupal/recommended-project:9.3.x-dev stm --no-install',
               'cd stm && composer config minimum-stability dev',

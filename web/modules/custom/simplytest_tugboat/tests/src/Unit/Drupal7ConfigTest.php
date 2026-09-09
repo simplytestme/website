@@ -41,10 +41,10 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install bcmath',
+              'php -m | grep -qi bcmath || docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
-              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
-              'composer self-update',
+              'command -v yq > /dev/null || (wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq)',
+              'composer config --global policy.advisories.block false',
               'cd "${DOCROOT}" && git config core.fileMode false',
               'cd "${DOCROOT}" && git fetch --all',
               'cd "${DOCROOT}" && git reset --hard 7.77',
@@ -92,10 +92,10 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install bcmath',
+              'php -m | grep -qi bcmath || docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
-              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
-              'composer self-update',
+              'command -v yq > /dev/null || (wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq)',
+              'composer config --global policy.advisories.block false',
               'cd "${DOCROOT}" && git config core.fileMode false',
               'cd "${DOCROOT}" && git fetch --all',
               'cd "${DOCROOT}" && git reset --hard 7.77',
@@ -144,10 +144,10 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install bcmath',
+              'php -m | grep -qi bcmath || docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
-              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
-              'composer self-update',
+              'command -v yq > /dev/null || (wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq)',
+              'composer config --global policy.advisories.block false',
               'cd "${DOCROOT}" && git config core.fileMode false',
               'cd "${DOCROOT}" && git fetch --all',
               'cd "${DOCROOT}" && git reset --hard 7.77',
@@ -192,10 +192,10 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install bcmath',
+              'php -m | grep -qi bcmath || docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
-              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
-              'composer self-update',
+              'command -v yq > /dev/null || (wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq)',
+              'composer config --global policy.advisories.block false',
               'cd "${DOCROOT}" && git config core.fileMode false',
               'cd "${DOCROOT}" && git fetch --all',
               'cd "${DOCROOT}" && git reset --hard 7.77',
@@ -255,10 +255,10 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install bcmath',
+              'php -m | grep -qi bcmath || docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
-              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
-              'composer self-update',
+              'command -v yq > /dev/null || (wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq)',
+              'composer config --global policy.advisories.block false',
               'cd "${DOCROOT}" && git config core.fileMode false',
               'cd "${DOCROOT}" && git fetch --all',
               'cd "${DOCROOT}" && git reset --hard 7.77',
@@ -303,10 +303,10 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
           'depends' => 'mysql',
           'commands' => [
             'build' => [
-              'docker-php-ext-install bcmath',
+              'php -m | grep -qi bcmath || docker-php-ext-install bcmath',
               'a2enmod headers rewrite',
-              'wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
-              'composer self-update',
+              'command -v yq > /dev/null || (wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq)',
+              'composer config --global policy.advisories.block false',
               'cd "${DOCROOT}" && git config core.fileMode false',
               'cd "${DOCROOT}" && git fetch --all',
               'cd "${DOCROOT}" && git reset --hard origin/7.x',

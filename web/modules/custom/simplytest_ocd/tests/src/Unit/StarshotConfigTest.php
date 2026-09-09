@@ -24,9 +24,11 @@ final class StarshotConfigTest extends OneClickDemoConfigTestBase {
         'depends' => 'mysql',
         'commands' => [
           'build' => [
-            'composer self-update',
-            'echo "memory_limit = 512M" >> /usr/local/etc/php/conf.d/my-php.ini',
+            'php -m | grep -qi bcmath || docker-php-ext-install bcmath',
             'a2enmod headers rewrite',
+            'command -v yq > /dev/null || (wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq)',
+            'composer config --global policy.advisories.block false',
+            'echo "memory_limit = 512M" >> /usr/local/etc/php/conf.d/my-php.ini',
             'rm -rf "${DOCROOT}"',
             'echo "SIMPLYEST_STAGE_DOWNLOAD"',
             'composer create-project drupal/cms $TUGBOAT_ROOT/stm',

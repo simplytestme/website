@@ -65,14 +65,18 @@ final class InstanceManagerBranchesTest extends KernelTestBase {
    */
   public function testLoadPreviewIdForUnknownContext(): void {
     self::assertEquals('none', $this->sut->loadPreviewId('drupal42'));
+    $logger = $this->container->get('simplytest_projects_test.logger');
+    self::assertTrue($logger->hasMessageContaining('No base preview for drupal42'));
   }
 
   /**
+   * A base name is never matched without its prefix.
+   *
    * @covers ::loadPreviewId
    */
-  public function testLoadPreviewIdWithoutBasePrefix(): void {
-    // Without the base prefix the provider label no longer matches.
-    self::assertEquals('none', $this->sut->loadPreviewId('drupal9', FALSE));
+  public function testLoadPreviewIdIgnoresSandboxes(): void {
+    // A sandbox named after the branch it was built from is not a base.
+    self::assertEquals('none', $this->sut->loadPreviewId('master'));
   }
 
   /**

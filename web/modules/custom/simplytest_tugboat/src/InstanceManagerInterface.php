@@ -8,17 +8,16 @@ namespace Drupal\simplytest_tugboat;
 interface InstanceManagerInterface {
 
   /**
-   * Loads the preview ID from a base preview branch.
+   * Finds the base preview a sandbox builds on.
    *
    * @param string $context
-   *   Context?
-   * @param bool $base
-   *   Whether to prefix $context with "base-".
+   *   The base preview name: `drupal10`, `umami`, and so on.
    *
    * @return string
-   *   The ID of the preview.
+   *   The preview ID, or `none` when no usable base exists. Tugboat reads
+   *   `none` as "build from scratch".
    */
-  public function loadPreviewId($context, $base = TRUE);
+  public function loadPreviewId(string $context): string;
 
   /**
    * Callback for the tugboat launch instance.
