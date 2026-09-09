@@ -58,7 +58,9 @@ final readonly class MockedHttpMiddleware {
    * base at all.
    */
   private const array TUGBOAT_PREVIEWS = [
-    ['name' => 'base-drupal7', 'id' => 'base-drupal7-id', 'state' => 'suspended', 'createdAt' => '2019-09-12T13:41:19.395Z', 'children' => []],
+    ['name' => 'base-drupal7', 'id' => 'base-drupal7-id', 'state' => 'suspended', 'suspended' => 'ready', 'createdAt' => '2019-09-12T13:41:19.395Z', 'children' => []],
+    // A failed build is suspended from the failed state.
+    ['name' => 'base-drupal8', 'id' => 'base-drupal8-failed-id', 'state' => 'suspended', 'suspended' => 'failed', 'createdAt' => '2024-03-01T00:00:00.000Z', 'children' => []],
     ['name' => 'base-drupal9', 'id' => 'base-drupal9-building-id', 'state' => 'building', 'createdAt' => '2024-03-01T00:00:00.000Z', 'children' => []],
     ['name' => 'base-drupal9', 'id' => 'base-drupal9-stale-id', 'state' => 'ready', 'createdAt' => '2024-01-01T00:00:00.000Z', 'children' => []],
     ['name' => 'base-drupal9', 'id' => 'base-drupal9-id', 'state' => 'ready', 'createdAt' => '2024-02-01T00:00:00.000Z', 'children' => []],
