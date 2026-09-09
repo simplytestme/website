@@ -95,12 +95,12 @@ final class ResourcesTest extends KernelTestBase {
 
     $data = Json::decode((string) $response->getContent());
     self::assertEquals('OK', $data['status']);
-    self::assertEquals('abc123', $data['tugboat']['preview_id']);
-    self::assertStringContainsString('/progress/abc123/ac123', $data['progress']);
+    self::assertEquals('clone123', $data['tugboat']['preview_id']);
+    self::assertStringContainsString('/progress/clone123/cj123', $data['progress']);
 
-    // The preview was requested against the demo's own base preview.
-    $payload = $this->container->get('state')->get('https://api.tugboatqa.com/v3/previews');
-    self::assertEquals('base-umami-id', $payload['base']);
+    // The demo is a clone of its own base preview.
+    $payload = $this->container->get('state')->get('https://api.tugboatqa.com/v3/previews/base-umami-id/clone');
+    self::assertEquals('simplytest', $payload['name']);
   }
 
   /**
