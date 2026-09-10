@@ -39,6 +39,7 @@ module:
   simplytest_launch: 0
   simplytest_ocd: 0
   simplytest_projects: 0
+  simplytest_sentry: 0
   simplytest_tugboat: 0
   system: 0
   text: 0

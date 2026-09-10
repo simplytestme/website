@@ -42,7 +42,8 @@
         "drupal/purge": "^3.0",
         "drupal/queue_unique": "^4.0",
         "drupal/tugboat": "^1.0@alpha",
-        "drush/drush": "^13"
+        "drush/drush": "^13",
+        "sentry/sentry": "^4.31"
     },
     "require-dev": {
         "drupal/core-dev": "^11",
