@@ -56,7 +56,7 @@ final class InstanceLaunchDefinitionTest extends KernelTestBase {
     $this->assertEquals($messages, $expected_violations);
   }
 
-  public function instanceLaunchData(): \Generator {
+  public static function instanceLaunchData(): \Generator {
     yield [
       [
         'project' => [

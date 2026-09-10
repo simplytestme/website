@@ -30,6 +30,7 @@
 
 /phpunit.xml
 .phpunit.result.cache
+/.phpunit.cache
 /.drush-lock-update
 .DS_Store
 .idea

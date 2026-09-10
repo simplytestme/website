@@ -6,8 +6,10 @@ use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Queue\Attribute\QueueWorker;
 use Drupal\Core\Queue\QueueWorkerBase;
 use Drupal\Core\Queue\SuspendQueueException;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
 use Drupal\simplytest_projects\Exception\EntityValidationException;
 use Drupal\simplytest_projects\ProjectVersionManager;
@@ -28,12 +30,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * The `cron` key is purposely ommitted so that the queue is not processed
  * by cron. The queue should be processed on its own using the Drush command
  * for processing queues, `queue:run`.
- *
- * @QueueWorker(
- *   id = "simplytest_projects_project_refresher",
- *   title = @Translation("Project refresher"),
- * )
  */
+#[QueueWorker(
+  id: "simplytest_projects_project_refresher",
+  title: new TranslatableMarkup("Project refresher"),
+)]
 class ProjectRefresher extends QueueWorkerBase implements ContainerFactoryPluginInterface {
 
   public function __construct(

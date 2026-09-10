@@ -34,8 +34,8 @@
         "composer/installers": "^2.2",
         "composer/semver": "^3.0",
         "cweagans/composer-patches": "^2.0",
-        "drupal/core-composer-scaffold": "^10",
-        "drupal/core-recommended": "^10",
+        "drupal/core-composer-scaffold": "^11",
+        "drupal/core-recommended": "^11",
         "drupal/fastly": "^4.0",
         "drupal/http_cache_control": "^2.0",
         "drupal/lagoon_logs": "^3.0",
@@ -45,7 +45,7 @@
         "drush/drush": "^13"
     },
     "require-dev": {
-        "drupal/core-dev": "^10",
+        "drupal/core-dev": "^11",
         "rector/rector": "^1.2"
     },
     "conflict": {
@@ -56,6 +56,9 @@
     "config": {
         "apcu-autoloader": true,
         "optimize-autoloader": true,
+        "platform": {
+            "php": "8.3"
+        },
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
@@ -65,6 +68,7 @@
             "drupal/core-composer-scaffold": true,
             "php-http/discovery": true,
             "phpstan/extension-installer": true,
+            "symfony/runtime": true,
             "tbachert/spi": true
         },
         "audit": {
@@ -72,9 +76,13 @@
         }
     },
     "scripts": {
-        "tests": "php vendor/bin/phpunit web/modules/custom",
+        "tests": [
+            "Composer\\Config::disableProcessTimeout",
+            "php vendor/bin/phpunit web/modules/custom"
+        ],
         "compile": "npm run build",
         "test:coverage": [
+            "Composer\\Config::disableProcessTimeout",
             "@putenv XDEBUG_MODE=coverage",
             "mkdir -p private/coverage",
             "php vendor/bin/phpunit web/modules/custom --coverage-clover=$PWD/private/coverage/clover.xml --coverage-text",

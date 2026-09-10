@@ -17,7 +17,7 @@ final class Drupal10ConfigTest extends TugboatConfigTestBase {
    * {@inheritdoc}
    */
   #[\Override]
-  public function configData(): \Generator {
+  public static function configData(): \Generator {
     $instance_id = Crypt::randomBytesBase64();
     $hash = Crypt::randomBytesBase64();
     yield [

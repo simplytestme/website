@@ -54,6 +54,6 @@ abstract class TugboatConfigTestBase extends UnitTestCase {
    *
    * @return \Generator
    */
-  abstract public function configData(): \Generator;
+  abstract public static function configData(): \Generator;
 
 }

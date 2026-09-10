@@ -2,52 +2,60 @@
 
 namespace Drupal\simplytest_projects\Entity;
 
+use Drupal\Core\Entity\Attribute\ContentEntityType;
 use Drupal\Core\Entity\ContentEntityBase;
+use Drupal\Core\Entity\ContentEntityDeleteForm;
+use Drupal\Core\Entity\EntityAccessControlHandler;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Entity\EntityViewBuilder;
+use Drupal\Core\Entity\Routing\AdminHtmlRouteProvider;
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\simplytest_projects\DrupalUrls;
 use Drupal\simplytest_projects\Exception\EntityValidationException;
+use Drupal\simplytest_projects\Form\SimplytestProjectEntityForm;
+use Drupal\simplytest_projects\SimplytestProjectListBuilder;
+use Drupal\simplytest_projects\SimplytestProjectStorageSchema;
+use Drupal\views\EntityViewsData;
 
 /**
  * Defines the Simplytest Project entity.
- *
- * @ContentEntityType(
- *   id = "simplytest_project",
- *   label = @Translation("Simplytest Project"),
- *   base_table = "simplytest_project",
- *   entity_keys = {
- *     "id" = "id",
- *     "label" = "title",
- *   },
- *   fieldable = TRUE,
- *   admin_permission = "administer simplytest projects",
- *   handlers = {
- *     "storage_schema" = "Drupal\simplytest_projects\SimplytestProjectStorageSchema",
- *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
- *     "list_builder" = "Drupal\simplytest_projects\SimplytestProjectListBuilder",
- *     "access" = "Drupal\Core\Entity\EntityAccessControlHandler",
- *     "views_data" = "Drupal\views\EntityViewsData",
- *     "form" = {
- *       "default" = "Drupal\simplytest_projects\Form\SimplytestProjectEntityForm",
- *       "add" = "Drupal\simplytest_projects\Form\SimplytestProjectEntityForm",
- *       "edit" = "Drupal\simplytest_projects\Form\SimplytestProjectEntityForm",
- *       "delete" = "Drupal\Core\Entity\ContentEntityDeleteForm",
- *     },
- *     "route_provider" = {
- *       "html" = "Drupal\Core\Entity\Routing\AdminHtmlRouteProvider",
- *     },
- *   },
- *   links = {
- *     "canonical" = "/simplytest_project/{simplytest_project}",
- *     "add-form" = "/simplytest_projec/add/simplytest_project",
- *     "edit-form" = "/simplytest_project/{simplytest_project}/edit",
- *     "delete-form" = "/simplytest_project/{simplytest_project}/delete",
- *     "collection" = "/admin/content/simplytest_projects",
- *   },
- *   field_ui_base_route = "entity.simplytest_project.collection",
- * )
  */
+#[ContentEntityType(
+  id: "simplytest_project",
+  label: new TranslatableMarkup("Simplytest Project"),
+  entity_keys: [
+    "id" => "id",
+    "label" => "title",
+  ],
+  handlers: [
+    "storage_schema" => SimplytestProjectStorageSchema::class,
+    "view_builder" => EntityViewBuilder::class,
+    "list_builder" => SimplytestProjectListBuilder::class,
+    "access" => EntityAccessControlHandler::class,
+    "views_data" => EntityViewsData::class,
+    "form" => [
+      "default" => SimplytestProjectEntityForm::class,
+      "add" => SimplytestProjectEntityForm::class,
+      "edit" => SimplytestProjectEntityForm::class,
+      "delete" => ContentEntityDeleteForm::class,
+    ],
+    "route_provider" => [
+      "html" => AdminHtmlRouteProvider::class,
+    ],
+  ],
+  links: [
+    "canonical" => "/simplytest_project/{simplytest_project}",
+    "add-form" => "/simplytest_projec/add/simplytest_project",
+    "edit-form" => "/simplytest_project/{simplytest_project}/edit",
+    "delete-form" => "/simplytest_project/{simplytest_project}/delete",
+    "collection" => "/admin/content/simplytest_projects",
+  ],
+  admin_permission: "administer simplytest projects",
+  base_table: "simplytest_project",
+  field_ui_base_route: "entity.simplytest_project.collection",
+)]
 class SimplytestProject extends ContentEntityBase implements SimplytestProjectInterface {
 
   /**
@@ -284,9 +292,7 @@ class SimplytestProject extends ContentEntityBase implements SimplytestProjectIn
       ->setSettings([
         'max_length' => 255,
         'text_processing' => 0,
-      ])
-      ->setDefaultValue('');
-
+      ]);
 
     $fields['timestamp'] = BaseFieldDefinition::create('changed')
       ->setLabel(t('Timestamp Updated'))
