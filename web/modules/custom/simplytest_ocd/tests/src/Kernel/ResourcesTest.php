@@ -12,16 +12,21 @@ use Drupal\simplytest_ocd\Controller\Resources;
 use Drupal\simplytest_ocd\OneClickDemoPluginManager;
 use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\ProjectVersionManager;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
-/**
- * @group simplytest
- * @group simplytest_ocd
- *
- * @coversDefaultClass \Drupal\simplytest_ocd\Controller\Resources
- */
+#[CoversClass(Resources::class)]
+#[CoversMethod(Resources::class, 'info')]
+#[CoversMethod(Resources::class, 'launch')]
+#[CoversMethod(OneClickDemoPluginManager::class, '__construct')]
+#[Group('simplytest')]
+#[Group('simplytest_ocd')]
+#[RunTestsInSeparateProcesses]
 final class ResourcesTest extends KernelTestBase {
 
   protected static $modules = [
@@ -44,9 +49,6 @@ final class ResourcesTest extends KernelTestBase {
       ->save();
   }
 
-  /**
-   * @covers ::info
-   */
   public function testInfoListsEveryDemo(): void {
     $url = Url::fromRoute('simplytest_ocd.ocd');
     $request = Request::create($url->toString(), 'GET');
@@ -77,8 +79,6 @@ final class ResourcesTest extends KernelTestBase {
 
   /**
    * The response is invalidated when the plugin definitions change.
-   *
-   * @covers ::info
    */
   public function testInfoIsCacheable(): void {
     $response = Resources::create($this->container)->info();
@@ -87,9 +87,6 @@ final class ResourcesTest extends KernelTestBase {
     self::assertContains('oneclickdemo', $response->getCacheableMetadata()->getCacheTags());
   }
 
-  /**
-   * @covers ::launch
-   */
   public function testLaunch(): void {
     $response = Resources::create($this->container)->launch('oneclickdemo_umami');
 
@@ -103,18 +100,12 @@ final class ResourcesTest extends KernelTestBase {
     self::assertEquals('simplytest', $payload['name']);
   }
 
-  /**
-   * @covers ::launch
-   */
   public function testLaunchRejectsUnknownDemo(): void {
     $this->expectException(NotFoundHttpException::class);
     $this->expectExceptionMessage('nope is not a valid option');
     Resources::create($this->container)->launch('nope');
   }
 
-  /**
-   * @covers ::launch
-   */
   public function testLaunchWhenTugboatIsUnreachable(): void {
     $this->config('tugboat.settings')->set('repository_id', 'brokenrepo')->save();
 
@@ -122,9 +113,6 @@ final class ResourcesTest extends KernelTestBase {
     Resources::create($this->container)->launch('oneclickdemo_umami');
   }
 
-  /**
-   * @covers \Drupal\simplytest_ocd\OneClickDemoPluginManager::__construct
-   */
   public function testPluginManagerDefinitions(): void {
     $manager = $this->container->get('plugin.manager.oneclickdemo');
 

@@ -6,13 +6,24 @@ use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_projects\ProjectTypes;
 use Drupal\simplytest_tugboat\LaunchRecorder;
 use Drupal\simplytest_tugboat\LaunchStatistics;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
-/**
- * @group simplytest
- * @group simplytest_tugboat
- *
- * @coversDefaultClass \Drupal\simplytest_tugboat\LaunchStatistics
- */
+#[CoversClass(LaunchStatistics::class)]
+#[CoversMethod(LaunchStatistics::class, 'getTotal')]
+#[CoversMethod(LaunchStatistics::class, 'getTopProjects')]
+#[CoversMethod(LaunchStatistics::class, 'topBy')]
+#[CoversMethod(LaunchStatistics::class, 'getTopOneClickDemos')]
+#[CoversMethod(LaunchStatistics::class, 'getTopCoreVersions')]
+#[CoversMethod(LaunchStatistics::class, 'getTopInstallProfiles')]
+#[CoversMethod(LaunchStatistics::class, 'getProjectTypes')]
+#[CoversMethod(LaunchStatistics::class, 'getDailyTotals')]
+#[CoversMethod(LaunchStatistics::class, 'getFirstRecordedAt')]
+#[Group('simplytest')]
+#[Group('simplytest_tugboat')]
+#[RunTestsInSeparateProcesses]
 final class LaunchStatisticsTest extends KernelTestBase {
 
   protected static $modules = [
@@ -31,9 +42,6 @@ final class LaunchStatisticsTest extends KernelTestBase {
     $this->now = $this->container->get('datetime.time')->getRequestTime();
   }
 
-  /**
-   * @covers ::getTotal
-   */
   public function testGetTotalCountsOnlySuccessfulLaunches(): void {
     $this->record('token', daysAgo: 1);
     $this->record('token', daysAgo: 1, status: LaunchRecorder::STATUS_FAILED);
@@ -41,9 +49,6 @@ final class LaunchStatisticsTest extends KernelTestBase {
     self::assertEquals(1, $this->statistics()->getTotal());
   }
 
-  /**
-   * @covers ::getTotal
-   */
   public function testGetTotalWindowsByDays(): void {
     $this->record('token', daysAgo: 1);
     $this->record('token', daysAgo: 3);
@@ -56,10 +61,6 @@ final class LaunchStatisticsTest extends KernelTestBase {
     self::assertEquals(4, $statistics->getTotal());
   }
 
-  /**
-   * @covers ::getTopProjects
-   * @covers ::topBy
-   */
   public function testGetTopProjectsOrdersByCount(): void {
     $this->record('token', daysAgo: 1);
     $this->record('token', daysAgo: 2);
@@ -78,9 +79,6 @@ final class LaunchStatisticsTest extends KernelTestBase {
     );
   }
 
-  /**
-   * @covers ::getTopProjects
-   */
   public function testGetTopProjectsRespectsTheLimit(): void {
     $this->record('token', daysAgo: 1);
     $this->record('webform', daysAgo: 1);
@@ -91,8 +89,6 @@ final class LaunchStatisticsTest extends KernelTestBase {
 
   /**
    * One click demos leave the project columns empty and must not be grouped.
-   *
-   * @covers ::topBy
    */
   public function testGetTopProjectsSkipsOneClickDemos(): void {
     $this->record('token', daysAgo: 1);
@@ -107,9 +103,6 @@ final class LaunchStatisticsTest extends KernelTestBase {
 
   /**
    * Demos are counted by plugin ID, and normal launches stay out of the list.
-   *
-   * @covers ::getTopOneClickDemos
-   * @covers ::topBy
    */
   public function testGetTopOneClickDemos(): void {
     $this->record('token', daysAgo: 1);
@@ -127,11 +120,6 @@ final class LaunchStatisticsTest extends KernelTestBase {
     );
   }
 
-  /**
-   * @covers ::getTopCoreVersions
-   * @covers ::getTopInstallProfiles
-   * @covers ::getProjectTypes
-   */
   public function testOtherBreakdowns(): void {
     $this->record('token', daysAgo: 1, coreVersion: '10.3.0', installProfile: 'standard');
     $this->record('webform', daysAgo: 1, coreVersion: '10.3.0', installProfile: 'umami');
@@ -154,8 +142,6 @@ final class LaunchStatisticsTest extends KernelTestBase {
 
   /**
    * Quiet days are filled in so a caller can chart the window directly.
-   *
-   * @covers ::getDailyTotals
    */
   public function testGetDailyTotalsFillsQuietDays(): void {
     $this->record('token', daysAgo: 0);
@@ -176,10 +162,6 @@ final class LaunchStatisticsTest extends KernelTestBase {
    * A launch seven days ago sits inside a rolling seven times 24 hour window
    * but on the day before a seven day chart starts. Counting it in the total
    * and not in the chart would leave the page disagreeing with itself.
-   *
-   * @covers ::getTotal
-   * @covers ::getDailyTotals
-   * @covers ::getTopProjects
    */
   public function testWindowsAreWholeCalendarDays(): void {
     $this->record('token', daysAgo: 0);
@@ -194,9 +176,6 @@ final class LaunchStatisticsTest extends KernelTestBase {
     self::assertEquals([['name' => 'token', 'total' => 2]], $statistics->getTopProjects(7, 10));
   }
 
-  /**
-   * @covers ::getFirstRecordedAt
-   */
   public function testGetFirstRecordedAt(): void {
     self::assertNull($this->statistics()->getFirstRecordedAt());
 
@@ -208,9 +187,6 @@ final class LaunchStatisticsTest extends KernelTestBase {
 
   /**
    * An empty table reports zeroes rather than failing.
-   *
-   * @covers ::getTotal
-   * @covers ::getTopProjects
    */
   public function testEmptyTable(): void {
     $statistics = $this->statistics();

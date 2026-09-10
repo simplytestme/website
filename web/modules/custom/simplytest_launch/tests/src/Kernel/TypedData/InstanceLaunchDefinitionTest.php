@@ -6,12 +6,14 @@ use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_launch\Plugin\DataType\InstanceLaunch;
 use Drupal\simplytest_launch\TypedData\InstanceLaunchDefinition;
 use Drupal\simplytest_projects\CoreVersionManager;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 
-/**
- * @group simplytest
- * @group simplytest_launch
- */
+#[Group('simplytest')]
+#[Group('simplytest_launch')]
+#[RunTestsInSeparateProcesses]
 final class InstanceLaunchDefinitionTest extends KernelTestBase {
 
   protected static $modules = [
@@ -43,9 +45,7 @@ final class InstanceLaunchDefinitionTest extends KernelTestBase {
       ->execute();
   }
 
-  /**
-   * @dataProvider instanceLaunchData
-   */
+  #[DataProvider('instanceLaunchData')]
   public function testValidation(array $data, array $expected_violations) {
     $typed_data_manager = $this->container->get('typed_data_manager');
     $data = $typed_data_manager->create(InstanceLaunchDefinition::create(), $data);

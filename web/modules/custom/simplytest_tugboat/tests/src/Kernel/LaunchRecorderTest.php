@@ -7,15 +7,24 @@ use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_projects\ProjectTypes;
 use Drupal\simplytest_tugboat\LaunchRecord;
 use Drupal\simplytest_tugboat\LaunchRecorder;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
- * @group simplytest
- * @group simplytest_tugboat
- *
- * @coversDefaultClass \Drupal\simplytest_tugboat\LaunchRecorder
  *
  * @phpstan-import-type PreviewParameters from \Drupal\simplytest_tugboat\LaunchRecord
  */
+#[CoversClass(LaunchRecorder::class)]
+#[CoversMethod(LaunchRecorder::class, 'recordLaunch')]
+#[CoversMethod(LaunchRecorder::class, 'write')]
+#[CoversMethod(LaunchRecord::class, 'fromPreviewParameters')]
+#[CoversMethod(LaunchRecord::class, 'forOneClickDemo')]
+#[CoversMethod(LaunchRecorder::class, 'recordFailure')]
+#[Group('simplytest')]
+#[Group('simplytest_tugboat')]
+#[RunTestsInSeparateProcesses]
 final class LaunchRecorderTest extends KernelTestBase {
 
   protected static $modules = [
@@ -31,11 +40,6 @@ final class LaunchRecorderTest extends KernelTestBase {
     $this->installSchema('simplytest_tugboat', LaunchRecorder::TABLE_NAME);
   }
 
-  /**
-   * @covers ::recordLaunch
-   * @covers ::write
-   * @covers \Drupal\simplytest_tugboat\LaunchRecord::fromPreviewParameters
-   */
   public function testRecordLaunch(): void {
     $this->recorder()->recordLaunch(
       LaunchRecord::fromPreviewParameters($this->previewParameters()),
@@ -58,9 +62,6 @@ final class LaunchRecorderTest extends KernelTestBase {
 
   /**
    * The stored day matches the stored timestamp, in UTC.
-   *
-   * @covers ::recordLaunch
-   * @covers ::write
    */
   public function testRecordLaunchStoresMatchingDay(): void {
     $this->recorder()->recordLaunch(
@@ -74,8 +75,6 @@ final class LaunchRecorderTest extends KernelTestBase {
 
   /**
    * A manual install is stored as such.
-   *
-   * @covers \Drupal\simplytest_tugboat\LaunchRecord::fromPreviewParameters
    */
   public function testRecordLaunchWithManualInstall(): void {
     $parameters = $this->previewParameters();
@@ -87,10 +86,6 @@ final class LaunchRecorderTest extends KernelTestBase {
 
   /**
    * A one click demo records which demo ran and nothing else.
-   *
-   * @covers ::recordLaunch
-   * @covers ::write
-   * @covers \Drupal\simplytest_tugboat\LaunchRecord::forOneClickDemo
    */
   public function testRecordOneClickDemo(): void {
     $this->recorder()->recordLaunch(LaunchRecord::forOneClickDemo('umami'), 'preview-ocd');
@@ -104,9 +99,6 @@ final class LaunchRecorderTest extends KernelTestBase {
 
   /**
    * Writing a row invalidates whatever was rendered from the table.
-   *
-   * @covers ::recordLaunch
-   * @covers ::write
    */
   public function testRecordLaunchInvalidatesCacheTag(): void {
     $cache = $this->container->get('cache.default');
@@ -119,9 +111,6 @@ final class LaunchRecorderTest extends KernelTestBase {
 
   /**
    * A failed launch is recorded without a preview.
-   *
-   * @covers ::recordFailure
-   * @covers ::write
    */
   public function testRecordFailure(): void {
     $this->recorder()->recordFailure(LaunchRecord::fromPreviewParameters($this->previewParameters()));

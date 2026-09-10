@@ -7,16 +7,25 @@ namespace Drupal\Tests\simplytest_projects\Kernel;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\ProjectVersionManager;
+use PHPUnit\Framework\Attributes\CoversFunction;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Covers the module's update hooks.
  *
  * The schemas are deliberately not installed in setUp(): the update hooks are
  * what put them there, which is the behavior under test.
- *
- * @group simplytest
- * @group simplytest_project
  */
+#[CoversFunction('simplytest_projects_schema')]
+#[CoversFunction('simplytest_projects_update_9001')]
+#[CoversFunction('simplytest_projects_update_9002')]
+#[CoversFunction('simplytest_projects_update_9004')]
+#[CoversFunction('simplytest_projects_update_9005')]
+#[CoversFunction('simplytest_projects_update_9006')]
+#[Group('simplytest')]
+#[Group('simplytest_project')]
+#[RunTestsInSeparateProcesses]
 final class UpdateHooksTest extends KernelTestBase {
 
   protected static $modules = [
@@ -31,9 +40,6 @@ final class UpdateHooksTest extends KernelTestBase {
     $this->container->get('module_handler')->loadInclude('simplytest_projects', 'install');
   }
 
-  /**
-   * @covers ::simplytest_projects_schema
-   */
   public function testSchemaDefinition(): void {
     $schema = simplytest_projects_schema();
 
@@ -46,9 +52,6 @@ final class UpdateHooksTest extends KernelTestBase {
     );
   }
 
-  /**
-   * @covers ::simplytest_projects_update_9001
-   */
   public function testUpdate9001CreatesCoreVersionsTable(): void {
     $db_schema = $this->container->get('database')->schema();
     self::assertFalse($db_schema->tableExists(CoreVersionManager::TABLE_NAME));
@@ -58,9 +61,6 @@ final class UpdateHooksTest extends KernelTestBase {
     self::assertTrue($db_schema->tableExists(CoreVersionManager::TABLE_NAME));
   }
 
-  /**
-   * @covers ::simplytest_projects_update_9002
-   */
   public function testUpdate9002CreatesProjectVersionsTable(): void {
     $db_schema = $this->container->get('database')->schema();
     self::assertFalse($db_schema->tableExists(ProjectVersionManager::TABLE_NAME));
@@ -70,9 +70,6 @@ final class UpdateHooksTest extends KernelTestBase {
     self::assertTrue($db_schema->tableExists(ProjectVersionManager::TABLE_NAME));
   }
 
-  /**
-   * @covers ::simplytest_projects_update_9004
-   */
   public function testUpdate9004RefreshesCoreReleaseData(): void {
     simplytest_projects_update_9001();
     simplytest_projects_update_9002();
@@ -86,9 +83,6 @@ final class UpdateHooksTest extends KernelTestBase {
     self::assertNotEmpty($this->container->get('simplytest_projects.core_version_manager')->getVersions(10));
   }
 
-  /**
-   * @covers ::simplytest_projects_update_9005
-   */
   public function testUpdate9005ChangesVersionFieldsToIntegers(): void {
     simplytest_projects_update_9001();
 
@@ -111,9 +105,6 @@ final class UpdateHooksTest extends KernelTestBase {
     self::assertCount(1, $versions);
   }
 
-  /**
-   * @covers ::simplytest_projects_update_9006
-   */
   public function testUpdate9006RemovesLegacyQueueItems(): void {
     $database = $this->container->get('database');
     $database->schema()->createTable('queue', [

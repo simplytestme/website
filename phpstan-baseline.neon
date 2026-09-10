@@ -86,11 +86,6 @@ parameters:
 			path: web/modules/custom/simplytest_launch/src/Plugin/Validation/Constraint/PatchesUrlConstraintValidator.php
 
 		-
-			message: "#^Method Drupal\\\\simplytest_launch\\\\Plugin\\\\Validation\\\\Constraint\\\\PatchesUrlConstraintValidator\\:\\:validate\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_launch/src/Plugin/Validation/Constraint/PatchesUrlConstraintValidator.php
-
-		-
 			message: "#^Method Drupal\\\\simplytest_launch\\\\SimplytestLaunchServiceProvider\\:\\:alter\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_launch/src/SimplytestLaunchServiceProvider.php
@@ -900,11 +895,6 @@ parameters:
 
 		-
 			message: "#^Method Drupal\\\\Tests\\\\simplytest_tugboat\\\\Unit\\\\InstanceManagerTest\\:\\:testDrupal9WithAdditionals\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_tugboat/tests/src/Unit/InstanceManagerTest.php
-
-		-
-			message: "#^Method Drupal\\\\Tests\\\\simplytest_tugboat\\\\Unit\\\\InstanceManagerTest\\:\\:testPanopoly\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_tugboat/tests/src/Unit/InstanceManagerTest.php
 

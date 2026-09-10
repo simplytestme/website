@@ -7,7 +7,6 @@ use Drupal\Core\State\StateInterface;
 use Drupal\simplytest_projects\Exception\ReleaseHistoryNotModifiedException;
 use Drupal\update\UpdateFetcher;
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Psr7\Request;
 
 /**
  * Fetches release history.

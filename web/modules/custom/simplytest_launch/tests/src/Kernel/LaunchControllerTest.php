@@ -9,21 +9,30 @@ use Drupal\Core\Routing\LocalRedirectResponse;
 use Drupal\Core\Url;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_launch\Controller\SimplyTestLaunch;
+use Drupal\simplytest_launch\EventSubscriber\UnprocessableHttpExceptionSubscriber;
+use Drupal\simplytest_launch\Plugin\Validation\Constraint\CoreVersionConstraintValidator;
 use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
 use Drupal\simplytest_projects\ProjectTypes;
 use Drupal\simplytest_projects\ProjectVersionManager;
 use Drupal\simplytest_tugboat\LaunchRecorder;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
-/**
- * @group simplytest
- * @group simplytest_launch
- *
- * @coversDefaultClass \Drupal\simplytest_launch\Controller\SimplyTestLaunch
- */
+#[CoversClass(SimplyTestLaunch::class)]
+#[CoversMethod(SimplyTestLaunch::class, 'configure')]
+#[CoversMethod(SimplyTestLaunch::class, 'projectSelector')]
+#[CoversMethod(SimplyTestLaunch::class, 'launchProject')]
+#[CoversMethod(UnprocessableHttpExceptionSubscriber::class, 'on4xx')]
+#[CoversMethod(CoreVersionConstraintValidator::class, 'validate')]
+#[Group('simplytest')]
+#[Group('simplytest_launch')]
+#[RunTestsInSeparateProcesses]
 final class LaunchControllerTest extends KernelTestBase {
 
   protected static $modules = [
@@ -62,9 +71,6 @@ final class LaunchControllerTest extends KernelTestBase {
       ->execute();
   }
 
-  /**
-   * @covers ::configure
-   */
   public function testConfigure(): void {
     $url = Url::fromRoute('simplytest_launch.configure', [], [
       'query' => ['launcher' => 'custom-launcher'],
@@ -77,8 +83,6 @@ final class LaunchControllerTest extends KernelTestBase {
 
   /**
    * A project that is not stored yet is fetched before redirecting.
-   *
-   * @covers ::projectSelector
    */
   public function testProjectSelectorFetchesUnknownProject(): void {
     $response = $this->handleRedirect($this->selectorRequest('token', '8.x-1.9'));
@@ -94,8 +98,6 @@ final class LaunchControllerTest extends KernelTestBase {
 
   /**
    * A branch shorthand is expanded to the matching dev release.
-   *
-   * @covers ::projectSelector
    */
   public function testProjectSelectorExpandsBranchToDev(): void {
     $response = $this->handleRedirect($this->selectorRequest('token', '8.x-1.x'));
@@ -105,8 +107,6 @@ final class LaunchControllerTest extends KernelTestBase {
 
   /**
    * A known project with an unknown release refreshes its release history.
-   *
-   * @covers ::projectSelector
    */
   public function testProjectSelectorRefreshesMissingRelease(): void {
     // Store the project without any release data.
@@ -134,8 +134,6 @@ final class LaunchControllerTest extends KernelTestBase {
 
   /**
    * The redirect carries the cache metadata the launcher depends on.
-   *
-   * @covers ::projectSelector
    */
   public function testProjectSelectorCacheMetadata(): void {
     $this->createProject('token');
@@ -147,8 +145,6 @@ final class LaunchControllerTest extends KernelTestBase {
 
   /**
    * Extra query parameters are carried through to the configure page.
-   *
-   * @covers ::projectSelector
    */
   public function testProjectSelectorForwardsQueryParameters(): void {
     $this->createProject('token');
@@ -162,9 +158,6 @@ final class LaunchControllerTest extends KernelTestBase {
     self::assertStringContainsString('install_profile=umami', urldecode($response->getTargetUrl()));
   }
 
-  /**
-   * @covers ::launchProject
-   */
   public function testLaunchProject(): void {
     $this->createProject('token');
     $this->container->get('simplytest_projects.project_version_manager')->updateData('token');
@@ -190,9 +183,6 @@ final class LaunchControllerTest extends KernelTestBase {
 
   /**
    * Invalid submissions come back as a 422 listing every violation.
-   *
-   * @covers ::launchProject
-   * @covers \Drupal\simplytest_launch\EventSubscriber\UnprocessableHttpExceptionSubscriber::on4xx
    */
   public function testLaunchProjectWithInvalidSubmission(): void {
     $response = $this->handle($this->launchRequest([
@@ -211,8 +201,6 @@ final class LaunchControllerTest extends KernelTestBase {
 
   /**
    * A version that is not a known release is rejected.
-   *
-   * @covers ::launchProject
    */
   public function testLaunchProjectWithUnknownVersion(): void {
     $this->createProject('token');
@@ -240,9 +228,6 @@ final class LaunchControllerTest extends KernelTestBase {
    * The form only offers stored releases, but the endpoint takes any JSON, and
    * the value would otherwise reach the sandbox build and the public
    * statistics untouched.
-   *
-   * @covers ::launchProject
-   * @covers \Drupal\simplytest_launch\Plugin\Validation\Constraint\CoreVersionConstraintValidator::validate
    */
   public function testLaunchProjectWithUnknownCoreVersion(): void {
     $response = $this->handle($this->launchRequest([
@@ -267,8 +252,6 @@ final class LaunchControllerTest extends KernelTestBase {
 
   /**
    * Only the install profiles the form offers may be launched.
-   *
-   * @covers ::launchProject
    */
   public function testLaunchProjectWithUnknownInstallProfile(): void {
     $response = $this->handle($this->launchRequest([
@@ -297,8 +280,6 @@ final class LaunchControllerTest extends KernelTestBase {
    * The controller is called directly rather than through the kernel: a 5xx is
    * logged by core's exception subscriber, and KernelTestBase turns any logged
    * error into a test failure.
-   *
-   * @covers ::launchProject
    */
   public function testLaunchProjectWhenTugboatIsUnreachable(): void {
     $this->createProject('token');
@@ -325,8 +306,6 @@ final class LaunchControllerTest extends KernelTestBase {
 
   /**
    * A submission that is not an array at all is rejected, not fatal.
-   *
-   * @covers ::launchProject
    */
   public function testLaunchProjectWithUnusableSubmission(): void {
     $controller = SimplyTestLaunch::create($this->container);

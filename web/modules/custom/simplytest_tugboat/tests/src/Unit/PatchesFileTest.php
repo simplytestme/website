@@ -6,13 +6,13 @@ use Drupal\simplytest_ocd\OneClickDemoPluginManager;
 use Drupal\simplytest_projects\ProjectTypes;
 use Drupal\simplytest_tugboat\PreviewConfigGenerator;
 use Drupal\Tests\UnitTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Tests the patches.json handed to composer-patches.
- *
- * @group simplytest
- * @group simplytest_tugboat
  */
+#[Group('simplytest')]
+#[Group('simplytest_tugboat')]
 final class PatchesFileTest extends UnitTestCase {
 
   /**
@@ -241,7 +241,7 @@ final class PatchesFileTest extends UnitTestCase {
    */
   private function getBuildCommands(array $overrides): array {
     $generator = new PreviewConfigGenerator(
-      $this->createMock(OneClickDemoPluginManager::class)
+      $this->createStub(OneClickDemoPluginManager::class)
     );
     $config = $generator->generate($overrides + [
       'perform_install' => TRUE,

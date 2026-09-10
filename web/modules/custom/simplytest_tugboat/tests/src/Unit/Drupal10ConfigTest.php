@@ -3,14 +3,13 @@
 namespace Drupal\Tests\simplytest_tugboat\Unit;
 
 use Drupal\Component\Utility\Crypt;
-use Drupal\simplytest_projects\ProjectTypes;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Tests Drupal 9 preview config.
- *
- * @group simplytest
- * @group simplytest_tugboat
  */
+#[Group('simplytest')]
+#[Group('simplytest_tugboat')]
 final class Drupal10ConfigTest extends TugboatConfigTestBase {
 
   /**

@@ -5,6 +5,7 @@ namespace Drupal\Tests\simplytest_tugboat\Unit;
 use Drupal\simplytest_ocd\OneClickDemoPluginManager;
 use Drupal\simplytest_tugboat\PreviewConfigGenerator;
 use Drupal\Tests\UnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Base test class for testing Tugboat configuration generation.
@@ -30,16 +31,15 @@ abstract class TugboatConfigTestBase extends UnitTestCase {
   protected function setUp(): void {
     parent::setUp();
     $this->previewConfigGenerator = new PreviewConfigGenerator(
-      $this->createMock(OneClickDemoPluginManager::class)
+      $this->createStub(OneClickDemoPluginManager::class)
     );
   }
 
   /**
    * @param array $parameters
    * @param array $expected_config
-   *
-   * @dataProvider configData
    */
+  #[DataProvider('configData')]
   public function testConfigData(array $parameters, array $expected_config) {
     $generated_config = $this->previewConfigGenerator->generate($parameters);
     self::assertEquals([

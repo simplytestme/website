@@ -36,7 +36,7 @@ final class PatchesUrlConstraintValidator extends UrlValidator implements Contai
    * {@inheritdoc}
    */
   #[\Override]
-  public function validate($value, Constraint $constraint): void {
+  public function validate(mixed $value, Constraint $constraint): void {
     parent::validate($value, $constraint);
     $value = (string) $value;
     if ('' === $value) {

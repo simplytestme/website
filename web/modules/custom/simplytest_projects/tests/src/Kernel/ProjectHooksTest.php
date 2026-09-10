@@ -7,7 +7,6 @@ namespace Drupal\Tests\simplytest_projects\Kernel;
 use Drupal\Core\Cache\CacheableResponse;
 use Drupal\Core\EventSubscriber\FinishResponseSubscriber;
 use Drupal\Core\Routing\RouteObjectInterface;
-use Drupal\Core\Url;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
@@ -15,6 +14,10 @@ use Drupal\simplytest_projects\EventSubscriber\ModifyMaxAgeResponseSubscriber;
 use Drupal\simplytest_projects\ProjectTypes;
 use Drupal\simplytest_projects\ProjectVersionManager;
 use Drupal\simplytest_projects\SimplytestProjectListBuilder;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
@@ -23,10 +26,14 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * Covers the module's procedural hooks and its entity list builder.
- *
- * @group simplytest
- * @group simplytest_project
  */
+#[CoversMethod(SimplytestProjectListBuilder::class, 'buildHeader')]
+#[CoversMethod(SimplytestProjectListBuilder::class, 'buildRow')]
+#[CoversMethod(ModifyMaxAgeResponseSubscriber::class, 'getSubscribedEvents')]
+#[CoversMethod(ModifyMaxAgeResponseSubscriber::class, 'onResponse')]
+#[Group('simplytest')]
+#[Group('simplytest_project')]
+#[RunTestsInSeparateProcesses]
 final class ProjectHooksTest extends KernelTestBase {
 
   protected static $modules = [
@@ -109,10 +116,6 @@ final class ProjectHooksTest extends KernelTestBase {
     self::assertNotEmpty($after);
   }
 
-  /**
-   * @covers \Drupal\simplytest_projects\SimplytestProjectListBuilder::buildHeader
-   * @covers \Drupal\simplytest_projects\SimplytestProjectListBuilder::buildRow
-   */
   public function testListBuilder(): void {
     $project = $this->createProject('token');
 
@@ -140,8 +143,6 @@ final class ProjectHooksTest extends KernelTestBase {
    * Core's FinishResponseSubscriber rebuilds the header from scratch at
    * priority 0, and http_cache_control adds s-maxage at -10. A subscriber that
    * runs before either of them has its work thrown away.
-   *
-   * @covers \Drupal\simplytest_projects\EventSubscriber\ModifyMaxAgeResponseSubscriber::getSubscribedEvents
    */
   public function testSubscriberRunsAfterCoreCacheControl(): void {
     $call_order = [];
@@ -156,9 +157,6 @@ final class ProjectHooksTest extends KernelTestBase {
     self::assertGreaterThan($core, $ours);
   }
 
-  /**
-   * @covers \Drupal\simplytest_projects\EventSubscriber\ModifyMaxAgeResponseSubscriber::onResponse
-   */
   public function testMaxAgeIsShortenedOnProjectRoutes(): void {
     $response = self::publicResponse();
     $this->dispatchResponse($response, 'simplytest_projects.core_versions');
@@ -178,8 +176,6 @@ final class ProjectHooksTest extends KernelTestBase {
    * 0, before this subscriber runs, and Fastly prefers that header over
    * s-maxage. Left alone, the edge would keep these routes for the site-wide
    * 32 days.
-   *
-   * @covers \Drupal\simplytest_projects\EventSubscriber\ModifyMaxAgeResponseSubscriber::onResponse
    */
   public function testSurrogateControlIsCappedForTheCdn(): void {
     $response = self::publicResponse();
@@ -193,11 +189,7 @@ final class ProjectHooksTest extends KernelTestBase {
     );
   }
 
-  /**
-   * @dataProvider untouchedResponses
-   *
-   * @covers \Drupal\simplytest_projects\EventSubscriber\ModifyMaxAgeResponseSubscriber::onResponse
-   */
+  #[DataProvider('untouchedResponses')]
   public function testMaxAgeIsUntouched(Response $response, string $route_name, int $request_type): void {
     $before = self::maxAge($response);
     $this->dispatchResponse($response, $route_name, $request_type);

@@ -9,15 +9,19 @@ use Drupal\Core\Queue\SuspendQueueException;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
+use Drupal\simplytest_projects\Plugin\QueueWorker\ProjectRefresher;
 use Drupal\simplytest_projects\ProjectTypes;
 use Drupal\simplytest_projects\ProjectVersionManager;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
-/**
- * @group simplytest
- * @group simplytest_project
- *
- * @coversDefaultClass \Drupal\simplytest_projects\Plugin\QueueWorker\ProjectRefresher
- */
+#[CoversClass(ProjectRefresher::class)]
+#[CoversMethod(ProjectRefresher::class, 'processItem')]
+#[Group('simplytest')]
+#[Group('simplytest_project')]
+#[RunTestsInSeparateProcesses]
 final class ProjectRefresherTest extends KernelTestBase {
 
   protected static $modules = [
@@ -36,9 +40,6 @@ final class ProjectRefresherTest extends KernelTestBase {
       ->createInstance('simplytest_projects_project_refresher');
   }
 
-  /**
-   * @covers ::processItem
-   */
   public function testProcessItem(): void {
     $project = $this->createProject('token');
     $this->setTimestamp($project, 0);
@@ -59,8 +60,6 @@ final class ProjectRefresherTest extends KernelTestBase {
 
   /**
    * A queue item pointing at a deleted project is logged and dropped.
-   *
-   * @covers ::processItem
    */
   public function testProcessItemForMissingProject(): void {
     $this->sut->processItem(9999);
@@ -73,8 +72,6 @@ final class ProjectRefresherTest extends KernelTestBase {
 
   /**
    * A 5xx from Drupal.org suspends the queue rather than burning items.
-   *
-   * @covers ::processItem
    */
   public function testProcessItemSuspendsQueueWhenDrupalOrgIsDown(): void {
     // Insert directly: creating the entity would trip the same mocked
@@ -97,8 +94,6 @@ final class ProjectRefresherTest extends KernelTestBase {
 
   /**
    * A project without release history still gets its timestamp bumped.
-   *
-   * @covers ::processItem
    */
   public function testProcessItemToleratesOtherApiFailures(): void {
     $project = $this->createProject('notfound');
@@ -111,8 +106,6 @@ final class ProjectRefresherTest extends KernelTestBase {
 
   /**
    * A project that no longer validates is logged instead of throwing.
-   *
-   * @covers ::processItem
    */
   public function testProcessItemLogsValidationErrors(): void {
     $project = $this->createProject('token');

@@ -6,10 +6,14 @@ use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_projects\ProjectVersionManager;
 use Drupal\Tests\simplytest_projects\Traits\MockedReleaseHttpClientTrait;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
-/**
- * @coversDefaultClass \Drupal\simplytest_projects\ProjectVersionManager
- */
+#[CoversClass(ProjectVersionManager::class)]
+#[CoversMethod(ProjectVersionManager::class, 'updateData')]
+#[CoversMethod(ProjectVersionManager::class, 'getAllReleases')]
+#[RunTestsInSeparateProcesses]
 final class ProjectVersionManagerTest extends KernelTestBase {
 
   use MockedReleaseHttpClientTrait;
@@ -20,6 +24,7 @@ final class ProjectVersionManagerTest extends KernelTestBase {
 
   private ProjectVersionManager $sut;
 
+  #[\Override]
   public function register(ContainerBuilder $container): void {
     parent::register($container);
     self::registerWithContainer($container, $this);
@@ -31,9 +36,6 @@ final class ProjectVersionManagerTest extends KernelTestBase {
     $this->sut = $this->container->get('simplytest_projects.project_version_manager');
   }
 
-  /**
-   * @covers ::updateData
-   */
   public function testUpdateData(): void {
     $this->sut->updateData('pathauto');
     $database = $this->container->get('database');
@@ -52,8 +54,6 @@ final class ProjectVersionManagerTest extends KernelTestBase {
    * A conditional request is only valid while the previous fetch's rows are
    * still stored; when they are gone, a 304 must not leave the project
    * permanently versionless.
-   *
-   * @covers ::updateData
    */
   public function testUpdateDataRefetchesWhenRowsAreGone(): void {
     $this->sut->updateData('pathauto');
@@ -85,9 +85,6 @@ final class ProjectVersionManagerTest extends KernelTestBase {
     self::assertEquals(1, $count);
   }
 
-  /**
-   * @covers ::getAllReleases
-   */
   public function testGetAllReleases(): void {
     $this->sut->updateData('pathauto');
     $releases = $this->sut->getAllReleases('pathauto');

@@ -8,15 +8,22 @@ use Drupal\simplytest_ocd\OneClickDemoInterface;
 use Drupal\simplytest_ocd\OneClickDemoPluginManager;
 use Drupal\simplytest_tugboat\PreviewConfigGenerator;
 use Drupal\Tests\UnitTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Covers the config a base preview is built from.
  *
- * @group simplytest
- * @group simplytest_tugboat
  *
- * @coversDefaultClass \Drupal\simplytest_tugboat\PreviewConfigGenerator
  */
+#[CoversClass(PreviewConfigGenerator::class)]
+#[CoversMethod(PreviewConfigGenerator::class, 'basePreview')]
+#[CoversMethod(PreviewConfigGenerator::class, 'generate')]
+#[CoversMethod(PreviewConfigGenerator::class, 'majorVersionFromBaseName')]
+#[Group('simplytest')]
+#[Group('simplytest_tugboat')]
 final class BasePreviewConfigTest extends UnitTestCase {
 
   private PreviewConfigGenerator $sut;
@@ -38,10 +45,8 @@ final class BasePreviewConfigTest extends UnitTestCase {
 
   /**
    * A base only has an init stage, on the images its sandboxes use.
-   *
-   * @covers ::basePreview
-   * @dataProvider baseImages
    */
+  #[DataProvider('baseImages')]
   public function testImagesMatchTheSandboxConfig(string $name, string $php, string $mysql): void {
     $config = $this->sut->basePreview($name);
 
@@ -69,8 +74,6 @@ final class BasePreviewConfigTest extends UnitTestCase {
 
   /**
    * The init stage carries what every sandbox build used to repeat.
-   *
-   * @covers ::basePreview
    */
   public function testInitCommands(): void {
     $init = $this->sut->basePreview('drupal10')['services']['php']['commands']['init'];
@@ -93,8 +96,6 @@ final class BasePreviewConfigTest extends UnitTestCase {
 
   /**
    * Each release line's base holds a project at its newest release.
-   *
-   * @covers ::basePreview
    */
   public function testProjectPerReleaseLine(): void {
     $init = static fn (array $config): string => implode("\n", $config['services']['php']['commands']['init']);
@@ -109,8 +110,6 @@ final class BasePreviewConfigTest extends UnitTestCase {
 
   /**
    * A demo's base is the installed demo, so a launch can clone it.
-   *
-   * @covers ::basePreview
    */
   public function testDemoBaseIsTheInstalledDemo(): void {
     $init = $this->sut->basePreview('umami')['services']['php']['commands']['init'];
@@ -122,9 +121,6 @@ final class BasePreviewConfigTest extends UnitTestCase {
     self::assertGreaterThan(array_search('rm -rf "${DOCROOT}"', $init, TRUE), array_search('drush si demo_umami', $init, TRUE));
   }
 
-  /**
-   * @covers ::basePreview
-   */
   public function testUnknownBaseIsRefused(): void {
     $this->expectException(\InvalidArgumentException::class);
     $this->sut->basePreview('nonsense');
@@ -132,8 +128,6 @@ final class BasePreviewConfigTest extends UnitTestCase {
 
   /**
    * A sandbox reuses the base's project when it holds the requested release.
-   *
-   * @covers ::generate
    */
   public function testSandboxReusesBaseProject(): void {
     $build = $this->sut->generate([
@@ -160,9 +154,6 @@ final class BasePreviewConfigTest extends UnitTestCase {
     self::assertContains('cd "${TUGBOAT_ROOT}/stm" && composer require --dev --no-install drupal/core:11.2.2', $build);
   }
 
-  /**
-   * @covers ::majorVersionFromBaseName
-   */
   public function testMajorVersionFromBaseName(): void {
     self::assertEquals(10, PreviewConfigGenerator::majorVersionFromBaseName('drupal10'));
     self::assertEquals(7, PreviewConfigGenerator::majorVersionFromBaseName('drupal7'));

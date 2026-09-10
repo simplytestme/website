@@ -10,13 +10,28 @@ use Drupal\simplytest_projects\Entity\SimplytestProject;
 use Drupal\simplytest_projects\Exception\EntityValidationException;
 use Drupal\simplytest_projects\ProjectTypes;
 use Drupal\simplytest_projects\ProjectVersionManager;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
-/**
- * @group simplytest
- * @group simplytest_project
- *
- * @coversDefaultClass \Drupal\simplytest_projects\Entity\SimplytestProject
- */
+#[CoversClass(SimplytestProject::class)]
+#[CoversMethod(SimplytestProject::class, 'label')]
+#[CoversMethod(SimplytestProject::class, 'getShortname')]
+#[CoversMethod(SimplytestProject::class, 'getType')]
+#[CoversMethod(SimplytestProject::class, 'getCreator')]
+#[CoversMethod(SimplytestProject::class, 'isSandbox')]
+#[CoversMethod(SimplytestProject::class, 'getTimestamp')]
+#[CoversMethod(SimplytestProject::class, 'getGitUrl')]
+#[CoversMethod(SimplytestProject::class, 'getGitWebUrl')]
+#[CoversMethod(SimplytestProject::class, 'getProjectUrl')]
+#[CoversMethod(SimplytestProject::class, 'getCreatorEscaped')]
+#[CoversMethod(SimplytestProject::class, 'getVersions')]
+#[CoversMethod(SimplytestProject::class, 'setVersions')]
+#[CoversMethod(SimplytestProject::class, 'preSave')]
+#[Group('simplytest')]
+#[Group('simplytest_project')]
+#[RunTestsInSeparateProcesses]
 final class SimplytestProjectEntityTest extends KernelTestBase {
 
   protected static $modules = [
@@ -31,14 +46,6 @@ final class SimplytestProjectEntityTest extends KernelTestBase {
     $this->installSchema('simplytest_projects', ProjectVersionManager::TABLE_NAME);
   }
 
-  /**
-   * @covers ::label
-   * @covers ::getShortname
-   * @covers ::getType
-   * @covers ::getCreator
-   * @covers ::isSandbox
-   * @covers ::getTimestamp
-   */
   public function testFullProjectAccessors(): void {
     $project = $this->createProject([
       'title' => 'Token',
@@ -56,11 +63,6 @@ final class SimplytestProjectEntityTest extends KernelTestBase {
     self::assertGreaterThan(0, $project->getTimestamp());
   }
 
-  /**
-   * @covers ::getGitUrl
-   * @covers ::getGitWebUrl
-   * @covers ::getProjectUrl
-   */
   public function testFullProjectUrls(): void {
     $project = $this->createProject([
       'title' => 'Token',
@@ -74,12 +76,6 @@ final class SimplytestProjectEntityTest extends KernelTestBase {
     self::assertEquals('https://www.drupal.org/project/token', $project->getProjectUrl());
   }
 
-  /**
-   * @covers ::getGitUrl
-   * @covers ::getGitWebUrl
-   * @covers ::getProjectUrl
-   * @covers ::getCreatorEscaped
-   */
   public function testSandboxProjectUrls(): void {
     $project = $this->createProject([
       'title' => 'A sandbox',
@@ -97,10 +93,6 @@ final class SimplytestProjectEntityTest extends KernelTestBase {
     self::assertEquals('https://www.drupal.org/sandbox/someuser!/a_sandbox', $project->getProjectUrl());
   }
 
-  /**
-   * @covers ::getVersions
-   * @covers ::setVersions
-   */
   public function testVersions(): void {
     $project = $this->createProject([
       'title' => 'Token',
@@ -119,9 +111,6 @@ final class SimplytestProjectEntityTest extends KernelTestBase {
     ], $project->getVersions());
   }
 
-  /**
-   * @covers ::preSave
-   */
   public function testPreSaveRejectsDuplicateShortname(): void {
     $this->createProject([
       'title' => 'Token',

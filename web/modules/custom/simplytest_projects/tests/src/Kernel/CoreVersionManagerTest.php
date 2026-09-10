@@ -8,14 +8,20 @@ use Drupal\simplytest_projects\CoreVersionManager;
 use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Psr\Http\Message\RequestInterface;
 
-/**
- * @group simplytest
- * @group simplytest_project
- *
- * @coversDefaultClass \Drupal\simplytest_projects\CoreVersionManager
- */
+#[CoversClass(CoreVersionManager::class)]
+#[CoversMethod(CoreVersionManager::class, 'updateData')]
+#[CoversMethod(CoreVersionManager::class, 'hasVersion')]
+#[CoversMethod(CoreVersionManager::class, 'getVersions')]
+#[Group('simplytest')]
+#[Group('simplytest_project')]
+#[RunTestsInSeparateProcesses]
 final class CoreVersionManagerTest extends KernelTestBase {
 
   protected static $modules = [
@@ -38,6 +44,7 @@ final class CoreVersionManagerTest extends KernelTestBase {
     $this->sut = $this->container->get('simplytest_projects.core_version_manager');
   }
 
+  #[\Override]
   public function register(ContainerBuilder $container): void {
     parent::register($container);
     $container->register(self::class, self::class)
@@ -66,8 +73,6 @@ final class CoreVersionManagerTest extends KernelTestBase {
 
   /**
    * Core release data comes from updates.drupal.org, conditionally.
-   *
-   * @covers ::updateData
    */
   public function testConditionalRequests(): void {
     $this->sut->updateData(8);
@@ -89,9 +94,6 @@ final class CoreVersionManagerTest extends KernelTestBase {
     );
   }
 
-  /**
-   * @covers ::hasVersion
-   */
   public function testHasVersion(): void {
     self::assertFalse($this->sut->hasVersion('11.2.3'));
 
@@ -103,9 +105,6 @@ final class CoreVersionManagerTest extends KernelTestBase {
   }
 
   /**
-   * @dataProvider coreVersionData
-   * @covers ::updateData
-   * @covers ::getVersions
    *
    * @param int $major_version
    *   The test major version.
@@ -116,6 +115,7 @@ final class CoreVersionManagerTest extends KernelTestBase {
    *
    * @throws \Exception
    */
+  #[DataProvider('coreVersionData')]
   public function testReleaseData(int $major_version, int $expected_count, array $expected_result_sample): void {
     $this->sut->updateData($major_version);
     $results = $this->sut->getVersions($major_version);
