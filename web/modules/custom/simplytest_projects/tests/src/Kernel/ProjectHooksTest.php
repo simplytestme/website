@@ -100,11 +100,13 @@ final class ProjectHooksTest extends KernelTestBase {
    */
   public function testProjectInsertFetchesReleases(): void {
     $version_manager = $this->container->get('simplytest_projects.project_version_manager');
-    self::assertEmpty($version_manager->getAllReleases('token'));
+    $before = $version_manager->getAllReleases('token');
+    self::assertEmpty($before);
 
     $this->createProject('token');
 
-    self::assertNotEmpty($version_manager->getAllReleases('token'));
+    $after = $version_manager->getAllReleases('token');
+    self::assertNotEmpty($after);
   }
 
   /**

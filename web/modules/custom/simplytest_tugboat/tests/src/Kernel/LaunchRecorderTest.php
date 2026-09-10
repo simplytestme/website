@@ -13,6 +13,8 @@ use Drupal\simplytest_tugboat\LaunchRecorder;
  * @group simplytest_tugboat
  *
  * @coversDefaultClass \Drupal\simplytest_tugboat\LaunchRecorder
+ *
+ * @phpstan-import-type PreviewParameters from \Drupal\simplytest_tugboat\LaunchRecord
  */
 final class LaunchRecorderTest extends KernelTestBase {
 
@@ -145,7 +147,7 @@ final class LaunchRecorderTest extends KernelTestBase {
   }
 
   /**
-   * @return array<string, mixed>
+   * @return PreviewParameters
    */
   private function previewParameters(): array {
     return [

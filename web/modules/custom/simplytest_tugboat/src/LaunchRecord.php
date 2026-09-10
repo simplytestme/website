@@ -10,6 +10,23 @@ namespace Drupal\simplytest_tugboat;
  * somebody is testing, which is identifying in a way a bare count is not.
  *
  * @see \Drupal\simplytest_tugboat\LaunchRecorder
+ *
+ * The optional keys are the ones only the preview config generator reads; a
+ * launch record is built from the same array and ignores them.
+ *
+ * @phpstan-type PreviewParameters array{
+ *   project: string,
+ *   project_type: string,
+ *   project_version: string,
+ *   drupal_core_version: string,
+ *   install_profile: string,
+ *   perform_install: bool,
+ *   patches: array<mixed>,
+ *   additionals: array<mixed>,
+ *   instance_id?: string,
+ *   hash?: string,
+ *   major_version?: int,
+ * }
  */
 final readonly class LaunchRecord {
 
@@ -49,16 +66,7 @@ final readonly class LaunchRecord {
   /**
    * Builds a record from the preview parameters of a normal launch.
    *
-   * @param array{
-   *   project: string,
-   *   project_type: string,
-   *   project_version: string,
-   *   drupal_core_version: string,
-   *   install_profile: string,
-   *   perform_install: bool,
-   *   patches: array<mixed>,
-   *   additionals: array<mixed>,
-   * } $parameters
+   * @param PreviewParameters $parameters
    *   The parameters handed to the preview config generator.
    */
   public static function fromPreviewParameters(array $parameters): self {

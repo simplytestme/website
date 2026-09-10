@@ -321,10 +321,16 @@ class ProjectFetcher {
 
     $results = $query->execute()->fetchAll();
 
+    // Built key by key rather than cast wholesale: the query also selects
+    // `sandbox` and the `rank` expression, which order the results but are not
+    // part of what callers get.
     $projects = [];
     foreach ($results as $result) {
-      unset($result->sandbox, $result->rank);
-      $projects[] = (array) $result;
+      $projects[] = [
+        'title' => (string) $result->title,
+        'shortname' => (string) $result->shortname,
+        'type' => (string) $result->type,
+      ];
     }
 
     return $projects;

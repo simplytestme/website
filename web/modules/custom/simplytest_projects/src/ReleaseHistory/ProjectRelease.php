@@ -12,7 +12,10 @@ use Composer\Semver\Semver;
  * @property string $date
  * @property string $status
  *
- * @phpstan-type ReleaseTerms array{"Release type": list<string>}
+ * The release XML carries whatever terms Drupal.org has on the release, so
+ * the map is open; only "Release type" is ever read.
+ *
+ * @phpstan-type ReleaseTerms array<string, list<string>>
  * @phpstan-type ReleaseData array{name: string, core_compatibility: string, version: string, tag: string, date: string, status: string, terms: ReleaseTerms}
  */
 final class ProjectRelease {
