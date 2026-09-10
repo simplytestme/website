@@ -52,7 +52,7 @@ abstract class TugboatConfigTestBase extends UnitTestCase {
   /**
    * The test data.
    *
-   * @return \Generator
+   * @return \Generator<array-key, array{array<string, mixed>, array<string, mixed>}>
    */
   abstract public static function configData(): \Generator;
 

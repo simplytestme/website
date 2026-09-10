@@ -74,16 +74,25 @@ final class Processor {
           $release_data['core_compatibility'] = '8.x';
         }
 
-        $release_data['terms'] = [];
+        $terms = [];
         if ($release->terms) {
           foreach ($release->terms->children() as $term) {
-            if (!isset($release_data['terms'][(string) $term->name])) {
-              $release_data['terms'][(string) $term->name] = [];
-            }
-            $release_data['terms'][(string) $term->name][] = (string) $term->value;
+            $terms[(string) $term->name][] = (string) $term->value;
           }
         }
-        $data['releases'][$version] = new ProjectRelease($release_data);
+
+        // Built key by key rather than handed the whole parsed node: a release
+        // element carries plenty that nothing here reads, and this is the shape
+        // ProjectRelease documents.
+        $data['releases'][$version] = new ProjectRelease([
+          'name' => $release_data['name'] ?? '',
+          'core_compatibility' => $release_data['core_compatibility'],
+          'version' => $version,
+          'tag' => $release_data['tag'],
+          'date' => $release_data['date'],
+          'status' => $release_data['status'] ?? '',
+          'terms' => $terms,
+        ]);
       }
     }
     return $data;

@@ -41,10 +41,13 @@ class ProjectRefresher extends QueueWorkerBase implements ContainerFactoryPlugin
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    private readonly EntityTypeManagerInterface $entityTypeManager,
-    private readonly ProjectVersionManager $projectVersionManager,
-    private readonly LoggerInterface $logger,
-    private readonly TimeInterface $time,
+    // Not private and not readonly: DependencySerializationTrait, which
+    // QueueWorkerBase inherits, rehydrates these by reflection when the queue
+    // item is unserialized, and it can do neither on PHP 8.3.
+    protected EntityTypeManagerInterface $entityTypeManager,
+    protected ProjectVersionManager $projectVersionManager,
+    protected LoggerInterface $logger,
+    protected TimeInterface $time,
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
   }

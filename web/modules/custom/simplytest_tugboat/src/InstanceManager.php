@@ -142,11 +142,14 @@ class InstanceManager implements InstanceManagerInterface {
       // Send parameters.
       $parameters  = [
         'perform_install' => !$submission['manualInstall'],
-        'install_profile' => $submission['installProfile'],
-        'drupal_core_version' => $submission['drupalVersion'],
-        'project_type' => $project->type->value,
-        'project_version' => $project_version,
-        'project' => $project->shortname->value,
+        // Cast: the submission arrives as validated typed data and the entity
+        // fields are strings, but neither is typed as such at this point, and
+        // LaunchRecord stores them as strings.
+        'install_profile' => (string) $submission['installProfile'],
+        'drupal_core_version' => (string) $submission['drupalVersion'],
+        'project_type' => (string) $project->type->value,
+        'project_version' => (string) $project_version,
+        'project' => (string) $project->shortname->value,
         'patches' => array_filter($submission['project']['patches'] ?? []),
         // @todo do we need to map the versions at all?
         'additionals' => $additional_projects,

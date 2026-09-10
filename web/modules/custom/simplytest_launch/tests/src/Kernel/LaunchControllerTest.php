@@ -122,12 +122,14 @@ final class LaunchControllerTest extends KernelTestBase {
       ->execute();
 
     $version_manager = $this->container->get('simplytest_projects.project_version_manager');
-    self::assertEmpty($version_manager->getAllReleases('token'));
+    $before = $version_manager->getAllReleases('token');
+    self::assertEmpty($before);
 
     $response = $this->handle($this->selectorRequest('token', '8.x-1.9'));
 
     self::assertEquals(302, $response->getStatusCode());
-    self::assertNotEmpty($version_manager->getAllReleases('token'));
+    $after = $version_manager->getAllReleases('token');
+    self::assertNotEmpty($after);
   }
 
   /**

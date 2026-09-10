@@ -5,7 +5,7 @@ namespace Drupal\simplytest_ocd\Controller;
 use Drupal\Core\Cache\CacheableJsonResponse;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Url;
-use Drupal\simplytest_ocd\OneCLickDemoPluginManager;
+use Drupal\simplytest_ocd\OneClickDemoPluginManager;
 use Drupal\simplytest_tugboat\InstanceManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;

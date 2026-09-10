@@ -46,7 +46,8 @@
     },
     "require-dev": {
         "drupal/core-dev": "^11",
-        "rector/rector": "^1.2"
+        "palantirnet/drupal-rector": "^1.1",
+        "rector/rector": "^2.0"
     },
     "conflict": {
         "drupal/drupal": "*"

@@ -9,6 +9,13 @@ parameters:
 		entityMapping:
 			simplytest_project:
 				class: Drupal\simplytest_projects\Entity\SimplytestProject
+	ignoreErrors:
+		# EntityListBuilder::createInstance() hands the storage to the
+		# constructor, so a list builder cannot take the entity type manager
+		# instead without breaking core's own contract.
+		-
+			identifier: drupal.entityStorageDirectInjection
+			path: web/modules/custom/simplytest_projects/src/SimplytestProjectListBuilder.php
 includes:
 	- phpstan-baseline.neon
 	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
