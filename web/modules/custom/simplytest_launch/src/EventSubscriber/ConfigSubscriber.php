@@ -28,7 +28,7 @@ final readonly class ConfigSubscriber implements EventSubscriberInterface {
    * {@inheritdoc}
    */
   #[\Override]
-  public static function getSubscribedEvents() {
+  public static function getSubscribedEvents(): array {
     $events[ConfigEvents::SAVE][] = ['onSave'];
     return $events;
   }

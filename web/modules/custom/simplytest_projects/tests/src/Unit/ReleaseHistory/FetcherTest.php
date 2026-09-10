@@ -52,7 +52,7 @@ final class FetcherTest extends ReleaseHistoryUnitTestBase {
     $sut->getProjectData('pathauto', $channel);
   }
 
-  public function releaseChannelData(): \Generator {
+  public static function releaseChannelData(): \Generator {
     yield ['current', FALSE];
     yield ['7.x', FALSE];
     yield ['6.x', TRUE];

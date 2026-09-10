@@ -109,8 +109,8 @@ final class SimplytestProjectEntityTest extends KernelTestBase {
       'type' => ProjectTypes::MODULE,
     ]);
 
-    // The map field carries an empty default rather than a missing value.
-    self::assertEquals(['' => ''], $project->getVersions());
+    // A project that has never been refreshed carries no version data.
+    self::assertEquals([], $project->getVersions());
 
     $project->setVersions(['8.x-1.9', '8.x-1.10'], ['8.x-1.x']);
     self::assertEquals([

@@ -2,19 +2,20 @@
 
 namespace Drupal\simplytest_ocd\Plugin\OneClickDemo;
 
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\simplytest_ocd\Attribute\OneClickDemo;
 use Drupal\simplytest_ocd\OneClickDemoInterface;
 
 /**
  * Provides one click demo for umami.
- *
- * @OneClickDemo(
- *   id = "oneclickdemo_umami",
- *   title = @Translation("Umami"),
- *   base_preview_name = "umami",
- *   description = @Translation("Core's demo profile. The quickest way to show content modelling."),
- *   weight = 2,
- * )
  */
+#[OneClickDemo(
+  id: "oneclickdemo_umami",
+  title: new TranslatableMarkup("Umami"),
+  base_preview_name: "umami",
+  description: new TranslatableMarkup("Core's demo profile. The quickest way to show content modelling."),
+  weight: 2,
+)]
 class Umami extends OneClickDemoBase {
 
   #[\Override]

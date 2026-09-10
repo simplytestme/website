@@ -73,7 +73,7 @@ final class LaunchStatisticsComponentTest extends KernelTestBase {
     $props['daily'] = [['date' => '2026-09-02']];
 
     $this->expectException(InvalidComponentException::class);
-    $this->expectExceptionMessage('[daily[0].total] The property total is required');
+    $this->expectExceptionMessage('[simplytest_tugboat:launch-statistics/daily[0].total] The property total is required');
     $this->validate($props);
   }
 
@@ -85,7 +85,7 @@ final class LaunchStatisticsComponentTest extends KernelTestBase {
     $props['projects'] = [['name' => 'token', 'total' => 'three']];
 
     $this->expectException(InvalidComponentException::class);
-    $this->expectExceptionMessage('[projects[0].total] String value found, but an integer is required');
+    $this->expectExceptionMessage('[simplytest_tugboat:launch-statistics/projects[0].total] String value found, but an integer is required');
     $this->validate($props);
   }
 
@@ -97,7 +97,7 @@ final class LaunchStatisticsComponentTest extends KernelTestBase {
     unset($props['totals']);
 
     $this->expectException(InvalidComponentException::class);
-    $this->expectExceptionMessage('[totals] The property totals is required');
+    $this->expectExceptionMessage('[simplytest_tugboat:launch-statistics/totals] The property totals is required');
     $this->validate($props);
   }
 

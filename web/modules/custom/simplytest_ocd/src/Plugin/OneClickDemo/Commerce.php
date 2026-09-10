@@ -2,17 +2,19 @@
 
 namespace Drupal\simplytest_ocd\Plugin\OneClickDemo;
 
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\simplytest_ocd\Attribute\OneClickDemo;
+
 /**
  * Provides one click demo for commerce.
- *
- * @OneClickDemo(
- *   id = "oneclickdemo_commerce",
- *   title = @Translation("Commerce Kickstart"),
- *   base_preview_name = "commerce",
- *   description = @Translation("A working storefront on Drupal Commerce: catalog, cart and checkout."),
- *   weight = 1,
- * )
  */
+#[OneClickDemo(
+  id: "oneclickdemo_commerce",
+  title: new TranslatableMarkup("Commerce Kickstart"),
+  base_preview_name: "commerce",
+  description: new TranslatableMarkup("A working storefront on Drupal Commerce: catalog, cart and checkout."),
+  weight: 1,
+)]
 class Commerce extends OneClickDemoBase {
 
   #[\Override]

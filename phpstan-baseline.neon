@@ -399,11 +399,6 @@ parameters:
 			path: web/modules/custom/simplytest_projects/src/Form/ImportForm.php
 
 		-
-			message: "#^Method Drupal\\\\simplytest_projects\\\\Form\\\\ImportForm\\:\\:create\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_projects/src/Form/ImportForm.php
-
-		-
 			message: "#^Method Drupal\\\\simplytest_projects\\\\Form\\\\ImportForm\\:\\:submitForm\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/src/Form/ImportForm.php

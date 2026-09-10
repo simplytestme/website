@@ -33,7 +33,6 @@ final class InstanceLaunchDefinition extends ComplexDataDefinitionBase {
     $properties = [];
     $properties['project'] = ProjectInfoDefinition::create()
       ->setLabel(new TranslatableMarkup('Project details'))
-      ->addConstraint('ComplexData')
       ->setRequired(TRUE);
     $properties['drupalVersion'] = DataDefinition::create('string')
       ->setLabel(new TranslatableMarkup('Drupal version'))

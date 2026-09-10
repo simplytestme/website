@@ -126,7 +126,7 @@ final class CoreVersionManagerTest extends KernelTestBase {
     $this->assertContains($expected_result_sample, array_map(static fn(object $result) => (array) $result, $results));
   }
 
-  public function coreVersionData(): \Generator {
+  public static function coreVersionData(): \Generator {
     yield [9, 2, [
       'version' => '9.4.0',
       'major' => '9',

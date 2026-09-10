@@ -2,11 +2,10 @@
 
 namespace Drupal\simplytest_ocd;
 
-use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
-use Drupal\simplytest_ocd\Annotation\OneClickDemo;
-use Drupal\simplytest_ocd\OneClickDemoInterface;
+use Drupal\Core\Plugin\DefaultPluginManager;
+use Drupal\simplytest_ocd\Attribute\OneClickDemo;
 
 /**
  * Simplytest OCD plugin manager.
@@ -30,7 +29,7 @@ class OneClickDemoPluginManager extends DefaultPluginManager {
       $namespaces,
       $module_handler,
       OneClickDemoInterface::class,
-      OneClickDemo::class
+      OneClickDemo::class,
     );
 
     $this->alterInfo('oneclickdemo');

@@ -2,18 +2,20 @@
 
 namespace Drupal\simplytest_ocd\Plugin\OneClickDemo;
 
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\simplytest_ocd\Attribute\OneClickDemo;
+
 /**
  * Provides one click demo for umami.
- *
- * @OneClickDemo(
- *   id = "starshot",
- *   title = @Translation("Drupal CMS"),
- *   base_preview_name = "starshot",
- *   description = @Translation("The new default Drupal, with smart defaults and installable recipes."),
- *   weight = 0,
- *   recommended = TRUE,
- * )
  */
+#[OneClickDemo(
+  id: "starshot",
+  title: new TranslatableMarkup("Drupal CMS"),
+  base_preview_name: "starshot",
+  description: new TranslatableMarkup("The new default Drupal, with smart defaults and installable recipes."),
+  weight: 0,
+  recommended: TRUE,
+)]
 class Starshot extends OneClickDemoBase {
 
   #[\Override]
