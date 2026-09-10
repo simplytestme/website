@@ -4,7 +4,6 @@ namespace Drupal\simplytest_ocd\Plugin\OneClickDemo;
 
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\simplytest_ocd\Attribute\OneClickDemo;
-use Drupal\simplytest_ocd\OneClickDemoInterface;
 
 /**
  * Provides one click demo for umami.

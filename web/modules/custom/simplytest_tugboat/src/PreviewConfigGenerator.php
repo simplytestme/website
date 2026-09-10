@@ -2,7 +2,6 @@
 
 namespace Drupal\simplytest_tugboat;
 
-use Composer\Semver\Semver;
 use Drupal\simplytest_ocd\OneClickDemoInterface;
 use Drupal\simplytest_ocd\OneClickDemoPluginManager;
 use Drupal\simplytest_projects\ProjectTypes;

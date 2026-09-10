@@ -6,23 +6,24 @@ namespace Drupal\Tests\simplytest_projects\Kernel;
 
 use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\KernelTests\KernelTestBase;
-use Drupal\simplytest_projects\Http\Middleware\RetryMiddleware;
-use GuzzleHttp\Exception\ConnectException;
+use Drupal\simplytest_projects\Http\Middleware\RetryMiddlewareFactory;
 use GuzzleHttp\Promise\FulfilledPromise;
-use GuzzleHttp\Promise\RejectedPromise;
 use GuzzleHttp\Promise\PromiseInterface;
-use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Psr\Http\Message\RequestInterface;
 
 /**
  * Tests the RetryMiddleware.
  *
- * @group simplytest
- * @group simplytest_project
  *
- * @coversDefaultClass \Drupal\simplytest_projects\Http\Middleware\RetryMiddlewareFactory
  */
+#[CoversClass(RetryMiddlewareFactory::class)]
+#[Group('simplytest')]
+#[Group('simplytest_project')]
+#[RunTestsInSeparateProcesses]
 final class RetryMiddlewareTest extends KernelTestBase
 {
 
@@ -43,6 +44,7 @@ final class RetryMiddlewareTest extends KernelTestBase
   /**
    * {@inheritdoc}
    */
+  #[\Override]
   public function register(ContainerBuilder $container): void
   {
     parent::register($container);

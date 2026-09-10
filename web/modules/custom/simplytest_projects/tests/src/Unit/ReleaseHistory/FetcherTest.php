@@ -10,12 +10,13 @@ use Drupal\simplytest_projects\Exception\ReleaseHistoryNotModifiedException;
 use Drupal\simplytest_projects\ReleaseHistory\Fetcher;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Tests fetching release data
- *
- * @coversDefaultClass \Drupal\simplytest_projects\ReleaseHistory\Fetcher
  */
+#[CoversClass(Fetcher::class)]
 final class FetcherTest extends ReleaseHistoryUnitTestBase {
 
   public function testLastModified() {
@@ -29,9 +30,8 @@ final class FetcherTest extends ReleaseHistoryUnitTestBase {
   /**
    * @param string $channel
    * @param bool $expected_exception
-   *
-   * @dataProvider releaseChannelData
    */
+  #[DataProvider('releaseChannelData')]
   public function testValidReleaseChannels(string $channel, bool $expected_exception): void {
     $state = new State(new KeyValueMemoryFactory(), new NullBackend('bootstrap'), new NullLockBackend());
 

@@ -4,22 +4,30 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\simplytest_tugboat\Kernel;
 
+use Drupal\simplytest_tugboat\InstanceManager;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
 use Drupal\simplytest_projects\ProjectTypes;
 use Drupal\simplytest_projects\ProjectVersionManager;
-use Drupal\simplytest_tugboat\LaunchRecorder;
 use Drupal\simplytest_tugboat\InstanceManagerInterface;
+use Drupal\simplytest_tugboat\LaunchRecorder;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Covers the launch paths the happy-path test does not reach.
  *
- * @group simplytest
- * @group simplytest_tugboat
  *
- * @coversDefaultClass \Drupal\simplytest_tugboat\InstanceManager
  */
+#[CoversClass(InstanceManager::class)]
+#[CoversMethod(InstanceManager::class, 'loadPreviewId')]
+#[CoversMethod(InstanceManager::class, 'launchInstance')]
+#[Group('simplytest')]
+#[Group('simplytest_tugboat')]
+#[RunTestsInSeparateProcesses]
 final class InstanceManagerBranchesTest extends KernelTestBase {
 
   protected static $modules = [
@@ -50,9 +58,6 @@ final class InstanceManagerBranchesTest extends KernelTestBase {
     $this->sut = $this->container->get('simplytest_tugboat.instance_manager');
   }
 
-  /**
-   * @covers ::loadPreviewId
-   */
   public function testLoadPreviewId(): void {
     self::assertEquals('base-drupal9-id', $this->sut->loadPreviewId('drupal9'));
     self::assertEquals('base-umami-id', $this->sut->loadPreviewId('umami'));
@@ -60,8 +65,6 @@ final class InstanceManagerBranchesTest extends KernelTestBase {
 
   /**
    * A context with no base preview reports a sentinel rather than failing.
-   *
-   * @covers ::loadPreviewId
    */
   public function testLoadPreviewIdForUnknownContext(): void {
     self::assertEquals('none', $this->sut->loadPreviewId('drupal42'));
@@ -71,8 +74,6 @@ final class InstanceManagerBranchesTest extends KernelTestBase {
 
   /**
    * A base name is never matched without its prefix.
-   *
-   * @covers ::loadPreviewId
    */
   public function testLoadPreviewIdIgnoresSandboxes(): void {
     // A sandbox named after the branch it was built from is not a base.
@@ -81,8 +82,6 @@ final class InstanceManagerBranchesTest extends KernelTestBase {
 
   /**
    * A one-click demo is a clone of its base preview, which is the demo.
-   *
-   * @covers ::launchInstance
    */
   public function testLaunchOneClickDemo(): void {
     $this->config('tugboat.settings')->set('sandbox_lifetime', 7200)->save();
@@ -107,8 +106,6 @@ final class InstanceManagerBranchesTest extends KernelTestBase {
 
   /**
    * A demo with no usable base is built from scratch, from the plugin.
-   *
-   * @covers ::launchInstance
    */
   public function testLaunchOneClickDemoWithoutBase(): void {
     // The mocked repository has no base-starshot preview.
@@ -127,8 +124,6 @@ final class InstanceManagerBranchesTest extends KernelTestBase {
 
   /**
    * A manual install skips the install step in the generated config.
-   *
-   * @covers ::launchInstance
    */
   public function testLaunchWithManualInstall(): void {
     $this->sut->launchInstance($this->submission(['manualInstall' => TRUE]));
@@ -140,8 +135,6 @@ final class InstanceManagerBranchesTest extends KernelTestBase {
 
   /**
    * Patches are applied, and empty entries are dropped.
-   *
-   * @covers ::launchInstance
    */
   public function testLaunchWithPatches(): void {
     $submission = $this->submission();
@@ -158,8 +151,6 @@ final class InstanceManagerBranchesTest extends KernelTestBase {
 
   /**
    * Additional projects are resolved to their stored project type.
-   *
-   * @covers ::launchInstance
    */
   public function testLaunchWithAdditionalProjects(): void {
     $this->sut->launchInstance($this->submission([
@@ -179,8 +170,6 @@ final class InstanceManagerBranchesTest extends KernelTestBase {
 
   /**
    * The major version of the requested core drives the base preview.
-   *
-   * @covers ::launchInstance
    */
   public function testLaunchUsesMajorVersionForBasePreview(): void {
     $this->sut->launchInstance($this->submission(['drupalVersion' => '10.1.0']));
@@ -191,8 +180,6 @@ final class InstanceManagerBranchesTest extends KernelTestBase {
 
   /**
    * The response carries the identifiers the launcher polls with.
-   *
-   * @covers ::launchInstance
    */
   public function testLaunchReturnsPreviewIdentifiers(): void {
     $result = $this->sut->launchInstance($this->submission());
@@ -208,8 +195,6 @@ final class InstanceManagerBranchesTest extends KernelTestBase {
 
   /**
    * Every launch is recorded, so the report knows what people evaluate.
-   *
-   * @covers ::launchInstance
    */
   public function testLaunchIsRecorded(): void {
     $submission = $this->submission();
@@ -229,8 +214,6 @@ final class InstanceManagerBranchesTest extends KernelTestBase {
 
   /**
    * A one click demo is recorded by plugin ID, with no project details.
-   *
-   * @covers ::launchInstance
    */
   public function testOneClickDemoIsRecorded(): void {
     $this->sut->launchInstance([
@@ -246,8 +229,6 @@ final class InstanceManagerBranchesTest extends KernelTestBase {
 
   /**
    * A launch Tugboat never accepted is still recorded, as a failure.
-   *
-   * @covers ::launchInstance
    */
   public function testFailedLaunchIsRecorded(): void {
     // This repository ID makes the Tugboat API fail in the mocked middleware.

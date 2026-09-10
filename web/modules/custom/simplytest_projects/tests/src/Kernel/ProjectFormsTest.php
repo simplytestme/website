@@ -11,13 +11,24 @@ use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
 use Drupal\simplytest_projects\Form\ImportForm;
 use Drupal\simplytest_projects\Form\Settings;
+use Drupal\simplytest_projects\Form\SimplytestProjectEntityForm;
 use Drupal\simplytest_projects\ProjectTypes;
 use Drupal\simplytest_projects\ProjectVersionManager;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
-/**
- * @group simplytest
- * @group simplytest_project
- */
+#[CoversMethod(Settings::class, 'buildForm')]
+#[CoversMethod(Settings::class, 'getFormId')]
+#[CoversMethod(Settings::class, 'submitForm')]
+#[CoversMethod(Settings::class, 'validateForm')]
+#[CoversMethod(ImportForm::class, 'buildForm')]
+#[CoversMethod(ImportForm::class, 'getFormId')]
+#[CoversMethod(ImportForm::class, 'submitForm')]
+#[CoversMethod(SimplytestProjectEntityForm::class, 'save')]
+#[Group('simplytest')]
+#[Group('simplytest_project')]
+#[RunTestsInSeparateProcesses]
 final class ProjectFormsTest extends KernelTestBase {
 
   protected static $modules = [
@@ -36,10 +47,6 @@ final class ProjectFormsTest extends KernelTestBase {
     $this->installConfig(['simplytest_projects']);
   }
 
-  /**
-   * @covers \Drupal\simplytest_projects\Form\Settings::buildForm
-   * @covers \Drupal\simplytest_projects\Form\Settings::getFormId
-   */
   public function testSettingsFormBuild(): void {
     $this->config('simplytest_projects.settings')
       ->set('version_timeout', '-2 hour')
@@ -58,9 +65,6 @@ final class ProjectFormsTest extends KernelTestBase {
 
   /**
    * Blank lines and stray whitespace are trimmed out of the blacklists.
-   *
-   * @covers \Drupal\simplytest_projects\Form\Settings::submitForm
-   * @covers \Drupal\simplytest_projects\Form\Settings::validateForm
    */
   public function testSettingsFormSubmit(): void {
     $form_state = new FormState();
@@ -77,10 +81,6 @@ final class ProjectFormsTest extends KernelTestBase {
     self::assertEquals(['^1\\.'], array_values($config->get('blacklisted_versions')));
   }
 
-  /**
-   * @covers \Drupal\simplytest_projects\Form\ImportForm::buildForm
-   * @covers \Drupal\simplytest_projects\Form\ImportForm::getFormId
-   */
   public function testImportFormBuild(): void {
     $form_object = ImportForm::create($this->container);
     self::assertEquals('simplytest_import_form', $form_object->getFormId());
@@ -94,8 +94,6 @@ final class ProjectFormsTest extends KernelTestBase {
 
   /**
    * Submitting the import form seeds Drupal core and queues a batch.
-   *
-   * @covers \Drupal\simplytest_projects\Form\ImportForm::submitForm
    */
   public function testImportFormSubmit(): void {
     $form_object = ImportForm::create($this->container);
@@ -121,8 +119,6 @@ final class ProjectFormsTest extends KernelTestBase {
 
   /**
    * A project type the importer rejects is surfaced as a form error message.
-   *
-   * @covers \Drupal\simplytest_projects\Form\ImportForm::submitForm
    */
   public function testImportFormSubmitWithUnsupportedType(): void {
     SimplytestProject::create([
@@ -144,9 +140,6 @@ final class ProjectFormsTest extends KernelTestBase {
     self::assertEquals("The type 'widget' is not allowed.", (string) $messages[0]);
   }
 
-  /**
-   * @covers \Drupal\simplytest_projects\Form\SimplytestProjectEntityForm::save
-   */
   public function testEntityFormSave(): void {
     $project = SimplytestProject::create([
       'title' => 'Token',
@@ -172,9 +165,6 @@ final class ProjectFormsTest extends KernelTestBase {
     );
   }
 
-  /**
-   * @covers \Drupal\simplytest_projects\Form\SimplytestProjectEntityForm::save
-   */
   public function testEntityFormSaveExisting(): void {
     $project = SimplytestProject::create([
       'title' => 'Token',

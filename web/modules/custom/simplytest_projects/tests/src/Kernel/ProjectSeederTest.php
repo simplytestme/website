@@ -10,14 +10,17 @@ use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\ProjectSeeder;
 use Drupal\simplytest_projects\ProjectVersionManager;
 use Drupal\simplytest_projects_test\TestDatabaseLockBackend;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * @group simplytest
- * @group simplytest_project
- *
- * @coversDefaultClass \Drupal\simplytest_projects\ProjectSeeder
- */
+#[CoversClass(ProjectSeeder::class)]
+#[CoversMethod(ProjectSeeder::class, 'seed')]
+#[Group('simplytest')]
+#[Group('simplytest_project')]
+#[RunTestsInSeparateProcesses]
 final class ProjectSeederTest extends KernelTestBase {
 
   protected static $modules = [
@@ -35,6 +38,7 @@ final class ProjectSeederTest extends KernelTestBase {
     $this->sut = $this->container->get('simplytest_projects.seeder');
   }
 
+  #[\Override]
   public function register(ContainerBuilder $container): void {
     parent::register($container);
     $container
@@ -42,9 +46,6 @@ final class ProjectSeederTest extends KernelTestBase {
       ->addArgument(new Reference('database'));
   }
 
-  /**
-   * @covers ::seed
-   */
   public function testSeedsStarterProjects(): void {
     $seeded = $this->sut->seed();
     self::assertEquals(array_keys(ProjectSeeder::STARTER_PROJECTS), $seeded);
@@ -74,17 +75,12 @@ final class ProjectSeederTest extends KernelTestBase {
     self::assertNotEmpty($releases);
   }
 
-  /**
-   * @covers ::seed
-   */
   public function testSkipsUnfetchableProjects(): void {
     self::assertEquals(['token'], $this->sut->seed(['notaproject', 'token']));
   }
 
   /**
    * Seeding twice must not fail or duplicate projects.
-   *
-   * @covers ::seed
    */
   public function testSeedIsIdempotent(): void {
     $this->sut->seed(['token']);

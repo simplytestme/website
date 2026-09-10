@@ -8,19 +8,28 @@ use Drupal\Component\Serialization\Json;
 use Drupal\Core\Cache\CacheableJsonResponse;
 use Drupal\Core\Url;
 use Drupal\KernelTests\KernelTestBase;
+use Drupal\simplytest_projects\Controller\SimplyTestProjects;
 use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
 use Drupal\simplytest_projects\ProjectTypes;
 use Drupal\simplytest_projects\ProjectVersionManager;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @group simplytest
- * @group simplytest_project
- *
- * @coversDefaultClass \Drupal\simplytest_projects\Controller\SimplyTestProjects
- */
+#[CoversClass(SimplyTestProjects::class)]
+#[CoversMethod(SimplyTestProjects::class, 'autocompleteProjects')]
+#[CoversMethod(SimplyTestProjects::class, 'lookupProject')]
+#[CoversMethod(SimplyTestProjects::class, 'projectVersions')]
+#[CoversMethod(SimplyTestProjects::class, 'compatibleProjectVersions')]
+#[CoversMethod(SimplyTestProjects::class, 'compatibleCoreVersions')]
+#[CoversMethod(SimplyTestProjects::class, 'coreVersions')]
+#[Group('simplytest')]
+#[Group('simplytest_project')]
+#[RunTestsInSeparateProcesses]
 final class ProjectsControllerTest extends KernelTestBase {
 
   protected static $modules = [
@@ -35,9 +44,6 @@ final class ProjectsControllerTest extends KernelTestBase {
     $this->installSchema('simplytest_projects', ProjectVersionManager::TABLE_NAME);
   }
 
-  /**
-   * @covers ::autocompleteProjects
-   */
   public function testAutocompleteFindsStoredProject(): void {
     SimplytestProject::create([
       'title' => 'Token',
@@ -59,8 +65,6 @@ final class ProjectsControllerTest extends KernelTestBase {
    * Falling through to a Drupal.org API request for every unmatched search
    * string generated abusive request volume; unknown strings return an empty
    * list and the client offers the explicit lookup endpoint instead.
-   *
-   * @covers ::autocompleteProjects
    */
   public function testAutocompleteDoesNotImport(): void {
     self::assertEquals([], $this->requestJson(Url::fromRoute('simplytest_projects.projects', [], [
@@ -70,8 +74,6 @@ final class ProjectsControllerTest extends KernelTestBase {
 
   /**
    * An explicit lookup imports the project, normalizing the typed name.
-   *
-   * @covers ::lookupProject
    */
   public function testLookupImportsProject(): void {
     $response = $this->lookup('Admin Toolbar');
@@ -90,17 +92,11 @@ final class ProjectsControllerTest extends KernelTestBase {
     self::assertEquals('admin_toolbar', $matches[0]['shortname']);
   }
 
-  /**
-   * @covers ::lookupProject
-   */
   public function testLookupUnknownProject(): void {
     $response = $this->lookup('notaproject');
     self::assertEquals(404, $response->getStatusCode());
   }
 
-  /**
-   * @covers ::lookupProject
-   */
   public function testLookupInvalidName(): void {
     $response = $this->lookup('not/a/project!');
     self::assertEquals(400, $response->getStatusCode());
@@ -109,8 +105,6 @@ final class ProjectsControllerTest extends KernelTestBase {
 
   /**
    * Lookups are flood limited so the endpoint cannot relay request spam.
-   *
-   * @covers ::lookupProject
    */
   public function testLookupFloodLimit(): void {
     $flood = $this->container->get('flood');
@@ -134,25 +128,16 @@ final class ProjectsControllerTest extends KernelTestBase {
     ));
   }
 
-  /**
-   * @covers ::autocompleteProjects
-   */
   public function testAutocompleteWithoutSearchString(): void {
     self::assertEquals([], $this->requestJson(Url::fromRoute('simplytest_projects.projects')));
   }
 
-  /**
-   * @covers ::autocompleteProjects
-   */
   public function testAutocompleteWithNoMatchAtAll(): void {
     self::assertEquals([], $this->requestJson(Url::fromRoute('simplytest_projects.projects', [], [
       'query' => ['string' => 'notaproject'],
     ])));
   }
 
-  /**
-   * @covers ::projectVersions
-   */
   public function testProjectVersions(): void {
     $this->container->get('simplytest_projects.project_version_manager')->updateData('token');
 
@@ -167,9 +152,6 @@ final class ProjectsControllerTest extends KernelTestBase {
     self::assertNotEmpty($data['list']['latest']);
   }
 
-  /**
-   * @covers ::compatibleProjectVersions
-   */
   public function testCompatibleProjectVersions(): void {
     $this->container->get('simplytest_projects.project_version_manager')->updateData('token');
 
@@ -185,9 +167,6 @@ final class ProjectsControllerTest extends KernelTestBase {
     }
   }
 
-  /**
-   * @covers ::compatibleCoreVersions
-   */
   public function testCompatibleCoreVersions(): void {
     $this->container->get('simplytest_projects.project_version_manager')->updateData('token');
     $this->container->get('simplytest_projects.core_version_manager')->updateData(9);
@@ -208,9 +187,6 @@ final class ProjectsControllerTest extends KernelTestBase {
     );
   }
 
-  /**
-   * @covers ::compatibleCoreVersions
-   */
   public function testCompatibleCoreVersionsForUnknownRelease(): void {
     $url = Url::fromRoute('simplytest_projects.compatible_core_versions', [
       'project' => 'token',
@@ -222,9 +198,6 @@ final class ProjectsControllerTest extends KernelTestBase {
     self::assertEquals(['notfound'], Json::decode((string) $response->getContent()));
   }
 
-  /**
-   * @covers ::coreVersions
-   */
   public function testCoreVersions(): void {
     $this->container->get('simplytest_projects.core_version_manager')->updateData(9);
 

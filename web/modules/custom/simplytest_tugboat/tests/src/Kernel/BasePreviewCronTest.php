@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace Drupal\Tests\simplytest_tugboat\Kernel;
 
 use Drupal\KernelTests\KernelTestBase;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Covers the cron run that keeps base previews fresh.
- *
- * @group simplytest
- * @group simplytest_tugboat
  */
+#[Group('simplytest')]
+#[Group('simplytest_tugboat')]
+#[RunTestsInSeparateProcesses]
 final class BasePreviewCronTest extends KernelTestBase {
 
   private const string CREATE_URL = 'https://api.tugboatqa.com/v3/previews';

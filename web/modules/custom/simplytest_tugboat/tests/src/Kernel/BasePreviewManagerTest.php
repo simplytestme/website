@@ -6,15 +6,26 @@ namespace Drupal\Tests\simplytest_tugboat\Kernel;
 
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_tugboat\BasePreviewManager;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Covers how base previews are found, rebuilt, and retired.
  *
- * @group simplytest
- * @group simplytest_tugboat
  *
- * @coversDefaultClass \Drupal\simplytest_tugboat\BasePreviewManager
  */
+#[CoversClass(BasePreviewManager::class)]
+#[CoversMethod(BasePreviewManager::class, 'names')]
+#[CoversMethod(BasePreviewManager::class, 'findUsable')]
+#[CoversMethod(BasePreviewManager::class, 'rebuild')]
+#[CoversMethod(BasePreviewManager::class, 'rebuildAll')]
+#[CoversMethod(BasePreviewManager::class, 'prune')]
+#[CoversMethod(BasePreviewManager::class, 'inventory')]
+#[Group('simplytest')]
+#[Group('simplytest_tugboat')]
+#[RunTestsInSeparateProcesses]
 final class BasePreviewManagerTest extends KernelTestBase {
 
   protected static $modules = [
@@ -38,8 +49,6 @@ final class BasePreviewManagerTest extends KernelTestBase {
 
   /**
    * Every supported core major and every one click demo gets a base.
-   *
-   * @covers ::names
    */
   public function testNames(): void {
     self::assertEquals(
@@ -50,8 +59,6 @@ final class BasePreviewManagerTest extends KernelTestBase {
 
   /**
    * The newest base that can be built on wins.
-   *
-   * @covers ::findUsable
    */
   public function testFindUsable(): void {
     // Not the one still building, and not the older ones.
@@ -70,8 +77,6 @@ final class BasePreviewManagerTest extends KernelTestBase {
 
   /**
    * A rebuild is a fresh preview with generated config and the base name.
-   *
-   * @covers ::rebuild
    */
   public function testRebuild(): void {
     self::assertEquals('abc123', $this->sut->rebuild('drupal10'));
@@ -90,8 +95,6 @@ final class BasePreviewManagerTest extends KernelTestBase {
 
   /**
    * One refused base does not stop the rest.
-   *
-   * @covers ::rebuildAll
    */
   public function testRebuildAllContinuesPastFailures(): void {
     $this->config('tugboat.settings')->set('repository_id', 'brokenrepo')->save();
@@ -105,9 +108,6 @@ final class BasePreviewManagerTest extends KernelTestBase {
     self::assertTrue($logger->hasMessageContaining('Tugboat refused to build base preview commerce'));
   }
 
-  /**
-   * @covers ::rebuildAll
-   */
   public function testRebuildAll(): void {
     $started = $this->sut->rebuildAll();
     self::assertEquals(array_fill_keys($this->sut->names(), 'abc123'), $started);
@@ -115,8 +115,6 @@ final class BasePreviewManagerTest extends KernelTestBase {
 
   /**
    * Only replaced bases nothing builds on, and failed builds, are deleted.
-   *
-   * @covers ::prune
    */
   public function testPrune(): void {
     $deleted = $this->sut->prune();
@@ -132,8 +130,6 @@ final class BasePreviewManagerTest extends KernelTestBase {
 
   /**
    * The inventory lists every base, newest first, including missing ones.
-   *
-   * @covers ::inventory
    */
   public function testInventory(): void {
     $inventory = $this->sut->inventory();

@@ -12,14 +12,20 @@ use Drupal\simplytest_projects\ProjectFetcher;
 use Drupal\simplytest_projects\ProjectTypes;
 use Drupal\simplytest_projects\ProjectVersionManager;
 use Drupal\simplytest_projects_test\TestDatabaseLockBackend;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * @group simplytest
- * @group simplytest_project
- *
- * @coversDefaultClass \Drupal\simplytest_projects\ProjectFetcher
- */
+#[CoversClass(ProjectFetcher::class)]
+#[CoversMethod(ProjectFetcher::class, 'fetchProject')]
+#[CoversMethod(ProjectFetcher::class, 'fetchVersions')]
+#[CoversMethod(ProjectFetcher::class, 'searchFromProjects')]
+#[Group('simplytest')]
+#[Group('simplytest_project')]
+#[RunTestsInSeparateProcesses]
 final class ProjectFetcherTest extends KernelTestBase {
 
   protected static $modules = [
@@ -37,6 +43,7 @@ final class ProjectFetcherTest extends KernelTestBase {
     $this->sut = $this->container->get('simplytest_projects.fetcher');
   }
 
+  #[\Override]
   public function register(ContainerBuilder $container): void {
     parent::register($container);
     $container
@@ -65,9 +72,6 @@ final class ProjectFetcherTest extends KernelTestBase {
     self::assertNotNull($result);
   }
 
-  /**
-   * @covers ::fetchProject
-   */
   public function testFetchProjectIsCaseInsensitive(): void {
     $result = $this->sut->fetchProject('ToKeN');
     self::assertNotNull($result);
@@ -76,8 +80,6 @@ final class ProjectFetcherTest extends KernelTestBase {
 
   /**
    * A second process holding the lock must not double up the work.
-   *
-   * @covers ::fetchProject
    */
   public function testFetchProjectReturnsNullWhenLockIsHeld(): void {
     $lock = $this->container->get('lock');
@@ -92,8 +94,6 @@ final class ProjectFetcherTest extends KernelTestBase {
 
   /**
    * The response body is cached, so a repeat fetch makes no second request.
-   *
-   * @covers ::fetchProject
    */
   public function testFetchProjectUsesCache(): void {
     $this->sut->fetchProject('token');
@@ -110,9 +110,6 @@ final class ProjectFetcherTest extends KernelTestBase {
     self::assertCount(1, $this->projectIds('token'));
   }
 
-  /**
-   * @covers ::fetchProject
-   */
   public function testFetchSandboxProject(): void {
     $result = $this->sut->fetchProject('sandboxed');
     self::assertNotNull($result);
@@ -120,11 +117,7 @@ final class ProjectFetcherTest extends KernelTestBase {
     self::assertEquals('someuser', $result['creator']);
   }
 
-  /**
-   * @dataProvider unfetchableProjects
-   *
-   * @covers ::fetchProject
-   */
+  #[DataProvider('unfetchableProjects')]
   public function testFetchProjectFailure(string $shortname): void {
     self::assertNull($this->sut->fetchProject($shortname));
     self::assertCount(0, $this->projectIds($shortname));
@@ -149,8 +142,6 @@ final class ProjectFetcherTest extends KernelTestBase {
 
   /**
    * Characters that are invalid in a lock key do not stop the fetch.
-   *
-   * @covers ::fetchProject
    */
   public function testFetchProjectSanitizesLockKey(): void {
     $result = $this->sut->fetchProject('not.a-project');
@@ -160,9 +151,6 @@ final class ProjectFetcherTest extends KernelTestBase {
     self::assertTrue($this->container->get('lock')->lockMayBeAvailable('fetch_project_not_a_project'));
   }
 
-  /**
-   * @covers ::fetchVersions
-   */
   public function testFetchVersionsWithoutForce(): void {
     $this->container->get('simplytest_projects.project_version_manager')->updateData('token');
     $versions = $this->sut->fetchVersions('token');
@@ -170,17 +158,12 @@ final class ProjectFetcherTest extends KernelTestBase {
     self::assertContains('8.x-1.9', array_map(static fn(\stdClass $row) => $row->version, $versions));
   }
 
-  /**
-   * @covers ::fetchVersions
-   */
   public function testForcedFetchVersionsForUnknownProject(): void {
     self::assertFalse($this->sut->fetchVersions('notaproject', TRUE));
   }
 
   /**
    * A project refreshed within the last six hours is left alone.
-   *
-   * @covers ::fetchVersions
    */
   public function testForcedFetchVersionsSkipsFreshProject(): void {
     $project = $this->createProject('token');
@@ -196,8 +179,6 @@ final class ProjectFetcherTest extends KernelTestBase {
 
   /**
    * A stale project is refreshed and stamped with the current request time.
-   *
-   * @covers ::fetchVersions
    */
   public function testForcedFetchVersionsRefreshesStaleProject(): void {
     $project = $this->createProject('pathauto');
@@ -217,9 +198,6 @@ final class ProjectFetcherTest extends KernelTestBase {
     self::assertGreaterThan($stale, $storage->load($project->id())->getTimestamp());
   }
 
-  /**
-   * @covers ::searchFromProjects
-   */
   public function testSearchFromProjects(): void {
     $this->createProject('token', 'Token', ProjectTypes::MODULE, usage: 500);
     $this->createProject('pathauto', 'Pathauto', ProjectTypes::MODULE, usage: 900);
@@ -241,8 +219,6 @@ final class ProjectFetcherTest extends KernelTestBase {
 
   /**
    * The project actually asked for outranks more popular partial matches.
-   *
-   * @covers ::searchFromProjects
    */
   public function testSearchRanksExactMatchFirst(): void {
     $this->createProject('ai_provider_openai', 'OpenAI Provider', usage: 900);
@@ -265,8 +241,6 @@ final class ProjectFetcherTest extends KernelTestBase {
 
   /**
    * A search typed like a title still finds the shortname.
-   *
-   * @covers ::searchFromProjects
    */
   public function testSearchNormalizesShortname(): void {
     $this->createProject('menu_link_attributes', 'Menu Link Attributes', usage: 900);
@@ -281,9 +255,6 @@ final class ProjectFetcherTest extends KernelTestBase {
     }
   }
 
-  /**
-   * @covers ::searchFromProjects
-   */
   public function testSearchFromProjectsFiltersByType(): void {
     $this->createProject('token', 'Token', ProjectTypes::MODULE);
     $this->createProject('bootstrap', 'Bootstrap', ProjectTypes::THEME);
@@ -295,9 +266,6 @@ final class ProjectFetcherTest extends KernelTestBase {
     self::assertCount(2, $results);
   }
 
-  /**
-   * @covers ::searchFromProjects
-   */
   public function testSearchFromProjectsRespectsRange(): void {
     $this->createProject('token', 'Token', ProjectTypes::MODULE, usage: 500);
     $this->createProject('pathauto', 'Pathauto', ProjectTypes::MODULE, usage: 900);
@@ -305,9 +273,6 @@ final class ProjectFetcherTest extends KernelTestBase {
     self::assertCount(1, $this->sut->searchFromProjects('o', 1));
   }
 
-  /**
-   * @covers ::searchFromProjects
-   */
   public function testSearchEscapesLikeWildcards(): void {
     $this->createProject('token', 'Token', ProjectTypes::MODULE);
 
@@ -321,8 +286,6 @@ final class ProjectFetcherTest extends KernelTestBase {
    * Two lookups for the same project can race; whichever loses the save must
    * still tell its caller the project exists, and must not disturb the row
    * the winner created.
-   *
-   * @covers ::fetchProject
    */
   public function testFetchProjectDuplicateKeepsOriginal(): void {
     self::assertNotNull($this->sut->fetchProject('token'));

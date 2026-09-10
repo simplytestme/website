@@ -11,17 +11,16 @@ use Drupal\simplytest_projects\ReleaseHistory\Processor;
 use Drupal\simplytest_projects\ReleaseHistory\ProjectRelease;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 
 /**
  * Tests processing of release history data
- *
- * @coversDefaultClass \Drupal\simplytest_projects\ReleaseHistory\Processor
  */
+#[CoversClass(Processor::class)]
+#[CoversMethod(Processor::class, 'getData')]
 final class ProcessorTest extends ReleaseHistoryUnitTestBase {
 
-  /**
-   * @covers ::getData
-   */
   public function testGetData() {
     $stack = HandlerStack::create();
     $stack->push($this());

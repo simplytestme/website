@@ -4,20 +4,26 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\simplytest_projects\Kernel;
 
-use Drupal\Core\Batch\BatchBuilder;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
 use Drupal\simplytest_projects\ProjectImporter;
 use Drupal\simplytest_projects\ProjectTypes;
 use Drupal\simplytest_projects\ProjectVersionManager;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
-/**
- * @group simplytest
- * @group simplytest_project
- *
- * @coversDefaultClass \Drupal\simplytest_projects\ProjectImporter
- */
+#[CoversClass(ProjectImporter::class)]
+#[CoversMethod(ProjectImporter::class, 'fetchData')]
+#[CoversMethod(ProjectImporter::class, 'filterExistingProjects')]
+#[CoversMethod(ProjectImporter::class, 'buildBatch')]
+#[CoversMethod(ProjectImporter::class, 'batchProcess')]
+#[CoversMethod(ProjectImporter::class, 'batchFinished')]
+#[Group('simplytest')]
+#[Group('simplytest_project')]
+#[RunTestsInSeparateProcesses]
 final class ProjectImporterTest extends KernelTestBase {
 
   protected static $modules = [
@@ -35,9 +41,6 @@ final class ProjectImporterTest extends KernelTestBase {
     $this->sut = $this->container->get('simplytest_projects.importer');
   }
 
-  /**
-   * @covers ::fetchData
-   */
   public function testFetchData(): void {
     $items = $this->sut->fetchData('project_module');
     self::assertIsArray($items);
@@ -45,26 +48,17 @@ final class ProjectImporterTest extends KernelTestBase {
     self::assertEquals('module_0_1', $items['list'][0]['field_project_machine_name']);
   }
 
-  /**
-   * @covers ::fetchData
-   */
   public function testFetchDataAcceptsAPage(): void {
     $items = $this->sut->fetchData('project_theme', 2);
     self::assertEquals('theme_2_1', $items['list'][0]['field_project_machine_name']);
   }
 
-  /**
-   * @covers ::fetchData
-   */
   public function testFetchDataRejectsUnknownType(): void {
     $this->expectException(\InvalidArgumentException::class);
     $this->expectExceptionMessage("The type 'project_nope' is not allowed");
     $this->sut->fetchData('project_nope');
   }
 
-  /**
-   * @covers ::filterExistingProjects
-   */
   public function testFilterExistingProjects(): void {
     SimplytestProject::create([
       'title' => 'Module 0 1',
@@ -87,9 +81,6 @@ final class ProjectImporterTest extends KernelTestBase {
     ], $data[0]);
   }
 
-  /**
-   * @covers ::filterExistingProjects
-   */
   public function testFilterExistingProjectsHandlesSandboxAndMissingAuthor(): void {
     $data = $this->sut->filterExistingProjects([
       [
@@ -105,9 +96,6 @@ final class ProjectImporterTest extends KernelTestBase {
     self::assertEquals('', $data[0]['creator']);
   }
 
-  /**
-   * @covers ::buildBatch
-   */
   public function testBuildBatch(): void {
     $batch = $this->sut->buildBatch('module');
 
@@ -119,18 +107,12 @@ final class ProjectImporterTest extends KernelTestBase {
     self::assertEquals('Importing 3 pages of module', (string) $array['title']);
   }
 
-  /**
-   * @covers ::buildBatch
-   */
   public function testBuildBatchRejectsUnknownType(): void {
     $this->expectException(\InvalidArgumentException::class);
     $this->expectExceptionMessage("The type 'widget' is not allowed.");
     $this->sut->buildBatch('widget');
   }
 
-  /**
-   * @covers ::batchProcess
-   */
   public function testBatchProcess(): void {
     // The Batch API hands operations an empty context; batchProcess has to
     // initialize its own counter.
@@ -146,8 +128,6 @@ final class ProjectImporterTest extends KernelTestBase {
 
   /**
    * A project that is already stored does not stop the rest of the batch.
-   *
-   * @covers ::batchProcess
    */
   public function testBatchProcessToleratesDuplicates(): void {
     $context = [];
@@ -158,9 +138,6 @@ final class ProjectImporterTest extends KernelTestBase {
     self::assertCount(3, $storage->loadMultiple());
   }
 
-  /**
-   * @covers ::batchFinished
-   */
   public function testBatchFinishedOnSuccess(): void {
     ProjectImporter::batchFinished(TRUE, ['processed' => 6, 'type' => 'project_module'], []);
 
@@ -168,9 +145,6 @@ final class ProjectImporterTest extends KernelTestBase {
     self::assertEquals('Total 6 module imported.', (string) $messages[0]);
   }
 
-  /**
-   * @covers ::batchFinished
-   */
   public function testBatchFinishedOnFailure(): void {
     ProjectImporter::batchFinished(FALSE, [], [['do_the_thing', ['an argument']]]);
 

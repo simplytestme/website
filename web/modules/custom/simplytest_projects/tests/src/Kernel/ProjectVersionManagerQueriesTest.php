@@ -4,18 +4,28 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\simplytest_projects\Kernel;
 
+use Composer\Semver\Semver;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\ProjectVersionManager;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Covers the read side of the project version manager.
  *
- * @group simplytest
- * @group simplytest_project
  *
- * @coversDefaultClass \Drupal\simplytest_projects\ProjectVersionManager
  */
+#[CoversClass(ProjectVersionManager::class)]
+#[CoversMethod(ProjectVersionManager::class, 'getRelease')]
+#[CoversMethod(ProjectVersionManager::class, 'getAllReleases')]
+#[CoversMethod(ProjectVersionManager::class, 'getCompatibleReleases')]
+#[CoversMethod(ProjectVersionManager::class, 'organizeAndSortReleases')]
+#[Group('simplytest')]
+#[Group('simplytest_project')]
+#[RunTestsInSeparateProcesses]
 final class ProjectVersionManagerQueriesTest extends KernelTestBase {
 
   protected static $modules = [
@@ -33,9 +43,6 @@ final class ProjectVersionManagerQueriesTest extends KernelTestBase {
     $this->sut->updateData('token');
   }
 
-  /**
-   * @covers ::getRelease
-   */
   public function testGetRelease(): void {
     $release = $this->sut->getRelease('token', '8.x-1.9');
 
@@ -47,8 +54,6 @@ final class ProjectVersionManagerQueriesTest extends KernelTestBase {
 
   /**
    * A branch is looked up as its matching dev release.
-   *
-   * @covers ::getRelease
    */
   public function testGetReleaseExpandsBranchToDev(): void {
     $branch = $this->sut->getRelease('token', '8.x-1.x');
@@ -58,17 +63,11 @@ final class ProjectVersionManagerQueriesTest extends KernelTestBase {
     self::assertEquals($dev, $branch);
   }
 
-  /**
-   * @covers ::getRelease
-   */
   public function testGetReleaseReturnsNullWhenMissing(): void {
     self::assertNull($this->sut->getRelease('token', '8.x-99.0'));
     self::assertNull($this->sut->getRelease('notaproject', '1.0.0'));
   }
 
-  /**
-   * @covers ::getAllReleases
-   */
   public function testGetAllReleasesIsSortedNewestFirst(): void {
     $releases = $this->sut->getAllReleases('token');
 
@@ -79,9 +78,6 @@ final class ProjectVersionManagerQueriesTest extends KernelTestBase {
     self::assertEquals($sorted, $dates);
   }
 
-  /**
-   * @covers ::getCompatibleReleases
-   */
   public function testGetCompatibleReleases(): void {
     $compatible = $this->sut->getCompatibleReleases('token', '9.5.0');
     self::assertNotEmpty($compatible);
@@ -91,13 +87,10 @@ final class ProjectVersionManagerQueriesTest extends KernelTestBase {
 
     // Nothing in the result set excludes Drupal 9.
     foreach ($compatible as $release) {
-      self::assertTrue(\Composer\Semver\Semver::satisfies('9.5.0', $release->core_compatibility));
+      self::assertTrue(Semver::satisfies('9.5.0', $release->core_compatibility));
     }
   }
 
-  /**
-   * @covers ::organizeAndSortReleases
-   */
   public function testOrganizeAndSortReleasesWithNoReleases(): void {
     self::assertEquals(
       ['latest' => [], 'branches' => [], 'core' => []],
@@ -107,8 +100,6 @@ final class ProjectVersionManagerQueriesTest extends KernelTestBase {
 
   /**
    * A release whose compatibility is not a valid constraint is skipped.
-   *
-   * @covers ::organizeAndSortReleases
    */
   public function testOrganizeAndSortReleasesSkipsUnparseableCompatibility(): void {
     $releases = [
@@ -136,8 +127,6 @@ final class ProjectVersionManagerQueriesTest extends KernelTestBase {
 
   /**
    * Dev branches are grouped separately from tagged releases.
-   *
-   * @covers ::organizeAndSortReleases
    */
   public function testOrganizeAndSortReleasesSeparatesBranches(): void {
     $organized = $this->sut->organizeAndSortReleases($this->sut->getAllReleases('token'));

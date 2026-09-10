@@ -8,7 +8,6 @@
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\user\Entity\User;
-use Drupal\shortcut\Entity\Shortcut;
 
 /**
  * Implements hook_install_tasks().

@@ -175,8 +175,10 @@ jobs:
             tools: composer:v2
       - name: Install dependencies
         run: composer install
+      # --dry-run so the job reports drift instead of silently rewriting the
+      # runner's checkout and always passing.
       - name: Rector
-        run: vendor/bin/rector
+        run: vendor/bin/rector --dry-run
   phpunit:
     runs-on: ubuntu-latest
     name: phpunit

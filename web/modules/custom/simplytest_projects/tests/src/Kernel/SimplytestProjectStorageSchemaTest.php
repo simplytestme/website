@@ -5,11 +5,16 @@ declare(strict_types=1);
 namespace Drupal\Tests\simplytest_projects\Kernel;
 
 use Drupal\KernelTests\KernelTestBase;
+use Drupal\simplytest_projects\SimplytestProjectStorageSchema;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
-/**
- * @coversDefaultClass \Drupal\simplytest_projects\SimplytestProjectStorageSchema
- * @group simplytest_projects
- */
+#[CoversClass(SimplytestProjectStorageSchema::class)]
+#[CoversMethod(SimplytestProjectStorageSchema::class, 'getEntitySchema')]
+#[Group('simplytest_projects')]
+#[RunTestsInSeparateProcesses]
 final class SimplytestProjectStorageSchemaTest extends KernelTestBase {
 
   /**
@@ -23,8 +28,6 @@ final class SimplytestProjectStorageSchemaTest extends KernelTestBase {
 
   /**
    * A fresh install indexes the columns projects are looked up by.
-   *
-   * @covers ::getEntitySchema
    */
   public function testInstallCreatesLookupIndexes(): void {
     $this->installEntitySchema('simplytest_project');

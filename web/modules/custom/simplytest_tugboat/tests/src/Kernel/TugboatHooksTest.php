@@ -4,13 +4,18 @@ namespace Drupal\Tests\simplytest_tugboat\Kernel;
 
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_tugboat\LaunchRecorder;
+use PHPUnit\Framework\Attributes\CoversFunction;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Covers the module's schema and update hooks.
- *
- * @group simplytest
- * @group simplytest_tugboat
  */
+#[CoversFunction('simplytest_tugboat_schema')]
+#[CoversFunction('simplytest_tugboat_update_10001')]
+#[Group('simplytest')]
+#[Group('simplytest_tugboat')]
+#[RunTestsInSeparateProcesses]
 final class TugboatHooksTest extends KernelTestBase {
 
   protected static $modules = [
@@ -26,9 +31,6 @@ final class TugboatHooksTest extends KernelTestBase {
     $this->container->get('module_handler')->loadInclude('simplytest_tugboat', 'install');
   }
 
-  /**
-   * @covers ::simplytest_tugboat_schema
-   */
   public function testSchemaDefinition(): void {
     $schema = simplytest_tugboat_schema();
 
@@ -56,8 +58,6 @@ final class TugboatHooksTest extends KernelTestBase {
    * hook_schema() only runs when a module is first installed, so without this
    * the production database never gets the table and every launch is logged as
    * a recording failure.
-   *
-   * @covers ::simplytest_tugboat_update_10001
    */
   public function testUpdateInstallsTheTable(): void {
     $schema = $this->container->get('database')->schema();
@@ -70,8 +70,6 @@ final class TugboatHooksTest extends KernelTestBase {
 
   /**
    * Running the update twice is harmless.
-   *
-   * @covers ::simplytest_tugboat_update_10001
    */
   public function testUpdateIsIdempotent(): void {
     simplytest_tugboat_update_10001();

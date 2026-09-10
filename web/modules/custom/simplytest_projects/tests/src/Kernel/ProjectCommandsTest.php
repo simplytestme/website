@@ -8,13 +8,18 @@ use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_projects\Commands\SimplytestProjectsCommands;
 use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\ProjectVersionManager;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
-/**
- * @group simplytest
- * @group simplytest_project
- *
- * @coversDefaultClass \Drupal\simplytest_projects\Commands\SimplytestProjectsCommands
- */
+#[CoversClass(SimplytestProjectsCommands::class)]
+#[CoversMethod(SimplytestProjectsCommands::class, 'coreVersionsUpdate')]
+#[CoversMethod(SimplytestProjectsCommands::class, 'getReleaseData')]
+#[CoversMethod(SimplytestProjectsCommands::class, 'importProject')]
+#[Group('simplytest')]
+#[Group('simplytest_project')]
+#[RunTestsInSeparateProcesses]
 final class ProjectCommandsTest extends KernelTestBase {
 
   protected static $modules = [
@@ -39,9 +44,6 @@ final class ProjectCommandsTest extends KernelTestBase {
     );
   }
 
-  /**
-   * @covers ::coreVersionsUpdate
-   */
   public function testCoreVersionsUpdate(): void {
     $this->sut->coreVersionsUpdate('9');
 
@@ -50,9 +52,6 @@ final class ProjectCommandsTest extends KernelTestBase {
     );
   }
 
-  /**
-   * @covers ::getReleaseData
-   */
   public function testGetReleaseData(): void {
     $this->sut->getReleaseData('token');
 
@@ -61,9 +60,6 @@ final class ProjectCommandsTest extends KernelTestBase {
     );
   }
 
-  /**
-   * @covers ::importProject
-   */
   public function testImportProject(): void {
     $this->sut->importProject('token');
 

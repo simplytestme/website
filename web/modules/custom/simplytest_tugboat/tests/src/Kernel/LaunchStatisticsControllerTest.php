@@ -6,13 +6,18 @@ use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_projects\ProjectTypes;
 use Drupal\simplytest_tugboat\Controller\LaunchStatisticsController;
 use Drupal\simplytest_tugboat\LaunchRecorder;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
-/**
- * @group simplytest
- * @group simplytest_tugboat
- *
- * @coversDefaultClass \Drupal\simplytest_tugboat\Controller\LaunchStatisticsController
- */
+#[CoversClass(LaunchStatisticsController::class)]
+#[CoversMethod(LaunchStatisticsController::class, 'report')]
+#[CoversMethod(LaunchStatisticsController::class, 'peak')]
+#[CoversMethod(LaunchStatisticsController::class, 'labelDemos')]
+#[Group('simplytest')]
+#[Group('simplytest_tugboat')]
+#[RunTestsInSeparateProcesses]
 final class LaunchStatisticsControllerTest extends KernelTestBase {
 
   protected static $modules = [
@@ -29,9 +34,6 @@ final class LaunchStatisticsControllerTest extends KernelTestBase {
     $this->installSchema('simplytest_tugboat', LaunchRecorder::TABLE_NAME);
   }
 
-  /**
-   * @covers ::report
-   */
   public function testReportWithNoLaunches(): void {
     $output = $this->renderReport();
 
@@ -39,10 +41,6 @@ final class LaunchStatisticsControllerTest extends KernelTestBase {
     self::assertStringContainsString('No launches recorded yet', $output);
   }
 
-  /**
-   * @covers ::report
-   * @covers ::peak
-   */
   public function testReportListsWhatWasLaunched(): void {
     $this->record('token');
     $this->record('token');
@@ -58,9 +56,6 @@ final class LaunchStatisticsControllerTest extends KernelTestBase {
 
   /**
    * Demos are listed by title, and a demo that no longer exists by its ID.
-   *
-   * @covers ::report
-   * @covers ::labelDemos
    */
   public function testReportListsOneClickDemosByTitle(): void {
     $this->recordDemo('starshot');
@@ -77,8 +72,6 @@ final class LaunchStatisticsControllerTest extends KernelTestBase {
 
   /**
    * Failed launches stay out of the public numbers.
-   *
-   * @covers ::report
    */
   public function testReportExcludesFailedLaunches(): void {
     $this->record('token', LaunchRecorder::STATUS_FAILED);
@@ -91,8 +84,6 @@ final class LaunchStatisticsControllerTest extends KernelTestBase {
    *
    * The Expires header carries the same lifetime because the anonymous page
    * cache ignores a render array's max-age and only reads that header.
-   *
-   * @covers ::report
    */
   public function testReportCacheability(): void {
     $now = $this->container->get('datetime.time')->getRequestTime();

@@ -6,6 +6,8 @@ use Drupal\Core\Plugin\Component;
 use Drupal\Core\Render\Component\Exception\InvalidComponentException;
 use Drupal\Core\Theme\Component\ComponentValidator;
 use Drupal\KernelTests\KernelTestBase;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * The report component enforces the shape of the data it is handed.
@@ -17,10 +19,10 @@ use Drupal\KernelTests\KernelTestBase;
  * So the rejection cases call the validator directly rather than rendering.
  * Going through the render pipeline would only prove the schema on a developer
  * machine, and would pass vacuously everywhere else.
- *
- * @group simplytest
- * @group simplytest_tugboat
  */
+#[Group('simplytest')]
+#[Group('simplytest_tugboat')]
+#[RunTestsInSeparateProcesses]
 final class LaunchStatisticsComponentTest extends KernelTestBase {
 
   protected static $modules = [

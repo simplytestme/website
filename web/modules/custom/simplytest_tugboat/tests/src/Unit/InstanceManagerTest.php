@@ -63,21 +63,21 @@ final class InstanceManagerTest extends UnitTestCase {
     // LaunchRecorder is final, so it cannot be mocked. It swallows any
     // database failure, so mocked dependencies keep it out of the way.
     $launch_recorder = new LaunchRecorder(
-      $this->createMock(Connection::class),
-      $this->createMock(TimeInterface::class),
+      $this->createStub(Connection::class),
+      $this->createStub(TimeInterface::class),
       new NullLogger(),
-      $this->createMock(CacheTagsInvalidatorInterface::class)
+      $this->createStub(CacheTagsInvalidatorInterface::class)
     );
 
     $this->instanceManager = new InstanceManager(
       $config_factory,
       new LoggerChannel('foo'),
-      $this->createMock(ModuleHandlerInterface::class),
+      $this->createStub(ModuleHandlerInterface::class),
       $this->tugboatClient,
       $preview_config_generator,
       $launch_recorder,
       $base_previews,
-      $this->createMock(TimeInterface::class),
+      $this->createStub(TimeInterface::class),
     );
   }
 
@@ -245,7 +245,7 @@ final class InstanceManagerTest extends UnitTestCase {
     ]);
   }
 
-  public function testPanopoly() {
+  public function testPanopoly(): never {
     $this->markTestIncomplete('Weird issues afoot, like missing pathauto and ctools dependency');
     $this->doTest([
       'manualInstall' => FALSE,

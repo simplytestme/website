@@ -9,11 +9,12 @@ use Drupal\simplytest_projects\Entity\SimplytestProject;
 use Drupal\simplytest_projects\Exception\EntityValidationException;
 use Drupal\simplytest_projects\ProjectTypes;
 use Drupal\simplytest_projects\ProjectVersionManager;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
-/**
- * @group simplytest
- * @group simplytest_projects
- */
+#[Group('simplytest')]
+#[Group('simplytest_projects')]
+#[RunTestsInSeparateProcesses]
 final class ProjectPreSaveValidationTest extends KernelTestBase {
 
   protected static $modules = [

@@ -9,8 +9,10 @@ use Drupal\Core\DependencyInjection\ServiceModifierInterface;
 use Drupal\Core\Url;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_projects\CoreVersionManager;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Symfony\Component\HttpFoundation\Request;
 
+#[RunTestsInSeparateProcesses]
 final class ControllerTest extends KernelTestBase implements ServiceModifierInterface {
 
   protected static $modules = [

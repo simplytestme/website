@@ -4,19 +4,23 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\simplytest_tugboat\Kernel;
 
+use Drupal\simplytest_tugboat\InstanceManager;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
 use Drupal\simplytest_projects\ProjectTypes;
 use Drupal\simplytest_projects\ProjectVersionManager;
 use Drupal\simplytest_tugboat\LaunchRecorder;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
-/**
- * @group simplytest
- * @group simplytest_tugboat
- *
- * @coversDefaultClass \Drupal\simplytest_tugboat\InstanceManager
- */
+#[CoversClass(InstanceManager::class)]
+#[CoversMethod(InstanceManager::class, 'launchInstance')]
+#[Group('simplytest')]
+#[Group('simplytest_tugboat')]
+#[RunTestsInSeparateProcesses]
 final class InstanceManagerTest extends KernelTestBase {
 
 //  protected $runTestInSeparateProcess = FALSE;
@@ -60,9 +64,6 @@ final class InstanceManagerTest extends KernelTestBase {
       ->save();
   }
 
-  /**
-   * @covers ::launchInstance
-   */
   public function testLaunchInstance(): void {
     $sut = $this->container->get('simplytest_tugboat.instance_manager');
 

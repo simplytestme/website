@@ -11,15 +11,19 @@ use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\ProjectVersionManager;
 use Drupal\simplytest_tugboat\Controller\SimplytestTugboatController;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-/**
- * @group simplytest
- * @group simplytest_tugboat
- *
- * @coversDefaultClass \Drupal\simplytest_tugboat\Controller\SimplytestTugboatController
- */
+#[CoversClass(SimplytestTugboatController::class)]
+#[CoversMethod(SimplytestTugboatController::class, 'progress')]
+#[CoversMethod(SimplytestTugboatController::class, 'instanceState')]
+#[Group('simplytest')]
+#[Group('simplytest_tugboat')]
+#[RunTestsInSeparateProcesses]
 final class TugboatControllerTest extends KernelTestBase {
 
   protected static $modules = [
@@ -46,9 +50,6 @@ final class TugboatControllerTest extends KernelTestBase {
     $this->sut = SimplytestTugboatController::create($this->container);
   }
 
-  /**
-   * @covers ::progress
-   */
   public function testProgressPage(): void {
     $url = Url::fromRoute('simplytest_tugboat.progress', [
       'instance_id' => 'abc123',
@@ -62,8 +63,6 @@ final class TugboatControllerTest extends KernelTestBase {
 
   /**
    * The build array carries the IDs the front end needs.
-   *
-   * @covers ::progress
    */
   public function testProgressBuild(): void {
     $build = $this->sut->progress(Request::create('/'), 'abc123', 'ac123');
@@ -76,8 +75,6 @@ final class TugboatControllerTest extends KernelTestBase {
 
   /**
    * A finished preview reports as ready, cacheable, and fully progressed.
-   *
-   * @covers ::instanceState
    */
   public function testInstanceStateForFinishedPreview(): void {
     $response = $this->sut->instanceState('abc123', 'finished-job');
@@ -93,8 +90,6 @@ final class TugboatControllerTest extends KernelTestBase {
 
   /**
    * Git noise is stripped out of the log before it reaches the front end.
-   *
-   * @covers ::instanceState
    */
   public function testInstanceStateFiltersGitNoise(): void {
     $data = Json::decode((string) $this->sut->instanceState('abc123', 'finished-job')->getContent());
@@ -108,8 +103,6 @@ final class TugboatControllerTest extends KernelTestBase {
 
   /**
    * A suspended preview reports the state it was suspended at.
-   *
-   * @covers ::instanceState
    */
   public function testInstanceStateForSuspendedPreview(): void {
     $data = Json::decode((string) $this->sut->instanceState('abc123', 'suspended-job')->getContent());
@@ -118,8 +111,6 @@ final class TugboatControllerTest extends KernelTestBase {
 
   /**
    * A job that is still building is not cacheable yet.
-   *
-   * @covers ::instanceState
    */
   public function testInstanceStateForRunningJob(): void {
     $response = $this->sut->instanceState('abc123', 'running-job');
@@ -132,9 +123,6 @@ final class TugboatControllerTest extends KernelTestBase {
     self::assertNull($data['url']);
   }
 
-  /**
-   * @covers ::instanceState
-   */
   public function testInstanceStateForMissingJob(): void {
     $response = $this->sut->instanceState('abc123', 'missing-job');
 
@@ -147,8 +135,6 @@ final class TugboatControllerTest extends KernelTestBase {
 
   /**
    * An unrecognized job type is a bug, not a state to render.
-   *
-   * @covers ::instanceState
    */
   public function testInstanceStateForUnknownJobType(): void {
     $this->expectException(\RuntimeException::class);
@@ -161,8 +147,6 @@ final class TugboatControllerTest extends KernelTestBase {
    *
    * The progress page polls this endpoint; an exception page would be parsed
    * as JSON and polled into forever. A clean 502 lets the frontend back off.
-   *
-   * @covers ::instanceState
    */
   public function testInstanceStateMapsOtherClientErrors(): void {
     $response = $this->sut->instanceState('abc123', 'forbidden-job');
@@ -176,8 +160,6 @@ final class TugboatControllerTest extends KernelTestBase {
 
   /**
    * A network failure reaching Tugboat is also a 502, not an exception page.
-   *
-   * @covers ::instanceState
    */
   public function testInstanceStateMapsNetworkFailure(): void {
     $response = $this->sut->instanceState('abc123', 'unreachable-job');
@@ -191,8 +173,6 @@ final class TugboatControllerTest extends KernelTestBase {
 
   /**
    * Duplicate stage markers cannot push progress past 100.
-   *
-   * @covers ::instanceState
    */
   public function testInstanceStateProgressClampsAtHundred(): void {
     $data = Json::decode((string) $this->sut->instanceState('abc123', 'noisy-job')->getContent());
@@ -204,8 +184,6 @@ final class TugboatControllerTest extends KernelTestBase {
    *
    * Sandboxes are deleted two hours after creation; a permanently cached
    * "ready" response would keep redirecting users to a dead preview.
-   *
-   * @covers ::instanceState
    */
   public function testInstanceStatePreviewMaxAgeIsFinite(): void {
     $response = $this->sut->instanceState('abc123', 'finished-job');

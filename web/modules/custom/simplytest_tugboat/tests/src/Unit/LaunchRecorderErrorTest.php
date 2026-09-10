@@ -8,23 +8,26 @@ use Drupal\Core\Database\Connection;
 use Drupal\simplytest_tugboat\LaunchRecord;
 use Drupal\simplytest_tugboat\LaunchRecorder;
 use Drupal\Tests\UnitTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
 use Psr\Log\LoggerInterface;
 
 /**
  * A broken analytics write must not break launching.
  *
- * @group simplytest
- * @group simplytest_tugboat
  *
- * @coversDefaultClass \Drupal\simplytest_tugboat\LaunchRecorder
  */
+#[CoversClass(LaunchRecorder::class)]
+#[CoversMethod(LaunchRecorder::class, 'recordLaunch')]
+#[CoversMethod(LaunchRecorder::class, 'write')]
+#[CoversMethod(LaunchRecorder::class, 'recordFailure')]
+#[Group('simplytest')]
+#[Group('simplytest_tugboat')]
 final class LaunchRecorderErrorTest extends UnitTestCase {
 
   /**
    * Nothing was written, so nothing rendered from the table is stale either.
-   *
-   * @covers ::recordLaunch
-   * @covers ::write
    */
   public function testInsertFailureIsLoggedNotThrown(): void {
     $database = $this->createMock(Connection::class);
@@ -68,9 +71,6 @@ final class LaunchRecorderErrorTest extends UnitTestCase {
 
   /**
    * A failed one click demo is named by its plugin ID in the log.
-   *
-   * @covers ::recordFailure
-   * @covers ::write
    */
   public function testOneClickDemoFailureIsLoggedByPluginId(): void {
     $database = $this->createMock(Connection::class);
@@ -89,7 +89,7 @@ final class LaunchRecorderErrorTest extends UnitTestCase {
         ['@project' => 'umami', '@message' => 'nope']
       );
 
-    $invalidator = $this->createMock(CacheTagsInvalidatorInterface::class);
+    $invalidator = $this->createStub(CacheTagsInvalidatorInterface::class);
     $recorder = new LaunchRecorder($database, $time, $logger, $invalidator);
     $recorder->recordFailure(LaunchRecord::forOneClickDemo('umami'));
   }
