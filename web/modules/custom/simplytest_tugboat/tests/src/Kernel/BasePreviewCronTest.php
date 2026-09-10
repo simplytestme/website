@@ -96,11 +96,26 @@ final class BasePreviewCronTest extends KernelTestBase {
     self::assertEquals($now, $state->get(SIMPLYTEST_TUGBOAT_BASE_PREVIEWS_REBUILT));
   }
 
+  /**
+   * Every run reports on the bases, whether or not it rebuilds them.
+   */
+  public function testCronReportsBasePreviewHealth(): void {
+    putenv('LAGOON_ENVIRONMENT_TYPE=production');
+    $logger = $this->container->get('simplytest_projects_test.logger');
+
+    simplytest_tugboat_cron();
+
+    self::assertTrue($logger->hasMessageContaining('Base preview starshot has no usable build.'));
+    // Reported before the pruner deleted the failed build it is about.
+    self::assertTrue($logger->hasMessageContaining('The latest build of base preview drupal10 failed.'));
+  }
+
   private function assertNothingHappened(): void {
     $state = $this->container->get('state');
     self::assertNull($state->get(self::CREATE_URL));
     self::assertNull($state->get('tugboat.deleted_previews'));
     self::assertNull($state->get(SIMPLYTEST_TUGBOAT_BASE_PREVIEWS_REBUILT));
+    self::assertNull($state->get('simplytest_tugboat.base_preview_health_reported'));
   }
 
 }

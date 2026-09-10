@@ -21,6 +21,14 @@ services:
       - '@simplytest_tugboat.preview_config_generator'
       - '@plugin.manager.oneclickdemo'
       - '@logger.channel.simplytest_tugboat'
+  simplytest_tugboat.base_preview_health:
+    class: Drupal\simplytest_tugboat\BasePreviewHealth
+    arguments:
+      - '@simplytest_tugboat.base_preview_manager'
+      - '@state'
+      - '@datetime.time'
+      - '@date.formatter'
+      - '@logger.channel.simplytest_tugboat'
   simplytest_tugboat.preview_config_generator:
     class: Drupal\simplytest_tugboat\PreviewConfigGenerator
     arguments: ['@plugin.manager.oneclickdemo']

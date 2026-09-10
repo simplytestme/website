@@ -32,6 +32,11 @@ function simplytest_tugboat_cron(): void {
   $state = \Drupal::state();
   $now = \Drupal::time()->getRequestTime();
 
+  // Reported before pruning: deleting a failed build takes the only evidence
+  // that it failed with it.
+  \Drupal::service('simplytest_tugboat.base_preview_health')
+    ->report(SIMPLYTEST_TUGBOAT_BASE_PREVIEW_LIFETIME);
+
   $base_previews->prune();
 
   $rebuilt = (int) $state->get(SIMPLYTEST_TUGBOAT_BASE_PREVIEWS_REBUILT, 0);

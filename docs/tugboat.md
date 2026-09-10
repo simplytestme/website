@@ -49,6 +49,25 @@ a day and deletes a replaced base once no sandbox builds on it anymore. A build
 that fails is deleted and retried on the next cycle, and launches keep using
 the previous base in the meantime.
 
+## Knowing when one breaks
+
+The daily rebuild is the only thing that runs a one click demo's install
+commands end to end, which makes it the smoke test for them. Every cron run
+reports on the bases first, before the pruner deletes the evidence, and logs an
+error on the `simplytest_tugboat` channel when a base is:
+
+- **failed** — the newest build failed, and launches are running on the one
+  before it,
+- **missing** — nothing carrying the name can be built on, so launches build
+  from scratch and fail the way the build did,
+- **stale** — no newer base has replaced it in two rebuild cycles, so the
+  rebuild has stopped finishing.
+
+A base is reported once per rebuild cycle, unless what is wrong with it
+changes, so a base that stays broken does not fill the log. Tugboat itself
+cannot report this: it has no outbound notification for a failed build, and the
+bases are not built from pull requests, so there is no provider status to fail.
+
 To inspect or rebuild them by hand:
 
 ```bash
