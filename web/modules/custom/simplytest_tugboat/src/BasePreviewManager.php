@@ -92,7 +92,7 @@ final readonly class BasePreviewManager {
    *   The preview ID, or NULL when no usable base exists.
    */
   public function findUsable(string $name): ?string {
-    return self::usableIn($this->previewsNamed($name, $this->allPreviews()));
+    return self::usableIn($this->previewsNamed($name, $this->allPreviews()))['id'] ?? NULL;
   }
 
   /**
@@ -159,7 +159,7 @@ final readonly class BasePreviewManager {
     $all = $this->allPreviews();
     foreach ($this->names() as $name) {
       $previews = $this->previewsNamed($name, $all);
-      $current = self::usableIn($previews);
+      $current = self::usableIn($previews)['id'] ?? NULL;
       foreach ($previews as $preview) {
         if ($preview['id'] === $current) {
           continue;
@@ -221,11 +221,13 @@ final readonly class BasePreviewManager {
    * The newest usable preview in a list sorted newest first.
    *
    * @param list<Preview> $previews
+   *
+   * @return Preview|null
    */
-  private static function usableIn(array $previews): ?string {
+  public static function usableIn(array $previews): ?array {
     foreach ($previews as $preview) {
       if (!in_array($preview['state'], self::UNUSABLE_STATES, TRUE)) {
-        return $preview['id'];
+        return $preview;
       }
     }
     return NULL;
