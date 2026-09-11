@@ -1,0 +1,11 @@
+services:
+  simplytest_sentry.hub:
+    class: Sentry\State\Hub
+    factory: ['Drupal\simplytest_sentry\SentryHubFactory', 'create']
+  logger.sentry:
+    class: Drupal\simplytest_sentry\Logger\SentryLogger
+    arguments:
+      - '@simplytest_sentry.hub'
+      - '@logger.log_message_parser'
+    tags:
+      - { name: logger }

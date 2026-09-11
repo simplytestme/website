@@ -1,0 +1,5 @@
+name: 'SimplyTest Sentry'
+description: 'Forwards logged errors to Sentry.'
+type: module
+package: Simplytest
+core_version_requirement: ^11
