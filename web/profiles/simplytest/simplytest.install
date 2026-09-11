@@ -44,3 +44,14 @@ function simplytest_fetch_drupal_core_versions() {
   $core_version_manager->updateData(9);
   $core_version_manager->updateData(10);
 }
+
+/**
+ * Installs the Sentry logger.
+ */
+function simplytest_update_11001(): void {
+  // Config import would install the module on its own, from the entry in
+  // core.extension.yml. Installing it here instead means the database matches
+  // config/sync by the time anything compares the two, which is what
+  // `drush deploy` and the config:status CI job do.
+  \Drupal::service('module_installer')->install(['simplytest_sentry']);
+}
