@@ -27,7 +27,7 @@ use Psr\Log\LoggerInterface;
  *
  * @phpstan-type Preview array{id: string, name: string, state: string, createdAt: string, children: list<string>}
  */
-final readonly class BasePreviewManager {
+final class BasePreviewManager {
 
   /**
    * Core major versions that get a base preview.
@@ -59,14 +59,26 @@ final readonly class BasePreviewManager {
     'cancelled',
   ];
 
-  private ImmutableConfig $tugboatSettings;
+  private readonly ImmutableConfig $tugboatSettings;
+
+  /**
+   * Every preview in the repository, until something here changes one.
+   *
+   * Tugboat has no way to ask for part of the list, so reading one base means
+   * pulling every preview in the repository, and that request is slow enough
+   * to time out. A cron run reads the list twice and a launch reads it once,
+   * so it is held for the request. Creating or deleting a preview clears it.
+   *
+   * @var list<Preview>|null
+   */
+  private ?array $previews = NULL;
 
   public function __construct(
     ConfigFactoryInterface $config_factory,
-    private TugboatClient $tugboatClient,
-    private PreviewConfigGenerator $previewConfigGenerator,
-    private OneClickDemoPluginManager $oneClickDemoManager,
-    private LoggerInterface $logger,
+    private readonly TugboatClient $tugboatClient,
+    private readonly PreviewConfigGenerator $previewConfigGenerator,
+    private readonly OneClickDemoPluginManager $oneClickDemoManager,
+    private readonly LoggerInterface $logger,
   ) {
     $this->tugboatSettings = $config_factory->get('tugboat.settings');
   }
@@ -110,6 +122,7 @@ final readonly class BasePreviewManager {
       'base' => 'none',
       'config' => $this->previewConfigGenerator->basePreview($name),
     ]);
+    $this->previews = NULL;
     $body = Json::decode((string) $response->getBody());
     $this->logger->info('Building base preview @name as @id.', [
       '@name' => $name,
@@ -174,6 +187,7 @@ final readonly class BasePreviewManager {
           // Required for anything Tugboat considers a base, which this was.
           'force' => TRUE,
         ]);
+        $this->previews = NULL;
         $this->logger->info('Deleted base preview @name @id (@state).', [
           '@name' => $name,
           '@id' => $preview['id'],
@@ -239,10 +253,13 @@ final readonly class BasePreviewManager {
    * @return list<Preview>
    */
   private function allPreviews(): array {
+    if ($this->previews !== NULL) {
+      return $this->previews;
+    }
     $repository_id = $this->tugboatSettings->get('repository_id');
     $response = $this->tugboatClient->requestWithApiKey('GET', "repos/$repository_id/previews");
     $previews = Json::decode((string) $response->getBody());
-    return array_map(static fn (array $preview): array => [
+    return $this->previews = array_map(static fn (array $preview): array => [
       'id' => (string) $preview['id'],
       // A preview built from a branch is named after the branch, which is how
       // the bases built the old way still match.

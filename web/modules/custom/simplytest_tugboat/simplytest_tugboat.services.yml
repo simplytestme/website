@@ -29,6 +29,14 @@ services:
       - '@datetime.time'
       - '@date.formatter'
       - '@logger.channel.simplytest_tugboat'
+  Drupal\simplytest_tugboat\Hook\BasePreviewCron:
+    class: Drupal\simplytest_tugboat\Hook\BasePreviewCron
+    arguments:
+      - '@simplytest_tugboat.base_preview_manager'
+      - '@simplytest_tugboat.base_preview_health'
+      - '@state'
+      - '@datetime.time'
+      - '@logger.channel.simplytest_tugboat'
   simplytest_tugboat.preview_config_generator:
     class: Drupal\simplytest_tugboat\PreviewConfigGenerator
     arguments: ['@plugin.manager.oneclickdemo']
