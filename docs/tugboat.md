@@ -39,15 +39,36 @@ preview".
 
 A one click demo's base is the whole demo, installed. Nothing about a demo
 depends on the launch, so launching one clones the base's snapshot, which
-Tugboat does in about ten seconds with nothing to build. The clone is given the
-`sandbox_lifetime` expiry from `tugboat.settings`. When no usable base exists
-the demo is built from scratch, which takes a few minutes.
+Tugboat does in about ten seconds with nothing to build. When no usable base
+exists the demo is built from scratch, which takes a few minutes.
 
 The bases are created through the Tugboat API with generated config, not from
 branches in the backing repository. On production, cron starts a fresh set once
 a day and deletes a replaced base once no sandbox builds on it anymore. A build
 that fails is deleted and retried on the next cycle, and launches keep using
 the previous base in the meantime.
+
+## How sandboxes expire
+
+Every launch carries an `expires` timestamp, `sandbox_lifetime` from
+`tugboat.settings` past the request. Tugboat deletes the preview itself when it
+passes. Nothing else expires a sandbox, so a launch that goes out without it
+stays on Tugboat until somebody deletes it by hand.
+
+The Tugboat module ships a cron that did this instead, by listing every preview
+in the repository and deleting the ones past the lifetime that Tugboat does not
+report as an anchor. `BasePreviewCron` removes it with `#[RemoveHook]`. A base
+preview is not an anchor: an anchor is the repository's default base, and these
+are named previews picked per launch. So two hours into a base's day that sweep
+started trying to delete it. Tugboat refused with a 409 while a sandbox was
+built on the base, and let it through the rest of the time. That is why the
+demo bases went first. A demo launch is a clone, and Tugboat counts a clone
+separately from a base's children, so a demo base is never anything's parent.
+The bases lived a few hours of their day and everything built from scratch for
+the rest of it.
+
+That cron also had no production guard, so any PR environment or local install
+holding the token swept production.
 
 ## Knowing when one breaks
 

@@ -281,6 +281,16 @@ final readonly class MockedHttpMiddleware {
   private function handleTugboat(RequestInterface $request): FulfilledPromise|RejectedPromise {
     $uri = (string) $request->getUri();
 
+    // A reserved repository ID, so a test can make Tugboat time out. The
+    // preview list is the whole repository and no request can ask for less of
+    // it, so this is the call that runs out of time in production.
+    if (str_contains($uri, '/repos/timeoutrepo/')) {
+      return new RejectedPromise(new ConnectException(
+        'cURL error 28: Operation timed out after 30002 milliseconds with 0 bytes received',
+        $request,
+      ));
+    }
+
     // A reserved repository ID, so a test can make Tugboat unreachable.
     if (str_contains($uri, '/repos/brokenrepo/')) {
       return new RejectedPromise(new ServerException(
@@ -295,6 +305,9 @@ final readonly class MockedHttpMiddleware {
     // to fail loudly rather than return the base previews.
     if (preg_match('#/v3/repos/[^/]+/previews$#', $uri) === 1 && $request->getMethod() === 'GET') {
       $this->state->set($uri, (string) $request->getBody());
+      // Counted, so a test can show the list is not fetched again within a
+      // run. It is the whole repository, and the slowest call the site makes.
+      $this->state->set('tugboat.preview_list_requests', $this->state->get('tugboat.preview_list_requests', 0) + 1);
       return new FulfilledPromise(new Response(200, [], Json::encode(self::TUGBOAT_PREVIEWS)));
     }
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\Tests\simplytest_tugboat\Kernel;
 
 use Drupal\KernelTests\KernelTestBase;
+use Drupal\simplytest_tugboat\Hook\BasePreviewCron;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
@@ -46,12 +47,12 @@ final class BasePreviewCronTest extends KernelTestBase {
    */
   public function testCronSkipsNonProductionEnvironments(): void {
     putenv('LAGOON_ENVIRONMENT_TYPE=development');
-    simplytest_tugboat_cron();
+    $this->cron();
     $this->assertNothingHappened();
 
     // A local site, with no Lagoon environment at all.
     putenv('LAGOON_ENVIRONMENT_TYPE');
-    simplytest_tugboat_cron();
+    $this->cron();
     $this->assertNothingHappened();
   }
 
@@ -62,7 +63,7 @@ final class BasePreviewCronTest extends KernelTestBase {
     putenv('LAGOON_ENVIRONMENT_TYPE=production');
     $state = $this->container->get('state');
 
-    simplytest_tugboat_cron();
+    $this->cron();
 
     self::assertNotEmpty($state->get('tugboat.deleted_previews'));
     // The last name is the last create request, so this proves the loop ran
@@ -70,12 +71,12 @@ final class BasePreviewCronTest extends KernelTestBase {
     self::assertEquals('base-umami', $state->get(self::CREATE_URL)['name']);
     self::assertEquals(
       $this->container->get('datetime.time')->getRequestTime(),
-      $state->get(SIMPLYTEST_TUGBOAT_BASE_PREVIEWS_REBUILT),
+      $state->get(BasePreviewCron::REBUILT),
     );
 
     $state->delete(self::CREATE_URL);
     $state->delete('tugboat.deleted_previews');
-    simplytest_tugboat_cron();
+    $this->cron();
 
     self::assertNotEmpty($state->get('tugboat.deleted_previews'));
     self::assertNull($state->get(self::CREATE_URL));
@@ -88,12 +89,12 @@ final class BasePreviewCronTest extends KernelTestBase {
     putenv('LAGOON_ENVIRONMENT_TYPE=production');
     $state = $this->container->get('state');
     $now = $this->container->get('datetime.time')->getRequestTime();
-    $state->set(SIMPLYTEST_TUGBOAT_BASE_PREVIEWS_REBUILT, $now - SIMPLYTEST_TUGBOAT_BASE_PREVIEW_LIFETIME - 1);
+    $state->set(BasePreviewCron::REBUILT, $now - BasePreviewCron::LIFETIME - 1);
 
-    simplytest_tugboat_cron();
+    $this->cron();
 
     self::assertEquals('base-umami', $state->get(self::CREATE_URL)['name']);
-    self::assertEquals($now, $state->get(SIMPLYTEST_TUGBOAT_BASE_PREVIEWS_REBUILT));
+    self::assertEquals($now, $state->get(BasePreviewCron::REBUILT));
   }
 
   /**
@@ -103,18 +104,75 @@ final class BasePreviewCronTest extends KernelTestBase {
     putenv('LAGOON_ENVIRONMENT_TYPE=production');
     $logger = $this->container->get('simplytest_projects_test.logger');
 
-    simplytest_tugboat_cron();
+    $this->cron();
 
     self::assertTrue($logger->hasMessageContaining('Base preview starshot has no usable build.'));
     // Reported before the pruner deleted the failed build it is about.
     self::assertTrue($logger->hasMessageContaining('The latest build of base preview drupal10 failed.'));
   }
 
+  /**
+   * The health report and the pruner share one read of the preview list.
+   *
+   * Tugboat returns the whole repository and has no way to ask for less, so
+   * this is the slowest call the site makes and the one that times out.
+   */
+  public function testCronReadsThePreviewListOnce(): void {
+    putenv('LAGOON_ENVIRONMENT_TYPE=production');
+
+    $this->cron();
+
+    self::assertEquals(1, $this->container->get('state')->get('tugboat.preview_list_requests'));
+  }
+
+  /**
+   * A Tugboat that does not answer leaves the bases where they are.
+   *
+   * The preview list is the whole repository, Tugboat offers no way to ask for
+   * less of it, and the request times out often enough that an exception out of
+   * cron is noise rather than news.
+   */
+  public function testCronSurvivesTugboatTimingOut(): void {
+    putenv('LAGOON_ENVIRONMENT_TYPE=production');
+    $this->config('tugboat.settings')->set('repository_id', 'timeoutrepo')->save();
+
+    $this->cron();
+
+    $logger = $this->container->get('simplytest_projects_test.logger');
+    self::assertTrue($logger->hasMessageContaining('Tugboat did not answer in time.'));
+    // No build is started against a Tugboat that is not answering, and the
+    // next run picks the work back up.
+    $this->assertNothingHappened();
+  }
+
+  /**
+   * The Tugboat module's own cron is off.
+   *
+   * It deletes every preview past the sandbox lifetime that Tugboat does not
+   * report as an anchor, which is every base preview here.
+   */
+  public function testContribCronIsRemoved(): void {
+    $modules = [];
+    $this->container->get('module_handler')->invokeAllWith(
+      'cron',
+      static function (callable $hook, string $module) use (&$modules): void {
+        $modules[] = $module;
+      },
+    );
+
+    self::assertContains('simplytest_tugboat', $modules);
+    self::assertNotContains('tugboat', $modules);
+  }
+
+  private function cron(): void {
+    $this->container->get(BasePreviewCron::class)->cron();
+  }
+
   private function assertNothingHappened(): void {
     $state = $this->container->get('state');
     self::assertNull($state->get(self::CREATE_URL));
     self::assertNull($state->get('tugboat.deleted_previews'));
-    self::assertNull($state->get(SIMPLYTEST_TUGBOAT_BASE_PREVIEWS_REBUILT));
+    self::assertNull($state->get(BasePreviewCron::REBUILT));
     self::assertNull($state->get('simplytest_tugboat.base_preview_health_reported'));
   }
 
