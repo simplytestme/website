@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "downshift": "^9.4.0",
-    "react": "^19.1.1",
+    "react": "^19.3.0",
     "react-dom": "^19.2.8"
   },
   "devDependencies": {
