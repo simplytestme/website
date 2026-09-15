@@ -144,6 +144,13 @@ final class InstanceManagerTest extends KernelTestBase {
       'name' => 'simplytest',
       'repo' => 'kerneltestrepo',
       'base' => 'base-drupal9-id',
+      // Nothing else expires a sandbox, so a launch that goes out without this
+      // stays on Tugboat until somebody deletes it by hand.
+      'expires' => date(
+        \DateTimeInterface::RFC3339,
+        $this->container->get('datetime.time')->getRequestTime()
+        + (int) $this->config('tugboat.settings')->get('sandbox_lifetime'),
+      ),
     ];
     self::assertEquals($expected, $payload);
   }

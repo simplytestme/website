@@ -163,6 +163,11 @@ class InstanceManager implements InstanceManagerInterface {
       $record = LaunchRecord::fromPreviewParameters($parameters);
     }
 
+    // Tugboat deletes the sandbox itself once this passes. It is the only
+    // thing that expires a sandbox, so a launch that goes out without it stays
+    // on Tugboat until somebody deletes it by hand.
+    $expires = date(\DateTimeInterface::RFC3339, $this->time->getRequestTime() + (int) $this->tugboatSettings->get('sandbox_lifetime'));
+
     // Everything from here on talks to Tugboat, so it is the part that can
     // fail. Record either outcome: a failed launch leaves nothing behind on
     // Tugboat, so this is the only place the failure is ever visible.
@@ -174,7 +179,7 @@ class InstanceManager implements InstanceManagerInterface {
         // Without a base the demo is built from scratch like a sandbox.
         $tugboat_request = $this->tugboatClient->requestWithApiKey('POST', "previews/$base_preview_id/clone", [
           'name' => 'simplytest',
-          'expires' => date(\DateTimeInterface::RFC3339, $this->time->getRequestTime() + (int) $this->tugboatSettings->get('sandbox_lifetime')),
+          'expires' => $expires,
         ]);
       }
       else {
@@ -184,6 +189,7 @@ class InstanceManager implements InstanceManagerInterface {
           'name' => 'simplytest',
           'repo' => $this->tugboatSettings->get('repository_id'),
           'base' => $base_preview_id,
+          'expires' => $expires,
         ]);
       }
       $response = Json::decode((string) $tugboat_request->getBody());

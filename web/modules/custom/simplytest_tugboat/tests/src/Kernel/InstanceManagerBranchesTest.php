@@ -123,6 +123,21 @@ final class InstanceManagerBranchesTest extends KernelTestBase {
   }
 
   /**
+   * A sandbox carries the expiry Tugboat deletes it on.
+   *
+   * Nothing else expires a sandbox, so one launched without this stays on
+   * Tugboat until somebody deletes it by hand.
+   */
+  public function testLaunchExpiresTheSandbox(): void {
+    $this->config('tugboat.settings')->set('sandbox_lifetime', 7200)->save();
+    $this->sut->launchInstance($this->submission());
+
+    $payload = $this->container->get('state')->get('https://api.tugboatqa.com/v3/previews');
+    $expected = $this->container->get('datetime.time')->getRequestTime() + 7200;
+    self::assertEquals($expected, strtotime((string) $payload['expires']));
+  }
+
+  /**
    * A manual install skips the install step in the generated config.
    */
   public function testLaunchWithManualInstall(): void {
