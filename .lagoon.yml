@@ -28,6 +28,15 @@ tasks:
           fi
         name: Seed starter projects on non-production environments.
         service: cli
+    # Every environment, not just the ephemeral ones: cron is configured on
+    # production alone, so nothing else would ever import the list on a pull
+    # request environment. A failed fetch keeps whatever is already stored and
+    # logs, which is not worth failing a rollout over.
+    - run:
+        command: |
+          vendor/bin/drush simplytest:site-templates:import || true
+        name: Import the Drupal CMS site template list.
+        service: cli
     - run:
         command: php scripts/github/deployment.php
         name: Push a deployment and success status
