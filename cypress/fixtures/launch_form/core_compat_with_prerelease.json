@@ -1,0 +1,49 @@
+{
+  "list": [
+    {
+      "version": "12.0.0-alpha1",
+      "major": "12",
+      "minor": "0",
+      "patch": "0",
+      "extra": "alpha1",
+      "vcs_label": "12.0.0-alpha1",
+      "insecure": "0"
+    },
+    {
+      "version": "11.4.7",
+      "major": "11",
+      "minor": "4",
+      "patch": "7",
+      "extra": null,
+      "vcs_label": "11.4.7",
+      "insecure": "0"
+    },
+    {
+      "version": "11.4.6",
+      "major": "11",
+      "minor": "4",
+      "patch": "6",
+      "extra": null,
+      "vcs_label": "11.4.6",
+      "insecure": "0"
+    },
+    {
+      "version": "11.3.0",
+      "major": "11",
+      "minor": "3",
+      "patch": "0",
+      "extra": null,
+      "vcs_label": "11.3.0",
+      "insecure": "0"
+    },
+    {
+      "version": "11.3.0-alpha1",
+      "major": "11",
+      "minor": "3",
+      "patch": "0",
+      "extra": "alpha1",
+      "vcs_label": "11.3.0-alpha1",
+      "insecure": "0"
+    }
+  ]
+}
