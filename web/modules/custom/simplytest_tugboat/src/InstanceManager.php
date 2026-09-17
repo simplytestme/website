@@ -117,6 +117,10 @@ class InstanceManager implements InstanceManagerInterface {
       $ocd = $ocd_manager->getDefinition($submission['oneclickdemo']);
 
       $context = $ocd['base_preview_name'];
+      // A demo that owns its base can be cloned from it. One that shares a
+      // base with other demos cannot: the clone would be the base, not the
+      // demo, so it builds on top instead.
+      $clone_base = ($ocd['clone_base'] ?? TRUE) !== FALSE;
       // @todo Should one-click-demos _really_ have parameters? they're one click.
       $config = $this->previewConfigGenerator->oneClickDemo($submission['oneclickdemo'], []);
       $record = LaunchRecord::forOneClickDemo($submission['oneclickdemo']);
@@ -125,6 +129,7 @@ class InstanceManager implements InstanceManagerInterface {
       // @todo this is a hack to load the project type to make further
       //   configuration decisions work. Rushed to fix loading by URL params for
       //   DrupalCon Europe 2021.
+      $clone_base = TRUE;
       $project_storage = \Drupal::entityTypeManager()->getStorage('simplytest_project');
       $project_result = $project_storage->loadByProperties(['shortname' => $submission['project']['shortname']]);
       $project = reset($project_result);
@@ -173,7 +178,7 @@ class InstanceManager implements InstanceManagerInterface {
     // Tugboat, so this is the only place the failure is ever visible.
     try {
       $base_preview_id = $this->loadPreviewId($context);
-      if ($record->oneClickDemo !== '' && $base_preview_id !== 'none') {
+      if ($clone_base && $record->oneClickDemo !== '' && $base_preview_id !== 'none') {
         // A demo's base preview is the installed demo, so the launch is a
         // copy of its snapshot: ready in seconds, with nothing to build.
         // Without a base the demo is built from scratch like a sandbox.

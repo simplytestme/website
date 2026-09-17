@@ -1,0 +1,61 @@
+# A trimmed copy of Drupal CMS's curated site template list, carrying one of
+# each shape the importer has to deal with.
+#
+# @see https://git.drupalcode.org/project/drupal_cms/-/blob/2.x/drupal_cms_installer/site-templates.yml
+byte:
+  name: Byte
+  description: 'Designed for a SaaS product website, this template includes landing pages, a blog, newsletter sign up and other features.'
+  screenshot: 'https://git.drupalcode.org/project/byte/-/raw/1.x/screenshot.webp?ref_type=heads'
+  package: 'drupal/byte'
+  links:
+    - text: Demo
+      url: https://1-x-example.tugboatqa.com/
+    - text: Learn more
+      url: 'https://new.drupal.org/site-template/byte'
+  creator: Drupal CMS
+
+# No screenshot, no links, no creator: every optional key absent.
+forma:
+  name: Forma
+  description: 'Designed for a portfolio site.'
+  package: 'drupal/forma'
+
+# The recipe directory comes from the package name, which here is not the key.
+nuxt:
+  name: 'Nuxt Starter'
+  description: 'A simple Nuxt frontend starter.'
+  package: drupal/lupus_decoupled_starter
+  links:
+    demo: 'https://example.surge.sh'
+    docs: 'https://lupus-decoupled.org/guide/drupal-cms'
+  creator: drunomics
+
+# Paid: needs a license key the sandbox has no way to supply.
+premium_thing:
+  name: 'Premium Thing'
+  description: 'A paid template.'
+  package:
+    name: 'vendor/premium_thing'
+    repository: 'https://packages.example.com/packagist'
+    authorization: bearer
+  purchase:
+    price: 899
+    url: 'https://example.com/product/6'
+  creator: Someone
+
+# Free, but served from a Composer repository we do not configure.
+elsewhere:
+  name: Elsewhere
+  description: 'Served from another repository.'
+  package:
+    name: 'vendor/elsewhere'
+    repository: 'https://packages.example.com/packagist'
+  creator: Someone
+
+# Unusable entries: no name, and a package that is not vendor/name.
+no_name:
+  description: 'Nameless.'
+  package: 'drupal/no_name'
+bad_package:
+  name: 'Bad Package'
+  package: 'not-a-package'

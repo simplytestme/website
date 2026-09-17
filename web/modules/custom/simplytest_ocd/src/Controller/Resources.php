@@ -82,7 +82,7 @@ class Resources implements ContainerInjectionInterface {
   }
 
   /**
-   * It fulfills autocomplete request of a project.
+   * The demo tiles for the home page.
    */
   public function info() {
     $ocds = array_values(array_map(static fn(array $definition) => [
@@ -92,12 +92,54 @@ class Resources implements ContainerInjectionInterface {
       'description' => $definition['description'] ?? '',
       'weight' => $definition['weight'] ?? 0,
       'recommended' => $definition['recommended'] ?? FALSE,
-    ], $this->manager->getDefinitions()));
+    ], $this->definitionsIn('demo')));
     usort($ocds, static fn(array $a, array $b) => $a['weight'] <=> $b['weight']);
 
     $response = new CacheableJsonResponse($ocds);
     $response->getCacheableMetadata()->addCacheableDependency($this->manager);
     return $response;
+  }
+
+  /**
+   * The site template cards for the template picker.
+   *
+   * Separate from ::info() because a template is not a demo tile: it carries a
+   * screenshot, a creator and links, and it belongs behind the picker rather
+   * than on the home page. Both launch through ::launch().
+   */
+  public function siteTemplates(): CacheableJsonResponse {
+    $templates = [];
+    foreach ($this->definitionsIn('site_template') as $definition) {
+      $template = $definition['template'] ?? NULL;
+      if (!is_array($template)) {
+        continue;
+      }
+      $templates[] = [
+        'id' => $definition['id'],
+        'name' => $template['name'],
+        'description' => $template['description'],
+        'screenshot' => $template['screenshot'],
+        'creator' => $template['creator'],
+        'links' => $template['links'],
+      ];
+    }
+    usort($templates, static fn(array $a, array $b) => strcasecmp($a['name'], $b['name']));
+
+    $response = new CacheableJsonResponse($templates);
+    $response->getCacheableMetadata()->addCacheableDependency($this->manager);
+    return $response;
+  }
+
+  /**
+   * The plugin definitions belonging to one group.
+   *
+   * @return array<string, array<string, mixed>>
+   */
+  private function definitionsIn(string $group): array {
+    return array_filter(
+      $this->manager->getDefinitions(),
+      static fn(array $definition): bool => ($definition['group'] ?? 'demo') === $group,
+    );
   }
 
 }
