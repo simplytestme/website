@@ -134,15 +134,28 @@ final class BasePreviewManager {
   /**
    * Creates a fresh preview for every base.
    *
-   * One base failing to start does not stop the others. Tugboat rejecting a
-   * request is logged, and that base is picked up by the next rebuild.
-   *
    * @return array<string, string|null>
    *   The new preview ID per base name, or NULL where Tugboat refused.
    */
   public function rebuildAll(): array {
+    return $this->rebuildEach($this->names());
+  }
+
+  /**
+   * Creates a fresh preview for each of the named bases.
+   *
+   * One base failing to start does not stop the others. Tugboat rejecting a
+   * request is logged, and that base is picked up by the next rebuild.
+   *
+   * @param list<string> $names
+   *   The bases to build.
+   *
+   * @return array<string, string|null>
+   *   The new preview ID per base name, or NULL where Tugboat refused.
+   */
+  public function rebuildEach(array $names): array {
     $started = [];
-    foreach ($this->names() as $name) {
+    foreach ($names as $name) {
       try {
         $started[$name] = $this->rebuild($name);
       }

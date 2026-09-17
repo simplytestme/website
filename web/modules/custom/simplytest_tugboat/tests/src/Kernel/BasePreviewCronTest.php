@@ -65,12 +65,13 @@ final class BasePreviewCronTest extends KernelTestBase {
 
     $this->cron();
 
+    $now = $this->container->get('datetime.time')->getRequestTime();
     self::assertNotEmpty($state->get('tugboat.deleted_previews'));
     // The last name is the last create request, so this proves the loop ran
     // to the end.
     self::assertEquals('base-umami', $state->get(self::CREATE_URL)['name']);
     self::assertEquals(
-      $this->container->get('datetime.time')->getRequestTime(),
+      array_fill_keys($this->names(), $now),
       $state->get(BasePreviewCron::REBUILT),
     );
 
@@ -83,18 +84,55 @@ final class BasePreviewCronTest extends KernelTestBase {
   }
 
   /**
-   * A set older than its lifetime is rebuilt again.
+   * A base older than its lifetime is rebuilt again.
    */
   public function testCronRebuildsAfterLifetime(): void {
     putenv('LAGOON_ENVIRONMENT_TYPE=production');
     $state = $this->container->get('state');
     $now = $this->container->get('datetime.time')->getRequestTime();
-    $state->set(BasePreviewCron::REBUILT, $now - BasePreviewCron::LIFETIME - 1);
+    $state->set(BasePreviewCron::REBUILT, array_fill_keys($this->names(), $now - BasePreviewCron::LIFETIME - 1));
 
     $this->cron();
 
     self::assertEquals('base-umami', $state->get(self::CREATE_URL)['name']);
-    self::assertEquals($now, $state->get(BasePreviewCron::REBUILT));
+    self::assertEquals(array_fill_keys($this->names(), $now), $state->get(BasePreviewCron::REBUILT));
+  }
+
+  /**
+   * A base the set has never built is built on the next run.
+   *
+   * One clock for the whole set made a base added between rebuilds -- a new
+   * one click demo, a new core version -- wait out the rest of the cycle, and
+   * until then every launch that wanted it built from scratch.
+   */
+  public function testCronBuildsABaseItHasNeverBuilt(): void {
+    putenv('LAGOON_ENVIRONMENT_TYPE=production');
+    $state = $this->container->get('state');
+    $now = $this->container->get('datetime.time')->getRequestTime();
+    $names = $this->names();
+    $new = array_pop($names);
+    $state->set(BasePreviewCron::REBUILT, array_fill_keys($names, $now));
+
+    $this->cron();
+
+    self::assertEquals("base-$new", $state->get(self::CREATE_URL)['name']);
+    self::assertEquals($now, $state->get(BasePreviewCron::REBUILT)[$new]);
+  }
+
+  /**
+   * The single timestamp the state used to hold still means "just built".
+   *
+   * Without this the deploy that introduces the map would find no base with a
+   * build time and rebuild every one of them at once.
+   */
+  public function testCronReadsTheTimestampTheStateUsedToHold(): void {
+    putenv('LAGOON_ENVIRONMENT_TYPE=production');
+    $state = $this->container->get('state');
+    $state->set(BasePreviewCron::REBUILT, $this->container->get('datetime.time')->getRequestTime());
+
+    $this->cron();
+
+    self::assertNull($state->get(self::CREATE_URL));
   }
 
   /**
@@ -166,6 +204,15 @@ final class BasePreviewCronTest extends KernelTestBase {
 
   private function cron(): void {
     $this->container->get(BasePreviewCron::class)->cron();
+  }
+
+  /**
+   * Every base name the site keeps, in the order cron builds them.
+   *
+   * @return list<string>
+   */
+  private function names(): array {
+    return $this->container->get('simplytest_tugboat.base_preview_manager')->names();
   }
 
   private function assertNothingHappened(): void {
