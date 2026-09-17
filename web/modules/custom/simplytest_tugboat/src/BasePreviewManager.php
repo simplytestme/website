@@ -31,6 +31,18 @@ final class BasePreviewManager {
 
   /**
    * Core major versions that get a base preview.
+   *
+   * A major belongs here once it has a stable release. The base is built with
+   * `composer create-project drupal/recommended-project:^N`, which resolves
+   * nothing at default stability until one exists -- 12 was tried, and the
+   * build fails with "Could not find package". Launches for a major that is
+   * not here still work; the sandbox builds from scratch, slower, and
+   * InstanceManager::loadPreviewId() says so at info rather than error.
+   *
+   * So: add 12 when 12.0.0 ships. Until then every Drupal 12 launch pays the
+   * full build, which was around three a day when this was written.
+   *
+   * @see \Drupal\simplytest_tugboat\InstanceManager::loadPreviewId()
    */
   private const array MAJOR_VERSIONS = [7, 8, 9, 10, 11];
 
