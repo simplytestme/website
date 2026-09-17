@@ -36,7 +36,21 @@ function DrupalCoreVersionSelector() {
       // list; either way there is nothing to select.
       if (Array.isArray(json.list) && json.list.length > 0) {
         setDrupalVersions(json.list.map((release) => release.version));
-        setDrupalVersion(json.list[0].version);
+        // The list is every compatible core release, newest first, so the
+        // first row is a pre-release whenever core has one out and the
+        // project's core_version_requirement does not stop below it. Once
+        // 12.0.0-alpha1 shipped, a project declaring `>=9` defaulted to a
+        // Drupal 12 alpha. Nobody evaluating a module means to do that, and
+        // the major has no base preview either, so the sandbox builds from
+        // scratch on top of it.
+        //
+        // `extra` carries the pre-release suffix and is null for a stable
+        // release, so the first row without one is the newest stable. A line
+        // that has only pre-releases keeps the newest of those, which is the
+        // only thing there is to offer. Either way the whole list stays in
+        // the select, so an alpha is still one choice away.
+        const stable = json.list.find((release) => !release.extra);
+        setDrupalVersion((stable ?? json.list[0]).version);
       } else {
         setDrupalVersions([]);
       }

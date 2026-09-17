@@ -1,0 +1,22 @@
+{
+  "list": [
+    {
+      "version": "12.0.0-alpha1",
+      "major": "12",
+      "minor": "0",
+      "patch": "0",
+      "extra": "alpha1",
+      "vcs_label": "12.0.0-alpha1",
+      "insecure": "0"
+    },
+    {
+      "version": "12.0.0-alpha0",
+      "major": "12",
+      "minor": "0",
+      "patch": "0",
+      "extra": "alpha0",
+      "vcs_label": "12.0.0-alpha0",
+      "insecure": "0"
+    }
+  ]
+}
