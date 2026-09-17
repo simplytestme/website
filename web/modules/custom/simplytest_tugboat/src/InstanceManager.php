@@ -10,6 +10,7 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Logger\LoggerChannelInterface;
 use Drupal\simplytest_ocd\OneClickDemoPluginManager;
 use Drupal\tugboat\TugboatClient;
+use Psr\Log\LogLevel;
 
 /**
  * InstanceManager service.
@@ -92,13 +93,24 @@ class InstanceManager implements InstanceManagerInterface {
   #[\Override]
   public function loadPreviewId(string $context): string {
     $preview_id = $this->basePreviews->findUsable($context);
-    if ($preview_id === NULL) {
-      // The sandbox still builds, from scratch. It is slower, and worth
-      // knowing about, but not worth refusing the launch.
-      $this->logger->error('No base preview for @context; building without one.', ['@context' => $context]);
-      return 'none';
+    if ($preview_id !== NULL) {
+      return $preview_id;
     }
-    return $preview_id;
+    // The sandbox still builds, from scratch. It is slower, and worth knowing
+    // about, but not worth refusing the launch.
+    //
+    // Only a base the site keeps is an error when it is not there. A launch
+    // can name a context that was never going to have one -- a core version
+    // past the newest the site builds a base for, which is how every Drupal 12
+    // launch reads until 12 has a stable release to build one from. That is
+    // the arrangement working, not a fault, so it stays out of Sentry.
+    $expected = in_array($context, $this->basePreviews->names(), TRUE);
+    $this->logger->log(
+      $expected ? LogLevel::ERROR : LogLevel::INFO,
+      'No base preview for @context; building without one.',
+      ['@context' => $context],
+    );
+    return 'none';
   }
 
   /**

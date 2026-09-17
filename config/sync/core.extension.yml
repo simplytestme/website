@@ -45,7 +45,6 @@ module:
   text: 0
   toolbar: 0
   tugboat: 0
-  update: 0
   user: 0
   views_ui: 0
   menu_link_content: 1

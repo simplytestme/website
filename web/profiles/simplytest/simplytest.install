@@ -55,3 +55,21 @@ function simplytest_update_11001(): void {
   // `drush deploy` and the config:status CI job do.
   \Drupal::service('module_installer')->install(['simplytest_sentry']);
 }
+
+/**
+ * Uninstalls the Update Status module.
+ */
+function simplytest_update_11002(): void {
+  // Config import would uninstall it on its own, from core.extension.yml.
+  // Uninstalling it here instead means the database matches config/sync by the
+  // time anything compares the two.
+  //
+  // @see simplytest_update_11001()
+  //
+  // Without the second argument this takes every module that depends on Update
+  // Status with it. simplytest_projects declared that dependency for a URL
+  // constant, and uninstalling it drops the project and version tables, so the
+  // default turned a config change into data loss. The dependency is gone, and
+  // this makes sure nothing that grows one later is uninstalled by surprise.
+  \Drupal::service('module_installer')->uninstall(['update'], FALSE);
+}

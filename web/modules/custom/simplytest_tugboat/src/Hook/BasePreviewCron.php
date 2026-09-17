@@ -25,7 +25,7 @@ final readonly class BasePreviewCron {
   public const int LIFETIME = 86400;
 
   /**
-   * The state key holding when the base previews were last rebuilt.
+   * The state key holding when each base preview was last built, by name.
    */
   public const string REBUILT = 'simplytest_tugboat.base_previews_rebuilt';
 
@@ -82,15 +82,46 @@ final readonly class BasePreviewCron {
       return;
     }
 
-    $rebuilt = (int) $this->state->get(self::REBUILT, 0);
-    if ($now - $rebuilt < self::LIFETIME) {
+    // Each base is on its own clock. One clock for the whole set meant a base
+    // added between rebuilds -- a new one click demo, a new core version --
+    // waited out the rest of the cycle before it was ever built, and until
+    // then every launch that wanted it built from scratch.
+    $rebuilt = $this->lastBuilds();
+    $due = array_values(array_filter(
+      $this->basePreviews->names(),
+      static fn (string $name): bool => $now - ($rebuilt[$name] ?? 0) >= self::LIFETIME,
+    ));
+    if ($due === []) {
       return;
     }
     // Record the attempt before building. A base that fails to build is retried
     // on the next cycle, not on every cron run, so a broken build cannot pile
     // previews up on Tugboat.
-    $this->state->set(self::REBUILT, $now);
-    $this->basePreviews->rebuildAll();
+    foreach ($due as $name) {
+      $rebuilt[$name] = $now;
+    }
+    $this->state->set(self::REBUILT, $rebuilt);
+    $this->basePreviews->rebuildEach($due);
+  }
+
+  /**
+   * When each base was last built, by name.
+   *
+   * @return array<string, int>
+   */
+  private function lastBuilds(): array {
+    $rebuilt = $this->state->get(self::REBUILT);
+    // This used to be one timestamp for the whole set. Reading it as the time
+    // every base was last built keeps the deploy that introduces the map from
+    // rebuilding all of them at once.
+    if (is_int($rebuilt)) {
+      return array_fill_keys($this->basePreviews->names(), $rebuilt);
+    }
+    if (!is_array($rebuilt)) {
+      return [];
+    }
+    /** @var array<string, int> $rebuilt */
+    return $rebuilt;
   }
 
 }

@@ -31,6 +31,18 @@ final class BasePreviewManager {
 
   /**
    * Core major versions that get a base preview.
+   *
+   * A major belongs here once it has a stable release. The base is built with
+   * `composer create-project drupal/recommended-project:^N`, which resolves
+   * nothing at default stability until one exists -- 12 was tried, and the
+   * build fails with "Could not find package". Launches for a major that is
+   * not here still work; the sandbox builds from scratch, slower, and
+   * InstanceManager::loadPreviewId() says so at info rather than error.
+   *
+   * So: add 12 when 12.0.0 ships. Until then every Drupal 12 launch pays the
+   * full build, which was around three a day when this was written.
+   *
+   * @see \Drupal\simplytest_tugboat\InstanceManager::loadPreviewId()
    */
   private const array MAJOR_VERSIONS = [7, 8, 9, 10, 11];
 
@@ -134,15 +146,28 @@ final class BasePreviewManager {
   /**
    * Creates a fresh preview for every base.
    *
-   * One base failing to start does not stop the others. Tugboat rejecting a
-   * request is logged, and that base is picked up by the next rebuild.
-   *
    * @return array<string, string|null>
    *   The new preview ID per base name, or NULL where Tugboat refused.
    */
   public function rebuildAll(): array {
+    return $this->rebuildEach($this->names());
+  }
+
+  /**
+   * Creates a fresh preview for each of the named bases.
+   *
+   * One base failing to start does not stop the others. Tugboat rejecting a
+   * request is logged, and that base is picked up by the next rebuild.
+   *
+   * @param list<string> $names
+   *   The bases to build.
+   *
+   * @return array<string, string|null>
+   *   The new preview ID per base name, or NULL where Tugboat refused.
+   */
+  public function rebuildEach(array $names): array {
     $started = [];
-    foreach ($this->names() as $name) {
+    foreach ($names as $name) {
       try {
         $started[$name] = $this->rebuild($name);
       }
