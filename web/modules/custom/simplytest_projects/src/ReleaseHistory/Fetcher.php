@@ -5,7 +5,6 @@ namespace Drupal\simplytest_projects\ReleaseHistory;
 use Drupal\Component\Datetime\DateTimePlus;
 use Drupal\Core\State\StateInterface;
 use Drupal\simplytest_projects\Exception\ReleaseHistoryNotModifiedException;
-use Drupal\update\UpdateFetcher;
 use GuzzleHttp\ClientInterface;
 
 /**
@@ -16,6 +15,18 @@ use GuzzleHttp\ClientInterface;
  * @see \Drupal\update\UpdateFetcher
  */
 final readonly class Fetcher {
+
+  /**
+   * Where drupal.org serves release history from.
+   *
+   * Copied from core rather than read off it: taking the constant meant the
+   * module depended on Update Status, whose namespace is only registered while
+   * it is installed. Nothing else here wanted the module, and having it cost a
+   * daily fetch of every project's release history and a mail nobody read.
+   *
+   * @see \Drupal\update\UpdateFetcher::UPDATE_DEFAULT_URL
+   */
+  private const string RELEASE_HISTORY_URL = 'https://updates.drupal.org/release-history';
 
   public function __construct(
       /**
@@ -56,7 +67,7 @@ final readonly class Fetcher {
       throw new \InvalidArgumentException("Only the 'current' and '7.x' channel are supported, {$channel} was provided.");
     }
 
-    $url = UpdateFetcher::UPDATE_DEFAULT_URL . '/' . $project . '/' . $channel;
+    $url = self::RELEASE_HISTORY_URL . '/' . $project . '/' . $channel;
     $headers = [
       'Accept' => 'text/xml',
     ];
