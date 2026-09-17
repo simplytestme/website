@@ -91,6 +91,9 @@ final readonly class MockedHttpMiddleware {
       if (str_starts_with($uri, 'https://api.tugboatqa.com/v3/')) {
         return $this->handleTugboat($request);
       }
+      if (str_starts_with($uri, 'https://git.drupalcode.org/api/v4/projects/204857/')) {
+        return $this->handleSiteTemplateList();
+      }
 
       throw new \InvalidArgumentException("No response mocked for '{$request->getUri()}'");
     };
@@ -276,6 +279,25 @@ final readonly class MockedHttpMiddleware {
       return new FulfilledPromise(new Response(200, ['Last-Modified' => 'Wed, 21 Apr 2021 00:36:14 GMT'], "No release history was found for the requested project ($project)."));
     }
     return new FulfilledPromise(new Response(200, ['Last-Modified' => 'Wed, 21 Apr 2021 00:36:14 GMT'], file_get_contents($fixture)));
+  }
+
+  /**
+   * Serves Drupal CMS's curated site template list.
+   *
+   * The URL is fixed, so the shape of the response is chosen with a state key
+   * rather than by asking for a different one.
+   */
+  private function handleSiteTemplateList(): FulfilledPromise {
+    $body = match ($this->state->get('simplytest_ocd.site_templates_response', 'default')) {
+      // The file is there but holds nothing.
+      'empty' => '',
+      // Not YAML at all, which is what a GitLab error page looks like.
+      'garbage' => "\t- [this is: not\n  valid yaml",
+      // Every entry is one the importer has to skip.
+      'unusable' => "paid:\n  name: Paid\n  package: vendor/paid\n  purchase:\n    price: 10\n    url: https://example.com\n",
+      default => (string) file_get_contents(__DIR__ . '/../../../fixtures/site-templates/curated.yml'),
+    };
+    return new FulfilledPromise(new Response(200, ['Content-Type' => 'text/plain; charset=utf-8'], $body));
   }
 
   private function handleTugboat(RequestInterface $request): FulfilledPromise|RejectedPromise {

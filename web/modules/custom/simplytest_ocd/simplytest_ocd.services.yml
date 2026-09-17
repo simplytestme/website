@@ -1,4 +1,25 @@
 services:
+  logger.channel.simplytest_ocd:
+    parent: logger.channel_base
+    arguments: ['simplytest_ocd']
   plugin.manager.oneclickdemo:
     class: Drupal\simplytest_ocd\OneClickDemoPluginManager
     parent: default_plugin_manager
+  Drupal\simplytest_ocd\SiteTemplateRepository:
+    class: Drupal\simplytest_ocd\SiteTemplateRepository
+    arguments:
+      - '@keyvalue'
+  Drupal\simplytest_ocd\SiteTemplateImporter:
+    class: Drupal\simplytest_ocd\SiteTemplateImporter
+    arguments:
+      - '@http_client'
+      - '@Drupal\simplytest_ocd\SiteTemplateRepository'
+      - '@state'
+      - '@datetime.time'
+      - '@logger.channel.simplytest_ocd'
+  Drupal\simplytest_ocd\Hook\SiteTemplateCron:
+    class: Drupal\simplytest_ocd\Hook\SiteTemplateCron
+    arguments:
+      - '@Drupal\simplytest_ocd\SiteTemplateImporter'
+      - '@state'
+      - '@datetime.time'

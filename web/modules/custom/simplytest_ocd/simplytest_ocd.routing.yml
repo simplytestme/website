@@ -14,3 +14,11 @@ simplytest_ocd.launch:
   requirements:
     _access: 'TRUE'
     _format: 'json'
+simplytest_ocd.site_templates:
+  path: '/site-templates'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\simplytest_ocd\Controller\Resources::siteTemplates'
+  requirements:
+    _access: 'TRUE'
+    _format: 'json'

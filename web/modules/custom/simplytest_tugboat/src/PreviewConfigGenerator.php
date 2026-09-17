@@ -4,6 +4,7 @@ namespace Drupal\simplytest_tugboat;
 
 use Drupal\simplytest_ocd\OneClickDemoInterface;
 use Drupal\simplytest_ocd\OneClickDemoPluginManager;
+use Drupal\simplytest_ocd\Plugin\OneClickDemo\SiteTemplate;
 use Drupal\simplytest_projects\ProjectTypes;
 
 /**
@@ -185,7 +186,8 @@ final readonly class PreviewConfigGenerator {
     $images = $major === NULL
       ? self::ONE_CLICK_DEMO_IMAGES
       : $this->images($major);
-    if ($major === NULL) {
+    $demo = NULL;
+    if ($major === NULL && $name !== SiteTemplate::BASE_PREVIEW) {
       $demo = $this->demoForBase($name);
       if ($demo === NULL) {
         throw new \InvalidArgumentException("No base preview is defined for '$name'.");
@@ -205,7 +207,10 @@ final readonly class PreviewConfigGenerator {
     // Nothing about a demo depends on the launch, so its base is the whole
     // demo, installed. A launch clones it, which takes seconds. Drupal 7 and 8
     // sandboxes are git checkouts and get nothing here.
-    if ($major === NULL) {
+    if ($name === SiteTemplate::BASE_PREVIEW) {
+      $init = [...$init, ...self::siteTemplateBaseCommands()];
+    }
+    elseif ($major === NULL) {
       $init = [...$init, ...$this->demoCommands($demo, [])];
     }
     elseif ($major > 8) {
@@ -280,6 +285,8 @@ final readonly class PreviewConfigGenerator {
   public function oneClickDemo(string $demo_id, array $parameters): array {
     $one_click_demo = $this->oneClickDemoManager->createInstance($demo_id);
     assert($one_click_demo instanceof OneClickDemoInterface);
+    $definition = $one_click_demo->getPluginDefinition();
+    $resolve = ($definition['clone_base'] ?? TRUE) !== FALSE;
 
     return [
       'services' => [
@@ -288,7 +295,7 @@ final readonly class PreviewConfigGenerator {
           'default' => TRUE,
           'depends' => 'mysql',
           'commands' => [
-            'build' => [...self::ENVIRONMENT, ...$this->demoCommands($one_click_demo, $parameters)],
+            'build' => [...self::ENVIRONMENT, ...$this->demoCommands($one_click_demo, $parameters, $resolve)],
           ],
         ],
         'mysql' => [
@@ -308,7 +315,7 @@ final readonly class PreviewConfigGenerator {
    *
    * @return list<string>
    */
-  private function demoCommands(OneClickDemoInterface $demo, array $parameters): array {
+  private function demoCommands(OneClickDemoInterface $demo, array $parameters, bool $resolve = TRUE): array {
     // @todo all things should be build plugins, normalize with ::generate.
     return array_merge(
       $demo->getSetupCommands($parameters),
@@ -316,8 +323,12 @@ final readonly class PreviewConfigGenerator {
       $demo->getDownloadCommands($parameters),
       ['echo "SIMPLYEST_STAGE_PATCHING"'],
       $demo->getPatchingCommands($parameters),
+      // A demo that builds its own project leaves the dependencies unresolved
+      // until here. One that starts from a shared base has a lock file already
+      // and must not be updated off it: `composer update` would move every
+      // package in the base and rewrite the tree the base exists to reuse.
+      $resolve ? ['cd stm && composer update --no-ansi'] : [],
       [
-        'cd stm && composer update --no-ansi',
         'echo "SIMPLYEST_STAGE_INSTALLING"',
         'cd "${DOCROOT}" && chmod -R 777 sites/default',
       ],
@@ -331,10 +342,34 @@ final readonly class PreviewConfigGenerator {
   }
 
   /**
+   * Drupal CMS on disk, with no site installed.
+   *
+   * @return list<string>
+   */
+  private static function siteTemplateBaseCommands(): array {
+    return [
+      'echo "memory_limit = 1024M" >> /usr/local/etc/php/conf.d/my-php.ini',
+      'rm -rf "${DOCROOT}" "${TUGBOAT_ROOT}/stm"',
+      'cd "${TUGBOAT_ROOT}" && composer -n create-project drupal/cms:^2 stm --no-install',
+      // Drush is a dev dependency of the Drupal CMS project template, and a
+      // sandbox has no reason to trust that it stays one.
+      'cd "${TUGBOAT_ROOT}/stm" && composer require --no-update drush/drush',
+      'cd "${TUGBOAT_ROOT}/stm" && composer install --no-ansi',
+      'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"',
+    ];
+  }
+
+  /**
    * The demo plugin whose base preview carries a name.
+   *
+   * Only a demo that owns its base counts. A demo which merely builds on a
+   * shared base does not describe what that base contains.
    */
   private function demoForBase(string $name): ?OneClickDemoInterface {
     foreach ($this->oneClickDemoManager->getDefinitions() as $id => $definition) {
+      if (($definition['clone_base'] ?? TRUE) === FALSE) {
+        continue;
+      }
       if ($definition['base_preview_name'] === $name) {
         $demo = $this->oneClickDemoManager->createInstance($id);
         assert($demo instanceof OneClickDemoInterface);
