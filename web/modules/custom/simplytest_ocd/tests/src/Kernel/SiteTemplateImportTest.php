@@ -195,6 +195,25 @@ final class SiteTemplateImportTest extends KernelTestBase {
   }
 
   /**
+   * A template launches through the same route the demo tiles use.
+   *
+   * The plugin ID of a derivative carries a colon, and that has to survive
+   * being put in a URL path.
+   */
+  public function testATemplateLaunchesThroughTheDemoRoute(): void {
+    $this->importer()->import();
+    $this->demos()->clearCachedDefinitions();
+
+    $request = Request::create('/one-click-demos/' . rawurlencode('site_template:byte'), 'POST');
+    $request->headers->set('Accept', 'application/json');
+    $response = $this->container->get('http_kernel')->handle($request);
+
+    self::assertSame(200, $response->getStatusCode());
+    $data = Json::decode((string) $response->getContent());
+    self::assertSame('OK', $data['status']);
+  }
+
+  /**
    * The build commands name the template's own package and recipe.
    */
   public function testTheLaunchRequiresTheTemplateAndInstallsItsRecipe(): void {

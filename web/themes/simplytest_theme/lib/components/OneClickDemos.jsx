@@ -1,69 +1,10 @@
 import { useEffect, useState } from 'react';
 
+import launch from '../launch';
 import { btnPrimarySm, btnSecondarySm } from '../ui';
 import { fetchWithCallback } from '../utils';
-
-function doLaunch(demo, setProcessing, setErrors) {
-  setProcessing(demo.id);
-  fetch(`/one-click-demos/${demo.id}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-  })
-    .then((res) => {
-      res
-        .json()
-        .then((json) => {
-          if (res.ok) {
-            // The title lets the progress page name the build.
-            const params = new URLSearchParams({
-              demo: demo.id,
-              title: demo.title,
-            });
-            window.location.href = `${json.progress}?${params.toString()}`;
-          } else {
-            setProcessing('');
-            setErrors([json.message]);
-          }
-        })
-        .catch((error) => {
-          setProcessing('');
-          setErrors([error.message]);
-        });
-    })
-    .catch((error) => {
-      setProcessing('');
-      setErrors([error.message]);
-    });
-}
-
-function Spinner() {
-  return (
-    <svg
-      className="h-4 w-4 animate-spin text-current"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-    >
-      <circle
-        className="opacity-25"
-        cx="12"
-        cy="12"
-        r="10"
-        stroke="currentColor"
-        strokeWidth="4"
-      />
-      <path
-        className="opacity-75"
-        fill="currentColor"
-        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-      />
-    </svg>
-  );
-}
+import SiteTemplates from './SiteTemplates';
+import Spinner from './Spinner';
 
 function TilePreview({ caption, accent }) {
   return (
@@ -113,45 +54,11 @@ function DemoTile({ demo, processing, setProcessing, setErrors }) {
           className={`${recommended ? btnPrimarySm : btnSecondarySm} mt-1.5 flex items-center justify-center gap-2`}
           onClick={(event) => {
             event.preventDefault();
-            doLaunch(demo, setProcessing, setErrors);
+            launch(demo, setProcessing, setErrors);
           }}
         >
           <span>Launch demo</span>
           {processing === demo.id ? <Spinner /> : null}
-        </button>
-      </div>
-    </div>
-  );
-}
-
-// Placeholder tile until site-template launches are supported.
-function SiteTemplatesTile() {
-  return (
-    <div className="flex flex-col overflow-hidden rounded-[14px] border border-dashed border-st-dash bg-st-field">
-      <div className="grid h-[108px] flex-none grid-cols-2 grid-rows-2 gap-1 border-b border-st-line2 p-3">
-        {[0, 1, 2, 3].map((i) => (
-          <div
-            key={i}
-            className="rounded-[3px] bg-[repeating-linear-gradient(135deg,#e4edf5_0_6px,#f2f7fb_6px_12px)]"
-          />
-        ))}
-      </div>
-      <div className="flex flex-1 flex-col gap-2.5 p-5">
-        <h3 className="m-0 text-lg font-bold tracking-[-0.015em] text-st-body">
-          Site templates
-        </h3>
-        <p className="m-0 flex-1 text-[13.5px] leading-[1.55] text-st-muted">
-          Prebuilt starting points for common site types. Pick one and launch
-          it.
-        </p>
-        <span className="font-mono text-[11px] text-st-faint">coming soon</span>
-        <button
-          type="button"
-          disabled
-          title="Site templates are coming soon"
-          className={`${btnSecondarySm} mt-1.5`}
-        >
-          Browse templates
         </button>
       </div>
     </div>
@@ -189,7 +96,7 @@ function OneClickDemos({ setErrors }) {
             setErrors={setErrors}
           />
         ))}
-        {demos.length > 0 && <SiteTemplatesTile />}
+        {demos.length > 0 && <SiteTemplates setErrors={setErrors} />}
       </div>
     </section>
   );

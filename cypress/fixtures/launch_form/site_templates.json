@@ -1,0 +1,28 @@
+[
+  {
+    "id": "site_template:byte",
+    "name": "Byte",
+    "description": "Designed for a SaaS product website, this template includes landing pages, a blog and newsletter sign up.",
+    "screenshot": null,
+    "creator": "Drupal CMS",
+    "links": [
+      { "text": "Learn more", "url": "https://new.drupal.org/site-template/byte" }
+    ]
+  },
+  {
+    "id": "site_template:haven",
+    "name": "Haven",
+    "description": "Designed for non-profit sites, with blog, projects and people profiles.",
+    "screenshot": null,
+    "creator": "Drupal CMS",
+    "links": []
+  },
+  {
+    "id": "site_template:healthcare",
+    "name": "Healthcare",
+    "description": "Designed for medical clinics and hospital networks, with provider directories and location finders.",
+    "screenshot": null,
+    "creator": "Kanopi Studios",
+    "links": []
+  }
+]
