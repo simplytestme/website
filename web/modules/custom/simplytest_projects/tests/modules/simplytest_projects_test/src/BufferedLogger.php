@@ -18,9 +18,9 @@ final class BufferedLogger implements LoggerInterface {
   use RfcLoggerTrait;
 
   /**
-   * @var list<string>
+   * @var list<array{level: mixed, message: string}>
    */
-  private array $messages = [];
+  private array $records = [];
 
   /**
    * {@inheritdoc}
@@ -41,23 +41,43 @@ final class BufferedLogger implements LoggerInterface {
         $replacements[$key] = (string) $value;
       }
     }
-    $this->messages[] = strtr((string) $message, $replacements);
+    $this->records[] = [
+      'level' => $level,
+      'message' => strtr((string) $message, $replacements),
+    ];
   }
 
   /**
    * @return list<string>
    */
   public function getMessages(): array {
-    return $this->messages;
+    return array_column($this->records, 'message');
   }
 
   public function hasMessageContaining(string $needle): bool {
-    foreach ($this->messages as $message) {
-      if (str_contains($message, $needle)) {
-        return TRUE;
+    return $this->find($needle) !== NULL;
+  }
+
+  /**
+   * The severity a message was logged at, or NULL when it was never logged.
+   *
+   * A logger channel translates a PSR level to its RFC 5424 number before
+   * handing it on, so this is a \Drupal\Core\Logger\RfcLogLevel constant.
+   */
+  public function levelOfMessageContaining(string $needle): mixed {
+    return $this->find($needle)['level'] ?? NULL;
+  }
+
+  /**
+   * @return array{level: mixed, message: string}|null
+   */
+  private function find(string $needle): ?array {
+    foreach ($this->records as $record) {
+      if (str_contains($record['message'], $needle)) {
+        return $record;
       }
     }
-    return FALSE;
+    return NULL;
   }
 
 }

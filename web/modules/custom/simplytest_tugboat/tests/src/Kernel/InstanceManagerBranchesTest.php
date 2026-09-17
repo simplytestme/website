@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\Tests\simplytest_tugboat\Kernel;
 
 use Drupal\simplytest_tugboat\InstanceManager;
+use Drupal\Core\Logger\RfcLogLevel;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
@@ -65,11 +66,32 @@ final class InstanceManagerBranchesTest extends KernelTestBase {
 
   /**
    * A context with no base preview reports a sentinel rather than failing.
+   *
+   * A context the site keeps no base for is the arrangement working, so it is
+   * logged below the level that reaches Sentry. Drupal 12 reads this way on
+   * every launch until it has a stable release to build a base from.
    */
   public function testLoadPreviewIdForUnknownContext(): void {
     self::assertEquals('none', $this->sut->loadPreviewId('drupal42'));
     $logger = $this->container->get('simplytest_projects_test.logger');
-    self::assertTrue($logger->hasMessageContaining('No base preview for drupal42'));
+    self::assertEquals(
+      RfcLogLevel::INFO,
+      $logger->levelOfMessageContaining('No base preview for drupal42'),
+    );
+  }
+
+  /**
+   * A base the site keeps and cannot find is an error.
+   */
+  public function testLoadPreviewIdForMissingBase(): void {
+    // The mocked repository has no base-starshot preview, and starshot is a
+    // one click demo, so the site expects one.
+    self::assertEquals('none', $this->sut->loadPreviewId('starshot'));
+    $logger = $this->container->get('simplytest_projects_test.logger');
+    self::assertEquals(
+      RfcLogLevel::ERROR,
+      $logger->levelOfMessageContaining('No base preview for starshot'),
+    );
   }
 
   /**
