@@ -3,7 +3,10 @@
 namespace Drupal\simplytest_ocd\Controller;
 
 use Drupal\Core\Cache\CacheableJsonResponse;
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\Http\Exception\CacheableNotFoundHttpException;
+use Drupal\Core\Render\Markup;
 use Drupal\Core\Url;
 use Drupal\simplytest_ocd\OneClickDemoPluginManager;
 use Drupal\simplytest_tugboat\InstanceManagerInterface;
@@ -108,26 +111,95 @@ class Resources implements ContainerInjectionInterface {
    * than on the home page. Both launch through ::launch().
    */
   public function siteTemplates(): CacheableJsonResponse {
-    $templates = [];
-    foreach ($this->definitionsIn('site_template') as $definition) {
-      $template = $definition['template'] ?? NULL;
-      if (!is_array($template)) {
-        continue;
-      }
-      $templates[] = [
-        'id' => $definition['id'],
-        'name' => $template['name'],
-        'description' => $template['description'],
-        'screenshot' => $template['screenshot'],
-        'creator' => $template['creator'],
-        'links' => $template['links'],
-      ];
-    }
+    $templates = array_values(array_filter(array_map(
+      $this->templateCard(...),
+      $this->definitionsIn('site_template'),
+    )));
     usort($templates, static fn(array $a, array $b) => strcasecmp($a['name'], $b['name']));
 
     $response = new CacheableJsonResponse($templates);
     $response->getCacheableMetadata()->addCacheableDependency($this->manager);
     return $response;
+  }
+
+  /**
+   * The page a site template's permalink opens, such as /template/byte.
+   *
+   * This is for other sites to link to, like the Drupal CMS installer offering
+   * a demo of each template. Loading the page does not launch anything: link
+   * previews, crawlers and prefetching all make GET requests, and every launch
+   * is a Tugboat build. The visitor presses Launch, which posts to ::launch().
+   *
+   * @return array<string, mixed>
+   */
+  public function siteTemplate(string $machine_name): array {
+    $build = [
+      'mount' => [
+        '#markup' => Markup::create('<div class="simplytest-react-component" id="site_template_mount"></div>'),
+        '#attached' => [
+          'library' => [
+            'simplytest_theme/launcher',
+          ],
+          'drupalSettings' => [
+            'siteTemplate' => $this->siteTemplateCard($machine_name),
+          ],
+        ],
+      ],
+    ];
+    CacheableMetadata::createFromObject($this->manager)->applyTo($build);
+    return $build;
+  }
+
+  /**
+   * The title for ::siteTemplate().
+   */
+  public function siteTemplateTitle(string $machine_name): string {
+    return $this->siteTemplateCard($machine_name)['name'];
+  }
+
+  /**
+   * The card for one site template, by its machine name.
+   *
+   * @return array{id: string, name: string, description: string, screenshot: string|null, creator: string|null, links: list<array{text: string, url: string}>}
+   *
+   * @throws \Drupal\Core\Http\Exception\CacheableNotFoundHttpException
+   *   When the curated list has no such template. The 404 varies with the
+   *   plugin definitions, so it clears once the next import adds the template.
+   */
+  private function siteTemplateCard(string $machine_name): array {
+    $definition = $this->definitionsIn('site_template')["site_template:$machine_name"] ?? NULL;
+    $card = $definition === NULL ? NULL : $this->templateCard($definition);
+    if ($card === NULL) {
+      throw new CacheableNotFoundHttpException(
+        CacheableMetadata::createFromObject($this->manager),
+        "$machine_name is not a site template",
+      );
+    }
+    return $card;
+  }
+
+  /**
+   * What the front end shows for a site template.
+   *
+   * @param array<string, mixed> $definition
+   *   The template's plugin definition.
+   *
+   * @return array{id: string, name: string, description: string, screenshot: string|null, creator: string|null, links: list<array{text: string, url: string}>}|null
+   *   The card, or NULL when the definition carries no template.
+   */
+  private function templateCard(array $definition): ?array {
+    $template = $definition['template'] ?? NULL;
+    if (!is_array($template)) {
+      return NULL;
+    }
+    return [
+      'id' => $definition['id'],
+      'name' => $template['name'],
+      'description' => $template['description'],
+      'screenshot' => $template['screenshot'],
+      'creator' => $template['creator'],
+      'links' => $template['links'],
+    ];
   }
 
   /**

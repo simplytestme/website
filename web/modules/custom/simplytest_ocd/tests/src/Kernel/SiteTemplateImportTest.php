@@ -3,6 +3,8 @@
 namespace Drupal\Tests\simplytest_ocd\Kernel;
 
 use Drupal\Component\Serialization\Json;
+use Drupal\Core\Http\Exception\CacheableNotFoundHttpException;
+use Drupal\Core\Url;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_ocd\Controller\Resources;
 use Drupal\simplytest_ocd\Hook\SiteTemplateCron;
@@ -192,6 +194,57 @@ final class SiteTemplateImportTest extends KernelTestBase {
 
     self::assertSame(200, $response->getStatusCode());
     self::assertCount(3, Json::decode((string) $response->getContent()));
+  }
+
+  /**
+   * Each template has a permalink that shows it without launching it.
+   */
+  public function testATemplateHasAPermalink(): void {
+    $this->importer()->import();
+    $this->demos()->clearCachedDefinitions();
+
+    self::assertSame(
+      '/template/byte',
+      Url::fromRoute('simplytest_ocd.site_template', ['machine_name' => 'byte'])->toString(),
+    );
+
+    $resources = Resources::create($this->container);
+    self::assertSame('Byte', $resources->siteTemplateTitle('byte'));
+
+    $build = $resources->siteTemplate('byte');
+    $card = $build['mount']['#attached']['drupalSettings']['siteTemplate'];
+    // The page shows the same card as the picker.
+    $cards = Json::decode((string) $resources->siteTemplates()->getContent());
+    self::assertSame($cards[0], $card);
+    // A new import can change the template, so the page must follow it.
+    self::assertContains('oneclickdemo', $build['#cache']['tags']);
+
+    // Viewing the page did not start a build.
+    self::assertNull($this->container->get('state')->get('https://api.tugboatqa.com/v3/previews'));
+  }
+
+  /**
+   * A permalink for a template that is not in the curated list is a 404.
+   *
+   * The 404 carries the plugin cache tag, so a link published before its
+   * template is imported starts working after the next import.
+   */
+  public function testAnUnknownTemplatePermalinkIsNotFound(): void {
+    $this->importer()->import();
+    $this->demos()->clearCachedDefinitions();
+
+    try {
+      Resources::create($this->container)->siteTemplate('nope');
+      self::fail('An unknown template should not render.');
+    }
+    catch (CacheableNotFoundHttpException $e) {
+      self::assertSame('nope is not a site template', $e->getMessage());
+      self::assertContains('oneclickdemo', $e->getCacheTags());
+    }
+
+    // The demo tiles are not site templates, so they have no permalink.
+    $this->expectException(CacheableNotFoundHttpException::class);
+    Resources::create($this->container)->siteTemplate('oneclickdemo_umami');
   }
 
   /**
