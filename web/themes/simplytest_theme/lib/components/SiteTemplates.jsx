@@ -7,7 +7,7 @@ import Spinner from './Spinner';
 
 // Every template is a Drupal CMS install, so the picker says so once in the
 // footer rather than on each card.
-const CMS_MAJOR = '2.x';
+export const CMS_MAJOR = '2.x';
 
 /**
  * The striped block a card shows when it has no screenshot, or it fails.
