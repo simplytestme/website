@@ -45,7 +45,11 @@ export default defineConfig([
     },
     settings: {
       react: {
-        version: 'detect',
+        // eslint-plugin-react 7.37.5 detects the version through
+        // context.getFilename(), which ESLint 10 removed. Pinning it skips
+        // detection. Drop this and the package.json override once a release
+        // declares ESLint 10 support.
+        version: '19.2',
       },
     },
     rules: {
@@ -76,6 +80,9 @@ export default defineConfig([
       'mocha/no-mocha-arrows': 'off',
       'mocha/no-top-level-hooks': 'off',
       'mocha/max-top-level-suites': 'off',
+      // Cypress commands return chainables, not promises, so a .then() on
+      // one is not an async operation for Mocha to wait on.
+      'mocha/no-async-in-sync-tests': 'off',
       'mocha/no-exclusive-tests': 'error',
     },
   },
