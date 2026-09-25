@@ -72,6 +72,7 @@ final class BasePreviewHealthTest extends KernelTestBase {
       'commerce' => BasePreviewStatus::Ok,
       'starshot' => BasePreviewStatus::Missing,
       'umami' => BasePreviewStatus::Ok,
+      'agent_access' => BasePreviewStatus::Missing,
     ], $statuses);
 
     // A one click demo with no base is the case this exists for: a demo that

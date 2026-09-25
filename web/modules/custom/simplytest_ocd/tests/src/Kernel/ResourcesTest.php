@@ -73,7 +73,7 @@ final class ResourcesTest extends KernelTestBase {
 
     // Demos are ordered by weight so the tile grid is stable: the recommended
     // demo first.
-    self::assertEquals(['starshot', 'oneclickdemo_commerce', 'oneclickdemo_umami'], $ids);
+    self::assertEquals(['starshot', 'oneclickdemo_commerce', 'oneclickdemo_umami', 'oneclickdemo_agent_access'], $ids);
     self::assertTrue($data[0]['recommended']);
   }
 
