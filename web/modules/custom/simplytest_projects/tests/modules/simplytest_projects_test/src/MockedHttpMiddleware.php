@@ -415,6 +415,11 @@ final readonly class MockedHttpMiddleware {
       }
       // A finished build that printed a login link, and the command line that
       // printed it, which carries the marker but no link.
+      if ($job_id === 'default-host-login-job') {
+        return new FulfilledPromise(new Response(200, [], Json::encode([
+          ['message' => 'SIMPLYTEST_LOGIN_URL http://default/user/reset/1/1700000000/hash/login?destination=/'],
+        ])));
+      }
       if ($job_id === 'login-job') {
         return new FulfilledPromise(new Response(200, [], Json::encode([
           ['message' => 'SIMPLYEST_STAGE_FINALIZE'],

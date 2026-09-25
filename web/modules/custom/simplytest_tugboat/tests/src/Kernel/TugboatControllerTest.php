@@ -126,6 +126,15 @@ final class TugboatControllerTest extends KernelTestBase {
   }
 
   /**
+   * A link Drush built without the preview's URL is not used.
+   */
+  public function testInstanceStateIgnoresLoginUrlForOtherHost(): void {
+    $data = Json::decode((string) $this->sut->instanceState('abc123', 'default-host-login-job')->getContent());
+    self::assertNull($data['loginUrl']);
+    self::assertSame([], $data['logs']);
+  }
+
+  /**
    * A suspended preview reports the state it was suspended at.
    */
   public function testInstanceStateForSuspendedPreview(): void {

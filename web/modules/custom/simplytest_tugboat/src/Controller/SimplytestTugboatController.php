@@ -179,7 +179,7 @@ class SimplytestTugboatController extends ControllerBase {
     // to the progress page on its own instead of sitting in a log people copy
     // into issues.
     if ($status_data['type'] === 'preview') {
-      $instance_state['loginUrl'] = $this->loginUrl($logs_data);
+      $instance_state['loginUrl'] = $this->loginUrl($logs_data, (string) $status_data['url']);
     }
     $logs_data = array_values(array_filter($logs_data, static fn(array $log) => !str_starts_with((string) $log['message'], self::LOGIN_URL_MARKER)));
 
@@ -192,13 +192,19 @@ class SimplytestTugboatController extends ControllerBase {
   /**
    * Finds the one-time login link the build printed, if it printed one.
    *
+   * Drush falls back to `http://default` when it is not told the site's URL,
+   * so a link is only trusted when it points at the preview itself.
+   *
    * @param array<int, array{message: string}> $logs_data
    *   The filtered build log.
+   * @param string $preview_url
+   *   The preview's URL.
    */
-  private function loginUrl(array $logs_data): ?string {
+  private function loginUrl(array $logs_data, string $preview_url): ?string {
+    $preview_host = parse_url($preview_url, PHP_URL_HOST);
     foreach ($logs_data as $log) {
       if (preg_match('/^' . self::LOGIN_URL_MARKER . ' (https?:\/\/\S+)/', trim((string) $log['message']), $matches)) {
-        return $matches[1];
+        return parse_url($matches[1], PHP_URL_HOST) === $preview_host ? $matches[1] : NULL;
       }
     }
     return NULL;
