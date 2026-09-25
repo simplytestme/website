@@ -5,7 +5,7 @@
     "license": "GPL-2.0-or-later",
     "homepage": "https://www.drupal.org/project/simplytest",
     "support": {
-        "issues": "https://www.drupal.org/project/issues/simplytest",
+        "issues": "https://git.drupalcode.org/project/simplytest/-/issues",
         "source": "https://git.drupalcode.org/project/simplytest"
     },
     "repositories": [

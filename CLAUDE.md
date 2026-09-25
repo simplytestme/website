@@ -10,9 +10,9 @@ The source for [simplytest.me](https://simplytest.me): a Drupal site that launch
 
 Code and pull requests live on GitHub at [simplytestme/website](https://github.com/simplytestme/website). GitHub issues are disabled.
 
-Issues live in the Drupal.org issue queue at [drupal.org/project/issues/simplytest](https://www.drupal.org/project/issues/simplytest), which `composer.json` declares as the support URL. These have not migrated to GitLab issues, so `glab` does not apply. `git.drupalcode.org/project/simplytest` is listed as the source but is not where development happens, and there are no issue forks or merge requests.
+Issues live as GitLab work items at [git.drupalcode.org/project/simplytest/-/issues](https://git.drupalcode.org/project/simplytest/-/issues), which `composer.json` declares as the support URL. They moved from the old Drupal.org issue queue and kept their node IDs, so `#3546421` is the same issue in both places. The code on `git.drupalcode.org/project/simplytest` is not where development happens, and there are no issue forks or merge requests.
 
-So: read and update issues with the `drupalorg-cli` skill. Open and merge PRs on GitHub with `gh`. Reference the Drupal.org issue number in the PR title or body when a change traces back to one.
+So: read and update issues with `glab` (`GITLAB_HOST=git.drupalcode.org glab issue list -R project/simplytest`). Open and merge PRs on GitHub with `gh`. Reference the issue number in the PR title or body when a change traces back to one.
 
 ## Commands
 
