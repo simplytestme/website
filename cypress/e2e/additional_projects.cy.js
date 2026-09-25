@@ -113,6 +113,21 @@ describe('Tests additional projects and version constraints', () => {
   // so two empty rows shared a key. React tolerates that here because the row
   // ids come from the map index, so this does not reproduce a visible failure.
   // It guards the arrangement the stable row id is meant to protect.
+  // #3192899: core is the base of every sandbox, not something to add.
+  it('should not offer Drupal core as an additional project', function () {
+    cy.pickProject('Password Policy');
+    cy.toggleAdvancedOptions();
+    cy.get('button').contains('Add another project').click();
+    cy.intercept('GET', '**/simplytest/projects/autocomplete**').as(
+      'autocomplete',
+    );
+    cy.get('#additional_project_0').within(() => {
+      cy.getByLabel('Additional project name').type('Drupal');
+      cy.wait('@autocomplete');
+      cy.contains('[role="option"]', 'Drupal core').should('not.exist');
+    });
+  });
+
   it('should render two separate rows when adding two projects before picking either', function () {
     cy.pickProject('Password Policy');
     cy.toggleAdvancedOptions();

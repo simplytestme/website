@@ -22,7 +22,7 @@ export function LauncherProvider({ children }) {
     // @todo in the future, maybe we need to have a reducer that can set all of
     //   this. Like when we refactor the fact the main project version and
     //   project data are two state values.
-    if (project.shortname === 'drupal') {
+    if (project && project.shortname === 'drupal') {
       // @todo this is somehow picking the old project version if changes from
       //    contrib to core.
       setDrupalVersion(version);
@@ -42,8 +42,14 @@ export function LauncherProvider({ children }) {
         shortname: searchParams.get('project'),
       });
     }
-    if (searchParams.has('patch')) {
-      setPatches(searchParams.getAll('patch'));
+    // Links from Dreditor and the 7.x site send `patch[]=`, and the redirect
+    // from /project/{name}/{version} rebuilds that as `patch[0]=`. Accept
+    // every form so those links still arrive with their patches.
+    const patches = [...searchParams.entries()]
+      .filter(([key]) => /^patch(\[\d*\])?$/.test(key))
+      .map(([, value]) => value);
+    if (patches.length > 0) {
+      setPatches(patches);
     }
   }, []);
 

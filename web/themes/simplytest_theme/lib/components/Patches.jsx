@@ -55,7 +55,7 @@ function Patches({ patches, setPatches, idPrefix }) {
               setPatches(newPatches);
             }}
             className="min-w-0 flex-1 rounded-lg border border-st-field-line bg-white px-3.5 py-3 font-mono text-[13px] text-st-body"
-            placeholder="https://www.drupal.org/files/..."
+            placeholder="https://git.drupalcode.org/project/.../-/merge_requests/....diff"
             aria-describedby={hintId}
           />
           <button
@@ -74,9 +74,9 @@ function Patches({ patches, setPatches, idPrefix }) {
         id={hintId}
         className="m-0 w-full break-words text-[13px] leading-normal text-st-muted"
       >
-        Paste the full URL of a patch file, like{' '}
+        Paste the full URL of a merge request diff or a patch file, like{' '}
         <span className="font-mono">
-          https://www.drupal.org/files/issues/3494635-12.patch
+          https://git.drupalcode.org/project/redirect/-/merge_requests/12.diff
         </span>
       </p>
       <button type="button" className={btnDashed} onClick={addPatch}>

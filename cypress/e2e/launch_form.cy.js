@@ -96,7 +96,7 @@ describe('Test the launch form', function () {
         expect(hintId, 'the patch field describes itself').to.be.a('string');
         cy.get(`[id="${hintId}"]`)
           .should('be.visible')
-          .and('contain', 'https://www.drupal.org/files/');
+          .and('contain', 'https://git.drupalcode.org/project/');
       });
   });
 
@@ -145,5 +145,18 @@ describe('Test the launch form', function () {
     cy.getByLabel('Install profile').contains('Minimal');
     cy.getByLabel('Install profile').contains('Standard');
     cy.getByLabel('Install profile').contains('Umami Demo');
+
+    // So do Drupal 10 and 11. The release list is live, so pick whichever
+    // release of each major it offers.
+    cy.getByLabel('Version').select('8.x-1.14');
+    ['10.', '11.'].forEach((major) => {
+      cy.getByLabel('Drupal core')
+        .find(`option[value^="${major}"]`)
+        .first()
+        .then(($option) => {
+          cy.getByLabel('Drupal core').select($option.val());
+        });
+      cy.getByLabel('Install profile').contains('Umami Demo');
+    });
   });
 });

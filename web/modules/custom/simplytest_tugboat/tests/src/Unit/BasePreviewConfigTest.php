@@ -79,7 +79,7 @@ final class BasePreviewConfigTest extends UnitTestCase {
     $init = $this->sut->basePreview('drupal10')['services']['php']['commands']['init'];
 
     self::assertEquals([
-      'docker-php-ext-install bcmath',
+      'docker-php-ext-install bcmath mysqli',
       'a2enmod headers rewrite',
       'wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
       'composer self-update',
@@ -115,7 +115,7 @@ final class BasePreviewConfigTest extends UnitTestCase {
     $init = $this->sut->basePreview('umami')['services']['php']['commands']['init'];
 
     // The environment comes first, then everything the demo plugin does.
-    self::assertEquals('docker-php-ext-install bcmath', $init[0]);
+    self::assertEquals('docker-php-ext-install bcmath mysqli', $init[0]);
     self::assertContains('drush si demo_umami', $init);
     self::assertContains('echo "SIMPLYEST_STAGE_FINALIZE"', $init);
     self::assertGreaterThan(array_search('rm -rf "${DOCROOT}"', $init, TRUE), array_search('drush si demo_umami', $init, TRUE));
