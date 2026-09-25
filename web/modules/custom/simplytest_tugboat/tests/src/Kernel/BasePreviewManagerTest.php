@@ -52,7 +52,7 @@ final class BasePreviewManagerTest extends KernelTestBase {
    */
   public function testNames(): void {
     self::assertEquals(
-      ['drupal7', 'drupal8', 'drupal9', 'drupal10', 'drupal11', 'commerce', 'starshot', 'umami'],
+      ['drupal7', 'drupal8', 'drupal9', 'drupal10', 'drupal11', 'agent_access', 'commerce', 'starshot', 'umami'],
       $this->sut->names(),
     );
   }
