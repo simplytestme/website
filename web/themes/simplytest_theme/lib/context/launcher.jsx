@@ -22,7 +22,7 @@ export function LauncherProvider({ children }) {
     // @todo in the future, maybe we need to have a reducer that can set all of
     //   this. Like when we refactor the fact the main project version and
     //   project data are two state values.
-    if (project.shortname === 'drupal') {
+    if (project && project.shortname === 'drupal') {
       // @todo this is somehow picking the old project version if changes from
       //    contrib to core.
       setDrupalVersion(version);
