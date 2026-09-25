@@ -265,6 +265,11 @@ function SummaryFooter({ submission, children }) {
 function InstanceProgress() {
   const [error, setError] = useState(false);
   const [logOpen, setLogOpen] = useState(false);
+  // Whether this page load saw the build run. Only then does it redirect: a
+  // page that finds the sandbox already built was reached with the back button
+  // or a saved link, and sending that person straight back out would leave no
+  // way to read the build log.
+  const [watchedBuild, setWatchedBuild] = useState(false);
   const [state, setState] = useState({
     progress: 0,
     url: null,
@@ -277,6 +282,7 @@ function InstanceProgress() {
     let timeoutId = null;
     let stopped = false;
     let failures = 0;
+    let watched = false;
 
     const schedule = (delay) => {
       if (!stopped) {
@@ -323,9 +329,14 @@ function InstanceProgress() {
         // Whoever passed a patch is here for the patch. A sandbox built without
         // it is not what they asked for, so hold the page and let them read the
         // log rather than dropping them into a site that looks fine.
-        if (json.url && json.state === 'ready' && !patchFailed(json.logs)) {
+        if (
+          watched &&
+          json.url &&
+          json.state === 'ready' &&
+          !patchFailed(json.logs)
+        ) {
           setTimeout(() => {
-            window.location.href = json.url;
+            window.location.href = json.loginUrl || json.url;
           }, 3000);
         }
         return;
@@ -333,6 +344,8 @@ function InstanceProgress() {
       if (json.state === 'failed') {
         return;
       }
+      watched = true;
+      setWatchedBuild(true);
       schedule(POLL_INTERVAL);
     };
 
@@ -350,6 +363,11 @@ function InstanceProgress() {
     state.type === 'preview' && state.state === 'ready' && state.url;
   // Built and running, but without the patch that was asked for.
   const patchSkipped = Boolean(ready) && patchFailed(state.logs);
+  const redirecting = Boolean(ready) && watchedBuild && !patchSkipped;
+  // The login link works once. A page that watched the build has not used it
+  // yet; one that found the build finished has most likely already been
+  // through it, and the sandbox remembers that session anyway.
+  const openUrl = (watchedBuild && state.loginUrl) || state.url;
 
   // A failed build lands with the log open, and so does a skipped patch: the
   // log is the only place that names the patch that was refused.
@@ -404,8 +422,22 @@ function InstanceProgress() {
             </>
           ) : (
             <>
-              Opening it in a moment. You&rsquo;re signed in as an
-              administrator.
+              {redirecting ? (
+                <>Opening it in a moment. </>
+              ) : (
+                <>
+                  Open it when you&rsquo;re ready, or read the build log
+                  below.{' '}
+                </>
+              )}
+              {openUrl === state.loginUrl ? (
+                <>You&rsquo;ll be signed in as an administrator.</>
+              ) : (
+                <>
+                  If it asks you to log in, use admin as both the username and
+                  the password.
+                </>
+              )}
             </>
           )}
         </PageHeading>
@@ -419,7 +451,7 @@ function InstanceProgress() {
               Copy link
             </CopyButton>
             <a
-              href={state.url}
+              href={openUrl}
               className={`${btnPrimary} whitespace-nowrap px-[22px] py-3.5 text-center text-[15px]`}
             >
               Open sandbox
