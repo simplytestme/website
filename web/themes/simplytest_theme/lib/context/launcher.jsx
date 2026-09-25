@@ -42,8 +42,14 @@ export function LauncherProvider({ children }) {
         shortname: searchParams.get('project'),
       });
     }
-    if (searchParams.has('patch')) {
-      setPatches(searchParams.getAll('patch'));
+    // Links from Dreditor and the 7.x site send `patch[]=`, and the redirect
+    // from /project/{name}/{version} rebuilds that as `patch[0]=`. Accept
+    // every form so those links still arrive with their patches.
+    const patches = [...searchParams.entries()]
+      .filter(([key]) => /^patch(\[\d*\])?$/.test(key))
+      .map(([, value]) => value);
+    if (patches.length > 0) {
+      setPatches(patches);
     }
   }, []);
 
