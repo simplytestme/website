@@ -96,7 +96,7 @@ describe('Test the launch form', function () {
         expect(hintId, 'the patch field describes itself').to.be.a('string');
         cy.get(`[id="${hintId}"]`)
           .should('be.visible')
-          .and('contain', 'https://www.drupal.org/files/');
+          .and('contain', 'https://git.drupalcode.org/project/');
       });
   });
 
