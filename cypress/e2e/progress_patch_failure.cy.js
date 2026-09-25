@@ -1,11 +1,11 @@
-// The progress page decides on its own whether a finished build is worth
-// redirecting into. composer-patches aborts the build when a patch is refused,
+// The progress page decides on its own whether a finished build looks like a
+// success. composer-patches aborts the build when a patch is refused,
 // so a refused patch normally arrives as a failed job — but that is a property
 // of the pinned major, and the pin has drifted out from under us once already.
 // These cover the guard that keeps a silently unpatched sandbox from looking
 // like a success.
 //
-// @see https://www.drupal.org/project/simplytest/issues/3388692
+// @see https://git.drupalcode.org/project/simplytest/-/work_items/3388692
 const PROGRESS_PATH = '/tugboat/progress/instance-1/job-1';
 const PATCH_URL =
   'https://git.drupalcode.org/issue/drupal-3273986/-/commit/7bd5d37bb6926152fd9cca21cc565824e6b034f2';
@@ -37,10 +37,8 @@ const REFUSED_PATCH_LOG = [
 ];
 
 describe('Progress page handling of a refused patch', function () {
-  it('does not redirect into a sandbox that is missing its patch', function () {
+  it('flags a sandbox that is missing its patch', function () {
     cy.intercept('GET', '/tugboat/status/**', readyPreview(REFUSED_PATCH_LOG));
-    // The redirect is a timer, so drive it rather than waiting it out.
-    cy.clock();
     cy.visit(PROGRESS_PATH, {
       qs: { project: 'drupal', version: '11.4.6', patch: PATCH_URL },
     });
@@ -62,36 +60,16 @@ describe('Progress page handling of a refused patch', function () {
       'href',
       `/?project=drupal&version=11.4.6&patch=${encodeURIComponent(PATCH_URL)}`,
     );
-
-    // Well past the redirect delay, the page is still here.
-    cy.tick(10000);
-    cy.location('pathname').should('eq', PROGRESS_PATH);
   });
 
-  it('still redirects when every patch applied', function () {
-    // The page only redirects when it saw the build run, so the first poll
-    // finds it still building.
-    let polls = 0;
-    cy.intercept('GET', '/tugboat/status/**', (req) => {
-      polls += 1;
-      req.reply(
-        polls === 1
-          ? { type: 'job', state: 'building', progress: 60, logs: [] }
-          : readyPreview(CLEAN_LOG),
-      );
-    }).as('status');
-    cy.clock();
+  it('opens the sandbox normally when every patch applied', function () {
+    cy.intercept('GET', '/tugboat/status/**', readyPreview(CLEAN_LOG));
     cy.visit(PROGRESS_PATH, {
       qs: { project: 'drupal', version: '11.4.6', patch: PATCH_URL },
     });
-    cy.wait('@status');
-    cy.tick(3000);
-    cy.wait('@status');
 
     cy.contains('Your sandbox is ready').should('be.visible');
-    cy.contains('Opening it in a moment').should('be.visible');
-
-    cy.tick(10000);
-    cy.location('pathname', { timeout: 10000 }).should('eq', '/user/login');
+    cy.contains('Built without the patch').should('not.exist');
+    cy.contains('No available patcher').should('not.exist');
   });
 });
