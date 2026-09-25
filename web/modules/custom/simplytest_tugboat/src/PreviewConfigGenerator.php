@@ -52,10 +52,13 @@ final readonly class PreviewConfigGenerator {
    * Each step is skipped when the base already did it, which is the normal
    * case. When no base is available the sandbox builds from the bare image,
    * and these make that build succeed rather than fail somewhere later.
-   * Compiling bcmath alone is a fifth of a sandbox build.
+   * Compiling bcmath alone is a fifth of a sandbox build. The Tugboat PHP
+   * images only ship pdo_mysql, and modules such as Backup and Migrate need
+   * mysqli.
    */
   private const array ENVIRONMENT = [
     'php -m | grep -qi bcmath || docker-php-ext-install bcmath',
+    'php -m | grep -qi mysqli || docker-php-ext-install mysqli',
     'a2enmod headers rewrite',
     'command -v yq > /dev/null || (wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq)',
     self::ALLOW_ADVISORIES,
@@ -147,7 +150,6 @@ final readonly class PreviewConfigGenerator {
       'mkdir -p ${DOCROOT}/sites/default/files/private',
       'chown -R www-data:www-data ${DOCROOT}/sites/default',
       'chown -R www-data:www-data ${DOCROOT}/modules',
-      'echo "max_allowed_packet=33554432" >> /etc/my.cnf',
       'echo "SIMPLYEST_STAGE_FINALIZE"'
     ];
     // Drupal 8 and older builds use a global Drush whose `uli` takes different
@@ -215,7 +217,7 @@ final readonly class PreviewConfigGenerator {
     // is only ever updated here: a daily base is fresh enough, and it keeps
     // the sandbox build from paying for it.
     $init = [
-      'docker-php-ext-install bcmath',
+      'docker-php-ext-install bcmath mysqli',
       'a2enmod headers rewrite',
       'wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq',
       'composer self-update',
