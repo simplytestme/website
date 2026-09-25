@@ -102,6 +102,30 @@ final class TugboatControllerTest extends KernelTestBase {
   }
 
   /**
+   * The login link the build printed goes out on its own, not in the log.
+   */
+  public function testInstanceStateCarriesLoginUrl(): void {
+    $data = Json::decode((string) $this->sut->instanceState('abc123', 'login-job')->getContent());
+
+    self::assertEquals(
+      'https://preview.tugboatqa.com/abc123/user/reset/1/1700000000/hash/login?destination=/',
+      $data['loginUrl'],
+    );
+    $messages = array_column($data['logs'], 'message');
+    self::assertEmpty(preg_grep('#/user/reset/#', $messages));
+    self::assertContains('Preview (simplytest) is ready', $messages);
+  }
+
+  /**
+   * A build that printed no login link falls back to the plain URL.
+   */
+  public function testInstanceStateWithoutLoginUrl(): void {
+    $data = Json::decode((string) $this->sut->instanceState('abc123', 'finished-job')->getContent());
+    self::assertNull($data['loginUrl']);
+    self::assertEquals('https://preview.tugboatqa.com/abc123', $data['url']);
+  }
+
+  /**
    * A suspended preview reports the state it was suspended at.
    */
   public function testInstanceStateForSuspendedPreview(): void {

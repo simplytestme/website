@@ -69,11 +69,24 @@ describe('Progress page handling of a refused patch', function () {
   });
 
   it('still redirects when every patch applied', function () {
-    cy.intercept('GET', '/tugboat/status/**', readyPreview(CLEAN_LOG));
+    // The page only redirects when it saw the build run, so the first poll
+    // finds it still building.
+    let polls = 0;
+    cy.intercept('GET', '/tugboat/status/**', (req) => {
+      polls += 1;
+      req.reply(
+        polls === 1
+          ? { type: 'job', state: 'building', progress: 60, logs: [] }
+          : readyPreview(CLEAN_LOG),
+      );
+    }).as('status');
     cy.clock();
     cy.visit(PROGRESS_PATH, {
       qs: { project: 'drupal', version: '11.4.6', patch: PATCH_URL },
     });
+    cy.wait('@status');
+    cy.tick(3000);
+    cy.wait('@status');
 
     cy.contains('Your sandbox is ready').should('be.visible');
     cy.contains('Opening it in a moment').should('be.visible');

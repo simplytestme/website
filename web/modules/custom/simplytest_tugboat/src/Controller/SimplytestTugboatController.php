@@ -44,6 +44,13 @@ class SimplytestTugboatController extends ControllerBase {
   ];
 
   /**
+   * Starts the build log line that carries the sandbox's login link.
+   *
+   * @see \Drupal\simplytest_tugboat\PreviewConfigGenerator::LOGIN_LINK_COMMAND
+   */
+  private const string LOGIN_URL_MARKER = 'SIMPLYTEST_LOGIN_URL';
+
+  /**
    * The module settings.
    *
    * @var \Drupal\Core\Config\ImmutableConfig
@@ -143,6 +150,7 @@ class SimplytestTugboatController extends ControllerBase {
       'updatedAt' => $status_data['updatedAt'],
       'type' => $status_data['type'],
       'url' => null,
+      'loginUrl' => null,
     ];
 
     if ($status_data['type'] === 'preview') {
@@ -167,10 +175,33 @@ class SimplytestTugboatController extends ControllerBase {
       !str_contains((string) $log['message'], '-> origin/') &&
       !str_contains((string) $log['message'], '[new tag]')));
 
+    // Whoever holds the login link is signed in as the admin, so it is handed
+    // to the progress page on its own instead of sitting in a log people copy
+    // into issues.
+    if ($status_data['type'] === 'preview') {
+      $instance_state['loginUrl'] = $this->loginUrl($logs_data);
+    }
+    $logs_data = array_values(array_filter($logs_data, static fn(array $log) => !str_starts_with((string) $log['message'], self::LOGIN_URL_MARKER)));
+
     $instance_state['logs'] = $logs_data;
     $instance_state['progress'] = $this->calculateProgress($logs_data);
 
     return $this->stateResponse($instance_state);
+  }
+
+  /**
+   * Finds the one-time login link the build printed, if it printed one.
+   *
+   * @param array<int, array{message: string}> $logs_data
+   *   The filtered build log.
+   */
+  private function loginUrl(array $logs_data): ?string {
+    foreach ($logs_data as $log) {
+      if (preg_match('/^' . self::LOGIN_URL_MARKER . ' (https?:\/\/\S+)/', trim((string) $log['message']), $matches)) {
+        return $matches[1];
+      }
+    }
+    return NULL;
   }
 
   /**
