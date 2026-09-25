@@ -133,6 +133,7 @@ final class InstanceManagerTest extends KernelTestBase {
                 'chown -R www-data:www-data ${DOCROOT}/modules',
                 'echo "max_allowed_packet=33554432" >> /etc/my.cnf',
                 'echo "SIMPLYEST_STAGE_FINALIZE"',
+                'cd "${DOCROOT}" && echo "SIMPLYTEST_LOGIN_URL $(../vendor/bin/drush uli --uri="${TUGBOAT_DEFAULT_SERVICE_URL}" --no-browser /)"',
               ],
             ],
           ],

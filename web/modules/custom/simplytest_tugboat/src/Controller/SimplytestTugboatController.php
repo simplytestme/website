@@ -44,6 +44,13 @@ class SimplytestTugboatController extends ControllerBase {
   ];
 
   /**
+   * Starts the build log line that carries the sandbox's login link.
+   *
+   * @see \Drupal\simplytest_tugboat\PreviewConfigGenerator::LOGIN_LINK_COMMAND
+   */
+  private const string LOGIN_URL_MARKER = 'SIMPLYTEST_LOGIN_URL';
+
+  /**
    * The module settings.
    *
    * @var \Drupal\Core\Config\ImmutableConfig
@@ -143,6 +150,7 @@ class SimplytestTugboatController extends ControllerBase {
       'updatedAt' => $status_data['updatedAt'],
       'type' => $status_data['type'],
       'url' => null,
+      'loginUrl' => null,
     ];
 
     if ($status_data['type'] === 'preview') {
@@ -167,10 +175,39 @@ class SimplytestTugboatController extends ControllerBase {
       !str_contains((string) $log['message'], '-> origin/') &&
       !str_contains((string) $log['message'], '[new tag]')));
 
+    // Whoever holds the login link is signed in as the admin, so it is handed
+    // to the progress page on its own instead of sitting in a log people copy
+    // into issues.
+    if ($status_data['type'] === 'preview') {
+      $instance_state['loginUrl'] = $this->loginUrl($logs_data, (string) $status_data['url']);
+    }
+    $logs_data = array_values(array_filter($logs_data, static fn(array $log) => !str_starts_with((string) $log['message'], self::LOGIN_URL_MARKER)));
+
     $instance_state['logs'] = $logs_data;
     $instance_state['progress'] = $this->calculateProgress($logs_data);
 
     return $this->stateResponse($instance_state);
+  }
+
+  /**
+   * Finds the one-time login link the build printed, if it printed one.
+   *
+   * Drush falls back to `http://default` when it is not told the site's URL,
+   * so a link is only trusted when it points at the preview itself.
+   *
+   * @param array<int, array{message: string}> $logs_data
+   *   The filtered build log.
+   * @param string $preview_url
+   *   The preview's URL.
+   */
+  private function loginUrl(array $logs_data, string $preview_url): ?string {
+    $preview_host = parse_url($preview_url, PHP_URL_HOST);
+    foreach ($logs_data as $log) {
+      if (preg_match('/^' . self::LOGIN_URL_MARKER . ' (https?:\/\/\S+)/', trim((string) $log['message']), $matches)) {
+        return parse_url($matches[1], PHP_URL_HOST) === $preview_host ? $matches[1] : NULL;
+      }
+    }
+    return NULL;
   }
 
   /**

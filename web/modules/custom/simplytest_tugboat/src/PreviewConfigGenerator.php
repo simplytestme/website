@@ -78,6 +78,18 @@ final readonly class PreviewConfigGenerator {
     'mysql' => 'tugboatqa/mysql:8',
   ];
 
+  /**
+   * Prints a one-time login link for the sandbox's admin account.
+   *
+   * The progress page sends people through it so they land signed in, on the
+   * front page. `drush uli` runs inside the echo so a failure cannot fail a
+   * build that is otherwise done: the marker prints without a link and the
+   * page falls back to the plain preview URL.
+   *
+   * @see \Drupal\simplytest_tugboat\Controller\SimplytestTugboatController::LOGIN_URL_MARKER
+   */
+  private const string LOGIN_LINK_COMMAND = 'cd "${DOCROOT}" && echo "SIMPLYTEST_LOGIN_URL $(../vendor/bin/drush uli --uri="${TUGBOAT_DEFAULT_SERVICE_URL}" --no-browser /)"';
+
   public function __construct(
     // @todo what if all builds were a plugin – so D7, D8, D9, Umami, Commerce?
     private OneClickDemoPluginManager $oneClickDemoManager
@@ -138,6 +150,11 @@ final readonly class PreviewConfigGenerator {
       'echo "max_allowed_packet=33554432" >> /etc/my.cnf',
       'echo "SIMPLYEST_STAGE_FINALIZE"'
     ];
+    // Drupal 8 and older builds use a global Drush whose `uli` takes different
+    // arguments, and a manual install has no site to log in to yet.
+    if ($parameters['perform_install'] && $parameters['major_version'] > 8) {
+      $build_commands[] = [self::LOGIN_LINK_COMMAND];
+    }
 
     return [
       'services' => [
@@ -295,7 +312,15 @@ final readonly class PreviewConfigGenerator {
           'default' => TRUE,
           'depends' => 'mysql',
           'commands' => [
-            'build' => [...self::ENVIRONMENT, ...$this->demoCommands($one_click_demo, $parameters, $resolve)],
+            // The login link is not part of the demo commands because those
+            // also build the demo's base preview, and a link printed there
+            // would point at the base. A launch cloned from the base skips this
+            // build and opens without one.
+            'build' => [
+              ...self::ENVIRONMENT,
+              ...$this->demoCommands($one_click_demo, $parameters, $resolve),
+              self::LOGIN_LINK_COMMAND,
+            ],
           ],
         ],
         'mysql' => [

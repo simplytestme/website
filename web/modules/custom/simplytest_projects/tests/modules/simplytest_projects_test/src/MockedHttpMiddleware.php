@@ -413,6 +413,21 @@ final readonly class MockedHttpMiddleware {
           ['message' => 'Preview (simplytest) is ready'],
         ])));
       }
+      // A finished build that printed a login link, and the command line that
+      // printed it, which carries the marker but no link.
+      if ($job_id === 'default-host-login-job') {
+        return new FulfilledPromise(new Response(200, [], Json::encode([
+          ['message' => 'SIMPLYTEST_LOGIN_URL http://default/user/reset/1/1700000000/hash/login?destination=/'],
+        ])));
+      }
+      if ($job_id === 'login-job') {
+        return new FulfilledPromise(new Response(200, [], Json::encode([
+          ['message' => 'SIMPLYEST_STAGE_FINALIZE'],
+          ['message' => 'Running: echo "SIMPLYTEST_LOGIN_URL $(../vendor/bin/drush uli)"'],
+          ['message' => "SIMPLYTEST_LOGIN_URL https://preview.tugboatqa.com/abc123/user/reset/1/1700000000/hash/login?destination=/\n"],
+          ['message' => 'Preview (simplytest) is ready'],
+        ])));
+      }
       return new FulfilledPromise(new Response(200, [], Json::encode([
         ['message' => 'Cloning repository'],
         // These three are noise the controller is expected to strip.
