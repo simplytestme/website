@@ -20,6 +20,7 @@ function ProjectAutocomplete({
   initialProject = null,
   setSelectedItem,
   additionalBtn = false,
+  excludeCore = false,
 }) {
   const [inputItems, setInputItems] = useState([]);
   const [searched, setSearched] = useState(false);
@@ -40,6 +41,13 @@ function ProjectAutocomplete({
   } = useCombobox({
     items: inputItems,
     itemToString: (item) => (item ? item.title : ''),
+    // Downshift keeps the selection when the text is deleted, so an emptied
+    // field still launched the project it used to show.
+    stateReducer: (state, { type, changes }) =>
+      type === useCombobox.stateChangeTypes.InputChange &&
+      changes.inputValue === ''
+        ? { ...changes, selectedItem: null }
+        : changes,
     onSelectedItemChange: ({ selectedItem }) => {
       setSelectedItem(selectedItem);
     },
@@ -48,7 +56,13 @@ function ProjectAutocomplete({
       setSearched(false);
       debounce(() => {
         fetchProjects(value, (items) => {
-          setInputItems(items);
+          // Core is the base every sandbox builds on, so it cannot be added
+          // again as an extra project.
+          setInputItems(
+            excludeCore
+              ? items.filter((item) => item.shortname !== 'drupal')
+              : items,
+          );
           setSearched(true);
         });
       })();

@@ -5,6 +5,8 @@ import VersionSelector from './VersionSelector';
 
 function ProjectSelection({
   onChange,
+  onClear = () => {},
+  excludeCore = false,
   appliedCoreConstraint = null,
   additionalBtn = false,
   initialDefaultProject = null,
@@ -32,8 +34,17 @@ function ProjectSelection({
     <div className="flex flex-1 flex-col gap-3.5 lg:flex-row lg:items-end">
       <ProjectAutocomplete
         initialProject={project}
-        setSelectedItem={setProject}
+        setSelectedItem={(item) => {
+          setProject(item);
+          // onChange only fires for a complete selection, so a cleared field
+          // has to be reported on its own.
+          if (!item) {
+            setVersion('');
+            onClear();
+          }
+        }}
         additionalBtn={additionalBtn}
+        excludeCore={excludeCore}
       />
       {/* @todo version select can have a duplicate ID */}
       <VersionSelector

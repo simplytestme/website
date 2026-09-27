@@ -25,6 +25,22 @@ describe('Autofil of launch form from query parameters', function () {
     );
   });
 
+  // Dreditor and the 7.x site sent `patch[]=`, which the redirect to
+  // /configure rewrites as `patch[0]=`.
+  it('should prefill patches from an old patch[] link', function () {
+    cy.visit('/project/drupal/9.3.x', {
+      qs: {
+        'patch[]':
+          'https://www.drupal.org/files/issues/2021-05-16/3214191-2.patch',
+      },
+    });
+    cy.location('pathname').should('contain', '/configure');
+    cy.getByLabel('Project patch 1').should(
+      'have.value',
+      'https://www.drupal.org/files/issues/2021-05-16/3214191-2.patch',
+    );
+  });
+
   it('imports an unknown project from a configure deep link', function () {
     // The deep link is explicit intent, so a project the site does not know
     // yet is looked up on Drupal.org automatically.

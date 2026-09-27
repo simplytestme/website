@@ -90,6 +90,17 @@ describe('Look up on drupal.org button', () => {
   // else. A non-empty list used to suppress the lookup, leaving no way to
   // reach the project actually asked for. Reported for "fox", which found
   // foxycart and spreadfirefox but offered no way to reach fox.
+  // #3215358: an emptied field used to keep launching the old project.
+  it('clears the selection when the field is emptied', () => {
+    cy.visit('/');
+    cy.pickProject('Pathauto');
+    cy.contains('button', 'Launch sandbox').should('be.enabled');
+
+    cy.getByLabel('Module, theme or distribution').clear();
+    cy.contains('button', 'Launch sandbox').should('be.disabled');
+    cy.contains('label', /^Version$/).should('not.exist');
+  });
+
   it('offers the lookup when no result matches exactly', () => {
     cy.request('POST', '/simplytest/projects/lookup', { name: 'pathauto' });
     cy.visit('/');

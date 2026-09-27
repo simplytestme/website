@@ -251,6 +251,33 @@ final class LaunchControllerTest extends KernelTestBase {
   }
 
   /**
+   * Drupal core is the base of every sandbox, not an extra project.
+   */
+  public function testLaunchProjectWithCoreAsAdditionalProject(): void {
+    $response = $this->handle($this->launchRequest([
+      'project' => [
+        'shortname' => 'token',
+        'type' => 'module',
+        'sandbox' => FALSE,
+        'version' => '8.x-1.9',
+      ],
+      'drupalVersion' => '9.3.2',
+      'installProfile' => 'standard',
+      'manualInstall' => '0',
+      'additionalProjects' => [
+        ['shortname' => 'drupal', 'version' => '9.3.2'],
+      ],
+    ]));
+
+    self::assertEquals(422, $response->getStatusCode());
+    $data = Json::decode((string) $response->getContent());
+    self::assertContains(
+      'additionalProjects.0.shortname: Drupal core cannot be added as an additional project.',
+      $data['errors']
+    );
+  }
+
+  /**
    * Only the install profiles the form offers may be launched.
    */
   public function testLaunchProjectWithUnknownInstallProfile(): void {

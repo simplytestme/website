@@ -66,6 +66,18 @@ function AdditionalProjects() {
               }
               initialDefaultVersion={project.version}
               additionalBtn={additionalBtn}
+              excludeCore
+              onClear={() => {
+                const newProjects = [...additionalProjects];
+                newProjects[k] = {
+                  ...additionalProjects[k],
+                  title: '',
+                  shortname: '',
+                  version: '',
+                  patches: [],
+                };
+                setAdditionalProjects(newProjects);
+              }}
               onChange={(changedProject, changedVersion) => {
                 // @todo the state management for ProjectSelection needs refactor
                 // onChange is technically called with each render, and the

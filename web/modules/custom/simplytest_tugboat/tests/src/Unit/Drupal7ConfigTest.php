@@ -42,6 +42,7 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
           'commands' => [
             'build' => [
               'php -m | grep -qi bcmath || docker-php-ext-install bcmath',
+              'php -m | grep -qi mysqli || docker-php-ext-install mysqli',
               'a2enmod headers rewrite',
               'command -v yq > /dev/null || (wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq)',
               'composer config --global policy.advisories.block false',
@@ -59,7 +60,6 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
               'mkdir -p ${DOCROOT}/sites/default/files/private',
               'chown -R www-data:www-data ${DOCROOT}/sites/default',
               'chown -R www-data:www-data ${DOCROOT}/modules',
-              'echo "max_allowed_packet=33554432" >> /etc/my.cnf',
               'echo "SIMPLYEST_STAGE_FINALIZE"',
             ],
           ],
@@ -93,6 +93,7 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
           'commands' => [
             'build' => [
               'php -m | grep -qi bcmath || docker-php-ext-install bcmath',
+              'php -m | grep -qi mysqli || docker-php-ext-install mysqli',
               'a2enmod headers rewrite',
               'command -v yq > /dev/null || (wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq)',
               'composer config --global policy.advisories.block false',
@@ -111,7 +112,6 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
               'mkdir -p ${DOCROOT}/sites/default/files/private',
               'chown -R www-data:www-data ${DOCROOT}/sites/default',
               'chown -R www-data:www-data ${DOCROOT}/modules',
-              'echo "max_allowed_packet=33554432" >> /etc/my.cnf',
               'echo "SIMPLYEST_STAGE_FINALIZE"',
             ],
           ],
@@ -145,6 +145,7 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
           'commands' => [
             'build' => [
               'php -m | grep -qi bcmath || docker-php-ext-install bcmath',
+              'php -m | grep -qi mysqli || docker-php-ext-install mysqli',
               'a2enmod headers rewrite',
               'command -v yq > /dev/null || (wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq)',
               'composer config --global policy.advisories.block false',
@@ -160,7 +161,6 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
               'mkdir -p ${DOCROOT}/sites/default/files/private',
               'chown -R www-data:www-data ${DOCROOT}/sites/default',
               'chown -R www-data:www-data ${DOCROOT}/modules',
-              'echo "max_allowed_packet=33554432" >> /etc/my.cnf',
               'echo "SIMPLYEST_STAGE_FINALIZE"',
             ],
           ],
@@ -193,6 +193,7 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
           'commands' => [
             'build' => [
               'php -m | grep -qi bcmath || docker-php-ext-install bcmath',
+              'php -m | grep -qi mysqli || docker-php-ext-install mysqli',
               'a2enmod headers rewrite',
               'command -v yq > /dev/null || (wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq)',
               'composer config --global policy.advisories.block false',
@@ -219,7 +220,6 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
               'mkdir -p ${DOCROOT}/sites/default/files/private',
               'chown -R www-data:www-data ${DOCROOT}/sites/default',
               'chown -R www-data:www-data ${DOCROOT}/modules',
-              'echo "max_allowed_packet=33554432" >> /etc/my.cnf',
               'echo "SIMPLYEST_STAGE_FINALIZE"',
             ],
           ],
@@ -256,6 +256,7 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
           'commands' => [
             'build' => [
               'php -m | grep -qi bcmath || docker-php-ext-install bcmath',
+              'php -m | grep -qi mysqli || docker-php-ext-install mysqli',
               'a2enmod headers rewrite',
               'command -v yq > /dev/null || (wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq)',
               'composer config --global policy.advisories.block false',
@@ -272,7 +273,6 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
               'mkdir -p ${DOCROOT}/sites/default/files/private',
               'chown -R www-data:www-data ${DOCROOT}/sites/default',
               'chown -R www-data:www-data ${DOCROOT}/modules',
-              'echo "max_allowed_packet=33554432" >> /etc/my.cnf',
               'echo "SIMPLYEST_STAGE_FINALIZE"',
             ],
           ],
@@ -304,6 +304,7 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
           'commands' => [
             'build' => [
               'php -m | grep -qi bcmath || docker-php-ext-install bcmath',
+              'php -m | grep -qi mysqli || docker-php-ext-install mysqli',
               'a2enmod headers rewrite',
               'command -v yq > /dev/null || (wget -q https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && chmod +x /usr/local/bin/yq)',
               'composer config --global policy.advisories.block false',
@@ -319,7 +320,6 @@ final class Drupal7ConfigTest extends TugboatConfigTestBase {
               'mkdir -p ${DOCROOT}/sites/default/files/private',
               'chown -R www-data:www-data ${DOCROOT}/sites/default',
               'chown -R www-data:www-data ${DOCROOT}/modules',
-              'echo "max_allowed_packet=33554432" >> /etc/my.cnf',
               'echo "SIMPLYEST_STAGE_FINALIZE"',
             ],
           ],

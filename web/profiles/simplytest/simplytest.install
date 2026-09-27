@@ -73,3 +73,19 @@ function simplytest_update_11002(): void {
   // this makes sure nothing that grows one later is uninstalled by surprise.
   \Drupal::service('module_installer')->uninstall(['update'], FALSE);
 }
+
+/**
+ * Uses the Simplytest logo as the favicon.
+ */
+function simplytest_update_11003(): void {
+  // Config import would set this on its own, from system.theme.global.yml.
+  // Setting it here instead means the database matches config/sync by the
+  // time anything compares the two.
+  //
+  // @see simplytest_update_11001()
+  \Drupal::configFactory()->getEditable('system.theme.global')
+    ->set('favicon.mimetype', 'image/svg+xml')
+    ->set('favicon.path', 'themes/simplytest_theme/logo.svg')
+    ->set('favicon.use_default', FALSE)
+    ->save();
+}

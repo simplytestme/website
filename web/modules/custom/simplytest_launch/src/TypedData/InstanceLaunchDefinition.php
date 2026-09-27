@@ -52,7 +52,20 @@ final class InstanceLaunchDefinition extends ComplexDataDefinitionBase {
       ->setLabel(new TranslatableMarkup('Manual installation'))
       ->addConstraint('PrimitiveType')
       ->setRequired(TRUE);
+    // Core is what every sandbox builds on. Added again as an extra project it
+    // is required a second time and the build fails.
+    $additional_project = ProjectInfoDefinition::create()
+      ->addConstraint('ComplexData', [
+        'shortname' => [
+          'Regex' => [
+            'pattern' => '/^drupal$/',
+            'match' => FALSE,
+            'message' => 'Drupal core cannot be added as an additional project.',
+          ],
+        ],
+      ]);
     $properties['additionalProjects'] = ListDataDefinition::create('project_info')
+      ->setItemDefinition($additional_project)
       ->setLabel(new TranslatableMarkup('Additional projects'));
     return $properties;
   }

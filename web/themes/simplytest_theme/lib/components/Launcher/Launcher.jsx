@@ -109,6 +109,7 @@ function Launcher() {
           <div className="flex flex-col gap-3.5 lg:flex-row lg:items-end">
             <ProjectSelection
               onChange={setMainProject}
+              onClear={() => setMainProject(null, '')}
               initialDefaultProject={selectedProject}
               initialDefaultVersion={selectedVersion}
             />

@@ -24,8 +24,19 @@ export function ManualInstallCheckbox() {
   );
 }
 
+// Umami shipped in core 8.6. Majors are listed rather than open-ended so a new
+// major has to opt in once someone confirms it still ships the profile.
+function shipsUmami(drupalVersion) {
+  const [major, minor] = drupalVersion
+    .split('.')
+    .map((part) => parseInt(part, 10));
+  if (major === 8) {
+    return minor >= 6;
+  }
+  return major >= 9 && major <= 11;
+}
+
 export function SelectProfile() {
-  const validChecks = ['8.6.', '8.7.', '8.8.', '8.9.', '9.'];
   const { selectedProject, drupalVersion, installProfile, setInstallProfile } =
     useLauncher();
 
@@ -36,9 +47,7 @@ export function SelectProfile() {
     return null;
   }
 
-  const isUmamiAllowed = validChecks.reduce((allowed, version) => {
-    return allowed || drupalVersion.indexOf(version) === 0;
-  }, false);
+  const isUmamiAllowed = shipsUmami(drupalVersion || '');
 
   return (
     <div className="flex flex-1 flex-col gap-[7px]">
