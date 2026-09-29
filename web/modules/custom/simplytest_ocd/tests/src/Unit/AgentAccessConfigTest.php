@@ -44,6 +44,7 @@ final class AgentAccessConfigTest extends OneClickDemoConfigTestBase {
             'cd "${DOCROOT}" && ../vendor/bin/drush config:set simple_oauth.settings public_key "${TUGBOAT_ROOT}/stm/oauth-keys/public.key" -y',
             'cd "${DOCROOT}" && ../vendor/bin/drush config:set simple_oauth.settings private_key "${TUGBOAT_ROOT}/stm/oauth-keys/private.key" -y',
             'cd "${DOCROOT}" && ../vendor/bin/drush config:delete simple_oauth_server_metadata.settings registration_endpoint -y',
+            'cd "${DOCROOT}" && ../vendor/bin/drush cache:rebuild',
             'cd "${DOCROOT}" && ../vendor/bin/drush config-set system.logging error_level verbose -y',
             'chown -R www-data:www-data "${DOCROOT}"/sites/default/files',
             'echo "SIMPLYEST_STAGE_FINALIZE"',

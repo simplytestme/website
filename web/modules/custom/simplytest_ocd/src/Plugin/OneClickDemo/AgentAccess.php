@@ -82,6 +82,11 @@ final class AgentAccess extends OneClickDemoBase {
       // the client registration endpoint. Without a saved value it is built
       // from each request, which is also what a clone on a new hostname needs.
       'cd "${DOCROOT}" && ../vendor/bin/drush config:delete simple_oauth_server_metadata.settings registration_endpoint -y',
+      // Without a rebuild, anonymous visitors are denied every Canvas page
+      // even though the pages are published and anonymous users can view
+      // published content. A rebuild clears whatever stale state the recipe
+      // leaves behind.
+      'cd "${DOCROOT}" && ../vendor/bin/drush cache:rebuild',
     ];
   }
 
