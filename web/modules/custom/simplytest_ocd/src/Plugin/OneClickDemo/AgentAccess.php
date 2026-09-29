@@ -10,7 +10,7 @@ use Drupal\simplytest_ocd\Attribute\OneClickDemo;
  *
  * Agent Access connects external AI agents to Drupal over MCP, with OAuth
  * sign-in through a Drupal account. The site is installed from Byte, a site
- * template that ships with Drupal CMS, because the recipe's starter tools
+ * template for Drupal CMS, because the recipe's starter tools
  * only read content and an empty site gives an agent nothing to list.
  *
  * The recipe leaves key generation and the registration endpoint to the site
@@ -54,7 +54,7 @@ final class AgentAccess extends OneClickDemoBase {
       // package the project requires directly. Lowering the floor lets the
       // recipe bring its own modules; prefer-stable keeps the rest stable.
       'cd "${TUGBOAT_ROOT}/stm" && composer config minimum-stability alpha',
-      'cd "${TUGBOAT_ROOT}/stm" && composer require --no-update drush/drush drupal/agent_access:^1.0',
+      'cd "${TUGBOAT_ROOT}/stm" && composer require --no-update drush/drush drupal/agent_access:^1.0 drupal/byte:^1.1',
     ];
   }
 

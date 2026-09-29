@@ -32,7 +32,7 @@ final class AgentAccessConfigTest extends OneClickDemoConfigTestBase {
             'ln -snf "${TUGBOAT_ROOT}/stm/web" "${DOCROOT}"',
             'echo "SIMPLYEST_STAGE_DOWNLOAD"',
             'cd "${TUGBOAT_ROOT}/stm" && composer config minimum-stability alpha',
-            'cd "${TUGBOAT_ROOT}/stm" && composer require --no-update drush/drush drupal/agent_access:^1.0',
+            'cd "${TUGBOAT_ROOT}/stm" && composer require --no-update drush/drush drupal/agent_access:^1.0 drupal/byte:^1.1',
             'echo "SIMPLYEST_STAGE_PATCHING"',
             'cd stm && composer update --no-ansi',
             'echo "SIMPLYEST_STAGE_INSTALLING"',
