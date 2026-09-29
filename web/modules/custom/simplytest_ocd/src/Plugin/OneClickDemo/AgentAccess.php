@@ -30,21 +30,6 @@ use Drupal\simplytest_ocd\Attribute\OneClickDemo;
 final class AgentAccess extends OneClickDemoBase {
 
   /**
-   * The packages the recipe needs, as its README lists them.
-   *
-   * Composer ignores stability flags on transitive dependencies, so each
-   * prerelease module is required directly with its own flag.
-   */
-  private const array PACKAGES = [
-    'drupal/tool:^1.0@beta',
-    'drupal/tool_belt:^1.0@alpha',
-    'drupal/mcp_server:^2.0.0-beta5@beta',
-    'drupal/mcp_server_tool_bridge:^1.0.0-beta3@beta',
-    'drupal/mcp_server_oauth-mcp_server_oauth:^1.0@alpha',
-    'drupal/agent_access:^1.0.0-alpha2@alpha',
-  ];
-
-  /**
    * Where the OAuth signing keys live, outside the web root.
    */
   private const string KEYS_DIR = '${TUGBOAT_ROOT}/stm/oauth-keys';
@@ -63,9 +48,13 @@ final class AgentAccess extends OneClickDemoBase {
 
   #[\Override]
   public function getDownloadCommands(array $parameters): array {
-    $packages = array_map(escapeshellarg(...), ['drush/drush', ...self::PACKAGES]);
     return [
-      'cd "${TUGBOAT_ROOT}/stm" && composer require --no-update ' . implode(' ', $packages),
+      // The recipe's modules are alpha and beta releases. Drupal CMS allows
+      // only stable ones, and Composer honors a stability flag only on a
+      // package the project requires directly. Lowering the floor lets the
+      // recipe bring its own modules; prefer-stable keeps the rest stable.
+      'cd "${TUGBOAT_ROOT}/stm" && composer config minimum-stability alpha',
+      'cd "${TUGBOAT_ROOT}/stm" && composer require --no-update drush/drush drupal/agent_access:^1.0',
     ];
   }
 
