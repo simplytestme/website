@@ -15,7 +15,7 @@ function TilePreview({ caption, accent }) {
           : 'flex h-[108px] items-center justify-center border-b border-st-line bg-[repeating-linear-gradient(135deg,#eef2f6_0_8px,#f8fafc_8px_16px)]'
       }
     >
-      <span className="font-mono text-[10px] tracking-[0.08em] text-st-faint">
+      <span className="px-3 text-center font-mono text-[10px] tracking-[0.08em] text-st-faint">
         {caption}
       </span>
     </div>
@@ -86,7 +86,9 @@ function OneClickDemos({ setErrors }) {
           content.
         </p>
       </div>
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
+      {/* Five tiles: four demos and the site templates tile. The xl column
+          count matches that so they sit on one row; change both together. */}
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-3 xl:grid-cols-5">
         {demos.map((demo) => (
           <DemoTile
             key={demo.id}

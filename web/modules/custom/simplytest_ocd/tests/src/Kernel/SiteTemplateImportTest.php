@@ -159,7 +159,7 @@ final class SiteTemplateImportTest extends KernelTestBase {
 
     $tiles = Json::decode((string) Resources::create($this->container)->info()->getContent());
     self::assertSame(
-      ['starshot', 'oneclickdemo_commerce', 'oneclickdemo_umami'],
+      ['starshot', 'oneclickdemo_commerce', 'oneclickdemo_umami', 'oneclickdemo_agent_access'],
       array_column($tiles, 'id'),
     );
 
