@@ -52,6 +52,32 @@ describe('Progress page redirect', function () {
     cy.location('pathname').should('eq', '/user/password');
   });
 
+  it('cancels the redirect when people click through first', function () {
+    let polls = 0;
+    cy.intercept('GET', '/tugboat/status/**', (req) => {
+      polls += 1;
+      req.reply(polls === 1 ? BUILDING : READY);
+    }).as('status');
+    cy.clock();
+    cy.visit(PROGRESS_PATH, { qs: { project: 'drupal', version: '11.4.6' } });
+    cy.wait('@status');
+    cy.tick(3000);
+    cy.wait('@status');
+
+    // Keep the click from leaving, to see what the page does after it.
+    cy.contains('a', 'Open sandbox').then(($link) => {
+      $link.on('click', (e) => e.preventDefault());
+    });
+    cy.contains('a', 'Open sandbox').click();
+    // The login link works once, so the click spent it. A second visit would
+    // arrive signed in and get a 403.
+    cy.contains('a', 'Open sandbox').should('have.attr', 'href', '/user/login');
+    cy.contains('signed in as an administrator').should('be.visible');
+
+    cy.tick(3000);
+    cy.location('pathname').should('eq', PROGRESS_PATH);
+  });
+
   it('stays put when the build was already finished', function () {
     cy.intercept('GET', '/tugboat/status/**', READY).as('status');
     cy.clock();

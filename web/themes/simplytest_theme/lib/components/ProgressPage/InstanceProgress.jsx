@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { btnPrimary, btnSecondary, btnSecondarySm } from '../../ui';
 import BuildLog from './BuildLog';
@@ -276,6 +276,12 @@ function InstanceProgress() {
     logs: [],
   });
   const submission = useMemo(() => readSubmission(), []);
+  // The login link works once. Once the page is on its way to it, by the
+  // redirect or a click, visiting it again lands on a 403 because the first
+  // visit already signed the browser in. So a click cancels the pending
+  // redirect, and either one switches the button to the plain URL.
+  const redirectTimer = useRef(null);
+  const [leaving, setLeaving] = useState(false);
 
   useEffect(() => {
     const { stateUrl } = drupalSettings;
@@ -335,7 +341,8 @@ function InstanceProgress() {
           json.state === 'ready' &&
           !patchFailed(json.logs)
         ) {
-          setTimeout(() => {
+          redirectTimer.current = setTimeout(() => {
+            setLeaving(true);
             window.location.href = json.loginUrl || json.url;
           }, 3000);
         }
@@ -355,6 +362,7 @@ function InstanceProgress() {
       if (timeoutId) {
         clearTimeout(timeoutId);
       }
+      clearTimeout(redirectTimer.current);
     };
   }, []);
 
@@ -367,7 +375,7 @@ function InstanceProgress() {
   // The login link works once. A page that watched the build has not used it
   // yet; one that found the build finished has most likely already been
   // through it, and the sandbox remembers that session anyway.
-  const openUrl = (watchedBuild && state.loginUrl) || state.url;
+  const openUrl = (watchedBuild && !leaving && state.loginUrl) || state.url;
 
   // A failed build lands with the log open, and so does a skipped patch: the
   // log is the only place that names the patch that was refused.
@@ -430,7 +438,7 @@ function InstanceProgress() {
                   below.{' '}
                 </>
               )}
-              {openUrl === state.loginUrl ? (
+              {watchedBuild && state.loginUrl ? (
                 <>You&rsquo;ll be signed in as an administrator.</>
               ) : (
                 <>
@@ -452,6 +460,10 @@ function InstanceProgress() {
             </CopyButton>
             <a
               href={openUrl}
+              onClick={() => {
+                clearTimeout(redirectTimer.current);
+                setLeaving(true);
+              }}
               className={`${btnPrimary} whitespace-nowrap px-[22px] py-3.5 text-center text-[15px]`}
             >
               Open sandbox
