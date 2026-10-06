@@ -6,6 +6,7 @@ namespace Drupal\Tests\simplytest_ocd\Kernel;
 
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Cache\CacheableJsonResponse;
+use Drupal\Core\Http\Exception\CacheableNotFoundHttpException;
 use Drupal\Core\Url;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_ocd\Controller\Resources;
@@ -23,6 +24,8 @@ use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 #[CoversClass(Resources::class)]
 #[CoversMethod(Resources::class, 'info')]
 #[CoversMethod(Resources::class, 'launch')]
+#[CoversMethod(Resources::class, 'demo')]
+#[CoversMethod(Resources::class, 'demoTitle')]
 #[CoversMethod(OneClickDemoPluginManager::class, '__construct')]
 #[Group('simplytest')]
 #[Group('simplytest_ocd')]
@@ -111,6 +114,66 @@ final class ResourcesTest extends KernelTestBase {
 
     $this->expectException(ServiceUnavailableHttpException::class);
     Resources::create($this->container)->launch('oneclickdemo_umami');
+  }
+
+  /**
+   * Each demo has a landing page that shows it without launching it.
+   */
+  public function testADemoHasALandingPage(): void {
+    self::assertSame(
+      '/demo/agent-access',
+      Url::fromRoute('simplytest_ocd.demo', ['slug' => 'agent-access'])->toString(),
+    );
+
+    $resources = Resources::create($this->container);
+    self::assertSame('Agent Access', $resources->demoTitle('agent-access'));
+
+    $build = $resources->demo('agent-access');
+    self::assertSame(
+      [
+        'id' => 'oneclickdemo_agent_access',
+        'title' => 'Agent Access',
+        'description' => "Drupal CMS, ready for AI agents. Connect one to the site's /mcp URL and sign in as admin.",
+      ],
+      $build['mount']['#attached']['drupalSettings']['demo'],
+    );
+    self::assertContains('oneclickdemo', $build['#cache']['tags']);
+
+    // Viewing the page did not contact Tugboat, so nothing was launched.
+    self::assertNull($this->container->get('state')->get('tugboat.preview_list_requests'));
+  }
+
+  /**
+   * Every demo tile has a landing page.
+   */
+  public function testEveryDemoHasASlug(): void {
+    $resources = Resources::create($this->container);
+    $titles = array_map(
+      $resources->demoTitle(...),
+      ['drupal-cms', 'commerce-kickstart', 'umami', 'agent-access'],
+    );
+    self::assertSame(
+      array_column(Json::decode((string) $resources->info()->getContent()), 'title'),
+      $titles,
+    );
+  }
+
+  /**
+   * A landing page for a slug no demo has is a 404.
+   */
+  public function testAnUnknownDemoLandingPageIsNotFound(): void {
+    try {
+      Resources::create($this->container)->demo('nope');
+      self::fail('An unknown demo should not render.');
+    }
+    catch (CacheableNotFoundHttpException $e) {
+      self::assertSame('nope is not a demo', $e->getMessage());
+      self::assertContains('oneclickdemo', $e->getCacheTags());
+    }
+
+    // The plugin ID is not the slug.
+    $this->expectException(CacheableNotFoundHttpException::class);
+    Resources::create($this->container)->demo('oneclickdemo_agent_access');
   }
 
   public function testPluginManagerDefinitions(): void {

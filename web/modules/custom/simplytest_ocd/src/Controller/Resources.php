@@ -158,6 +158,63 @@ class Resources implements ContainerInjectionInterface {
   }
 
   /**
+   * The landing page for a demo, such as /demo/agent-access.
+   *
+   * Like ::siteTemplate(), this is for other sites to link to, and loading it
+   * does not launch anything.
+   *
+   * @return array<string, mixed>
+   */
+  public function demo(string $slug): array {
+    $build = [
+      'mount' => [
+        '#markup' => Markup::create('<div class="simplytest-react-component" id="demo_mount"></div>'),
+        '#attached' => [
+          'library' => [
+            'simplytest_theme/launcher',
+          ],
+          'drupalSettings' => [
+            'demo' => $this->demoCard($slug),
+          ],
+        ],
+      ],
+    ];
+    CacheableMetadata::createFromObject($this->manager)->applyTo($build);
+    return $build;
+  }
+
+  /**
+   * The title for ::demo().
+   */
+  public function demoTitle(string $slug): string {
+    return $this->demoCard($slug)['title'];
+  }
+
+  /**
+   * What the landing page shows for a demo, by its slug.
+   *
+   * @return array{id: string, title: string, description: string}
+   *
+   * @throws \Drupal\Core\Http\Exception\CacheableNotFoundHttpException
+   *   When no demo has the slug.
+   */
+  private function demoCard(string $slug): array {
+    foreach ($this->definitionsIn('demo') as $definition) {
+      if (($definition['slug'] ?? NULL) === $slug) {
+        return [
+          'id' => $definition['id'],
+          'title' => (string) $definition['title'],
+          'description' => (string) $definition['description'],
+        ];
+      }
+    }
+    throw new CacheableNotFoundHttpException(
+      CacheableMetadata::createFromObject($this->manager),
+      "$slug is not a demo",
+    );
+  }
+
+  /**
    * The card for one site template, by its machine name.
    *
    * @return array{id: string, name: string, description: string, screenshot: string|null, creator: string|null, links: list<array{text: string, url: string}>}

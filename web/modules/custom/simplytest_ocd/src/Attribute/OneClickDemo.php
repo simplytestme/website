@@ -37,6 +37,10 @@ final class OneClickDemo extends Plugin {
    *   base preview is the finished demo, which is the case for a demo that
    *   owns its base. FALSE when the base is only a starting point shared with
    *   other demos, and the launch still has work to do on top of it.
+   * @param string|null $slug
+   *   The demo's landing page path segment, such as `agent-access` for
+   *   /demo/agent-access. Other sites link to it, so it must not change once
+   *   published. NULL means the demo has no landing page.
    * @param class-string|null $deriver
    *   (optional) The deriver class.
    */
@@ -49,6 +53,7 @@ final class OneClickDemo extends Plugin {
     public readonly bool $recommended = FALSE,
     public readonly string $group = 'demo',
     public readonly bool $clone_base = TRUE,
+    public readonly ?string $slug = NULL,
     public readonly ?string $deriver = NULL,
   ) {}
 

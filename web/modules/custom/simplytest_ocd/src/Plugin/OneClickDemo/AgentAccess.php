@@ -26,6 +26,7 @@ use Drupal\simplytest_ocd\Attribute\OneClickDemo;
   base_preview_name: "agent_access",
   description: new TranslatableMarkup("Drupal CMS, ready for AI agents. Connect one to the site's /mcp URL and sign in as admin."),
   weight: 3,
+  slug: "agent-access",
 )]
 final class AgentAccess extends OneClickDemoBase {
 

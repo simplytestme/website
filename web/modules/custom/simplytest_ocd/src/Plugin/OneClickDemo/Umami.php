@@ -14,6 +14,7 @@ use Drupal\simplytest_ocd\Attribute\OneClickDemo;
   base_preview_name: "umami",
   description: new TranslatableMarkup("Core's demo profile. The quickest way to show content modelling."),
   weight: 2,
+  slug: "umami",
 )]
 class Umami extends OneClickDemoBase {
 

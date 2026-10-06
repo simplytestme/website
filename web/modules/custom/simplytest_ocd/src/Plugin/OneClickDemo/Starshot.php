@@ -15,6 +15,7 @@ use Drupal\simplytest_ocd\Attribute\OneClickDemo;
   description: new TranslatableMarkup("The new default Drupal, with smart defaults and installable recipes."),
   weight: 0,
   recommended: TRUE,
+  slug: "drupal-cms",
 )]
 class Starshot extends OneClickDemoBase {
 
