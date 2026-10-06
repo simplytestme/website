@@ -41,6 +41,10 @@ final class OneClickDemo extends Plugin {
    *   The demo's landing page path segment, such as `agent-access` for
    *   /demo/agent-access. Other sites link to it, so it must not change once
    *   published. NULL means the demo has no landing page.
+   * @param string|null $screenshot
+   *   A screenshot of the launched demo, relative to the module that provides
+   *   the plugin. The tile crops it from the top, so the part that identifies
+   *   the demo belongs there. NULL shows a placeholder.
    * @param class-string|null $deriver
    *   (optional) The deriver class.
    */
@@ -54,6 +58,7 @@ final class OneClickDemo extends Plugin {
     public readonly string $group = 'demo',
     public readonly bool $clone_base = TRUE,
     public readonly ?string $slug = NULL,
+    public readonly ?string $screenshot = NULL,
     public readonly ?string $deriver = NULL,
   ) {}
 

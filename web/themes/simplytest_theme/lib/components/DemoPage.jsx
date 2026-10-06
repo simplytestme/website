@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import launch from '../launch';
 import { btnPrimary, dangerBlock } from '../ui';
+import DemoPreview from './DemoPreview';
 import Spinner from './Spinner';
 
 /**
@@ -29,11 +30,18 @@ function DemoPage({ demo }) {
 
       <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
         <div className="overflow-hidden rounded-2xl border border-st-line2 bg-white shadow-card">
-          <div className="flex aspect-[4/3] items-center justify-center bg-[repeating-linear-gradient(135deg,#e4edf5_0_8px,#f2f7fb_8px_16px)]">
-            <span className="font-mono text-xs tracking-[0.08em] text-st-faint">
-              {demo.title.toLowerCase()}
-            </span>
-          </div>
+          <DemoPreview
+            demo={demo}
+            className="aspect-[4/3]"
+            large
+            fallback={
+              <div className="flex aspect-[4/3] items-center justify-center bg-[repeating-linear-gradient(135deg,#e4edf5_0_8px,#f2f7fb_8px_16px)]">
+                <span className="font-mono text-xs tracking-[0.08em] text-st-faint">
+                  {demo.title.toLowerCase()}
+                </span>
+              </div>
+            }
+          />
         </div>
 
         <div className="flex flex-col gap-4">

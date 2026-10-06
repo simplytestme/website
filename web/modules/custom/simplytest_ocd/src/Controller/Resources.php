@@ -5,6 +5,8 @@ namespace Drupal\simplytest_ocd\Controller;
 use Drupal\Core\Cache\CacheableJsonResponse;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\Extension\ModuleExtensionList;
+use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\Http\Exception\CacheableNotFoundHttpException;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Url;
@@ -42,7 +44,12 @@ class Resources implements ContainerInjectionInterface {
    * @param \Drupal\simplytest_tugboat\InstanceManagerInterface
    *   The simplytest tugboat instance manager service.
    */
-  public function __construct(OneClickDemoPluginManager $manager, InstanceManagerInterface $instance_manager) {
+  public function __construct(
+    OneClickDemoPluginManager $manager,
+    InstanceManagerInterface $instance_manager,
+    private readonly ModuleExtensionList $moduleList,
+    private readonly FileUrlGeneratorInterface $fileUrlGenerator,
+  ) {
     $this->manager = $manager;
     $this->instanceManager = $instance_manager;
   }
@@ -54,7 +61,9 @@ class Resources implements ContainerInjectionInterface {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('plugin.manager.oneclickdemo'),
-      $container->get('simplytest_tugboat.instance_manager')
+      $container->get('simplytest_tugboat.instance_manager'),
+      $container->get('extension.list.module'),
+      $container->get('file_url_generator'),
     );
   }
 
@@ -88,13 +97,14 @@ class Resources implements ContainerInjectionInterface {
    * The demo tiles for the home page.
    */
   public function info() {
-    $ocds = array_values(array_map(static fn(array $definition) => [
+    $ocds = array_values(array_map(fn(array $definition) => [
       'id' => $definition['id'],
       'title' => $definition['title'],
       'base_preview_name' => $definition['base_preview_name'],
       'description' => $definition['description'] ?? '',
       'weight' => $definition['weight'] ?? 0,
       'recommended' => $definition['recommended'] ?? FALSE,
+      'screenshot' => $this->screenshotUrl($definition),
     ], $this->definitionsIn('demo')));
     usort($ocds, static fn(array $a, array $b) => $a['weight'] <=> $b['weight']);
 
@@ -193,7 +203,7 @@ class Resources implements ContainerInjectionInterface {
   /**
    * What the landing page shows for a demo, by its slug.
    *
-   * @return array{id: string, title: string, description: string}
+   * @return array{id: string, title: string, description: string, screenshot: string|null}
    *
    * @throws \Drupal\Core\Http\Exception\CacheableNotFoundHttpException
    *   When no demo has the slug.
@@ -205,12 +215,32 @@ class Resources implements ContainerInjectionInterface {
           'id' => $definition['id'],
           'title' => (string) $definition['title'],
           'description' => (string) $definition['description'],
+          'screenshot' => $this->screenshotUrl($definition),
         ];
       }
     }
     throw new CacheableNotFoundHttpException(
       CacheableMetadata::createFromObject($this->manager),
       "$slug is not a demo",
+    );
+  }
+
+  /**
+   * The URL of a demo's screenshot.
+   *
+   * @param array<string, mixed> $definition
+   *   The demo's plugin definition.
+   *
+   * @return string|null
+   *   A root-relative URL, or NULL when the demo has no screenshot.
+   */
+  private function screenshotUrl(array $definition): ?string {
+    $screenshot = $definition['screenshot'] ?? NULL;
+    if (!is_string($screenshot) || !is_string($definition['provider'] ?? NULL)) {
+      return NULL;
+    }
+    return $this->fileUrlGenerator->generateString(
+      $this->moduleList->getPath($definition['provider']) . '/' . $screenshot,
     );
   }
 

@@ -69,7 +69,7 @@ final class ResourcesTest extends KernelTestBase {
     // Only the keys the front end needs are exposed.
     foreach ($data as $definition) {
       self::assertEquals(
-        ['id', 'title', 'base_preview_name', 'description', 'weight', 'recommended'],
+        ['id', 'title', 'base_preview_name', 'description', 'weight', 'recommended', 'screenshot'],
         array_keys($definition)
       );
     }
@@ -134,6 +134,7 @@ final class ResourcesTest extends KernelTestBase {
         'id' => 'oneclickdemo_agent_access',
         'title' => 'Agent Access',
         'description' => "Drupal CMS, ready for AI agents. Connect one to the site's /mcp URL and sign in as admin.",
+        'screenshot' => NULL,
       ],
       $build['mount']['#attached']['drupalSettings']['demo'],
     );
@@ -141,6 +142,26 @@ final class ResourcesTest extends KernelTestBase {
 
     // Viewing the page did not contact Tugboat, so nothing was launched.
     self::assertNull($this->container->get('state')->get('tugboat.preview_list_requests'));
+  }
+
+  /**
+   * A demo's screenshot is served from the module that provides it.
+   */
+  public function testScreenshotsResolveToFilesInTheModule(): void {
+    $data = Json::decode((string) Resources::create($this->container)->info()->getContent());
+    $screenshots = array_column($data, 'screenshot', 'id');
+
+    $module_path = $this->container->get('extension.list.module')->getPath('simplytest_ocd');
+    self::assertSame(
+      base_path() . $module_path . '/images/umami.webp',
+      $screenshots['oneclickdemo_umami'],
+    );
+    foreach (['starshot', 'oneclickdemo_commerce', 'oneclickdemo_umami'] as $id) {
+      $path = substr((string) $screenshots[$id], strlen(base_path()));
+      self::assertFileExists($this->root . '/' . $path, $id);
+    }
+    // Agent Access looks like Drupal CMS, so its tile draws its own preview.
+    self::assertNull($screenshots['oneclickdemo_agent_access']);
   }
 
   /**
