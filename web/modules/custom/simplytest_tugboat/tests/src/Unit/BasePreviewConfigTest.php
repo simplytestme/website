@@ -44,7 +44,7 @@ final class BasePreviewConfigTest extends UnitTestCase {
   }
 
   /**
-   * A base only has an init stage, on the images its sandboxes use.
+   * A base builds in its init stage, on the images its sandboxes use.
    */
   #[DataProvider('baseImages')]
   public function testImagesMatchTheSandboxConfig(string $name, string $php, string $mysql): void {
@@ -54,7 +54,7 @@ final class BasePreviewConfigTest extends UnitTestCase {
     self::assertEquals($mysql, $config['services']['mysql']['image']);
     self::assertTrue($config['services']['php']['default']);
     self::assertEquals('mysql', $config['services']['php']['depends']);
-    self::assertEquals(['init'], array_keys($config['services']['php']['commands']));
+    self::assertArrayHasKey('init', $config['services']['php']['commands']);
   }
 
   /**
@@ -119,6 +119,32 @@ final class BasePreviewConfigTest extends UnitTestCase {
     self::assertContains('drush si demo_umami', $init);
     self::assertContains('echo "SIMPLYEST_STAGE_FINALIZE"', $init);
     self::assertGreaterThan(array_search('rm -rf "${DOCROOT}"', $init, TRUE), array_search('drush si demo_umami', $init, TRUE));
+  }
+
+  /**
+   * A launch cloned from a demo's base prints its own login link.
+   *
+   * Only a demo's base is cloned by a launch. Sandboxes and site templates
+   * build on their base, and that build prints the link itself.
+   */
+  public function testOnlyADemoBasePrintsALoginLinkWhenCloned(): void {
+    self::assertEquals(
+      ['init', 'clone'],
+      array_keys($this->sut->basePreview('umami')['services']['php']['commands']),
+    );
+    self::assertEquals(
+      ['cd "${DOCROOT}" && echo "SIMPLYTEST_LOGIN_URL $(../vendor/bin/drush uli --uri="${TUGBOAT_DEFAULT_SERVICE_URL}" --no-browser /)"'],
+      $this->sut->basePreview('umami')['services']['php']['commands']['clone'],
+    );
+    // The link is printed on the clone, never while the base itself builds.
+    self::assertStringNotContainsString(
+      'SIMPLYTEST_LOGIN_URL',
+      implode("\n", $this->sut->basePreview('umami')['services']['php']['commands']['init']),
+    );
+
+    foreach (['drupal7', 'drupal11', 'drupal_cms'] as $name) {
+      self::assertEquals(['init'], array_keys($this->sut->basePreview($name)['services']['php']['commands']), $name);
+    }
   }
 
   public function testUnknownBaseIsRefused(): void {

@@ -244,15 +244,21 @@ final readonly class PreviewConfigGenerator {
       $init[] = 'ln -snf "' . self::PROJECT_DIR . '/web" "${DOCROOT}"';
     }
 
+    $commands = ['init' => $init];
+    // A launch clones a demo's base and runs none of its build, so the login
+    // link comes from the clone stage. Tugboat runs it on the new preview,
+    // which is the URL the link has to point at.
+    if ($demo !== NULL) {
+      $commands['clone'] = [self::LOGIN_LINK_COMMAND];
+    }
+
     return [
       'services' => [
         'php' => [
           'image' => $images['php'],
           'default' => TRUE,
           'depends' => 'mysql',
-          'commands' => [
-            'init' => $init,
-          ],
+          'commands' => $commands,
         ],
         'mysql' => [
           'image' => $images['mysql'],
@@ -317,7 +323,7 @@ final readonly class PreviewConfigGenerator {
             // The login link is not part of the demo commands because those
             // also build the demo's base preview, and a link printed there
             // would point at the base. A launch cloned from the base skips this
-            // build and opens without one.
+            // build and gets its link from the base's clone stage instead.
             'build' => [
               ...self::ENVIRONMENT,
               ...$this->demoCommands($one_click_demo, $parameters, $resolve),
