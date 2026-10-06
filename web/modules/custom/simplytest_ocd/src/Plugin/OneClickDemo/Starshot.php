@@ -16,6 +16,7 @@ use Drupal\simplytest_ocd\Attribute\OneClickDemo;
   weight: 0,
   recommended: TRUE,
   slug: "drupal-cms",
+  screenshot: "images/drupal-cms.webp",
 )]
 class Starshot extends OneClickDemoBase {
 

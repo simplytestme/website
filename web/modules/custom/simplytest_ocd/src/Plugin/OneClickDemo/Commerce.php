@@ -15,6 +15,7 @@ use Drupal\simplytest_ocd\Attribute\OneClickDemo;
   description: new TranslatableMarkup("A working storefront on Drupal Commerce: catalog, cart and checkout."),
   weight: 1,
   slug: "commerce-kickstart",
+  screenshot: "images/commerce-kickstart.webp",
 )]
 class Commerce extends OneClickDemoBase {
 

@@ -3,10 +3,11 @@ import { useEffect, useState } from 'react';
 import launch from '../launch';
 import { btnPrimarySm, btnSecondarySm } from '../ui';
 import { fetchWithCallback } from '../utils';
+import DemoPreview from './DemoPreview';
 import SiteTemplates from './SiteTemplates';
 import Spinner from './Spinner';
 
-function TilePreview({ caption, accent }) {
+function TilePlaceholder({ caption, accent }) {
   return (
     <div
       className={
@@ -32,9 +33,15 @@ function DemoTile({ demo, processing, setProcessing, setErrors }) {
           : 'flex flex-col overflow-hidden rounded-[14px] border border-st-line2 bg-white'
       }
     >
-      <TilePreview
-        caption={`screenshot: ${demo.title.toLowerCase()}`}
-        accent={recommended}
+      <DemoPreview
+        demo={demo}
+        className={`h-[108px] border-b ${recommended ? 'border-[#dcebf7]' : 'border-st-line'}`}
+        fallback={
+          <TilePlaceholder
+            caption={`screenshot: ${demo.title.toLowerCase()}`}
+            accent={recommended}
+          />
+        }
       />
       <div className="flex flex-1 flex-col gap-2.5 p-5">
         {recommended && (
