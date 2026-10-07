@@ -47,6 +47,7 @@ final class InstanceManagerBranchesTest extends KernelTestBase {
     $this->installSchema('simplytest_projects', CoreVersionManager::TABLE_NAME);
     $this->installSchema('simplytest_projects', ProjectVersionManager::TABLE_NAME);
     $this->installSchema('simplytest_tugboat', LaunchRecorder::TABLE_NAME);
+    $this->installConfig(['simplytest_tugboat']);
 
     $this->createProject('token', ProjectTypes::MODULE);
     $this->createProject('pathauto', ProjectTypes::MODULE);

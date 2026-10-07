@@ -6,9 +6,12 @@ use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Component\Serialization\Json;
 use Drupal\Component\Utility\Crypt;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Flood\FloodInterface;
 use Drupal\Core\Logger\LoggerChannelInterface;
 use Drupal\simplytest_ocd\OneClickDemoPluginManager;
+use Drupal\simplytest_tugboat\Exception\LaunchLimitExceededException;
 use Drupal\tugboat\TugboatClient;
 use Psr\Log\LogLevel;
 
@@ -16,6 +19,11 @@ use Psr\Log\LogLevel;
  * InstanceManager service.
  */
 class InstanceManager implements InstanceManagerInterface {
+
+  /**
+   * The flood event every sandbox launch registers.
+   */
+  public const FLOOD_EVENT = 'simplytest_tugboat.launch';
 
   /**
    * The Tugboat module settings.
@@ -59,6 +67,11 @@ class InstanceManager implements InstanceManagerInterface {
   protected $launchRecorder;
 
   /**
+   * This module's settings.
+   */
+  protected ImmutableConfig $settings;
+
+  /**
    * Constructs an InstanceManager object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -77,9 +90,12 @@ class InstanceManager implements InstanceManagerInterface {
    *   The base preview manager.
    * @param \Drupal\Component\Datetime\TimeInterface $time
    *   The time service.
+   * @param \Drupal\Core\Flood\FloodInterface $flood
+   *   The flood service.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, LoggerChannelInterface $logger, ModuleHandlerInterface $module_handler, TugboatClient $tugboat_client, PreviewConfigGenerator $preview_config_generator, LaunchRecorder $launch_recorder, protected BasePreviewManager $basePreviews, protected TimeInterface $time) {
+  public function __construct(ConfigFactoryInterface $config_factory, LoggerChannelInterface $logger, ModuleHandlerInterface $module_handler, TugboatClient $tugboat_client, PreviewConfigGenerator $preview_config_generator, LaunchRecorder $launch_recorder, protected BasePreviewManager $basePreviews, protected TimeInterface $time, protected FloodInterface $flood) {
     $this->tugboatSettings = $config_factory->get('tugboat.settings');
+    $this->settings = $config_factory->get('simplytest_tugboat.settings');
     $this->logger = $logger;
     $this->moduleHandler = $module_handler;
     $this->tugboatClient = $tugboat_client;
@@ -121,6 +137,8 @@ class InstanceManager implements InstanceManagerInterface {
    */
   #[\Override]
   public function launchInstance($submission) {
+    $this->registerLaunch();
+
     // @todo move into its own method or OCD controller directly?
     // Check for one click demos.
     if (!empty($submission['oneclickdemo']) && $this->moduleHandler->moduleExists('simplytest_ocd')) {
@@ -228,6 +246,23 @@ class InstanceManager implements InstanceManagerInterface {
         'job_url' => $tugboat_request->getHeader('Content-Location'),
       ],
     ];
+  }
+
+  /**
+   * Counts a launch against the client's limit, or refuses it.
+   *
+   * Every attempt counts, including one Tugboat then fails, so a client that
+   * retries in a loop cannot keep calling Tugboat.
+   *
+   * @throws \Drupal\simplytest_tugboat\Exception\LaunchLimitExceededException
+   */
+  private function registerLaunch(): void {
+    $limit = (int) $this->settings->get('launch_limit');
+    $window = (int) $this->settings->get('launch_limit_window');
+    if (!$this->flood->isAllowed(self::FLOOD_EVENT, $limit, $window)) {
+      throw new LaunchLimitExceededException($window);
+    }
+    $this->flood->register(self::FLOOD_EVENT, $window);
   }
 
 }

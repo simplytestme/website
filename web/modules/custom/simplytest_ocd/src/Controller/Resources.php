@@ -11,12 +11,14 @@ use Drupal\Core\Http\Exception\CacheableNotFoundHttpException;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Url;
 use Drupal\simplytest_ocd\OneClickDemoPluginManager;
+use Drupal\simplytest_tugboat\Exception\LaunchLimitExceededException;
 use Drupal\simplytest_tugboat\InstanceManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 
 /**
  * Returns responses for simplytest ocd module routes.
@@ -91,7 +93,11 @@ class Resources implements ContainerInjectionInterface {
     try {
       // @todo we need a launchOneClickDemo method?
       $instance = $this->instanceManager->launchInstance($submission);
-    } catch (\Throwable $e) {
+    }
+    catch (LaunchLimitExceededException $e) {
+      throw new TooManyRequestsHttpException($e->retryAfter, $e->getMessage(), $e);
+    }
+    catch (\Throwable $e) {
       throw new ServiceUnavailableHttpException(null, $e->getMessage(), $e);
     }
     return new JsonResponse(

@@ -8,8 +8,10 @@ use Drupal\Component\Utility\Crypt;
 use Drupal\Core\Cache\CacheTagsInvalidatorInterface;
 use Drupal\Core\Config\Config;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Flood\FloodInterface;
 use Drupal\Core\Http\ClientFactory;
 use Drupal\Core\Logger\LoggerChannel;
 use Drupal\simplytest_ocd\OneClickDemoPluginManager;
@@ -41,9 +43,10 @@ final class InstanceManagerTest extends UnitTestCase {
       ['repository_base', 'master'],
     ]);
     $config_factory = $this->createMock(ConfigFactoryInterface::class);
-    $config_factory->method('get')
-      ->with('tugboat.settings')
-      ->willReturn($tugboat_settings);
+    $config_factory->method('get')->willReturnMap([
+      ['tugboat.settings', $tugboat_settings],
+      ['simplytest_tugboat.settings', $this->createStub(ImmutableConfig::class)],
+    ]);
 
     $this->tugboatClient = new TugboatClient(
       new ClientFactory(HandlerStack::create()),
@@ -69,6 +72,9 @@ final class InstanceManagerTest extends UnitTestCase {
       $this->createStub(CacheTagsInvalidatorInterface::class)
     );
 
+    $flood = $this->createStub(FloodInterface::class);
+    $flood->method('isAllowed')->willReturn(TRUE);
+
     $this->instanceManager = new InstanceManager(
       $config_factory,
       new LoggerChannel('foo'),
@@ -78,6 +84,7 @@ final class InstanceManagerTest extends UnitTestCase {
       $launch_recorder,
       $base_previews,
       $this->createStub(TimeInterface::class),
+      $flood,
     );
   }
 

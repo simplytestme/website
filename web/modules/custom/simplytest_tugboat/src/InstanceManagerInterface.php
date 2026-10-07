@@ -30,6 +30,9 @@ interface InstanceManagerInterface {
    *   - project: defaults to 'drupal'
    *   - stm_one_click_demo
    *   - version
+   *
+   * @throws \Drupal\simplytest_tugboat\Exception\LaunchLimitExceededException
+   *   When the client has launched as many sandboxes as the limit allows.
    */
   public function launchInstance($submission);
 

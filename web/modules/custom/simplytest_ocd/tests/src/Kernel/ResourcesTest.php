@@ -20,6 +20,7 @@ use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 
 #[CoversClass(Resources::class)]
 #[CoversMethod(Resources::class, 'info')]
@@ -46,6 +47,7 @@ final class ResourcesTest extends KernelTestBase {
     $this->installEntitySchema('simplytest_project');
     $this->installSchema('simplytest_projects', CoreVersionManager::TABLE_NAME);
     $this->installSchema('simplytest_projects', ProjectVersionManager::TABLE_NAME);
+    $this->installConfig(['simplytest_tugboat']);
 
     $this->config('tugboat.settings')
       ->set('repository_id', 'kerneltestrepo')
@@ -101,6 +103,14 @@ final class ResourcesTest extends KernelTestBase {
     // The demo is a clone of its own base preview.
     $payload = $this->container->get('state')->get('https://api.tugboatqa.com/v3/previews/base-dashi-id/clone');
     self::assertEquals('simplytest', $payload['name']);
+  }
+
+  public function testLaunchPastLaunchLimit(): void {
+    $this->config('simplytest_tugboat.settings')->set('launch_limit', 1)->save();
+    Resources::create($this->container)->launch('oneclickdemo_dashi');
+
+    $this->expectException(TooManyRequestsHttpException::class);
+    Resources::create($this->container)->launch('oneclickdemo_dashi');
   }
 
   public function testLaunchRejectsUnknownDemo(): void {
