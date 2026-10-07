@@ -10,8 +10,6 @@ import TugboatCallout from './TugboatCallout';
 const POLL_INTERVAL = 3000;
 // Give up after this many consecutive failed status requests.
 const MAX_FAILURES = 5;
-// Sandboxes are deleted this long after they were created.
-const SANDBOX_LIFETIME_MS = 2 * 60 * 60 * 1000;
 
 // Stage markers echoed into the build log by the preview config.
 // @see \Drupal\simplytest_tugboat\PreviewConfigGenerator
@@ -37,8 +35,6 @@ const EXCEPTION_HEADER = /^In .+ line \d+:$/;
 // git apply and patch say why a patch was rejected. They run before Composer
 // throws, so they sit above the exception rather than at the end of the log.
 const PATCH_DETAIL = /^(error: |Hunk #|\d+ out of \d+ hunk)/;
-// composer-patches gives up with this once every patcher has refused.
-const PATCH_FAILURE = /No available patcher was able to apply patch/;
 
 // Flatten the log into lines, dropping blanks and Composer's usage synopsis.
 function logLines(logs) {
@@ -46,14 +42,6 @@ function logLines(logs) {
     .flatMap((log) => (log.message || '').split('\n'))
     .map((line) => line.trimEnd())
     .filter((line) => line !== '' && !USAGE_SYNOPSIS.test(line));
-}
-
-// composer-patches 2.x aborts the build when no patcher will take a patch, so
-// this usually shows up on a failed job. It can still land on a successful one:
-// 1.x skipped refused patches by default, and the pinned major has drifted out
-// from under us once already.
-function patchFailed(logs) {
-  return logLines(logs || []).some((line) => PATCH_FAILURE.test(line));
 }
 
 // The lines that actually say what went wrong, rather than the last ones.
@@ -146,12 +134,11 @@ function formatDuration(from, to) {
   return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
 }
 
-function formatExpiry(createdAt) {
-  const created = new Date(createdAt).getTime();
-  if (Number.isNaN(created)) {
+function formatExpiry(expiresAt) {
+  const expires = new Date(expiresAt);
+  if (Number.isNaN(expires.getTime())) {
     return null;
   }
-  const expires = new Date(created + SANDBOX_LIFETIME_MS);
   const time = expires.toLocaleTimeString([], {
     hour: 'numeric',
     minute: '2-digit',
@@ -329,18 +316,11 @@ function InstanceProgress() {
 
       failures = 0;
       setState(json);
-      // A preview means the job finished; a failed job never becomes one.
-      // Either way the state is final and polling must stop.
-      if (json.type === 'preview') {
+      if (json.status === 'ready') {
         // Whoever passed a patch is here for the patch. A sandbox built without
         // it is not what they asked for, so hold the page and let them read the
         // log rather than dropping them into a site that looks fine.
-        if (
-          watched &&
-          json.url &&
-          json.state === 'ready' &&
-          !patchFailed(json.logs)
-        ) {
+        if (watched && !json.patchFailed) {
           redirectTimer.current = setTimeout(() => {
             setLeaving(true);
             window.location.href = json.loginUrl || json.url;
@@ -348,7 +328,7 @@ function InstanceProgress() {
         }
         return;
       }
-      if (json.state === 'failed') {
+      if (json.status === 'failed') {
         return;
       }
       watched = true;
@@ -366,12 +346,11 @@ function InstanceProgress() {
     };
   }, []);
 
-  const failed = state.state === 'failed';
-  const ready =
-    state.type === 'preview' && state.state === 'ready' && state.url;
+  const failed = state.status === 'failed';
+  const ready = state.status === 'ready';
   // Built and running, but without the patch that was asked for.
-  const patchSkipped = Boolean(ready) && patchFailed(state.logs);
-  const redirecting = Boolean(ready) && watchedBuild && !patchSkipped;
+  const patchSkipped = ready && state.patchFailed;
+  const redirecting = ready && watchedBuild && !patchSkipped;
   // The login link works once. A page that watched the build has not used it
   // yet; one that found the build finished has most likely already been
   // through it, and the sandbox remembers that session anyway.
@@ -408,7 +387,7 @@ function InstanceProgress() {
 
   if (ready) {
     const duration = formatDuration(state.createdAt, state.updatedAt);
-    const expiry = formatExpiry(state.createdAt);
+    const expiry = formatExpiry(state.expiresAt);
     const readyEyebrow = duration ? `Ready in ${duration}` : 'Ready';
     return (
       <PageColumn>
@@ -527,9 +506,6 @@ function InstanceProgress() {
 
   if (failed) {
     const excerpt = failureExcerpt(logs);
-    // Only blame the patch when the log says the patch is what failed. A build
-    // can carry patches and still fall over somewhere else entirely.
-    const patchFailed = logLines(logs).some((line) => PATCH_FAILURE.test(line));
     return (
       <PageColumn>
         <PageHeading
@@ -537,7 +513,7 @@ function InstanceProgress() {
           eyebrowClass="text-st-danger"
           title="This one didn't build"
         >
-          {patchFailed
+          {state.patchFailed
             ? "The patch couldn't be applied. That usually means it was written against a different version of the project."
             : "Something in this build didn't come together. The log below shows where it stopped."}
         </PageHeading>

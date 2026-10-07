@@ -9,17 +9,26 @@
 // @see https://git.drupalcode.org/project/simplytest/-/work_items/3423289
 const PROGRESS_PATH = '/tugboat/progress/instance-1/job-1';
 
-const BUILDING = { type: 'job', state: 'building', progress: 60, logs: [] };
+const BUILDING = {
+  type: 'job',
+  state: 'building',
+  status: 'building',
+  progress: 60,
+  logs: [],
+};
 
 const READY = {
   type: 'preview',
   state: 'ready',
+  status: 'ready',
+  patchFailed: false,
   url: '/user/login',
   // Any page on this site stands in for the sandbox's login link.
   loginUrl: '/user/password',
   progress: 100,
   createdAt: '2026-01-01T00:00:00.000Z',
   updatedAt: '2026-01-01T00:01:00.000Z',
+  expiresAt: '2026-01-01T02:00:00+00:00',
   logs: [
     { id: 0, message: 'SIMPLYEST_STAGE_DOWNLOAD' },
     { id: 1, message: 'SIMPLYEST_STAGE_INSTALLING' },

@@ -11,14 +11,17 @@ const PATCH_URL =
   'https://git.drupalcode.org/issue/drupal-3273986/-/commit/7bd5d37bb6926152fd9cca21cc565824e6b034f2';
 
 // Enough of the Tugboat state payload for the page to render a finished build.
-function readyPreview(logMessages) {
+function readyPreview(logMessages, patchFailed) {
   return {
     type: 'preview',
     state: 'ready',
+    status: 'ready',
+    patchFailed,
     url: '/user/login',
     progress: 100,
     createdAt: '2026-01-01T00:00:00.000Z',
     updatedAt: '2026-01-01T00:01:00.000Z',
+    expiresAt: '2026-01-01T02:00:00+00:00',
     logs: logMessages.map((message, id) => ({ id, message })),
   };
 }
@@ -38,7 +41,11 @@ const REFUSED_PATCH_LOG = [
 
 describe('Progress page handling of a refused patch', function () {
   it('does not redirect into a sandbox that is missing its patch', function () {
-    cy.intercept('GET', '/tugboat/status/**', readyPreview(REFUSED_PATCH_LOG));
+    cy.intercept(
+      'GET',
+      '/tugboat/status/**',
+      readyPreview(REFUSED_PATCH_LOG, true),
+    );
     // The redirect is a timer, so drive it rather than waiting it out.
     cy.clock();
     cy.visit(PROGRESS_PATH, {
@@ -76,8 +83,14 @@ describe('Progress page handling of a refused patch', function () {
       polls += 1;
       req.reply(
         polls === 1
-          ? { type: 'job', state: 'building', progress: 60, logs: [] }
-          : readyPreview(CLEAN_LOG),
+          ? {
+              type: 'job',
+              state: 'building',
+              status: 'building',
+              progress: 60,
+              logs: [],
+            }
+          : readyPreview(CLEAN_LOG, false),
       );
     }).as('status');
     cy.clock();

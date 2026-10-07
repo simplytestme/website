@@ -420,6 +420,14 @@ final readonly class MockedHttpMiddleware {
           ['message' => 'SIMPLYTEST_LOGIN_URL http://default/user/reset/1/1700000000/hash/login?destination=/'],
         ])));
       }
+      // A sandbox that built without the patch it was launched with.
+      if ($job_id === 'patch-refused-job') {
+        return new FulfilledPromise(new Response(200, [], Json::encode([
+          ['message' => 'SIMPLYEST_STAGE_PATCHING'],
+          ['message' => "  No available patcher was able to apply patch https://git.drupalcode.org/project/token/-/merge_requests/1.diff\n"],
+          ['message' => 'Preview (simplytest) is ready'],
+        ])));
+      }
       if ($job_id === 'login-job') {
         return new FulfilledPromise(new Response(200, [], Json::encode([
           ['message' => 'SIMPLYEST_STAGE_FINALIZE'],
