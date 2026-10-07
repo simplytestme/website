@@ -51,6 +51,11 @@ class SimplytestTugboatController extends ControllerBase {
   private const string LOGIN_URL_MARKER = 'SIMPLYTEST_LOGIN_URL';
 
   /**
+   * What composer-patches logs once every patcher has refused a patch.
+   */
+  private const string PATCH_REFUSED = 'No available patcher was able to apply patch';
+
+  /**
    * The logger channel for this module.
    *
    * @var \Drupal\Core\Logger\LoggerChannelInterface
@@ -178,6 +183,7 @@ class SimplytestTugboatController extends ControllerBase {
     $instance_state['logs'] = $logs_data;
     $instance_state['progress'] = $this->calculateProgress($logs_data);
     $instance_state['status'] = $this->status($instance_state);
+    $instance_state['patchFailed'] = $this->patchFailed($logs_data);
     $instance_state['expiresAt'] = $this->expiresAt((string) $status_data['createdAt']);
 
     return $this->stateResponse($instance_state);
@@ -203,6 +209,26 @@ class SimplytestTugboatController extends ControllerBase {
       return 'ready';
     }
     return 'building';
+  }
+
+  /**
+   * Whether the build log shows a patch that could not be applied.
+   *
+   * composer-patches 2.x aborts the build when no patcher takes a patch, so
+   * this usually comes with a failed build. A ready sandbox can carry it too:
+   * 1.x skipped a refused patch and kept going. That sandbox runs without the
+   * patch it was launched to test.
+   *
+   * @param array<int, array{message: string}> $logs_data
+   *   The filtered build log.
+   */
+  private function patchFailed(array $logs_data): bool {
+    foreach ($logs_data as $log) {
+      if (str_contains((string) $log['message'], self::PATCH_REFUSED)) {
+        return TRUE;
+      }
+    }
+    return FALSE;
   }
 
   /**

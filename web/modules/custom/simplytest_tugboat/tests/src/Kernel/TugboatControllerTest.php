@@ -88,8 +88,18 @@ final class TugboatControllerTest extends KernelTestBase {
     // Three of the five markers are present in the mocked log.
     self::assertEquals(60, $data['progress']);
     self::assertEquals('ready', $data['status']);
+    self::assertFalse($data['patchFailed']);
     // Created at midnight, deleted one two-hour sandbox lifetime later.
     self::assertEquals('2024-01-01T02:00:00+00:00', $data['expiresAt']);
+  }
+
+  /**
+   * A sandbox that skipped its patch is ready, but says so.
+   */
+  public function testInstanceStateForRefusedPatch(): void {
+    $data = Json::decode((string) $this->sut->instanceState('abc123', 'patch-refused-job')->getContent());
+    self::assertEquals('ready', $data['status']);
+    self::assertTrue($data['patchFailed']);
   }
 
   /**
