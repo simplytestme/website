@@ -37,6 +37,10 @@ describe('Progress page redirect', function () {
     cy.clock();
     cy.visit(PROGRESS_PATH, { qs: { project: 'drupal', version: '11.4.6' } });
     cy.wait('@status');
+    // The reply lands before the page has scheduled its next poll. Ticking
+    // then would skip a timer that does not exist yet, so wait until the
+    // page has rendered the building state.
+    cy.contains('60%').should('be.visible');
     cy.tick(3000);
     cy.wait('@status');
 
@@ -61,6 +65,7 @@ describe('Progress page redirect', function () {
     cy.clock();
     cy.visit(PROGRESS_PATH, { qs: { project: 'drupal', version: '11.4.6' } });
     cy.wait('@status');
+    cy.contains('60%').should('be.visible');
     cy.tick(3000);
     cy.wait('@status');
 
