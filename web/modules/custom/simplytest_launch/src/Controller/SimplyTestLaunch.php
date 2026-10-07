@@ -8,7 +8,6 @@ use Drupal\Core\Database\Connection;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Routing\LocalRedirectResponse;
-use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\TypedData\TypedDataManagerInterface;
 use Drupal\Core\Url;
 use Drupal\simplytest_launch\Exception\UnprocessableHttpEntityException;
@@ -19,13 +18,15 @@ use Drupal\simplytest_tugboat\InstanceManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
-use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 /**
  * Returns responses for config module routes.
  */
 class SimplyTestLaunch implements ContainerInjectionInterface {
+
+  private const string NOT_A_SUBMISSION = 'The request body must be a JSON object describing the launch.';
 
   public function __construct(
     private readonly ProjectFetcher $projectFetcher,
@@ -139,55 +140,31 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
   }
 
   /**
-   * Helper method to validate the submitted data.
+   * Rejects a submission that does not describe a launch we can build.
    *
-   * @todo \Drupal\Core\EventSubscriber\ExceptionJsonSubscriber double encodes
-   *    the errors thrown here. just return the constraints and manually return
-   *    a JSON response of 422.
+   * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+   *   When the body is not a JSON object.
+   * @throws \Drupal\simplytest_launch\Exception\UnprocessableHttpEntityException
+   *   When the submission breaks a constraint, listing every violation.
    */
-  private function validateSubmission($data) {
-    // @todo Flood protection preflight check (IP based, possibly a problem.)
+  private function validateSubmission(mixed $data): void {
+    if (!is_array($data)) {
+      throw new BadRequestHttpException(self::NOT_A_SUBMISSION);
+    }
+    // Typed data builds nested properties as validation reaches them, so a
+    // property of the wrong shape throws from either call.
     try {
-      $definition = $this->typedDataManager->create(InstanceLaunchDefinition::create(), $data);
+      $constraints = $this->typedDataManager
+        ->create(InstanceLaunchDefinition::create(), $data)
+        ->validate();
     }
-    catch (\Throwable $e) {
-      throw new ServiceUnavailableHttpException(null, $e->getMessage());
+    catch (\InvalidArgumentException) {
+      throw new BadRequestHttpException(self::NOT_A_SUBMISSION);
     }
-    $constraints = $definition->validate();
     if ($constraints->count() > 0) {
       $exception = new UnprocessableHttpEntityException();
       $exception->setViolations($constraints);
       throw $exception;
-    }
-
-    // @todo convert these following checks into constraints.
-    $project = $data['project']['shortname'];
-    $version = $data['project']['version'];
-
-    // Get available project versions.
-    $versions = array_map(static fn(\stdClass $release) => $release->version, $this->projectFetcher->fetchVersions($project));
-
-    // Check whether the submitted project exists.
-    if ($versions === FALSE) {
-      throw new UnprocessableEntityHttpException(Json::encode([
-        'errors' => [new TranslatableMarkup(
-          'The selected project shortname %project could not be found.',
-          ['%project' => $project]
-        )]
-      ]));
-    }
-
-    // Check whether the selected version is a known tag or branch.
-    // @todo this should be in the data type constraint.
-    if (!in_array($version, $versions, TRUE)) {
-      // Even if the selected version is no known tag or branch it's still
-      // possible that it's not a version but a specific commit.
-      throw new UnprocessableEntityHttpException(Json::encode([
-        'errors' => [new TranslatableMarkup(
-          'There is no release available with the selected version %version.',
-          ['%version' => $version]
-        )]
-      ]));
     }
   }
 

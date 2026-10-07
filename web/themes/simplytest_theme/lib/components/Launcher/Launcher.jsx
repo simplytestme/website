@@ -60,7 +60,9 @@ function Launcher() {
             } else {
               setSubmitting(false);
               setErrors(
-                json.errors || [
+                json.errors?.map(
+                  (error) => `${error.path}: ${error.message}`,
+                ) || [
                   json.message ||
                     'Something went wrong. Try again in a minute.',
                 ],
