@@ -30,11 +30,14 @@ final class UnprocessableHttpExceptionSubscriber extends ExceptionJsonSubscriber
   public function on4xx(ExceptionEvent $event) {
     $exception = $event->getThrowable();
     if ($exception instanceof UnprocessableHttpEntityException) {
-      $messages = array_map(static fn(ConstraintViolationInterface $violation) => sprintf("%s: %s", $violation->getPropertyPath(), $violation->getMessage()), \iterator_to_array($exception->getViolations()));
+      $errors = array_map(static fn(ConstraintViolationInterface $violation): array => [
+        'path' => $violation->getPropertyPath(),
+        'message' => (string) $violation->getMessage(),
+      ], \iterator_to_array($exception->getViolations()));
 
         $response = new JsonResponse([
           'message' => $exception->getMessage(),
-          'errors' => $messages
+          'errors' => array_values($errors),
         ],
         $exception->getStatusCode(),
         $exception->getHeaders()

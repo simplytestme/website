@@ -11,6 +11,7 @@ use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_launch\Controller\SimplyTestLaunch;
 use Drupal\simplytest_launch\EventSubscriber\UnprocessableHttpExceptionSubscriber;
 use Drupal\simplytest_launch\Plugin\Validation\Constraint\CoreVersionConstraintValidator;
+use Drupal\simplytest_launch\Plugin\Validation\Constraint\ProjectReleaseConstraintValidator;
 use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
 use Drupal\simplytest_projects\ProjectTypes;
@@ -30,6 +31,7 @@ use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 #[CoversMethod(SimplyTestLaunch::class, 'launchProject')]
 #[CoversMethod(UnprocessableHttpExceptionSubscriber::class, 'on4xx')]
 #[CoversMethod(CoreVersionConstraintValidator::class, 'validate')]
+#[CoversMethod(ProjectReleaseConstraintValidator::class, 'validate')]
 #[Group('simplytest')]
 #[Group('simplytest_launch')]
 #[RunTestsInSeparateProcesses]
@@ -226,8 +228,14 @@ final class LaunchControllerTest extends KernelTestBase {
     self::assertEquals(422, $response->getStatusCode());
     $data = Json::decode((string) $response->getContent());
     self::assertEquals('Unprocessable Entity: validation failed.', $data['message']);
-    self::assertContains('project.shortname: This value should not be blank.', $data['errors']);
-    self::assertContains('drupalVersion: This value should not be blank.', $data['errors']);
+    self::assertContains(
+      ['path' => 'project.shortname', 'message' => 'This value should not be blank.'],
+      $data['errors']
+    );
+    self::assertContains(
+      ['path' => 'drupalVersion', 'message' => 'This value should not be blank.'],
+      $data['errors']
+    );
   }
 
   /**
@@ -250,7 +258,13 @@ final class LaunchControllerTest extends KernelTestBase {
     ]));
 
     self::assertEquals(422, $response->getStatusCode());
-    self::assertStringContainsString('8.x-99.0', (string) $response->getContent());
+    $data = Json::decode((string) $response->getContent());
+    self::assertEquals([
+      [
+        'path' => 'project.version',
+        'message' => 'There is no release of token with the version 8.x-99.0.',
+      ],
+    ], $data['errors']);
   }
 
   /**
@@ -276,7 +290,7 @@ final class LaunchControllerTest extends KernelTestBase {
     self::assertEquals(422, $response->getStatusCode());
     $data = Json::decode((string) $response->getContent());
     self::assertContains(
-      'drupalVersion: There is no Drupal core release with the version not a real core version.',
+      ['path' => 'drupalVersion', 'message' => 'There is no Drupal core release with the version not a real core version.'],
       $data['errors']
     );
   }
@@ -303,7 +317,7 @@ final class LaunchControllerTest extends KernelTestBase {
     self::assertEquals(422, $response->getStatusCode());
     $data = Json::decode((string) $response->getContent());
     self::assertContains(
-      'additionalProjects.0.shortname: Drupal core cannot be added as an additional project.',
+      ['path' => 'additionalProjects.0.shortname', 'message' => 'Drupal core cannot be added as an additional project.'],
       $data['errors']
     );
   }
@@ -327,7 +341,7 @@ final class LaunchControllerTest extends KernelTestBase {
     self::assertEquals(422, $response->getStatusCode());
     $data = Json::decode((string) $response->getContent());
     self::assertContains(
-      'installProfile: The install profile must be one of standard, minimal, demo_umami.',
+      ['path' => 'installProfile', 'message' => 'The install profile must be one of standard, minimal, demo_umami.'],
       $data['errors']
     );
   }
@@ -363,22 +377,28 @@ final class LaunchControllerTest extends KernelTestBase {
   }
 
   /**
-   * A submission that is not an array at all is rejected, not fatal.
+   * A body that is not a JSON object is the client's mistake, not ours.
    */
   public function testLaunchProjectWithUnusableSubmission(): void {
-    $controller = SimplyTestLaunch::create($this->container);
+    $response = $this->handle($this->launchRequest('not a submission'));
 
-    $this->expectException(ServiceUnavailableHttpException::class);
-    $request = Request::create(
-      Url::fromRoute('simplytest_launch.project_launcher')->toString(),
-      'POST',
-      [],
-      [],
-      [],
-      [],
-      Json::encode('not a submission'),
-    );
-    $controller->launchProject($request);
+    self::assertEquals(400, $response->getStatusCode());
+    $data = Json::decode((string) $response->getContent());
+    self::assertEquals('The request body must be a JSON object describing the launch.', $data['message']);
+  }
+
+  /**
+   * A property that should be an object but is a string is rejected too.
+   */
+  public function testLaunchProjectWithMalformedProject(): void {
+    $response = $this->handle($this->launchRequest([
+      'project' => 'token',
+      'drupalVersion' => '9.3.2',
+      'installProfile' => 'standard',
+      'manualInstall' => '0',
+    ]));
+
+    self::assertEquals(400, $response->getStatusCode());
   }
 
   private function selectorRequest(string $project, string $version): Request {
@@ -390,9 +410,9 @@ final class LaunchControllerTest extends KernelTestBase {
   }
 
   /**
-   * @param array<string, mixed> $submission
+   * @param array<string, mixed>|string $submission
    */
-  private function launchRequest(array $submission): Request {
+  private function launchRequest(array|string $submission): Request {
     $url = Url::fromRoute('simplytest_launch.project_launcher');
     $request = Request::create($url->toString(), 'POST', [], [], [], [], Json::encode($submission));
     $request->headers->set('Content-Type', 'application/json');
