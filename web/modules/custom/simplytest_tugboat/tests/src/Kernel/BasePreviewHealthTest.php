@@ -71,7 +71,7 @@ final class BasePreviewHealthTest extends KernelTestBase {
       'drupal11' => BasePreviewStatus::Missing,
       'commerce' => BasePreviewStatus::Ok,
       'starshot' => BasePreviewStatus::Missing,
-      'umami' => BasePreviewStatus::Ok,
+      'dashi' => BasePreviewStatus::Ok,
       'agent_access' => BasePreviewStatus::Missing,
     ], $statuses);
 
@@ -83,7 +83,7 @@ final class BasePreviewHealthTest extends KernelTestBase {
     self::assertTrue($this->logger->hasMessageContaining('Launches keep using the base built 2 years'));
     // A healthy base is not worth a word.
     self::assertEquals(0, $this->countMessagesFor('drupal9'));
-    self::assertEquals(0, $this->countMessagesFor('umami'));
+    self::assertEquals(0, $this->countMessagesFor('dashi'));
   }
 
   /**
@@ -92,11 +92,11 @@ final class BasePreviewHealthTest extends KernelTestBase {
   public function testReportsBasesThatStoppedRebuilding(): void {
     $statuses = $this->sut->report(self::ONE_MINUTE);
 
-    self::assertEquals(BasePreviewStatus::Stale, $statuses['umami']);
+    self::assertEquals(BasePreviewStatus::Stale, $statuses['dashi']);
     self::assertEquals(BasePreviewStatus::Stale, $statuses['drupal7']);
     // A failed rebuild is the more useful thing to say about a base.
     self::assertEquals(BasePreviewStatus::Failed, $statuses['drupal10']);
-    self::assertTrue($this->logger->hasMessageContaining('Base preview umami has not been replaced in 2 years'));
+    self::assertTrue($this->logger->hasMessageContaining('Base preview dashi has not been replaced in 2 years'));
   }
 
   /**

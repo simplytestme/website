@@ -67,7 +67,7 @@ final readonly class MockedHttpMiddleware {
     ['name' => 'base-drupal9', 'id' => 'base-drupal9-busy-id', 'state' => 'ready', 'createdAt' => '2023-12-01T00:00:00.000Z', 'children' => ['sandbox-id']],
     ['name' => 'base-drupal10', 'id' => 'base-drupal10-failed-id', 'state' => 'failed', 'createdAt' => '2024-03-01T00:00:00.000Z', 'children' => []],
     ['name' => 'base-drupal10', 'id' => 'base-drupal10-id', 'state' => 'ready', 'createdAt' => '2024-02-01T00:00:00.000Z', 'children' => []],
-    ['name' => 'base-umami', 'id' => 'base-umami-id', 'state' => 'ready', 'createdAt' => '2024-02-01T00:00:00.000Z', 'children' => []],
+    ['name' => 'base-dashi', 'id' => 'base-dashi-id', 'state' => 'ready', 'createdAt' => '2024-02-01T00:00:00.000Z', 'children' => []],
     ['name' => 'base-commerce', 'id' => 'base-commerce-id', 'state' => 'ready', 'createdAt' => '2024-02-01T00:00:00.000Z', 'children' => []],
     ['name' => 'master', 'id' => 'sandbox-id', 'state' => 'ready', 'createdAt' => '2024-02-02T00:00:00.000Z', 'children' => []],
   ];

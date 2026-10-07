@@ -195,7 +195,7 @@ final readonly class PreviewConfigGenerator {
    * it wants already in place skips both.
    *
    * @param string $name
-   *   The base preview name, as used by the launch code: `drupal10`, `umami`.
+   *   The base preview name, as used by the launch code: `drupal10`, `dashi`.
    *
    * @return array<string, mixed>
    *   The preview config.

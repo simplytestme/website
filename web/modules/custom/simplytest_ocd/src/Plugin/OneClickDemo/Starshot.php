@@ -6,7 +6,7 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\simplytest_ocd\Attribute\OneClickDemo;
 
 /**
- * Provides one click demo for umami.
+ * Provides one click demo for Drupal CMS.
  */
 #[OneClickDemo(
   id: "starshot",

@@ -159,7 +159,7 @@ final class SiteTemplateImportTest extends KernelTestBase {
 
     $tiles = Json::decode((string) Resources::create($this->container)->info()->getContent());
     self::assertSame(
-      ['starshot', 'oneclickdemo_commerce', 'oneclickdemo_umami', 'oneclickdemo_agent_access'],
+      ['starshot', 'oneclickdemo_commerce', 'oneclickdemo_dashi', 'oneclickdemo_agent_access'],
       array_column($tiles, 'id'),
     );
 
@@ -244,7 +244,7 @@ final class SiteTemplateImportTest extends KernelTestBase {
 
     // The demo tiles are not site templates, so they have no permalink.
     $this->expectException(CacheableNotFoundHttpException::class);
-    Resources::create($this->container)->siteTemplate('oneclickdemo_umami');
+    Resources::create($this->container)->siteTemplate('oneclickdemo_dashi');
   }
 
   /**
