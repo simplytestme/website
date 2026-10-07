@@ -1,6 +1,13 @@
+/* Drupal core's CSS is not in a cascade layer, and unlayered CSS beats any
+   layer. Leave the utilities unlayered too, so they win ties by loading after
+   Drupal's CSS, as in Tailwind 3. Otherwise core's `.hidden { display: none }`
+   overrides `sm:inline-block`. */
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/preflight.css' layer(base);
 /* Only scan the files that use Tailwind classes. Automatic detection would
    walk the whole repository, including the Drupal.org JSON fixtures. */
-@import 'tailwindcss' source(none);
+@import 'tailwindcss/utilities.css' source(none);
 @source '../templates';
 @source '.';
 @source '../../../modules/custom/*/templates/**/*.twig';
