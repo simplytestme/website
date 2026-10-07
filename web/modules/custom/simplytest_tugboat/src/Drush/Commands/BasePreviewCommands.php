@@ -55,7 +55,7 @@ final class BasePreviewCommands extends DrushCommands {
    * Starts a fresh build of a base preview, or of every base.
    */
   #[CLI\Command(name: 'simplytest:tugboat:base-previews:rebuild', aliases: ['stbp-rebuild'])]
-  #[CLI\Argument(name: 'name', description: 'A base name such as drupal10 or umami. Rebuilds every base when omitted.')]
+  #[CLI\Argument(name: 'name', description: 'A base name such as drupal10 or dashi. Rebuilds every base when omitted.')]
   public function rebuild(?string $name = NULL): int {
     if ($name === NULL) {
       $started = $this->basePreviews->rebuildAll();

@@ -62,7 +62,7 @@ final class ResourcesTest extends KernelTestBase {
 
     $data = Json::decode((string) $response->getContent());
     $ids = array_column($data, 'id');
-    self::assertContains('oneclickdemo_umami', $ids);
+    self::assertContains('oneclickdemo_dashi', $ids);
     self::assertContains('oneclickdemo_commerce', $ids);
     self::assertContains('starshot', $ids);
 
@@ -76,7 +76,7 @@ final class ResourcesTest extends KernelTestBase {
 
     // Demos are ordered by weight so the tile grid is stable: the recommended
     // demo first.
-    self::assertEquals(['starshot', 'oneclickdemo_commerce', 'oneclickdemo_umami', 'oneclickdemo_agent_access'], $ids);
+    self::assertEquals(['starshot', 'oneclickdemo_commerce', 'oneclickdemo_dashi', 'oneclickdemo_agent_access'], $ids);
     self::assertTrue($data[0]['recommended']);
   }
 
@@ -91,7 +91,7 @@ final class ResourcesTest extends KernelTestBase {
   }
 
   public function testLaunch(): void {
-    $response = Resources::create($this->container)->launch('oneclickdemo_umami');
+    $response = Resources::create($this->container)->launch('oneclickdemo_dashi');
 
     $data = Json::decode((string) $response->getContent());
     self::assertEquals('OK', $data['status']);
@@ -99,7 +99,7 @@ final class ResourcesTest extends KernelTestBase {
     self::assertStringContainsString('/progress/clone123/cj123', $data['progress']);
 
     // The demo is a clone of its own base preview.
-    $payload = $this->container->get('state')->get('https://api.tugboatqa.com/v3/previews/base-umami-id/clone');
+    $payload = $this->container->get('state')->get('https://api.tugboatqa.com/v3/previews/base-dashi-id/clone');
     self::assertEquals('simplytest', $payload['name']);
   }
 
@@ -113,7 +113,7 @@ final class ResourcesTest extends KernelTestBase {
     $this->config('tugboat.settings')->set('repository_id', 'brokenrepo')->save();
 
     $this->expectException(ServiceUnavailableHttpException::class);
-    Resources::create($this->container)->launch('oneclickdemo_umami');
+    Resources::create($this->container)->launch('oneclickdemo_dashi');
   }
 
   /**
@@ -152,13 +152,13 @@ final class ResourcesTest extends KernelTestBase {
     $screenshots = array_column($data, 'screenshot', 'id');
 
     $module_path = $this->container->get('extension.list.module')->getPath('simplytest_ocd');
-    $umami = $this->root . '/' . $module_path . '/images/umami.webp';
+    $dashi = $this->root . '/' . $module_path . '/images/dashi.webp';
     // The hash gives a replaced screenshot a new URL, past Fastly's cache.
     self::assertSame(
-      base_path() . $module_path . '/images/umami.webp?v=' . substr((string) hash_file('xxh3', $umami), 0, 8),
-      $screenshots['oneclickdemo_umami'],
+      base_path() . $module_path . '/images/dashi.webp?v=' . substr((string) hash_file('xxh3', $dashi), 0, 8),
+      $screenshots['oneclickdemo_dashi'],
     );
-    foreach (['starshot', 'oneclickdemo_commerce', 'oneclickdemo_umami'] as $id) {
+    foreach (['starshot', 'oneclickdemo_commerce', 'oneclickdemo_dashi'] as $id) {
       $path = (string) parse_url((string) $screenshots[$id], PHP_URL_PATH);
       self::assertFileExists($this->root . '/' . substr($path, strlen(base_path())), $id);
     }
@@ -173,12 +173,23 @@ final class ResourcesTest extends KernelTestBase {
     $resources = Resources::create($this->container);
     $titles = array_map(
       $resources->demoTitle(...),
-      ['drupal-cms', 'commerce-kickstart', 'umami', 'agent-access'],
+      ['drupal-cms', 'commerce-kickstart', 'dashi', 'agent-access'],
     );
     self::assertSame(
       array_column(Json::decode((string) $resources->info()->getContent()), 'title'),
       $titles,
     );
+  }
+
+  /**
+   * Umami was replaced by Dashi, and links to its landing page still work.
+   */
+  public function testAReplacedDemoRedirectsToItsReplacement(): void {
+    $request = Request::create('/demo/umami', 'GET');
+    $response = $this->container->get('http_kernel')->handle($request);
+
+    self::assertSame(301, $response->getStatusCode());
+    self::assertStringEndsWith('/demo/dashi', (string) $response->headers->get('Location'));
   }
 
   /**
@@ -202,9 +213,9 @@ final class ResourcesTest extends KernelTestBase {
   public function testPluginManagerDefinitions(): void {
     $manager = $this->container->get('plugin.manager.oneclickdemo');
 
-    $definition = $manager->getDefinition('oneclickdemo_umami');
-    self::assertEquals('umami', $definition['base_preview_name']);
-    self::assertEquals('Umami', (string) $definition['title']);
+    $definition = $manager->getDefinition('oneclickdemo_dashi');
+    self::assertEquals('dashi', $definition['base_preview_name']);
+    self::assertEquals('Dashi', (string) $definition['title']);
 
     self::assertTrue($manager->hasDefinition('oneclickdemo_commerce'));
     self::assertFalse($manager->hasDefinition('nope'));

@@ -61,7 +61,7 @@ final class InstanceManagerBranchesTest extends KernelTestBase {
 
   public function testLoadPreviewId(): void {
     self::assertEquals('base-drupal9-id', $this->sut->loadPreviewId('drupal9'));
-    self::assertEquals('base-umami-id', $this->sut->loadPreviewId('umami'));
+    self::assertEquals('base-dashi-id', $this->sut->loadPreviewId('dashi'));
   }
 
   /**
@@ -108,13 +108,13 @@ final class InstanceManagerBranchesTest extends KernelTestBase {
   public function testLaunchOneClickDemo(): void {
     $this->config('tugboat.settings')->set('sandbox_lifetime', 7200)->save();
     $result = $this->sut->launchInstance([
-      'oneclickdemo' => 'oneclickdemo_umami',
+      'oneclickdemo' => 'oneclickdemo_dashi',
       'manualInstall' => FALSE,
     ]);
 
     $state = $this->container->get('state');
     self::assertNull($state->get('https://api.tugboatqa.com/v3/previews'));
-    $payload = $state->get('https://api.tugboatqa.com/v3/previews/base-umami-id/clone');
+    $payload = $state->get('https://api.tugboatqa.com/v3/previews/base-dashi-id/clone');
     // The progress page looks for this name in the ready line.
     self::assertEquals('simplytest', $payload['name']);
     $expected = $this->container->get('datetime.time')->getRequestTime() + 7200;
@@ -254,13 +254,13 @@ final class InstanceManagerBranchesTest extends KernelTestBase {
    */
   public function testOneClickDemoIsRecorded(): void {
     $this->sut->launchInstance([
-      'oneclickdemo' => 'oneclickdemo_umami',
+      'oneclickdemo' => 'oneclickdemo_dashi',
       'manualInstall' => FALSE,
     ]);
 
     $record = $this->loadOnlyRecord();
     self::assertEquals(LaunchRecorder::STATUS_LAUNCHED, $record->status);
-    self::assertEquals('oneclickdemo_umami', $record->one_click_demo);
+    self::assertEquals('oneclickdemo_dashi', $record->one_click_demo);
     self::assertEquals('', $record->project);
   }
 

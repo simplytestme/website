@@ -174,11 +174,6 @@ parameters:
 			path: web/modules/custom/simplytest_ocd/tests/src/Unit/OneClickDemoConfigTestBase.php
 
 		-
-			message: "#^Method Drupal\\\\Tests\\\\simplytest_ocd\\\\Unit\\\\UmamiConfigTest\\:\\:getExpectedConfig\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_ocd/tests/src/Unit/UmamiConfigTest.php
-
-		-
 			message: "#^Call to function assert\\(\\) with true will always evaluate to true\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_projects/simplytest_projects.install

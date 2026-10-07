@@ -69,7 +69,7 @@ final class BasePreviewCronTest extends KernelTestBase {
     self::assertNotEmpty($state->get('tugboat.deleted_previews'));
     // The last name is the last create request, so this proves the loop ran
     // to the end.
-    self::assertEquals('base-umami', $state->get(self::CREATE_URL)['name']);
+    self::assertEquals('base-starshot', $state->get(self::CREATE_URL)['name']);
     self::assertEquals(
       array_fill_keys($this->names(), $now),
       $state->get(BasePreviewCron::REBUILT),
@@ -94,7 +94,7 @@ final class BasePreviewCronTest extends KernelTestBase {
 
     $this->cron();
 
-    self::assertEquals('base-umami', $state->get(self::CREATE_URL)['name']);
+    self::assertEquals('base-starshot', $state->get(self::CREATE_URL)['name']);
     self::assertEquals(array_fill_keys($this->names(), $now), $state->get(BasePreviewCron::REBUILT));
   }
 

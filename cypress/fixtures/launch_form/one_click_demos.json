@@ -16,10 +16,10 @@
     "recommended": false
   },
   {
-    "id": "oneclickdemo_umami",
-    "title": "Umami",
-    "base_preview_name": "umami",
-    "description": "Core's demo profile. The quickest way to show content modelling.",
+    "id": "oneclickdemo_dashi",
+    "title": "Dashi",
+    "base_preview_name": "dashi",
+    "description": "The food magazine demo for Drupal CMS, in English and Spanish. Replaces core's Umami.",
     "weight": 2,
     "recommended": false
   }

@@ -24,7 +24,7 @@ This allows executing `InstanceManagerTest` for running sample builds via a test
 
 Every sandbox builds on a base preview: a preview that already ran the init
 stage. There is one per supported core major (`base-drupal7` through
-`base-drupal11`) and one per one click demo (`base-umami`, `base-commerce`).
+`base-drupal11`) and one per one click demo (`base-dashi`, `base-commerce`).
 The launch code finds them by name and picks the newest one that is ready to
 build on.
 

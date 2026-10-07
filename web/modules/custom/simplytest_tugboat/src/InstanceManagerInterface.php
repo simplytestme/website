@@ -11,7 +11,7 @@ interface InstanceManagerInterface {
    * Finds the base preview a sandbox builds on.
    *
    * @param string $context
-   *   The base preview name: `drupal10`, `umami`, and so on.
+   *   The base preview name: `drupal10`, `dashi`, and so on.
    *
    * @return string
    *   The preview ID, or `none` when no usable base exists. Tugboat reads

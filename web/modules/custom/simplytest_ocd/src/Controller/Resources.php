@@ -14,6 +14,7 @@ use Drupal\simplytest_ocd\OneClickDemoPluginManager;
 use Drupal\simplytest_tugboat\InstanceManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
@@ -21,6 +22,15 @@ use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
  * Returns responses for simplytest ocd module routes.
  */
 class Resources implements ContainerInjectionInterface {
+
+  /**
+   * Landing pages of retired demos, and the demo that replaced each one.
+   *
+   * Other sites link to a landing page, so a retired demo's slug keeps working.
+   */
+  private const array REPLACED_SLUGS = [
+    'umami' => 'dashi',
+  ];
 
   /**
    * The simplytest_ocd plugin manager.
@@ -175,9 +185,16 @@ class Resources implements ContainerInjectionInterface {
    * Like ::siteTemplate(), this is for other sites to link to, and loading it
    * does not launch anything.
    *
-   * @return array<string, mixed>
+   * @return array<string, mixed>|\Symfony\Component\HttpFoundation\RedirectResponse
+   *   The page, or a permanent redirect when the demo was replaced.
    */
-  public function demo(string $slug): array {
+  public function demo(string $slug): array|RedirectResponse {
+    if (isset(self::REPLACED_SLUGS[$slug])) {
+      return new RedirectResponse(
+        Url::fromRoute('simplytest_ocd.demo', ['slug' => self::REPLACED_SLUGS[$slug]])->toString(),
+        301,
+      );
+    }
     $build = [
       'mount' => [
         '#markup' => Markup::create('<div class="simplytest-react-component" id="demo_mount"></div>'),
