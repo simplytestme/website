@@ -1,0 +1,122 @@
+# simplytest.me
+
+> Launch a temporary Drupal site with any project from drupal.org (a module, theme, distribution, or Drupal core itself) at a chosen version, with optional patches. Sandboxes are free, need no account, and are deleted two hours after launch.
+
+People use it to try a module before installing it, reproduce a bug, or check whether a patch from a drupal.org issue applies and works. Every sandbox has an administrator account: username `admin`, password `admin`.
+
+## Send a launch link
+
+To help someone try a project, build a link and give it to them. The link opens the launch form with the project, version, and patches filled in. The person picks a Drupal core version and install profile, then clicks Launch. Prefer this to launching through the API: the person sees what will be built, and nothing is created until they ask for it.
+
+```
+https://simplytest.me/project/{project}/{version}?patch[]={patch_url}
+```
+
+- `{project}`: the drupal.org machine name, as in `https://www.drupal.org/project/{project}`. Use `drupal` for Drupal core.
+- `{version}`: a release, such as `8.x-1.15` or `2.0.3`, or a dev branch, such as `8.x-1.x` or `2.0.x`. Leave it out (`/project/{project}`) to let the person choose.
+- `patch[]`: optional, and can repeat. The URL of a patch file or merge request diff hosted on `https://www.drupal.org` or `https://git.drupalcode.org`. URL-encode it if it contains `?` or `&`.
+
+Examples:
+
+- https://simplytest.me/project/pathauto/8.x-1.15
+- https://simplytest.me/project/pathauto/8.x-1.x?patch[]=https://git.drupalcode.org/project/pathauto/-/merge_requests/{id}.diff
+
+The form defaults to the newest Drupal core release the project supports. A project simplytest.me has not seen before is imported from drupal.org when the link is opened.
+
+## Link to a demo
+
+Demos are ready-made Drupal sites that need no project. Each has a landing page that launches it in one click.
+
+- `GET https://simplytest.me/one-click-demos` lists the demos. Each one's `url` is its landing page.
+- `GET https://simplytest.me/site-templates` lists Drupal CMS site templates. The `Demo` entry in each one's `links` is its landing page.
+
+## JSON API
+
+Every endpoint is public and needs no authentication. Send `Accept: application/json`, and `Content-Type: application/json` with a request body. Paths are relative to `https://simplytest.me`.
+
+### Find projects and versions
+
+- `GET /simplytest/projects/autocomplete?string={text}`: projects simplytest.me knows about whose name matches, as `[{"title", "shortname", "type"}]`.
+- `POST /simplytest/projects/lookup` with `{"name": "{project}"}`: imports a project from drupal.org that autocomplete does not find yet. Returns 404 when drupal.org has no such project. Limited to 50 lookups an hour per IP address.
+- `GET /simplytest/project/{project}/versions`: the project's releases. `list.latest` holds the newest releases, `list.branches` the dev branches, and `list.core` the releases grouped by the Drupal core major version they support. Each release has a `version` and a `core_compatibility` Composer constraint.
+- `GET /simplytest/core/compatible/{project}/{version}`: the Drupal core releases that release of the project supports, newest first. Each has a `version`, and `insecure` is `"1"` for a release with a security advisory.
+
+### Launch a sandbox
+
+Launching creates a real sandbox. Only launch when the person asked for a running site, not to answer a question. Each IP address can launch 20 sandboxes an hour.
+
+`POST /launch-project`:
+
+```json
+{
+  "project": {"shortname": "pathauto", "version": "8.x-1.15", "patches": []},
+  "drupalVersion": "11.4.8",
+  "installProfile": "standard",
+  "manualInstall": false,
+  "additionalProjects": [{"shortname": "token", "version": "8.x-1.17"}]
+}
+```
+
+- `project.version`: a `version` from `/simplytest/project/{project}/versions`.
+- `project.patches`: patch URLs, under the same rules as `patch[]` in a launch link.
+- `drupalVersion`: a `version` from `/simplytest/core/compatible/{project}/{version}`.
+- `installProfile`: `standard`, `minimal`, or `demo_umami`.
+- `manualInstall`: `true` leaves the Drupal installer for the person to run.
+- `additionalProjects`: optional. Other projects to add to the sandbox. Each must already be known to simplytest.me, so look it up first if autocomplete does not find it.
+
+`POST /one-click-demos/{id}` launches a demo by the `id` from `/one-click-demos`, with no body.
+
+Both answer:
+
+```json
+{
+  "status": "OK",
+  "progress": "https://simplytest.me/tugboat/progress/{instance}/{job}",
+  "statusUrl": "https://simplytest.me/tugboat/status/{instance}/{job}",
+  "expiresAt": "2026-10-07T22:26:27+00:00"
+}
+```
+
+Give the person `progress`: it shows the build and signs them in when it finishes. Poll `statusUrl` yourself.
+
+### Check on a sandbox
+
+Request the `statusUrl` every five seconds or so:
+
+```json
+{
+  "status": "ready",
+  "progress": 100,
+  "patchFailed": false,
+  "url": "https://{preview}.tugboatqa.com",
+  "expiresAt": "2026-10-07T22:26:27+00:00",
+  "logs": [{"message": "..."}]
+}
+```
+
+- `status`: `building` (keep polling), `ready` (the site is at `url`), or `failed` (`logs` shows why).
+- `patchFailed`: `true` when a patch could not be applied. On a `ready` sandbox, the site is running without that patch, so tell the person.
+- `expiresAt`: when the sandbox is deleted.
+- A 404 means the sandbox has already been deleted.
+
+### Errors
+
+Every error is JSON with a `message`. A 422 adds `errors`, one entry per field to fix:
+
+```json
+{
+  "message": "Unprocessable Entity: validation failed.",
+  "errors": [{"path": "project.version", "message": "There is no release of pathauto with the version 8.x-99.0."}]
+}
+```
+
+- 400: the body is not a JSON object.
+- 422: the body breaks a rule. Fix the fields in `errors` and send it again.
+- 429: too many launches or lookups from this IP address. Wait the number of seconds in the `Retry-After` header.
+- 503: the sandbox host failed to start the sandbox. Try again in a few minutes.
+
+## Optional
+
+- [Launch statistics](https://simplytest.me/statistics): what people launch most.
+- [Source code](https://github.com/simplytestme/website)
+- [Issue queue](https://git.drupalcode.org/project/simplytest/-/issues)
