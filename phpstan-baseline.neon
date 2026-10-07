@@ -16,21 +16,6 @@ parameters:
 			path: web/modules/custom/simplytest_launch/src/Controller/SimplyTestLaunch.php
 
 		-
-			message: "#^Method Drupal\\\\simplytest_launch\\\\Controller\\\\SimplyTestLaunch\\:\\:validateSubmission\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_launch/src/Controller/SimplyTestLaunch.php
-
-		-
-			message: "#^Method Drupal\\\\simplytest_launch\\\\Controller\\\\SimplyTestLaunch\\:\\:validateSubmission\\(\\) has parameter \\$data with no type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_launch/src/Controller/SimplyTestLaunch.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between array and false will always evaluate to false\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_launch/src/Controller/SimplyTestLaunch.php
-
-		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_launch/src/Controller/SimplyTestLaunch.php

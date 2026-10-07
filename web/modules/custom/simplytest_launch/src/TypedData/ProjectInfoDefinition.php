@@ -9,6 +9,8 @@ use Drupal\Core\TypedData\ListDataDefinition;
 
 final class ProjectInfoDefinition extends ComplexDataDefinitionBase {
 
+  public const string SHORTNAME_PATTERN = '/^[a-z0-9_]+$/';
+
   /**
    * {@inheritdoc}
    */
@@ -28,7 +30,7 @@ final class ProjectInfoDefinition extends ComplexDataDefinitionBase {
     $properties['shortname'] = DataDefinition::create('string')
       ->setLabel(new TranslatableMarkup('Short name (machine name'))
       ->addConstraint('Regex', [
-        'pattern' => '/^[a-z0-9_]+$/',
+        'pattern' => self::SHORTNAME_PATTERN,
       ])
       ->addConstraint('NotBlank')
       ->addConstraint('PrimitiveType')

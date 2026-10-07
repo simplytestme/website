@@ -6,6 +6,7 @@ use Drupal\KernelTests\KernelTestBase;
 use Drupal\simplytest_launch\Plugin\DataType\InstanceLaunch;
 use Drupal\simplytest_launch\TypedData\InstanceLaunchDefinition;
 use Drupal\simplytest_projects\CoreVersionManager;
+use Drupal\simplytest_projects\ProjectVersionManager;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
@@ -41,6 +42,18 @@ final class InstanceLaunchDefinitionTest extends KernelTestBase {
         'extra' => '',
         'vcs_label' => '9.1.0',
         'insecure' => 0,
+      ])
+      ->execute();
+    $this->installSchema('simplytest_projects', ProjectVersionManager::TABLE_NAME);
+    // The one project release the valid submissions below launch.
+    $this->container->get('database')->insert(ProjectVersionManager::TABLE_NAME)
+      ->fields([
+        'short_name' => 'token',
+        'version' => '8.x-1.9',
+        'tag' => '8.x-1.9',
+        'date' => 0,
+        'status' => 1,
+        'core_compatibility' => '^8 || ^9',
       ])
       ->execute();
   }
