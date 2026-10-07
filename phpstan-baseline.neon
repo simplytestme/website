@@ -101,11 +101,6 @@ parameters:
 			path: web/modules/custom/simplytest_ocd/src/Controller/Resources.php
 
 		-
-			message: "#^Method Drupal\\\\simplytest_ocd\\\\Controller\\\\Resources\\:\\:launch\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_ocd/src/Controller/Resources.php
-
-		-
 			message: "#^Method Drupal\\\\simplytest_ocd\\\\Controller\\\\Resources\\:\\:launch\\(\\) has parameter \\$oneclickdemo_id with no type specified\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_ocd/src/Controller/Resources.php
@@ -684,11 +679,6 @@ parameters:
 			path: web/modules/custom/simplytest_tugboat/src/Controller/SimplytestTugboatController.php
 
 		-
-			message: "#^Property Drupal\\\\simplytest_tugboat\\\\Controller\\\\SimplytestTugboatController\\:\\:\\$settings \\(Drupal\\\\Core\\\\Config\\\\ImmutableConfig\\) does not accept Drupal\\\\Core\\\\Config\\\\Config\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_tugboat/src/Controller/SimplytestTugboatController.php
-
-		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_tugboat/src/Controller/SimplytestTugboatController.php
@@ -700,11 +690,6 @@ parameters:
 
 		-
 			message: "#^Instanceof between Drupal\\\\simplytest_ocd\\\\OneClickDemoPluginManager and Drupal\\\\simplytest_ocd\\\\OneClickDemoPluginManager will always evaluate to true\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_tugboat/src/InstanceManager.php
-
-		-
-			message: "#^Method Drupal\\\\simplytest_tugboat\\\\InstanceManager\\:\\:launchInstance\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: web/modules/custom/simplytest_tugboat/src/InstanceManager.php
 
@@ -727,11 +712,6 @@ parameters:
 			message: "#^\\\\Drupal calls should be avoided in classes, use dependency injection instead$#"
 			count: 2
 			path: web/modules/custom/simplytest_tugboat/src/InstanceManager.php
-
-		-
-			message: "#^Method Drupal\\\\simplytest_tugboat\\\\InstanceManagerInterface\\:\\:launchInstance\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: web/modules/custom/simplytest_tugboat/src/InstanceManagerInterface.php
 
 		-
 			message: "#^Method Drupal\\\\simplytest_tugboat\\\\InstanceManagerInterface\\:\\:launchInstance\\(\\) has parameter \\$submission with no value type specified in iterable type array\\.$#"

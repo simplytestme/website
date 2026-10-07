@@ -43,6 +43,7 @@ final class TugboatControllerTest extends KernelTestBase {
     $this->installSchema('simplytest_projects', CoreVersionManager::TABLE_NAME);
     $this->installSchema('simplytest_projects', ProjectVersionManager::TABLE_NAME);
 
+    $this->installConfig(['tugboat']);
     $this->config('tugboat.settings')
       ->set('repository_id', 'kerneltestrepo')
       ->save();
@@ -86,6 +87,17 @@ final class TugboatControllerTest extends KernelTestBase {
     self::assertEquals('https://preview.tugboatqa.com/abc123', $data['url']);
     // Three of the five markers are present in the mocked log.
     self::assertEquals(60, $data['progress']);
+    self::assertEquals('ready', $data['status']);
+    // Created at midnight, deleted one two-hour sandbox lifetime later.
+    self::assertEquals('2024-01-01T02:00:00+00:00', $data['expiresAt']);
+  }
+
+  /**
+   * A failed build is final, so a poller knows to stop.
+   */
+  public function testInstanceStateForFailedBuild(): void {
+    $data = Json::decode((string) $this->sut->instanceState('abc123', 'failed-job')->getContent());
+    self::assertEquals('failed', $data['status']);
   }
 
   /**
@@ -154,6 +166,8 @@ final class TugboatControllerTest extends KernelTestBase {
     self::assertEquals('job', $data['type']);
     self::assertEquals('building', $data['state']);
     self::assertNull($data['url']);
+    self::assertEquals('building', $data['status']);
+    self::assertEquals('2024-01-01T02:00:00+00:00', $data['expiresAt']);
   }
 
   public function testInstanceStateForMissingJob(): void {

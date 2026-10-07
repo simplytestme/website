@@ -228,7 +228,9 @@ final class InstanceManagerBranchesTest extends KernelTestBase {
       ['https://api.tugboatqa.com/v3/previews/abc123'],
       $result['tugboat']['job_url'],
     );
-    self::assertArrayHasKey('headers', $result['meta']);
+    // The same expiry Tugboat was told to delete the preview at.
+    $payload = $this->container->get('state')->get('https://api.tugboatqa.com/v3/previews');
+    self::assertEquals($payload['expires'], $result['expiresAt']);
   }
 
   /**

@@ -31,6 +31,10 @@ interface InstanceManagerInterface {
    *   - stm_one_click_demo
    *   - version
    *
+   * @return array{tugboat: array{preview_id: string, job_id: string, job_url: list<string>}, expiresAt: string}
+   *   The Tugboat IDs of the new preview and its build job, and when Tugboat
+   *   deletes the preview, in RFC 3339 format.
+   *
    * @throws \Drupal\simplytest_tugboat\Exception\LaunchLimitExceededException
    *   When the client has launched as many sandboxes as the limit allows.
    */

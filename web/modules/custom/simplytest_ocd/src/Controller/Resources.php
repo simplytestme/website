@@ -13,8 +13,8 @@ use Drupal\Core\Url;
 use Drupal\simplytest_ocd\OneClickDemoPluginManager;
 use Drupal\simplytest_tugboat\Exception\LaunchLimitExceededException;
 use Drupal\simplytest_tugboat\InstanceManagerInterface;
+use Drupal\simplytest_tugboat\LaunchResponse;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
@@ -81,7 +81,7 @@ class Resources implements ContainerInjectionInterface {
     );
   }
 
-  public function launch($oneclickdemo_id) {
+  public function launch($oneclickdemo_id): LaunchResponse {
     if (!$this->manager->hasDefinition($oneclickdemo_id)) {
       throw new NotFoundHttpException("$oneclickdemo_id is not a valid option");
     }
@@ -100,15 +100,7 @@ class Resources implements ContainerInjectionInterface {
     catch (\Throwable $e) {
       throw new ServiceUnavailableHttpException(null, $e->getMessage(), $e);
     }
-    return new JsonResponse(
-      [
-        'status' => 'OK',
-        'progress' => Url::fromRoute('simplytest_tugboat.progress', [
-          'instance_id' => $instance['tugboat']['preview_id'],
-          'job_id' => $instance['tugboat']['job_id'],
-        ])->setAbsolute()->toString()
-      ] + $instance,
-    );
+    return LaunchResponse::fromInstance($instance);
   }
 
   /**
