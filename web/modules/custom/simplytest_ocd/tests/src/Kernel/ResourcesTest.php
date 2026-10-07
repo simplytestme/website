@@ -152,13 +152,15 @@ final class ResourcesTest extends KernelTestBase {
     $screenshots = array_column($data, 'screenshot', 'id');
 
     $module_path = $this->container->get('extension.list.module')->getPath('simplytest_ocd');
+    $umami = $this->root . '/' . $module_path . '/images/umami.webp';
+    // The hash gives a replaced screenshot a new URL, past Fastly's cache.
     self::assertSame(
-      base_path() . $module_path . '/images/umami.webp',
+      base_path() . $module_path . '/images/umami.webp?v=' . substr((string) hash_file('xxh3', $umami), 0, 8),
       $screenshots['oneclickdemo_umami'],
     );
     foreach (['starshot', 'oneclickdemo_commerce', 'oneclickdemo_umami'] as $id) {
-      $path = substr((string) $screenshots[$id], strlen(base_path()));
-      self::assertFileExists($this->root . '/' . $path, $id);
+      $path = (string) parse_url((string) $screenshots[$id], PHP_URL_PATH);
+      self::assertFileExists($this->root . '/' . substr($path, strlen(base_path())), $id);
     }
     // Agent Access looks like Drupal CMS, so its tile draws its own preview.
     self::assertNull($screenshots['oneclickdemo_agent_access']);

@@ -49,6 +49,7 @@ class Resources implements ContainerInjectionInterface {
     InstanceManagerInterface $instance_manager,
     private readonly ModuleExtensionList $moduleList,
     private readonly FileUrlGeneratorInterface $fileUrlGenerator,
+    private readonly string $root,
   ) {
     $this->manager = $manager;
     $this->instanceManager = $instance_manager;
@@ -64,6 +65,7 @@ class Resources implements ContainerInjectionInterface {
       $container->get('simplytest_tugboat.instance_manager'),
       $container->get('extension.list.module'),
       $container->get('file_url_generator'),
+      (string) $container->getParameter('app.root'),
     );
   }
 
@@ -231,6 +233,10 @@ class Resources implements ContainerInjectionInterface {
    * @param array<string, mixed> $definition
    *   The demo's plugin definition.
    *
+   * Fastly keeps static files for 30 days, so a screenshot replaced under the
+   * same name would not show until that ran out. The URL carries a hash of the
+   * file to give a replaced one a new URL.
+   *
    * @return string|null
    *   A root-relative URL, or NULL when the demo has no screenshot.
    */
@@ -239,9 +245,10 @@ class Resources implements ContainerInjectionInterface {
     if (!is_string($screenshot) || !is_string($definition['provider'] ?? NULL)) {
       return NULL;
     }
-    return $this->fileUrlGenerator->generateString(
-      $this->moduleList->getPath($definition['provider']) . '/' . $screenshot,
-    );
+    $path = $this->moduleList->getPath($definition['provider']) . '/' . $screenshot;
+    $url = $this->fileUrlGenerator->generateString($path);
+    $hash = is_file("$this->root/$path") ? hash_file('xxh3', "$this->root/$path") : FALSE;
+    return $hash === FALSE ? $url : "$url?v=" . substr($hash, 0, 8);
   }
 
   /**
