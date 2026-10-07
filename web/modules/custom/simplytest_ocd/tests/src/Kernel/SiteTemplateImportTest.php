@@ -47,6 +47,7 @@ final class SiteTemplateImportTest extends KernelTestBase {
     $this->installEntitySchema('simplytest_project');
     $this->installSchema('simplytest_projects', CoreVersionManager::TABLE_NAME);
     $this->installSchema('simplytest_projects', ProjectVersionManager::TABLE_NAME);
+    $this->installConfig(['simplytest_tugboat']);
     $this->config('tugboat.settings')->set('repository_id', 'kerneltestrepo')->save();
   }
 

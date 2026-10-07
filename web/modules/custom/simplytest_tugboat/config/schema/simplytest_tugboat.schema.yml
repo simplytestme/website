@@ -1,0 +1,10 @@
+simplytest_tugboat.settings:
+  type: config_object
+  label: 'Simplytest Tugboat settings'
+  mapping:
+    launch_limit:
+      type: integer
+      label: 'Sandboxes one IP address may launch within the window'
+    launch_limit_window:
+      type: integer
+      label: 'Launch limit window, in seconds'

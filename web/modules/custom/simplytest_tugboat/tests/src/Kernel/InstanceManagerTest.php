@@ -6,10 +6,12 @@ namespace Drupal\Tests\simplytest_tugboat\Kernel;
 
 use Drupal\simplytest_tugboat\InstanceManager;
 use Drupal\KernelTests\KernelTestBase;
+use GuzzleHttp\Exception\ServerException;
 use Drupal\simplytest_projects\CoreVersionManager;
 use Drupal\simplytest_projects\Entity\SimplytestProject;
 use Drupal\simplytest_projects\ProjectTypes;
 use Drupal\simplytest_projects\ProjectVersionManager;
+use Drupal\simplytest_tugboat\Exception\LaunchLimitExceededException;
 use Drupal\simplytest_tugboat\LaunchRecorder;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
@@ -22,6 +24,11 @@ use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 #[Group('simplytest_tugboat')]
 #[RunTestsInSeparateProcesses]
 final class InstanceManagerTest extends KernelTestBase {
+
+  private const array DEMO_SUBMISSION = [
+    'oneclickdemo' => 'oneclickdemo_dashi',
+    'manualInstall' => FALSE,
+  ];
 
 //  protected $runTestInSeparateProcess = FALSE;
 
@@ -39,6 +46,7 @@ final class InstanceManagerTest extends KernelTestBase {
     $this->installSchema('simplytest_projects', CoreVersionManager::TABLE_NAME);
     $this->installSchema('simplytest_projects', ProjectVersionManager::TABLE_NAME);
     $this->installSchema('simplytest_tugboat', LaunchRecorder::TABLE_NAME);
+    $this->installConfig(['simplytest_tugboat']);
 
     SimplytestProject::create([
       'title' => 'Token',
@@ -155,4 +163,47 @@ final class InstanceManagerTest extends KernelTestBase {
     ];
     self::assertEquals($expected, $payload);
   }
+
+  /**
+   * A client that reaches the limit cannot launch until the window passes.
+   */
+  public function testLaunchLimit(): void {
+    $this->config('simplytest_tugboat.settings')
+      ->set('launch_limit', 2)
+      ->set('launch_limit_window', 600)
+      ->save();
+    $sut = $this->container->get('simplytest_tugboat.instance_manager');
+    $sut->launchInstance(self::DEMO_SUBMISSION);
+    $sut->launchInstance(self::DEMO_SUBMISSION);
+
+    try {
+      $sut->launchInstance(self::DEMO_SUBMISSION);
+      self::fail('The launch past the limit went through.');
+    }
+    catch (LaunchLimitExceededException $e) {
+      self::assertEquals(600, $e->retryAfter);
+    }
+  }
+
+  /**
+   * A launch Tugboat fails still counts, so retrying in a loop is limited.
+   */
+  public function testFailedLaunchCountsTowardLimit(): void {
+    $this->config('simplytest_tugboat.settings')->set('launch_limit', 1)->save();
+    $this->config('tugboat.settings')->set('repository_id', 'brokenrepo')->save();
+    $sut = $this->container->get('simplytest_tugboat.instance_manager');
+
+    $tugboat_error = NULL;
+    try {
+      $sut->launchInstance(self::DEMO_SUBMISSION);
+    }
+    catch (\Throwable $e) {
+      $tugboat_error = $e;
+    }
+    self::assertInstanceOf(ServerException::class, $tugboat_error, 'Tugboat accepted a launch for the broken repository.');
+
+    $this->expectException(LaunchLimitExceededException::class);
+    $sut->launchInstance(self::DEMO_SUBMISSION);
+  }
+
 }

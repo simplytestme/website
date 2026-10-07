@@ -144,3 +144,13 @@ function simplytest_tugboat_update_10001(): void {
   $our_schema = simplytest_tugboat_schema();
   $db_schema->createTable(LaunchRecorder::TABLE_NAME, $our_schema[LaunchRecorder::TABLE_NAME]);
 }
+
+/**
+ * Adds the sandbox launch limit settings.
+ */
+function simplytest_tugboat_update_10002(): void {
+  \Drupal::configFactory()->getEditable('simplytest_tugboat.settings')
+    ->set('launch_limit', 20)
+    ->set('launch_limit_window', 3600)
+    ->save();
+}

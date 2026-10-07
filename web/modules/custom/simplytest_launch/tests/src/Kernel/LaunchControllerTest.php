@@ -51,7 +51,7 @@ final class LaunchControllerTest extends KernelTestBase {
     $this->installSchema('simplytest_projects', CoreVersionManager::TABLE_NAME);
     $this->installSchema('simplytest_projects', ProjectVersionManager::TABLE_NAME);
     $this->installSchema('simplytest_tugboat', LaunchRecorder::TABLE_NAME);
-    $this->installConfig(['simplytest_launch']);
+    $this->installConfig(['simplytest_launch', 'simplytest_tugboat']);
 
     $this->config('tugboat.settings')
       ->set('repository_id', 'kerneltestrepo')
@@ -179,6 +179,37 @@ final class LaunchControllerTest extends KernelTestBase {
     self::assertEquals('OK', $data['status']);
     self::assertEquals('abc123', $data['tugboat']['preview_id']);
     self::assertStringContainsString('/progress/abc123/ac123', $data['progress']);
+  }
+
+  /**
+   * A client past the launch limit gets a 429 that says when to retry.
+   */
+  public function testLaunchProjectPastLaunchLimit(): void {
+    $this->createProject('token');
+    $this->container->get('simplytest_projects.project_version_manager')->updateData('token');
+    $this->config('simplytest_tugboat.settings')
+      ->set('launch_limit', 1)
+      ->set('launch_limit_window', 600)
+      ->save();
+    $submission = [
+      'project' => [
+        'shortname' => 'token',
+        'type' => 'module',
+        'sandbox' => FALSE,
+        'version' => '8.x-1.9',
+      ],
+      'drupalVersion' => '9.3.2',
+      'installProfile' => 'demo_umami',
+      'manualInstall' => '0',
+    ];
+    $this->handle($this->launchRequest($submission));
+
+    $response = $this->handle($this->launchRequest($submission));
+
+    self::assertEquals(429, $response->getStatusCode());
+    self::assertEquals('600', $response->headers->get('Retry-After'));
+    $data = Json::decode((string) $response->getContent());
+    self::assertEquals('Too many sandboxes were launched from your network. Try again later.', $data['message']);
   }
 
   /**

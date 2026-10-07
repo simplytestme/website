@@ -15,11 +15,13 @@ use Drupal\simplytest_launch\Exception\UnprocessableHttpEntityException;
 use Drupal\simplytest_launch\TypedData\InstanceLaunchDefinition;
 use Drupal\simplytest_projects\ProjectFetcher;
 use Drupal\simplytest_projects\ProjectVersionManager;
+use Drupal\simplytest_tugboat\Exception\LaunchLimitExceededException;
 use Drupal\simplytest_tugboat\InstanceManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 /**
@@ -123,7 +125,11 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
 
     try {
        $instance = $this->instanceManager->launchInstance($submission);
-    } catch (\Throwable $e) {
+    }
+    catch (LaunchLimitExceededException $e) {
+      throw new TooManyRequestsHttpException($e->retryAfter, $e->getMessage(), $e);
+    }
+    catch (\Throwable $e) {
       throw new ServiceUnavailableHttpException(null, $e->getMessage(), $e);
     }
     return new JsonResponse(
