@@ -1,43 +1,116 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Only scan the files that use Tailwind classes. Automatic detection would
+   walk the whole repository, including the Drupal.org JSON fixtures. */
+@import 'tailwindcss' source(none);
+@source '../templates';
+@source '.';
+@source '../../../modules/custom/*/templates/**/*.twig';
+@source '../../../modules/custom/*/components/**/*.twig';
 
 /* Self-hosted fonts; see design_handoff_simplytest_redesign/README.md. */
 @font-face {
-  font-family: "Plus Jakarta Sans";
+  font-family: 'Plus Jakarta Sans';
   font-style: normal;
   font-weight: 200 800;
   font-display: swap;
-  src: url("../fonts/PlusJakartaSans-variable.woff2") format("woff2");
+  src: url('../fonts/PlusJakartaSans-variable.woff2') format('woff2');
 }
 @font-face {
-  font-family: "Plus Jakarta Sans";
+  font-family: 'Plus Jakarta Sans';
   font-style: italic;
   font-weight: 200 800;
   font-display: swap;
-  src: url("../fonts/PlusJakartaSans-variable-italic.woff2") format("woff2");
+  src: url('../fonts/PlusJakartaSans-variable-italic.woff2') format('woff2');
 }
 @font-face {
-  font-family: "Space Mono";
+  font-family: 'Space Mono';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("../fonts/SpaceMono-regular.woff2") format("woff2");
+  src: url('../fonts/SpaceMono-regular.woff2') format('woff2');
 }
 @font-face {
-  font-family: "Space Mono";
+  font-family: 'Space Mono';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url("../fonts/SpaceMono-bold.woff2") format("woff2");
+  src: url('../fonts/SpaceMono-bold.woff2') format('woff2');
+}
+
+@theme {
+  --color-st-ink: #071726;
+  --color-st-body: #0b1b2b;
+  --color-st-slate: #40515f;
+  --color-st-muted: #5a6b7c;
+  --color-st-soft: #7c8b9a;
+  --color-st-faint: #97a6b5;
+  --color-st-sub: #47596a;
+  --color-st-accent: #0d8ae0;
+  --color-st-accent-bright: #35a8f0;
+  --color-st-accent-dark: #0a6cad;
+  --color-st-accent-deep: #0a4c78;
+  --color-st-accent-tint: #e8f4fd;
+  --color-st-accent-tint2: #f4fbff;
+  --color-st-accent-line: #cfe7f9;
+  --color-st-accent-divider: #d9ecfa;
+  --color-st-line: #e7edf3;
+  --color-st-line2: #e3ebf2;
+  --color-st-field-line: #dbe6ef;
+  --color-st-button-line: #cfe0ee;
+  --color-st-dash: #c7d8e6;
+  --color-st-surface: #fbfdfe;
+  --color-st-field: #f7fafd;
+  --color-st-hairline2: #eef3f8;
+  --color-st-hero-from: #eaf4fc;
+  --color-st-success: #0f9b6c;
+  --color-st-danger: #c0392b;
+  --color-st-danger-bg: #fdf6f5;
+  --color-st-danger-line: #f1cfca;
+  --color-st-danger-text: #6b2a22;
+  --color-st-tugboat: #31758e;
+  --color-st-tugboat-mid: #8eb3c1;
+  --color-st-tugboat-line: #d4e5eb;
+  --color-st-tugboat-tint: #f1f7f9;
+
+  --font-sans:
+    'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
+    sans-serif;
+  --font-mono: 'Space Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --shadow-card:
+    0 1px 2px rgba(11, 27, 43, 0.04), 0 18px 40px -28px rgba(11, 27, 43, 0.35);
+  --shadow-tile: 0 12px 30px -18px rgba(13, 138, 224, 0.55);
+  --shadow-modal: 0 40px 90px -30px rgba(7, 23, 38, 0.55);
+}
+
+@utility eyebrow {
+  @apply font-mono text-xs uppercase tracking-[0.16em];
+}
+
+@utility field-label {
+  @apply font-mono text-[11px] uppercase tracking-[0.12em] text-st-soft;
 }
 
 @layer base {
+  /* Tailwind 4 changed the default border color from gray-200 to
+     currentcolor. Keep the old default so bare `border` classes look the
+     same. */
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
   body {
     @apply bg-white font-sans text-st-body;
   }
   ::placeholder {
-    color: theme("colors.st.faint");
+    color: var(--color-st-faint);
+  }
+  /* Tailwind 4 dropped the pointer cursor on buttons from its base styles. */
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
   }
   /* Every interactive element gets a visible focus ring. */
   a:focus-visible,
@@ -45,16 +118,7 @@
   input:focus-visible,
   select:focus-visible,
   [tabindex]:focus-visible {
-    outline: 2px solid theme("colors.st.accent");
+    outline: 2px solid var(--color-st-accent);
     outline-offset: 2px;
-  }
-}
-
-@layer components {
-  .eyebrow {
-    @apply font-mono text-xs uppercase tracking-[0.16em];
-  }
-  .field-label {
-    @apply font-mono text-[11px] uppercase tracking-[0.12em] text-st-soft;
   }
 }

@@ -11,7 +11,7 @@ function Screenshot({ template }) {
   const [failed, setFailed] = useState(false);
   if (!template.screenshot || failed) {
     return (
-      <div className="flex aspect-[4/3] items-center justify-center bg-[repeating-linear-gradient(135deg,#e4edf5_0_8px,#f2f7fb_8px_16px)]">
+      <div className="flex aspect-4/3 items-center justify-center bg-[repeating-linear-gradient(135deg,#e4edf5_0_8px,#f2f7fb_8px_16px)]">
         <span className="font-mono text-xs tracking-[0.08em] text-st-faint">
           {template.name.toLowerCase()}
         </span>
@@ -22,7 +22,7 @@ function Screenshot({ template }) {
     <img
       src={template.screenshot}
       alt={`Screenshot of the ${template.name} site template`}
-      className="aspect-[4/3] w-full object-cover object-top"
+      className="aspect-4/3 w-full object-cover object-top"
       onError={() => setFailed(true)}
     />
   );

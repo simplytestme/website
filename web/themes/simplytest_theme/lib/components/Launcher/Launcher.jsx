@@ -87,7 +87,7 @@ function Launcher() {
           <span className="eyebrow text-st-soft">
             Any project on drupal.org
           </span>
-          <h2 className="m-0 text-3xl font-bold tracking-[-0.025em] text-st-body">
+          <h2 className="m-0 text-3xl font-bold tracking-tight text-st-body">
             Or test a specific project
           </h2>
         </div>

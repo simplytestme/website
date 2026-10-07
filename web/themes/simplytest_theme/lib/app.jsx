@@ -6,7 +6,7 @@ import InstanceProgress from './components/ProgressPage/InstanceProgress';
 import SiteTemplatePage from './components/SiteTemplatePage';
 import { LauncherProvider } from './context/launcher';
 
-import './tailwind.pcss';
+import './tailwind.css';
 
 const launcherMount = document.getElementById('launcher_mount');
 if (launcherMount) {

@@ -72,7 +72,7 @@ function Patches({ patches, setPatches, idPrefix }) {
           hint about the expected format with it. See #3494635. */}
       <p
         id={hintId}
-        className="m-0 w-full break-words text-[13px] leading-normal text-st-muted"
+        className="m-0 w-full wrap-break-word text-[13px] leading-normal text-st-muted"
       >
         Paste the full URL of a merge request diff or a patch file, like{' '}
         <span className="font-mono">
