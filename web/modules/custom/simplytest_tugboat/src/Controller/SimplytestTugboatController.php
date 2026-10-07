@@ -51,13 +51,6 @@ class SimplytestTugboatController extends ControllerBase {
   private const string LOGIN_URL_MARKER = 'SIMPLYTEST_LOGIN_URL';
 
   /**
-   * The module settings.
-   *
-   * @var \Drupal\Core\Config\ImmutableConfig
-   */
-  protected $settings;
-
-  /**
    * The logger channel for this module.
    *
    * @var \Drupal\Core\Logger\LoggerChannelInterface
@@ -70,8 +63,7 @@ class SimplytestTugboatController extends ControllerBase {
    */
   protected $tugboatClient;
 
-  public function __construct(Config $config, LoggerInterface $logger, MessengerInterface $messenger, TugboatClient $tugboat_client) {
-    $this->settings = $config;
+  public function __construct(protected Config $tugboatSettings, LoggerInterface $logger, MessengerInterface $messenger, TugboatClient $tugboat_client) {
     $this->logger = $logger;
     $this->messenger = $messenger;
     $this->tugboatClient = $tugboat_client;
@@ -83,7 +75,7 @@ class SimplytestTugboatController extends ControllerBase {
   #[\Override]
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('config.factory')->get('simplytest_tugboat.settings'),
+      $container->get('config.factory')->get('tugboat.settings'),
       $container->get('logger.channel.simplytest_tugboat'),
       $container->get('messenger'),
       $container->get('tugboat.client')
@@ -185,8 +177,49 @@ class SimplytestTugboatController extends ControllerBase {
 
     $instance_state['logs'] = $logs_data;
     $instance_state['progress'] = $this->calculateProgress($logs_data);
+    $instance_state['status'] = $this->status($instance_state);
+    $instance_state['expiresAt'] = $this->expiresAt((string) $status_data['createdAt']);
 
     return $this->stateResponse($instance_state);
+  }
+
+  /**
+   * Sums up the state the way the progress page reads it.
+   *
+   * Tugboat answers with a job while the sandbox builds and with the preview
+   * once it is done, each with its own states. A client polling this endpoint
+   * only needs to know whether to keep waiting.
+   *
+   * @param array<string, mixed> $instance_state
+   *   The computed state.
+   *
+   * @return 'building'|'ready'|'failed'
+   */
+  private function status(array $instance_state): string {
+    if ($instance_state['state'] === 'failed') {
+      return 'failed';
+    }
+    if ($instance_state['type'] === 'preview' && $instance_state['state'] === 'ready' && $instance_state['url'] !== NULL) {
+      return 'ready';
+    }
+    return 'building';
+  }
+
+  /**
+   * When Tugboat deletes the sandbox, in RFC 3339 format.
+   *
+   * The launch sets the preview to expire one sandbox lifetime after it was
+   * requested, which is when the build job was created.
+   *
+   * @param string $created_at
+   *   When Tugboat created the job or preview.
+   */
+  private function expiresAt(string $created_at): ?string {
+    $created = strtotime($created_at);
+    if ($created === FALSE) {
+      return NULL;
+    }
+    return gmdate(\DateTimeInterface::RFC3339, $created + (int) $this->tugboatSettings->get('sandbox_lifetime'));
   }
 
   /**

@@ -448,6 +448,7 @@ final readonly class MockedHttpMiddleware {
     return new FulfilledPromise(new Response(200, [], Json::encode(match ($job_id) {
       'suspended-job' => ['type' => 'preview', 'state' => 'ready', 'suspended' => 'suspended'] + $job,
       'running-job', 'noisy-job' => ['type' => 'job', 'action' => 'building'] + $job,
+      'failed-job' => ['type' => 'preview', 'state' => 'failed'] + $job,
       'bogus-job' => ['type' => 'not-a-real-type'] + $job,
       default => ['type' => 'preview', 'state' => 'ready'] + $job,
     })));

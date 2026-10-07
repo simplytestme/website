@@ -99,6 +99,8 @@ final class ResourcesTest extends KernelTestBase {
     self::assertEquals('OK', $data['status']);
     self::assertEquals('clone123', $data['tugboat']['preview_id']);
     self::assertStringContainsString('/progress/clone123/cj123', $data['progress']);
+    self::assertStringContainsString('/tugboat/status/clone123/cj123', $data['statusUrl']);
+    self::assertArrayHasKey('expiresAt', $data);
 
     // The demo is a clone of its own base preview.
     $payload = $this->container->get('state')->get('https://api.tugboatqa.com/v3/previews/base-dashi-id/clone');

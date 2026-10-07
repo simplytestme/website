@@ -181,6 +181,11 @@ final class LaunchControllerTest extends KernelTestBase {
     self::assertEquals('OK', $data['status']);
     self::assertEquals('abc123', $data['tugboat']['preview_id']);
     self::assertStringContainsString('/progress/abc123/ac123', $data['progress']);
+    self::assertStringContainsString('/tugboat/status/abc123/ac123', $data['statusUrl']);
+    $payload = $this->container->get('state')->get('https://api.tugboatqa.com/v3/previews');
+    self::assertEquals($payload['expires'], $data['expiresAt']);
+    // Tugboat's own response headers stay on the server.
+    self::assertArrayNotHasKey('meta', $data);
   }
 
   /**

@@ -16,6 +16,7 @@ use Drupal\simplytest_projects\ProjectFetcher;
 use Drupal\simplytest_projects\ProjectVersionManager;
 use Drupal\simplytest_tugboat\Exception\LaunchLimitExceededException;
 use Drupal\simplytest_tugboat\InstanceManagerInterface;
+use Drupal\simplytest_tugboat\LaunchResponse;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -133,16 +134,7 @@ class SimplyTestLaunch implements ContainerInjectionInterface {
     catch (\Throwable $e) {
       throw new ServiceUnavailableHttpException(null, $e->getMessage(), $e);
     }
-    return new JsonResponse(
-      // @todo return data about the instance.
-      [
-        'status' => 'OK',
-        'progress' => Url::fromRoute('simplytest_tugboat.progress', [
-          'instance_id' => $instance['tugboat']['preview_id'],
-          'job_id' => $instance['tugboat']['job_id'],
-        ])->setAbsolute()->toString()
-      ] + $instance,
-    );
+    return LaunchResponse::fromInstance($instance);
   }
 
   /**

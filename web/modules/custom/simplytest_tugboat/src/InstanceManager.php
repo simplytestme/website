@@ -237,9 +237,7 @@ class InstanceManager implements InstanceManagerInterface {
     $this->launchRecorder->recordLaunch($record, (string) $response['preview']);
 
     return [
-      'meta' => [
-        'headers' => $tugboat_request->getHeaders(),
-      ],
+      'expiresAt' => $expires,
       'tugboat' => [
         'preview_id' => $response['preview'],
         'job_id' => $response['job'],
