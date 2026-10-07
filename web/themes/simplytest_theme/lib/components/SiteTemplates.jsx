@@ -48,7 +48,7 @@ function TemplateCard({ template, primary, processing, onLaunch }) {
         <h3 className="m-0 text-base font-bold tracking-[-0.015em] text-st-body">
           {template.name}
         </h3>
-        <p className="m-0 flex-1 text-[13px] leading-[1.5] text-st-muted">
+        <p className="m-0 flex-1 text-[13px] leading-normal text-st-muted">
           {template.description}
         </p>
         <div className="mt-1 flex items-center justify-between gap-3">
@@ -163,7 +163,7 @@ function TemplatePicker({ templates, onClose, setErrors }) {
             </span>
             <h2
               id="site-template-picker-title"
-              className="m-0 text-2xl font-bold tracking-[-0.025em] text-st-body"
+              className="m-0 text-2xl font-bold tracking-tight text-st-body"
             >
               Pick a starting point
             </h2>

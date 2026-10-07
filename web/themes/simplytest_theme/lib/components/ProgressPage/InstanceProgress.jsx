@@ -471,7 +471,7 @@ function InstanceProgress() {
           </div>
           {expiry && (
             <div className="flex items-center gap-2.5 border-t border-st-accent-divider pt-4">
-              <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-st-accent-dark">
+              <span className="font-mono text-[11px] uppercase tracking-widest text-st-accent-dark">
                 Expires
               </span>
               <span className="text-sm text-st-slate">{expiry}</span>
@@ -626,7 +626,7 @@ function InstanceProgress() {
       <div className="flex flex-col gap-2.5">
         <div className="h-2.5 overflow-hidden rounded-full bg-st-line">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-st-accent to-st-accent-bright transition-[width] duration-300 ease-out"
+            className="h-full rounded-full bg-linear-to-r from-st-accent to-st-accent-bright transition-[width] duration-300 ease-out"
             style={{ width: `${state.progress}%` }}
           />
         </div>

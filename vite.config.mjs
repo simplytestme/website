@@ -1,3 +1,4 @@
+import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
@@ -10,7 +11,7 @@ export default defineConfig({
   // Assets are referenced relative to the emitted CSS/JS inside dist/, not
   // from the site root.
   base: '',
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
   build: {
     outDir: `${theme}/dist`,
     emptyOutDir: true,

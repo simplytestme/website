@@ -32,10 +32,10 @@ function DemoPage({ demo }) {
         <div className="overflow-hidden rounded-2xl border border-st-line2 bg-white shadow-card">
           <DemoPreview
             demo={demo}
-            className="aspect-[4/3]"
+            className="aspect-4/3"
             large
             fallback={
-              <div className="flex aspect-[4/3] items-center justify-center bg-[repeating-linear-gradient(135deg,#e4edf5_0_8px,#f2f7fb_8px_16px)]">
+              <div className="flex aspect-4/3 items-center justify-center bg-[repeating-linear-gradient(135deg,#e4edf5_0_8px,#f2f7fb_8px_16px)]">
                 <span className="font-mono text-xs tracking-[0.08em] text-st-faint">
                   {demo.title.toLowerCase()}
                 </span>
