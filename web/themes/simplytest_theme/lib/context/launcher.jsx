@@ -2,6 +2,14 @@ import { createContext, useContext, useEffect, useState } from 'react';
 
 const launcherContext = createContext();
 
+// The profiles core ships, matching InstanceLaunchDefinition::INSTALL_PROFILES.
+const INSTALL_PROFILES = ['standard', 'minimal', 'demo_umami'];
+
+function linkedInstallProfile() {
+  const profile = new URLSearchParams(window.location.search).get('profile');
+  return INSTALL_PROFILES.includes(profile) ? profile : 'standard';
+}
+
 export function useLauncher() {
   return useContext(launcherContext);
 }
@@ -10,8 +18,13 @@ export function LauncherProvider({ children }) {
   const [selectedProject, setSelectedProject] = useState(null);
   const [selectedVersion, setSelectedVersion] = useState('');
   const [patches, setPatches] = useState([]);
-  const [installProfile, setInstallProfile] = useState('standard');
+  const [installProfile, setInstallProfile] = useState(linkedInstallProfile);
   const [drupalVersion, setDrupalVersion] = useState('');
+  // The core version list loads after the project and version, so the
+  // selector applies a linked `core` once it knows what the project supports.
+  const [linkedDrupalVersion] = useState(() =>
+    new URLSearchParams(window.location.search).get('core'),
+  );
   const [manualInstall, setManualInstall] = useState(false);
   const [additionalProjects, setAdditionalProjects] = useState([]);
   const [canLaunch, setCanLaunch] = useState(false);
@@ -105,6 +118,7 @@ export function LauncherProvider({ children }) {
         setInstallProfile,
         drupalVersion,
         setDrupalVersion,
+        linkedDrupalVersion,
         manualInstall,
         setManualInstall,
         canLaunch,

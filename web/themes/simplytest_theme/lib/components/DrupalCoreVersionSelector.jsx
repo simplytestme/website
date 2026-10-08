@@ -4,10 +4,43 @@ import { useLauncher } from '../context/launcher';
 import { selectPanel } from '../ui';
 import { fetchWithCallback } from '../utils';
 
+// A launch link's `core` names a release (10.3.14), a minor (10.3 or 10.3.x),
+// or a major (10 or 10.x), and picks the newest release it matches. When the
+// project supports none of them, the usual default applies.
+function defaultDrupalVersion(releases, linkedVersion) {
+  const linkedPrefix = linkedVersion?.replace(/\.x$/, '');
+  const linked = linkedPrefix
+    ? releases.filter(
+        ({ version }) =>
+          version === linkedPrefix || version.startsWith(`${linkedPrefix}.`),
+      )
+    : [];
+  const candidates = linked.length > 0 ? linked : releases;
+  // The list is every compatible core release, newest first, so the first row
+  // is a pre-release whenever core has one out and the project's
+  // core_version_requirement does not stop below it. Once 12.0.0-alpha1
+  // shipped, a project declaring `>=9` defaulted to a Drupal 12 alpha. Nobody
+  // evaluating a module means to do that, and the major has no base preview
+  // either, so the sandbox builds from scratch on top of it.
+  //
+  // `extra` carries the pre-release suffix and is null for a stable release,
+  // so the first row without one is the newest stable. A line that has only
+  // pre-releases keeps the newest of those, which is the only thing there is
+  // to offer. Either way the whole list stays in the select, so an alpha is
+  // still one choice away.
+  const stable = candidates.find((release) => !release.extra);
+  return (stable ?? candidates[0]).version;
+}
+
 function DrupalCoreVersionSelector() {
   const [drupalVersions, setDrupalVersions] = useState([]);
-  const { selectedProject, selectedVersion, drupalVersion, setDrupalVersion } =
-    useLauncher();
+  const {
+    selectedProject,
+    selectedVersion,
+    drupalVersion,
+    setDrupalVersion,
+    linkedDrupalVersion,
+  } = useLauncher();
 
   useEffect(() => {
     // Handle when the selected project is resolved before the selected version.
@@ -17,9 +50,13 @@ function DrupalCoreVersionSelector() {
     // @todo There can be bugs when toggling between core + contrib
     // @todo Prevent extra requests for core version if we're on the same major.
     let releaseUrl;
+    // Core's own version already says which core to build, so a linked
+    // `core` only applies to other projects.
+    let linkedVersion = linkedDrupalVersion;
     if (selectedProject.shortname === 'drupal') {
       const [major] = selectedVersion.split('.');
       releaseUrl = `simplytest/core/versions/${major}`;
+      linkedVersion = null;
     } else {
       releaseUrl = `simplytest/core/compatible/${
         selectedProject.shortname
@@ -36,21 +73,7 @@ function DrupalCoreVersionSelector() {
       // list; either way there is nothing to select.
       if (Array.isArray(json.list) && json.list.length > 0) {
         setDrupalVersions(json.list.map((release) => release.version));
-        // The list is every compatible core release, newest first, so the
-        // first row is a pre-release whenever core has one out and the
-        // project's core_version_requirement does not stop below it. Once
-        // 12.0.0-alpha1 shipped, a project declaring `>=9` defaulted to a
-        // Drupal 12 alpha. Nobody evaluating a module means to do that, and
-        // the major has no base preview either, so the sandbox builds from
-        // scratch on top of it.
-        //
-        // `extra` carries the pre-release suffix and is null for a stable
-        // release, so the first row without one is the newest stable. A line
-        // that has only pre-releases keeps the newest of those, which is the
-        // only thing there is to offer. Either way the whole list stays in
-        // the select, so an alpha is still one choice away.
-        const stable = json.list.find((release) => !release.extra);
-        setDrupalVersion((stable ?? json.list[0]).version);
+        setDrupalVersion(defaultDrupalVersion(json.list, linkedVersion));
       } else {
         setDrupalVersions([]);
       }
@@ -58,7 +81,7 @@ function DrupalCoreVersionSelector() {
     return () => {
       stale = true;
     };
-  }, [selectedProject, selectedVersion, setDrupalVersion]);
+  }, [selectedProject, selectedVersion, setDrupalVersion, linkedDrupalVersion]);
 
   if (selectedProject.shortname === 'drupal') {
     return null;
