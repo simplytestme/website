@@ -107,6 +107,7 @@ class Resources implements ContainerInjectionInterface {
    * The demo tiles for the home page.
    */
   public function info() {
+    $cacheability = CacheableMetadata::createFromObject($this->manager);
     $ocds = array_values(array_map(fn(array $definition) => [
       'id' => $definition['id'],
       'title' => $definition['title'],
@@ -115,11 +116,12 @@ class Resources implements ContainerInjectionInterface {
       'weight' => $definition['weight'] ?? 0,
       'recommended' => $definition['recommended'] ?? FALSE,
       'screenshot' => $this->screenshotUrl($definition),
+      'url' => $this->landingPageUrl($definition, $cacheability),
     ], $this->definitionsIn('demo')));
     usort($ocds, static fn(array $a, array $b) => $a['weight'] <=> $b['weight']);
 
     $response = new CacheableJsonResponse($ocds);
-    $response->getCacheableMetadata()->addCacheableDependency($this->manager);
+    $response->addCacheableDependency($cacheability);
     return $response;
   }
 
@@ -208,6 +210,28 @@ class Resources implements ContainerInjectionInterface {
     ];
     CacheableMetadata::createFromObject($this->manager)->applyTo($build);
     return $build;
+  }
+
+  /**
+   * The absolute URL of a demo's landing page, or NULL when it has none.
+   *
+   * The landing page is the link to hand a person: it shows the demo and
+   * launches it on their click.
+   *
+   * @param array<string, mixed> $definition
+   *   The demo's plugin definition.
+   * @param \Drupal\Core\Cache\CacheableMetadata $cacheability
+   *   Collects the cacheability of the generated URL.
+   */
+  private function landingPageUrl(array $definition, CacheableMetadata $cacheability): ?string {
+    if (!isset($definition['slug'])) {
+      return NULL;
+    }
+    $url = Url::fromRoute('simplytest_ocd.demo', ['slug' => $definition['slug']])
+      ->setAbsolute()
+      ->toString(TRUE);
+    $cacheability->addCacheableDependency($url);
+    return $url->getGeneratedUrl();
   }
 
   /**

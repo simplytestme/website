@@ -71,7 +71,7 @@ final class ResourcesTest extends KernelTestBase {
     // Only the keys the front end needs are exposed.
     foreach ($data as $definition) {
       self::assertEquals(
-        ['id', 'title', 'base_preview_name', 'description', 'weight', 'recommended', 'screenshot'],
+        ['id', 'title', 'base_preview_name', 'description', 'weight', 'recommended', 'screenshot', 'url'],
         array_keys($definition)
       );
     }
@@ -80,6 +80,10 @@ final class ResourcesTest extends KernelTestBase {
     // demo first.
     self::assertEquals(['starshot', 'oneclickdemo_commerce', 'oneclickdemo_dashi', 'oneclickdemo_agent_access'], $ids);
     self::assertTrue($data[0]['recommended']);
+
+    // Each demo links to the landing page a person launches it from.
+    self::assertStringEndsWith('/demo/drupal-cms', $data[0]['url']);
+    self::assertStringStartsWith('http', $data[0]['url']);
   }
 
   /**
