@@ -6,22 +6,25 @@ People use it to try a module before installing it, reproduce a bug, or check wh
 
 ## Send a launch link
 
-To help someone try a project, build a link and give it to them. The link opens the launch form with the project, version, and patches filled in. The person picks a Drupal core version and install profile, then clicks Launch. Prefer this to launching through the API: the person sees what will be built, and nothing is created until they ask for it.
+To help someone try a project, build a link and give it to them. The link opens the launch form with the project, version, Drupal core version, install profile, and patches filled in. The person checks them and clicks Launch. Prefer this to launching through the API: the person sees what will be built, and nothing is created until they ask for it.
 
 ```
-https://simplytest.me/project/{project}/{version}?patch[]={patch_url}
+https://simplytest.me/project/{project}/{version}?core={core}&profile={profile}&patch[]={patch_url}
 ```
 
 - `{project}`: the drupal.org machine name, as in `https://www.drupal.org/project/{project}`. Use `drupal` for Drupal core.
 - `{version}`: a release, such as `8.x-1.15` or `2.0.3`, or a dev branch, such as `8.x-1.x` or `2.0.x`. Leave it out (`/project/{project}`) to let the person choose.
+- `core`: optional. The Drupal core version: a release (`11.3.2`), a minor (`11.3`), or a major (`11`). A minor or major picks its newest stable release. Without it, or when the project does not support it, the form picks the newest stable release the project supports. Ignored when `{project}` is `drupal`.
+- `profile`: optional. `standard` (the default), `minimal`, or `demo_umami`. Ignored for a distribution, which installs with its own profile.
 - `patch[]`: optional, and can repeat. The URL of a patch file or merge request diff hosted on `https://www.drupal.org` or `https://git.drupalcode.org`. URL-encode it if it contains `?` or `&`.
 
 Examples:
 
 - https://simplytest.me/project/pathauto/8.x-1.15
+- https://simplytest.me/project/pathauto/8.x-1.15?core=10.3&profile=minimal
 - https://simplytest.me/project/pathauto/8.x-1.x?patch[]=https://git.drupalcode.org/project/pathauto/-/merge_requests/{id}.diff
 
-The form defaults to the newest Drupal core release the project supports. A project simplytest.me has not seen before is imported from drupal.org when the link is opened.
+A project simplytest.me has not seen before is imported from drupal.org when the link is opened.
 
 ## Link to a demo
 

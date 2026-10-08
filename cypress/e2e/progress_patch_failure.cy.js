@@ -49,7 +49,13 @@ describe('Progress page handling of a refused patch', function () {
     // The redirect is a timer, so drive it rather than waiting it out.
     cy.clock();
     cy.visit(PROGRESS_PATH, {
-      qs: { project: 'drupal', version: '11.4.6', patch: PATCH_URL },
+      qs: {
+        project: 'drupal',
+        version: '11.4.6',
+        core: '11.4.6',
+        profile: 'minimal',
+        patch: PATCH_URL,
+      },
     });
 
     cy.contains('Your sandbox is ready, but the patch is not in it').should(
@@ -67,7 +73,7 @@ describe('Progress page handling of a refused patch', function () {
     cy.contains('a', 'Fix the patch and rebuild').should(
       'have.attr',
       'href',
-      `/?project=drupal&version=11.4.6&patch=${encodeURIComponent(PATCH_URL)}`,
+      `/?project=drupal&version=11.4.6&core=11.4.6&profile=minimal&patch=${encodeURIComponent(PATCH_URL)}`,
     );
 
     // Well past the redirect delay, the page is still here.

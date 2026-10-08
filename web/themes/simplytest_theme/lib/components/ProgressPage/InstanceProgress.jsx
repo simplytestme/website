@@ -118,6 +118,12 @@ function prefillUrl(submission, { includePatches = true } = {}) {
   if (submission.version) {
     params.set('version', submission.version);
   }
+  if (submission.core) {
+    params.set('core', submission.core);
+  }
+  if (submission.profile) {
+    params.set('profile', submission.profile);
+  }
   if (includePatches) {
     submission.patches.forEach((patch) => params.append('patch', patch));
   }
