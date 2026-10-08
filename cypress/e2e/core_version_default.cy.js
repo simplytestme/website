@@ -35,6 +35,27 @@ describe('The Drupal core version the form defaults to', function () {
       .should('exist');
   });
 
+  // The select lives in the advanced options panel, which starts closed. The
+  // default still has to reach the payload, or the backend rejects the launch
+  // with "drupalVersion: This value should not be blank." (#3621806).
+  it('sends the default when advanced options stay closed', () => {
+    cy.intercept('GET', '**/simplytest/core/compatible/pathauto/8.x-1.14', {
+      fixture: 'launch_form/core_compat_with_prerelease.json',
+    });
+    cy.intercept('POST', '**/launch-project', {
+      statusCode: 503,
+      body: { message: 'stubbed, not launching' },
+    }).as('launch');
+    cy.visit('/');
+    cy.pickProject('Pathauto');
+
+    cy.contains('button', 'Launch sandbox').click();
+
+    cy.wait('@launch')
+      .its('request.body')
+      .should('have.property', 'drupalVersion', '11.4.7');
+  });
+
   it('keeps a pre-release when the project has nothing else', () => {
     cy.intercept('GET', '**/simplytest/core/compatible/pathauto/8.x-1.14', {
       fixture: 'launch_form/core_compat_only_prereleases.json',
