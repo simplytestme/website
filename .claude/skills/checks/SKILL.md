@@ -10,7 +10,7 @@ CI (`.github/workflows/main.yml`) runs five jobs: `site:install`, `phpstan`, `re
 ```bash
 php vendor/bin/phpstan.phar --memory-limit=1G   # 1G is required locally; default 128M crashes workers
 vendor/bin/rector --dry-run                      # CI runs without --dry-run but must produce no diff
-composer tests                                   # PHPUnit, no coverage — fast iteration
+composer tests                                   # PHPUnit through ParaTest, no coverage — fast iteration
 composer test:coverage                           # the real gate: coverage report + 85% threshold
 ```
 

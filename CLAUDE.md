@@ -20,7 +20,7 @@ So: read and update issues with `glab` (`GITLAB_HOST=git.drupalcode.org glab iss
 composer install                # installs Drupal core, contrib, and scaffolding
 ddev si                         # install the site locally (Drush site:install simplytest)
 
-composer tests                  # PHPUnit for web/modules/custom
+composer tests                  # PHPUnit for web/modules/custom, in parallel via ParaTest
 php vendor/bin/phpunit web/modules/custom/simplytest_projects/tests/src/Kernel/ProjectFetcherTest.php
                                 # run a single test file
 composer test:coverage          # PHPUnit + Clover report + 85% line-coverage gate
