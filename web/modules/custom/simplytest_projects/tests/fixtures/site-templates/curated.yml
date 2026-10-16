@@ -14,12 +14,6 @@ byte:
       url: 'https://new.drupal.org/site-template/byte'
   creator: Drupal CMS
 
-# No screenshot, no links, no creator: every optional key absent.
-forma:
-  name: Forma
-  description: 'Designed for a portfolio site.'
-  package: 'drupal/forma'
-
 # The recipe directory comes from the package name, which here is not the key.
 nuxt:
   name: 'Nuxt Starter'
@@ -29,6 +23,13 @@ nuxt:
     demo: 'https://example.surge.sh'
     docs: 'https://lupus-decoupled.org/guide/drupal-cms'
   creator: drunomics
+
+# Out of alphabetical order, as the picker shows the list in file order.
+# No screenshot, no links, no creator: every optional key absent.
+forma:
+  name: Forma
+  description: 'Designed for a portfolio site.'
+  package: 'drupal/forma'
 
 # Paid: needs a license key the sandbox has no way to supply.
 premium_thing:
