@@ -32,6 +32,7 @@ Demos are ready-made Drupal sites that need no project. Each has a landing page 
 
 - `GET https://simplytest.me/one-click-demos` lists the demos. Each one's `url` is its landing page.
 - `GET https://simplytest.me/site-templates` lists Drupal CMS site templates. The `Demo` entry in each one's `links` is its landing page.
+- `https://simplytest.me/templates` is a page listing every site template, for a person to browse and launch one.
 
 ## JSON API
 

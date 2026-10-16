@@ -104,7 +104,10 @@ function SiteTemplatePage({ template }) {
                 {link.text}
               </a>
             ))}
-            <a href="/" className="text-st-accent hover:text-st-accent-dark">
+            <a
+              href="/templates"
+              className="text-st-accent hover:text-st-accent-dark"
+            >
               Browse all templates
             </a>
           </div>

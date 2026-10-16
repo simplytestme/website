@@ -22,6 +22,14 @@ simplytest_ocd.site_templates:
   requirements:
     _access: 'TRUE'
     _format: 'json'
+simplytest_ocd.site_template_list:
+  path: '/templates'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\simplytest_ocd\Controller\Resources::siteTemplateList'
+    _title: 'Site templates'
+  requirements:
+    _access: 'TRUE'
 simplytest_ocd.site_template:
   path: '/template/{machine_name}'
   methods: [GET]

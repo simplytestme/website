@@ -4,6 +4,7 @@ import DemoPage from './components/DemoPage';
 import Launcher from './components/Launcher/Launcher';
 import InstanceProgress from './components/ProgressPage/InstanceProgress';
 import SiteTemplatePage from './components/SiteTemplatePage';
+import SiteTemplatesPage from './components/SiteTemplatesPage';
 import { LauncherProvider } from './context/launcher';
 
 import './tailwind.css';
@@ -28,6 +29,12 @@ const siteTemplateMount = document.getElementById('site_template_mount');
 if (siteTemplateMount) {
   const root = createRoot(siteTemplateMount);
   root.render(<SiteTemplatePage template={drupalSettings.siteTemplate} />);
+}
+
+const siteTemplatesMount = document.getElementById('site_templates_mount');
+if (siteTemplatesMount) {
+  const root = createRoot(siteTemplatesMount);
+  root.render(<SiteTemplatesPage />);
 }
 
 const demoMount = document.getElementById('demo_mount');

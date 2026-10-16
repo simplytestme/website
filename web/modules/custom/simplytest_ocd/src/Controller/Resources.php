@@ -145,6 +145,27 @@ class Resources implements ContainerInjectionInterface {
   }
 
   /**
+   * The page that lists every site template, at /templates.
+   *
+   * It shows the home page's template picker as a page, so documentation can
+   * link to it. The cards come from ::siteTemplates(), like the picker's do.
+   *
+   * @return array<string, mixed>
+   */
+  public function siteTemplateList(): array {
+    return [
+      'mount' => [
+        '#markup' => Markup::create('<div class="simplytest-react-component" id="site_templates_mount"></div>'),
+        '#attached' => [
+          'library' => [
+            'simplytest_theme/launcher',
+          ],
+        ],
+      ],
+    ];
+  }
+
+  /**
    * The page a site template's permalink opens, such as /template/byte.
    *
    * This is for other sites to link to, like the Drupal CMS installer offering
