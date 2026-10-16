@@ -142,7 +142,6 @@ class SimplytestTugboatController extends ControllerBase {
     }
 
     $instance_state = [
-      'progress' => 0,
       'createdAt' => $status_data['createdAt'],
       'updatedAt' => $status_data['updatedAt'],
       'type' => $status_data['type'],
