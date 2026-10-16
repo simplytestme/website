@@ -78,7 +78,7 @@ final class SiteTemplateImportTest extends KernelTestBase {
     self::assertSame(3, $this->importer()->import());
 
     $templates = $this->repository()->all();
-    self::assertSame(['byte', 'forma', 'nuxt'], array_keys($templates));
+    self::assertSame(['byte', 'nuxt', 'forma'], array_keys($templates));
     self::assertSame('Byte', $templates['byte']->name);
     self::assertSame('drupal/byte', $templates['byte']->package);
     // The paid one, the one on another repository, and the two malformed ones.
@@ -100,7 +100,7 @@ final class SiteTemplateImportTest extends KernelTestBase {
 
     // Only the entries the fixture still has survive a re-import.
     $this->importer()->import();
-    self::assertSame(['byte', 'forma', 'nuxt'], array_keys($this->repository()->all()));
+    self::assertSame(['byte', 'nuxt', 'forma'], array_keys($this->repository()->all()));
   }
 
   /**
@@ -117,7 +117,7 @@ final class SiteTemplateImportTest extends KernelTestBase {
 
     $this->container->get('state')->set('simplytest_ocd.site_templates_response', $response);
     self::assertSame(-1, $this->importer()->import());
-    self::assertSame(['byte', 'forma', 'nuxt'], array_keys($this->repository()->all()));
+    self::assertSame(['byte', 'nuxt', 'forma'], array_keys($this->repository()->all()));
   }
 
   /**
@@ -165,8 +165,9 @@ final class SiteTemplateImportTest extends KernelTestBase {
     );
 
     $cards = Json::decode((string) Resources::create($this->container)->siteTemplates()->getContent());
+    // The order the Drupal CMS team curated, not alphabetical.
     self::assertSame(
-      ['site_template:byte', 'site_template:forma', 'site_template:nuxt'],
+      ['site_template:byte', 'site_template:nuxt', 'site_template:forma'],
       array_column($cards, 'id'),
     );
     self::assertSame([

@@ -131,13 +131,15 @@ class Resources implements ContainerInjectionInterface {
    * Separate from ::info() because a template is not a demo tile: it carries a
    * screenshot, a creator and links, and it belongs behind the picker rather
    * than on the home page. Both launch through ::launch().
+   *
+   * The cards keep the order of Drupal CMS's curated list, which its team
+   * chooses on purpose.
    */
   public function siteTemplates(): CacheableJsonResponse {
     $templates = array_values(array_filter(array_map(
       $this->templateCard(...),
       $this->definitionsIn('site_template'),
     )));
-    usort($templates, static fn(array $a, array $b) => strcasecmp($a['name'], $b['name']));
 
     $response = new CacheableJsonResponse($templates);
     $response->getCacheableMetadata()->addCacheableDependency($this->manager);
