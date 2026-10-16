@@ -225,6 +225,23 @@ final class SiteTemplateImportTest extends KernelTestBase {
   }
 
   /**
+   * The picker has a page of its own, for documentation to link to.
+   */
+  public function testThePickerHasAPage(): void {
+    self::assertSame(
+      '/templates',
+      Url::fromRoute('simplytest_ocd.site_template_list')->toString(),
+    );
+
+    $request = Request::create('/templates');
+    $response = $this->container->get('http_kernel')->handle($request);
+
+    self::assertSame(200, $response->getStatusCode());
+    self::assertStringContainsString('id="site_templates_mount"', (string) $response->getContent());
+    self::assertStringContainsString('<title>Site templates', (string) $response->getContent());
+  }
+
+  /**
    * A permalink for a template that is not in the curated list is a 404.
    *
    * The 404 carries the plugin cache tag, so a link published before its

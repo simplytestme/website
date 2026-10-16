@@ -123,11 +123,16 @@ function useFocusTrap(open, dialogRef, onClose) {
   }, [open, dialogRef, onClose]);
 }
 
-function TemplatePicker({ templates, onClose, setErrors }) {
-  const dialogRef = useRef(null);
+/**
+ * The header, filter, cards and footer of the template picker.
+ *
+ * The home page shows it in a dialog, and /templates shows it as the page so
+ * other sites have something to link to. Only the dialog passes onClose.
+ */
+export function TemplateBrowser({ templates, setErrors, onClose, Heading }) {
   const [processing, setProcessing] = useState('');
   const [filter, setFilter] = useState('');
-  useFocusTrap(true, dialogRef, onClose);
+  const inDialog = onClose !== undefined;
 
   const needle = filter.trim().toLowerCase();
   const shown = needle
@@ -137,6 +142,103 @@ function TemplatePicker({ templates, onClose, setErrors }) {
           .includes(needle),
       )
     : templates;
+
+  return (
+    <>
+      <div className="flex items-start justify-between gap-6 border-b border-st-line p-6">
+        <div className="flex flex-col gap-2">
+          <span className="eyebrow text-st-soft">
+            Drupal CMS &middot; Site templates
+          </span>
+          <Heading
+            id="site-template-picker-title"
+            className="m-0 text-2xl font-bold tracking-tight text-st-body"
+          >
+            Pick a starting point
+          </Heading>
+          <p className="m-0 max-w-[560px] text-sm text-st-muted">
+            Each template installs Drupal CMS with the recipes, content types
+            and demo content for that kind of site.
+          </p>
+        </div>
+        {inDialog && (
+          <button
+            type="button"
+            aria-label="Close"
+            onClick={onClose}
+            className="h-9 w-9 flex-none rounded-full border border-st-line bg-white text-lg leading-none text-st-soft hover:border-st-accent hover:text-st-accent"
+          >
+            &times;
+          </button>
+        )}
+      </div>
+
+      <div className="border-b border-st-line px-6 py-4">
+        <label htmlFor="site-template-filter" className="field-label">
+          Filter
+        </label>
+        <input
+          id="site-template-filter"
+          type="search"
+          value={filter}
+          autoComplete="off"
+          placeholder="Search templates"
+          onChange={(event) => setFilter(event.target.value)}
+          className="mt-2 w-full rounded-lg border border-st-field-line bg-st-field px-3.5 py-2.5 text-[15px] text-st-body"
+        />
+      </div>
+
+      <div
+        className={`${inDialog ? 'max-h-[520px] overflow-y-auto' : ''} bg-st-surface p-6`}
+      >
+        {shown.length === 0 ? (
+          <p className="m-0 py-8 text-center text-sm text-st-soft">
+            {needle
+              ? `No templates match “${filter.trim()}”.`
+              : 'No site templates are available right now.'}
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 gap-[18px] md:grid-cols-2 lg:grid-cols-3">
+            {shown.map((template, index) => (
+              <TemplateCard
+                key={template.id}
+                template={template}
+                primary={index === 0}
+                processing={processing}
+                onLaunch={(item) =>
+                  launch(
+                    { id: item.id, title: item.name },
+                    setProcessing,
+                    setErrors,
+                  )
+                }
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="flex flex-col gap-2 border-t border-st-line px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
+        <span className="font-mono text-[11px] lowercase text-st-faint">
+          every template runs on drupal cms {CMS_MAJOR} &middot; sandbox expires
+          after 2 hours
+        </span>
+        <a
+          href="https://new.drupal.org/drupal-cms/site-templates"
+          target="_blank"
+          rel="noreferrer noopener"
+          className="text-[13px] font-semibold text-st-accent hover:text-st-accent-dark"
+        >
+          What is a site template?
+        </a>
+      </div>
+    </>
+  );
+}
+
+function TemplatePicker({ templates, onClose, setErrors }) {
+  const dialogRef = useRef(null);
+  useFocusTrap(true, dialogRef, onClose);
 
   return (
     <div
@@ -156,87 +258,12 @@ function TemplatePicker({ templates, onClose, setErrors }) {
         tabIndex={-1}
         className="mx-auto flex w-full max-w-[1000px] flex-col rounded-2xl bg-white shadow-xl"
       >
-        <div className="flex items-start justify-between gap-6 border-b border-st-line p-6">
-          <div className="flex flex-col gap-2">
-            <span className="eyebrow text-st-soft">
-              Drupal CMS &middot; Site templates
-            </span>
-            <h2
-              id="site-template-picker-title"
-              className="m-0 text-2xl font-bold tracking-tight text-st-body"
-            >
-              Pick a starting point
-            </h2>
-            <p className="m-0 max-w-[560px] text-sm text-st-muted">
-              Each template installs Drupal CMS with the recipes, content types
-              and demo content for that kind of site.
-            </p>
-          </div>
-          <button
-            type="button"
-            aria-label="Close"
-            onClick={onClose}
-            className="h-9 w-9 flex-none rounded-full border border-st-line bg-white text-lg leading-none text-st-soft hover:border-st-accent hover:text-st-accent"
-          >
-            &times;
-          </button>
-        </div>
-
-        <div className="border-b border-st-line px-6 py-4">
-          <label htmlFor="site-template-filter" className="field-label">
-            Filter
-          </label>
-          <input
-            id="site-template-filter"
-            type="search"
-            value={filter}
-            autoComplete="off"
-            placeholder="Search templates"
-            onChange={(event) => setFilter(event.target.value)}
-            className="mt-2 w-full rounded-lg border border-st-field-line bg-st-field px-3.5 py-2.5 text-[15px] text-st-body"
-          />
-        </div>
-
-        <div className="max-h-[520px] overflow-y-auto bg-st-surface p-6">
-          {shown.length === 0 ? (
-            <p className="m-0 py-8 text-center text-sm text-st-soft">
-              No templates match &ldquo;{filter.trim()}&rdquo;.
-            </p>
-          ) : (
-            <div className="grid grid-cols-1 gap-[18px] md:grid-cols-2 lg:grid-cols-3">
-              {shown.map((template, index) => (
-                <TemplateCard
-                  key={template.id}
-                  template={template}
-                  primary={index === 0}
-                  processing={processing}
-                  onLaunch={(item) =>
-                    launch(
-                      { id: item.id, title: item.name },
-                      setProcessing,
-                      setErrors,
-                    )
-                  }
-                />
-              ))}
-            </div>
-          )}
-        </div>
-
-        <div className="flex flex-col gap-2 border-t border-st-line px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
-          <span className="font-mono text-[11px] lowercase text-st-faint">
-            every template runs on drupal cms {CMS_MAJOR} &middot; sandbox
-            expires after 2 hours
-          </span>
-          <a
-            href="https://new.drupal.org/drupal-cms/site-templates"
-            target="_blank"
-            rel="noreferrer noopener"
-            className="text-[13px] font-semibold text-st-accent hover:text-st-accent-dark"
-          >
-            What is a site template?
-          </a>
-        </div>
+        <TemplateBrowser
+          templates={templates}
+          setErrors={setErrors}
+          onClose={onClose}
+          Heading="h2"
+        />
       </div>
     </div>
   );

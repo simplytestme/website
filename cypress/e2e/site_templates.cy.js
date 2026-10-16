@@ -88,3 +88,47 @@ describe('The site template picker', function () {
     cy.location('search').should('contain', 'title=Byte');
   });
 });
+
+describe('The site templates page', function () {
+  beforeEach(() => {
+    cy.intercept('GET', '**/site-templates', {
+      fixture: 'launch_form/site_templates.json',
+    });
+    cy.visit('/templates');
+  });
+
+  it('shows the picker without a dialog', () => {
+    cy.contains('h1', 'Pick a starting point').should('be.visible');
+    cy.contains('h3', 'Byte').should('be.visible');
+    cy.contains('h3', 'Haven').should('be.visible');
+    cy.contains('h3', 'Healthcare').should('be.visible');
+    cy.get('[role="dialog"]').should('not.exist');
+    cy.get('button[aria-label="Close"]').should('not.exist');
+  });
+
+  it('filters the cards as you type', () => {
+    cy.get('#site-template-filter').type('non-profit');
+    cy.contains('h3', 'Haven').should('be.visible');
+    cy.contains('h3', 'Byte').should('not.exist');
+  });
+
+  it('launches a template through the one click demo endpoint', () => {
+    cy.intercept('POST', '**/one-click-demos/site_template%3Ahaven', {
+      statusCode: 200,
+      body: {
+        status: 'OK',
+        progress: 'http://localhost:8080/tugboat/progress/1/2',
+      },
+    }).as('launch');
+
+    cy.contains('h3', 'Haven')
+      .parents('div')
+      .first()
+      .contains('button', 'Launch')
+      .click();
+
+    cy.wait('@launch');
+    cy.location('pathname').should('eq', '/tugboat/progress/1/2');
+    cy.location('search').should('contain', 'title=Haven');
+  });
+});
