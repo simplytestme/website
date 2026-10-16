@@ -502,7 +502,6 @@ final readonly class PreviewConfigGenerator {
         $patch,
       );
     }
-    $directory = '';
     if ($project_type === ProjectTypes::MODULE) {
       $directory = 'modules';
     }
