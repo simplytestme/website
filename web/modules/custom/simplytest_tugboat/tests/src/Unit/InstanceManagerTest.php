@@ -299,7 +299,6 @@ final class InstanceManagerTest extends UnitTestCase {
         sleep(2);
       }
       catch (\Throwable $e) {
-        $finished = TRUE;
         $this->fail($e->getMessage());
       }
     }

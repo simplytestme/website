@@ -76,7 +76,7 @@ final class CoreVersionManagerTest extends KernelTestBase {
    */
   public function testConditionalRequests(): void {
     $this->sut->updateData(8);
-    self::assertCount(1, $this->requests);
+    self::assertSame(1, $this->requestCount());
     // The "current" channel carries every Drupal 8+ major in one document.
     self::assertNotEmpty($this->sut->getVersions(9));
     self::assertNotEmpty($this->sut->getVersions(10));
@@ -84,7 +84,7 @@ final class CoreVersionManagerTest extends KernelTestBase {
 
     // A later call for another major short-circuits on the 304.
     $this->sut->updateData(11);
-    self::assertCount(2, $this->requests);
+    self::assertSame(2, $this->requestCount());
     self::assertNotEmpty($this->sut->getVersions(11));
 
     // The If-Modified-Since state is scoped to this consumer, so the project
@@ -92,6 +92,16 @@ final class CoreVersionManagerTest extends KernelTestBase {
     self::assertNotNull(
       $this->container->get('state')->get('release_history_last_modified:drupal:current:core_versions')
     );
+  }
+
+  /**
+   * Counts the requests the mocked middleware has captured so far.
+   *
+   * Read through a method because the middleware appends to the list during
+   * calls on the system under test, which static analysis cannot see.
+   */
+  private function requestCount(): int {
+    return count($this->requests);
   }
 
   public function testHasVersion(): void {
