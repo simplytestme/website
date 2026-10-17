@@ -35,11 +35,17 @@ function ProjectSelection({
       <ProjectAutocomplete
         initialProject={project}
         setSelectedItem={(item) => {
+          // A version belongs to the project it was picked for. Kept across a
+          // switch, it launched the new project with the old one's release
+          // while the select showed the new list's first option. A deep link
+          // lookup re-selects the same project, and keeps its linked version.
+          if (item?.shortname !== project?.shortname) {
+            setVersion('');
+          }
           setProject(item);
           // onChange only fires for a complete selection, so a cleared field
           // has to be reported on its own.
           if (!item) {
-            setVersion('');
             onClear();
           }
         }}
@@ -47,7 +53,11 @@ function ProjectSelection({
         excludeCore={excludeCore}
       />
       {/* @todo version select can have a duplicate ID */}
+      {/* Keyed by project so a switch drops the old release list. Otherwise
+          the default picks the old project's first version before the new
+          list arrives, and nothing replaces it afterwards. */}
       <VersionSelector
+        key={project?.shortname ?? ''}
         initialVersion={version}
         selectedProject={project}
         selectedVersion={version}

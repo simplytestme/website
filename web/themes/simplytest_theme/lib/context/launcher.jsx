@@ -67,8 +67,6 @@ export function LauncherProvider({ children }) {
     //   this. Like when we refactor the fact the main project version and
     //   project data are two state values.
     if (project && project.shortname === 'drupal') {
-      // @todo this is somehow picking the old project version if changes from
-      //    contrib to core.
       setDrupalVersion(version);
     }
   }
