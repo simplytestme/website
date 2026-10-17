@@ -47,6 +47,47 @@ describe('Test the launch form', function () {
     cy.getByLabel('Version').should('have.value', '4.0.3');
   });
 
+  // A switch used to keep the old project's version. The select still showed
+  // the new list's first option, because React falls back to it when the
+  // value is missing, so only the payload shows the bug.
+  describe('switching projects', () => {
+    beforeEach(() => {
+      cy.intercept('POST', '**/launch-project', {
+        statusCode: 503,
+        body: { message: 'stubbed, not launching' },
+      }).as('launch');
+      cy.pickProject('Pathauto');
+      cy.getByLabel('Version').should('have.value', '8.x-1.14');
+    });
+
+    function launchAndExpectPasswordPolicy() {
+      cy.getByLabel('Version').should('have.value', '4.0.3');
+      cy.contains('button', 'Launch sandbox').should('be.enabled').click();
+      cy.wait('@launch')
+        .its('request.body.project')
+        .should((project) => {
+          expect(project.shortname).to.eq('password_policy');
+          expect(project.version).to.eq('4.0.3');
+        });
+    }
+
+    it('sends the new project version after picking over the old one', () => {
+      cy.getByLabel('Module, theme or distribution').type(
+        '{selectall}Password Policy',
+      );
+      cy.contains('[role="option"]', 'Password Policy')
+        .should('be.visible')
+        .click();
+      launchAndExpectPasswordPolicy();
+    });
+
+    it('sends the new project version after clearing the field', () => {
+      cy.getByLabel('Module, theme or distribution').clear();
+      cy.pickProject('Password Policy');
+      launchAndExpectPasswordPolicy();
+    });
+  });
+
   it('with a project and modify the drupal core version', () => {
     cy.pickProject('Password Policy');
     cy.getByLabel('Version').should('have.value', '4.0.3');
