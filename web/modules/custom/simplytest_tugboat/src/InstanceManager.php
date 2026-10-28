@@ -220,6 +220,10 @@ class InstanceManager implements InstanceManagerInterface {
       else {
         $tugboat_request = $this->tugboatClient->requestWithApiKey('POST', 'previews', [
           'ref' => $this->tugboatSettings->get('repository_base') ?: 'master',
+          // Without a type Tugboat guesses what the ref names by looking it up
+          // on the Git host, and a failed lookup rejects the launch with
+          // "Unknown ref".
+          'type' => 'branch',
           'config' => $config,
           'name' => 'simplytest',
           'repo' => $this->tugboatSettings->get('repository_id'),
