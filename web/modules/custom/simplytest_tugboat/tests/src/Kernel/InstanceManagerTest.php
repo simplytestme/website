@@ -106,6 +106,7 @@ final class InstanceManagerTest extends KernelTestBase {
 
     $expected = [
       'ref' => 'master',
+      'type' => 'branch',
       'config' => [
         'services' => [
           'php' => [
