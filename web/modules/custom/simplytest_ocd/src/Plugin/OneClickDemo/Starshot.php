@@ -30,6 +30,9 @@ class Starshot extends OneClickDemoBase {
   #[\Override]
   public function getDownloadCommands(array $parameters): array {
     $commands[] = 'composer create-project drupal/cms $TUGBOAT_ROOT/stm';
+    // Drupal CMS stopped requiring the starter recipe in 2.2.4, so the project
+    // template no longer puts it in recipes/.
+    $commands[] = 'cd $TUGBOAT_ROOT/stm && composer require drupal/drupal_cms_starter --no-ansi';
     $commands[] = 'ln -snf $TUGBOAT_ROOT/stm/web $DOCROOT';
     return $commands;
   }
