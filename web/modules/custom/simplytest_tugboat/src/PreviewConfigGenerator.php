@@ -89,9 +89,12 @@ final readonly class PreviewConfigGenerator {
    * build that is otherwise done: the marker prints without a link and the
    * page falls back to the plain preview URL.
    *
+   * There is no `--no-browser`: Drush 14 removed the option and fails on it, and
+   * older versions do not try to open a browser without a display.
+   *
    * @see \Drupal\simplytest_tugboat\Controller\SimplytestTugboatController::LOGIN_URL_MARKER
    */
-  private const string LOGIN_LINK_COMMAND = 'cd "${DOCROOT}" && echo "SIMPLYTEST_LOGIN_URL $(../vendor/bin/drush uli --uri="${TUGBOAT_DEFAULT_SERVICE_URL}" --no-browser /)"';
+  private const string LOGIN_LINK_COMMAND = 'cd "${DOCROOT}" && echo "SIMPLYTEST_LOGIN_URL $(../vendor/bin/drush uli --uri="${TUGBOAT_DEFAULT_SERVICE_URL}" /)"';
 
   public function __construct(
     // @todo what if all builds were a plugin – so D7, D8, D9, Umami, Commerce?
