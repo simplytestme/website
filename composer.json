@@ -52,7 +52,8 @@
         "rector/rector": "^2.0"
     },
     "conflict": {
-        "drupal/drupal": "*"
+        "drupal/drupal": "*",
+        "phpstan/phpstan": ">=2.3.4"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
