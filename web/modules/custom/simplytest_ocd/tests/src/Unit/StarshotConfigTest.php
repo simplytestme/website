@@ -33,6 +33,7 @@ final class StarshotConfigTest extends OneClickDemoConfigTestBase {
             'rm -rf "${DOCROOT}"',
             'echo "SIMPLYEST_STAGE_DOWNLOAD"',
             'composer create-project drupal/cms $TUGBOAT_ROOT/stm',
+            'cd $TUGBOAT_ROOT/stm && composer require drupal/drupal_cms_starter --no-ansi',
             'ln -snf $TUGBOAT_ROOT/stm/web $DOCROOT',
             'echo "SIMPLYEST_STAGE_PATCHING"',
             'cd stm && composer update --no-ansi',
