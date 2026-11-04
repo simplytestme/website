@@ -133,7 +133,7 @@ final class BasePreviewConfigTest extends UnitTestCase {
       array_keys($this->sut->basePreview('umami')['services']['php']['commands']),
     );
     self::assertEquals(
-      ['cd "${DOCROOT}" && echo "SIMPLYTEST_LOGIN_URL $(../vendor/bin/drush uli --uri="${TUGBOAT_DEFAULT_SERVICE_URL}" --no-browser /)"'],
+      ['cd "${DOCROOT}" && echo "SIMPLYTEST_LOGIN_URL $(../vendor/bin/drush uli --uri="${TUGBOAT_DEFAULT_SERVICE_URL}" /)"'],
       $this->sut->basePreview('umami')['services']['php']['commands']['clone'],
     );
     // The link is printed on the clone, never while the base itself builds.

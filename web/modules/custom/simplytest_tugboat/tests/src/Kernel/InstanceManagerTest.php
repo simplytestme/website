@@ -141,7 +141,7 @@ final class InstanceManagerTest extends KernelTestBase {
                 'chown -R www-data:www-data ${DOCROOT}/sites/default',
                 'chown -R www-data:www-data ${DOCROOT}/modules',
                 'echo "SIMPLYEST_STAGE_FINALIZE"',
-                'cd "${DOCROOT}" && echo "SIMPLYTEST_LOGIN_URL $(../vendor/bin/drush uli --uri="${TUGBOAT_DEFAULT_SERVICE_URL}" --no-browser /)"',
+                'cd "${DOCROOT}" && echo "SIMPLYTEST_LOGIN_URL $(../vendor/bin/drush uli --uri="${TUGBOAT_DEFAULT_SERVICE_URL}" /)"',
               ],
             ],
           ],
