@@ -2469,16 +2469,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "2.13.3",
+            "version": "2.13.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "6d3cd8285a97eaa352956a4ada92fa03ecce1c4e"
+                "reference": "2bd3dccf56e99cdacf74b1ad5e06a08a5a7739f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/6d3cd8285a97eaa352956a4ada92fa03ecce1c4e",
-                "reference": "6d3cd8285a97eaa352956a4ada92fa03ecce1c4e",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/2bd3dccf56e99cdacf74b1ad5e06a08a5a7739f2",
+                "reference": "2bd3dccf56e99cdacf74b1ad5e06a08a5a7739f2",
                 "shasum": ""
             },
             "require": {
@@ -2568,7 +2568,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.13.3"
+                "source": "https://github.com/guzzle/psr7/tree/2.13.6"
             },
             "funding": [
                 {
@@ -2584,7 +2584,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-11-12T15:57:42+00:00"
+            "time": "2026-11-21T23:48:40+00:00"
         },
         {
             "name": "jean85/pretty-package-versions",
@@ -4383,16 +4383,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "4.37.0",
+            "version": "4.38.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "635a94908528ca5c4f0804640a0ec578e51639b3"
+                "reference": "9e5f09ccb8f741dde2717f48b1c6df820f95b7c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/635a94908528ca5c4f0804640a0ec578e51639b3",
-                "reference": "635a94908528ca5c4f0804640a0ec578e51639b3",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/9e5f09ccb8f741dde2717f48b1c6df820f95b7c5",
+                "reference": "9e5f09ccb8f741dde2717f48b1c6df820f95b7c5",
                 "shasum": ""
             },
             "require": {
@@ -4409,7 +4409,7 @@
                 "raven/raven": "*"
             },
             "require-dev": {
-                "carthage-software/mago": "1.30.0",
+                "carthage-software/mago": "1.60.2",
                 "friendsofphp/php-cs-fixer": "^3.4",
                 "guzzlehttp/guzzle": "^7.0|^8.0",
                 "guzzlehttp/promises": "^2.0.3|^3.0.0",
@@ -4464,7 +4464,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-php/issues",
-                "source": "https://github.com/getsentry/sentry-php/tree/4.37.0"
+                "source": "https://github.com/getsentry/sentry-php/tree/4.38.0"
             },
             "funding": [
                 {
@@ -4476,7 +4476,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2026-11-11T15:29:22+00:00"
+            "time": "2026-11-19T10:49:48+00:00"
         },
         {
             "name": "symfony/cache",
